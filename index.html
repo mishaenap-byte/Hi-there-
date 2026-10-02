@@ -2937,6 +2937,8 @@ html.native .w4-worlds{bottom:calc(10px + var(--sab))}
 /* ===== КАРТОЧКИ 2.0 ===== */
 #deckChips{display:none!important}
 #scr-cards.hc-home #modeSeg,#scr-cards.hc-home .progress,#scr-cards.hc-home #cardStage,#scr-cards.hc-home #cardCtl,#scr-cards.hc-home #hcHead{display:none!important}
+/* в колоде заголовок и переключатель «Англ → Рус» не влезают в одну строку на телефоне — переключатель уходит вниз */
+#scr-cards .top{flex-wrap:wrap;row-gap:10px}#scr-cards #modeSeg{margin-left:auto}
 #scr-cards:not(.hc-home) #hcHome{display:none}
 #hcHome{padding:2px 0 24px}
 .hc-hrow{display:flex;align-items:center;justify-content:space-between;gap:10px}
@@ -20418,6 +20420,22 @@ function hcFace(side, o) {
     </div></div>`;
 }
 function hcTextSize(t) { const n = String(t).length; return n <= 10 ? "xl" : n <= 20 ? "" : n <= 36 ? "md" : "sm"; }
+// длинное слово («пожалуйста?») не помещается в окно карточки и рвётся посреди слова или вылезает за край:
+// уменьшаем шрифт, пока текст не встанет целиком, словами
+function hcFit(card) {
+  if (!card) return;
+  $$(".hc-t", card).forEach(t => {
+    const art = t.parentElement; if (t.dataset.fit || !art || !art.clientWidth) return;
+    const cs = getComputedStyle(art), W = art.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight), H = art.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+    const info = art.classList.contains("info");
+    t.style.overflowWrap = "normal";
+    let fs = parseFloat(getComputedStyle(t).fontSize);
+    const bad = () => t.offsetWidth > W + 1 || (!info && t.offsetHeight > H + 1);
+    while (fs > 15 && bad()) { fs -= 1; t.style.fontSize = fs + "px"; }
+    if (t.offsetWidth > W + 1) t.style.overflowWrap = "";
+    t.dataset.fit = 1;
+  });
+}
 function hcGhostHTML(it, no, cls) {
   const f = hcSides(it, no).front;
   // вместо кнопок — такие же плашки-заглушки, чтобы карта не «прыгала», когда выйдет вперёд
@@ -20563,6 +20581,7 @@ const hcShadeOf = (ang, base) => Math.min(0.26, Math.abs(hcNorm(ang - base)) / 2
 const hcOp = (el, v) => { const q = HC_WK ? Math.round(v * 50) / 50 : Math.round(v * 100) / 100; if (el._o !== q) { el._o = q; el.style.opacity = q; } };
 function hcSheet(card, axis) {
   const X = axis === "x";
+  hcFit(card);
   if (X && card._sheet && card._sheet.ok) return card._sheet;
   const w = card.offsetWidth, h = card.offsetHeight, L = X ? w : h, N = X ? (HC_LITE ? 5 : 6) : (HC_LITE ? 6 : 7), s = L / 2 / N;
   const fr = $(".hc-front", card), bk = $(".hc-back", card);
@@ -21148,7 +21167,8 @@ function renderVb() {
     ${T === "intro" || T === "recall" ? "" : `<div class="qz-foot"><button class="btn primary wide" data-vb="next" id="vbNext" hidden>${VBS.i + 1 < VBS.Q.length ? "Дальше" : "Итог"}</button></div>`}`;
   if (T === "produce" && VBS.long) VBS.b = mountBuilder("vb", d.en, { extra: 2 }, (ok, st) => vbAnswer(ok && !st.errors ? (st.hints ? 2 : 3) : st.errors > 1 ? 1 : 2, ok));
   const f = $("#vbForm"); if (f) { f.onsubmit = ev => { ev.preventDefault(); vbTyped(); }; setTimeout(() => { const i = $("#vbIn"); if (i) i.focus(); }, 300); }
-  const c = $("#vbCard"); if (c && T === "recall") c.addEventListener("click", e => { if (e.target.closest(".hc-b")) return; vbFlip(); });
+  const c = $("#vbCard"); if (c) requestAnimationFrame(() => hcFit(c));
+  if (c && T === "recall") c.addEventListener("click", e => { if (e.target.closest(".hc-b")) return; vbFlip(); });
   if (c && T === "intro") c.addEventListener("click", e => { if (e.target.closest(".hc-b")) return; vbFlip(); });
   $(".vb-body", p).scrollTop = 0;
 }
@@ -21648,7 +21668,7 @@ function vbCardHints() {
   $$("#cardCtl [data-cg]").forEach(b => { const g = +b.dataset.cg; $("small", b).textContent = d ? (g === 1 ? "ещё раз" : vbIvlText(vbIvl(vbNext(d.srs, g).S))) : ""; });
 }
 const vbRenderCard = renderCard;
-renderCard = function (enter) { vbRenderCard(enter); vbCardHints(); };
+renderCard = function (enter) { vbRenderCard(enter); vbCardHints(); hcFit($("#fcard")); };
 
 // ---------- быстрое добавление: перевод из словаря приложения ----------
 const vbAdd = addToDict;
