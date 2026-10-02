@@ -3093,6 +3093,40 @@ html.native .w4-worlds{bottom:calc(10px + var(--sab))}
 .vb-how{margin:12px 0 0;font-size:12.5px;line-height:1.45;color:var(--muted,#6B6880)}
 .vb-cta{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 16px;padding:12px 12px 12px 16px;border-radius:20px;background:#EEEBFF;box-shadow:inset 0 0 0 2px #17171F,0 3px 0 #17171F}
 .vb-cta b{display:block;font-size:16px}.vb-cta span{font-size:13px;color:#5B5580;font-weight:700}.vb-cta .btn{flex:none}
+/* интервальное повторение по лесенке: сегодня → завтра → через 3 дня → через неделю */
+.ir-card{margin:0 0 16px;padding:14px 14px 12px 16px;border-radius:20px;background:#EEEBFF;box-shadow:inset 0 0 0 2px #17171F,0 3px 0 #17171F}
+.ir-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.ir-top b{display:block;font-size:16px}.ir-top span{font-size:13px;color:#5B5580;font-weight:700}.ir-top .btn{flex:none}
+.ir-steps{list-style:none;margin:12px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.ir-steps li{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px 7px;border-radius:14px;background:#fff;box-shadow:inset 0 0 0 1.5px rgba(23,23,31,.14);text-align:center;min-width:0}
+.ir-steps li b{font-size:19px;line-height:1.1;font-variant-numeric:tabular-nums}
+.ir-steps li span{font-size:11px;line-height:1.2;font-weight:700;color:#5B5580}
+.ir-steps li.due{background:#FFEC3D;box-shadow:inset 0 0 0 2px #17171F}
+.ir-steps li.due span{color:#17171F}
+.ir-steps li:not(:last-child)::after{content:"›";position:absolute;right:-6px;top:50%;transform:translateY(-50%);font-weight:900;font-size:13px;color:#8C88A3;z-index:1}
+.ir-warn{margin:10px 0 0;padding:8px 10px;border-radius:12px;background:#FFE1E1;color:#7A1C1C;font-size:13px;font-weight:700;line-height:1.35}
+.ir-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:10px 2px 0;font-size:12.5px;font-weight:700;color:#5B5580}
+.ir-foot button{font-weight:800;text-decoration:underline;color:inherit}
+.ir-ph{margin:12px 0 0;padding:10px 12px;border-radius:14px;background:rgba(122,92,240,.1);font-size:14px;line-height:1.4}
+.ir-ph small{display:block;margin-bottom:2px;font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--muted,#8C88A3)}
+.ir-ta{width:100%;min-height:76px;resize:vertical}
+.ir-lbl{display:block;margin:16px 0 6px;font-size:14px;font-weight:800}
+.ir-time{display:block;margin:14px 0 4px;text-align:center;font:400 44px/1 "Dela Gothic One",var(--f-body,system-ui);font-variant-numeric:tabular-nums}
+.ir-time.slow{color:#C0392B}
+.ir-btns{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.ir-checks{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.ir-checks li{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:14px;background:#fff;box-shadow:inset 0 0 0 1.5px rgba(23,23,31,.12);font-size:14px;line-height:1.35;font-weight:600}
+.ir-checks li i{font-style:normal;flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:900;background:#E3F7E8;color:#1E7B3A}
+.ir-checks li.no i{background:#FFE1E1;color:#B3261E}
+.ir-steps-big{display:flex;gap:6px;margin:4px 0 2px}.ir-steps-big i{flex:1;height:5px;border-radius:3px;background:rgba(23,23,31,.12)}.ir-steps-big i.on{background:#7A5CF0}
+.ir-how ol{margin:6px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:14.5px;line-height:1.45}
+.ir-how p{margin:10px 0 0;font-size:14px;line-height:1.45}
+html.night .ir-card,.night .ir-card{background:hsl(249 35% 17%);box-shadow:inset 0 0 0 2px rgba(0,0,0,.28),0 3px 0 rgba(0,0,0,.28)}
+html.night .ir-top span,.night .ir-top span,html.night .ir-foot,.night .ir-foot,html.night .ir-steps li span,.night .ir-steps li span{color:var(--muted,#A8A4C0)}
+html.night .ir-steps li,.night .ir-steps li,html.night .ir-checks li,.night .ir-checks li{background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.1)}
+html.night .ir-steps li.due,.night .ir-steps li.due{background:#FFEC3D;color:#17171F}
+html.night .ir-steps li.due span,.night .ir-steps li.due span{color:#17171F}
+html.night .ir-warn,.night .ir-warn{background:#4A2222;color:#FFD6D6}
 .vb-ref{margin:10px 0 4px;display:flex;flex-direction:column;gap:10px}
 .vb-ref-s>span{display:block;margin-bottom:4px;font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--muted,#8C88A3)}
 .vb-ref-s p{margin:0;font-size:14px;line-height:1.4}
@@ -21254,6 +21288,212 @@ renderHcHome = function () {
   box.insertAdjacentHTML("afterbegin", `<div class="vb-cta"><div><b>Занятие на сегодня</b><span>${todo ? [pl.due ? `повторить ${pl.due}` : "", pl.fresh ? `новых ${pl.fresh}` : ""].filter(Boolean).join(" · ") : "всё повторено ✓ — загляните завтра"}</span></div><button class="btn primary" data-vbp="start"${todo ? "" : " disabled"}>▶ Начать</button></div>`);
 };
 $("#scr-cards").addEventListener("click", e => { if (e.target.closest("[data-vbp=start]")) startVocab(); });
+// ================== ИНТЕРВАЛЬНОЕ ПОВТОРЕНИЕ: лесенка «сегодня → завтра → через 3 дня → через неделю» ==================
+// Метод: 5 новых слов за раз, у каждого своя фраза из жизни; на повторе сначала вспоминаем сами, без подсказки.
+// Подсмотрели или не вспомнили — лесенка начинается заново. Через неделю проверка: вспомнить за 3 секунды,
+// придумать новую фразу, узнать на слух. Всё получилось — слово выучено, иначе ещё неделя.
+// d.ir = { st: 1…3 — ступень (4 — выучено), due, start, last, ph: [свои фразы], fails, done }
+const IR_NEW = 5, IR_GAP = [0, 1, 3, 7], IR_FAST = 3;
+const IR_STEP = ["Сегодня", "Завтра", "Через 3 дня", "Через неделю"];
+const irEnd = () => vbDay0() + VDAY;
+const irDue = () => S.dict.filter(d => d.ir && d.ir.st < 4 && d.ir.due < irEnd()).sort((a, b) => a.ir.due - b.ir.due);
+const irNewToday = () => S.dict.filter(d => d.ir && d.ir.start >= vbDay0()).length;
+const irPool = () => S.dict.filter(d => !d.ir && !(d.srs && d.srs.st >= 5));
+const irNewLeft = () => Math.min(irPool().length, Math.max(0, IR_NEW - irNewToday()));
+const irLate = () => S.dict.filter(d => d.ir && d.ir.st < 4 && d.ir.due < vbDay0()).length;
+const irDone = () => S.dict.filter(d => d.ir && d.ir.st >= 4).length;
+const irSched = (d, st) => { d.ir.st = st; d.ir.due = vbDay0() + IR_GAP[st] * VDAY; d.ir.last = Date.now(); };
+// фраза годится, если в ней есть само слово (или его основа: forget → forgot) и хотя бы три слова
+function irHasWord(ph, w) {
+  const p = " " + norm(ph) + " ", ws = norm(w).split(" ").filter(x => x.length > 2 || norm(w).split(" ").length === 1);
+  return ws.length > 0 && ws.every(x => p.includes(" " + x.slice(0, Math.max(3, x.length - 2))));
+}
+function irCardHTML() {
+  const due = irDue(), nl = irNewLeft(), late = irLate(), todo = due.length + nl;
+  const at = st => S.dict.filter(d => d.ir && d.ir.st === st);
+  const cnt = [nl, at(1).length, at(2).length, at(3).length];
+  const hot = [nl > 0, ...[1, 2, 3].map(st => at(st).some(d => d.ir.due < irEnd()))];
+  const sum = todo ? [due.length ? `повторить ${due.length}` : "", nl ? `новых ${nl}` : ""].filter(Boolean).join(" · ") : irPool().length || S.dict.some(d => d.ir && d.ir.st < 4) ? "на сегодня всё ✓ — загляните завтра" : "добавьте слова в словарь — и начнём";
+  return `<section class="ir-card">
+    <div class="ir-top"><div><b>Интервальное повторение</b><span>${sum}</span></div><button class="btn primary" data-ir="start"${todo ? "" : " disabled"}>▶ Начать</button></div>
+    <ol class="ir-steps" aria-label="Лесенка повторений">${IR_STEP.map((t, i) => `<li class="${hot[i] ? "due" : ""}"><b>${cnt[i]}</b><span>${i ? t : "Новые сегодня"}</span></li>`).join("")}</ol>
+    ${late ? `<p class="ir-warn">⏰ ${plural(late, ["слово ждёт", "слова ждут", "слов ждут"])} с прошлых дней. Повторите сегодня, пока слова не ушли по кривой забывания.</p>` : ""}
+    <div class="ir-foot"><span>Выучено по лесенке: ${irDone()}</span><button data-ir="how">Как это работает</button></div>
+  </section>`;
+}
+function irHowSheet() {
+  openSheet(`<div class="sh-head"><span class="eyebrow">Интервальное повторение</span><h2>Как это работает</h2></div>
+    <div class="ir-how"><p>Повторить слово 10 раз за вечер почти бесполезно: мозг считает это одним событием. Запоминает не количество повторов, а возвращения к слову через паузы, когда приходится вспоминать самому.</p>
+    <ol><li><b>Сегодня</b> — учим 5 новых слов и к каждому пишем свою фразу из жизни.</li>
+    <li><b>Завтра</b> — вспоминаем слово без подсказки, только потом проверяем.</li>
+    <li><b>Через 3 дня</b> — снова вспоминаем, не подглядывая.</li>
+    <li><b>Через неделю</b> — проверка: вспомнить за 3 секунды, придумать новую фразу и узнать слово на слух.</li></ol>
+    <p>Не вспомнили или нажали «Не помню» — слово начинает лесенку заново. На проверке через неделю не получилось хотя бы одно — ещё неделя, и проверим снова.</p>
+    <p>Больше 5 новых слов в день не даём: когда слов много, не закрепляется ни одно.</p></div>`);
+}
+const irHcHome = renderHcHome;
+renderHcHome = function () {
+  irHcHome();
+  const box = $("#hcHome"); if (!box) return;
+  const old = $(".vb-cta", box); if (old) old.remove();
+  box.insertAdjacentHTML("afterbegin", irCardHTML());
+};
+$("#scr-cards").addEventListener("click", e => {
+  const b = e.target.closest("[data-ir]"); if (!b) return;
+  if (b.dataset.ir === "start") startIr();
+  if (b.dataset.ir === "how") irHowSheet();
+});
+
+// ---------- занятие ----------
+let IRS = null;
+function irPage() {
+  let p = $("#irPage");
+  if (!p) { p = document.createElement("div"); p.className = "page gpage qz-page vb-page"; p.id = "irPage"; p.hidden = true; $("#profilePage").before(p); p.addEventListener("click", onIrClick); p.addEventListener("submit", onIrSubmit); }
+  return p;
+}
+function startIr() {
+  const due = irDue(), fresh = irPool().slice(0, irNewLeft());
+  if (!due.length && !fresh.length) { toast("На сегодня всё повторено — загляните завтра"); return; }
+  // сначала вспоминаем старое, потом учим новое
+  const Q = due.map(d => ({ d, t: d.ir.st >= 3 ? "week" : "recall" })).concat(fresh.map(d => ({ d, t: "new" })));
+  IRS = { Q, i: 0, fresh: 0, ok: 0, reset: 0, learned: 0, week: 0 };
+  renderIr(); openPageEl(irPage());
+}
+function irHead() {
+  const n = IRS.Q.length, pct = Math.round(IRS.i / Math.max(1, n) * 100);
+  return `<div class="page-head qz-head"><button class="icon-btn" data-ir="close" aria-label="Закрыть">✕</button><div class="qz-bar"><i style="width:${pct}%"></i></div><span class="qz-n">${Math.min(IRS.i + 1, n)}/${n}</span></div>`;
+}
+const irSteps = st => `<div class="ir-steps-big" aria-hidden="true">${[1, 2, 3].map(k => `<i class="${k <= st ? "on" : ""}"></i>`).join("")}</div>`;
+const irPhHTML = d => d.ir && d.ir.ph && d.ir.ph.length ? `<div class="ir-ph"><small>Ваша фраза</small>${esc(d.ir.ph[d.ir.ph.length - 1])}</div>` : "";
+function irPaint(eyebrow, body, foot) {
+  const p = irPage();
+  p.innerHTML = `${irHead()}<div class="scroll page-body qz-body vb-body"><span class="eyebrow">${eyebrow}</span>${body}</div>${foot ? `<div class="qz-foot">${foot}</div>` : ""}`;
+  $(".vb-body", p).scrollTop = 0;
+  const f = $("input,textarea", p); if (f) setTimeout(() => f.focus(), 300);
+}
+function renderIr() {
+  clearInterval(IRS && IRS.timer);
+  const task = IRS.Q[IRS.i]; if (!task) { irFinish(); return; }
+  const d = task.d; IRS.answered = false; IRS.part = 0; IRS.res = [];
+  if (task.t === "new") {
+    const inf = vbInfo(d);
+    irPaint("Новое слово · день 1", `<h2 class="qz-q en">${esc(d.en)} <button class="qz-say" data-ir="say" aria-label="Послушать">🔊</button></h2>${d.ipa ? `<p class="qz-sub">${esc(d.ipa)}</p>` : ""}
+      <p class="qz-sub" style="font-size:18px;color:inherit">${esc(vbRu(d) || "—")}</p>${inf ? hcInfoHTML(inf) : ""}${d.ctx ? `<p class="vb-ctx">Где встретили: «${esc(d.ctx)}»</p>` : ""}
+      <form id="irForm"><label class="ir-lbl" for="irPh">Составьте с ним фразу из своей жизни</label>
+      <textarea class="fld ir-ta" id="irPh" maxlength="200" autocomplete="off" autocapitalize="sentences" spellcheck="false" placeholder="Например: I ${esc(String(d.en).split(" ")[0].toLowerCase())} …"></textarea>
+      <div class="qz-fb" id="irFb" hidden></div><div class="ir-btns"><button class="btn primary wide">Сохранить фразу</button></div></form>`);
+    setTimeout(() => speak(d.en), 350);
+  } else if (task.t === "recall") {
+    irPaint(`Повтор · ${IR_STEP[d.ir.st]}`, `${irSteps(d.ir.st)}<h2 class="qz-q">${esc(vbRu(d) || "—")}</h2><p class="qz-sub">Вспомните слово по-английски сами, без подсказки.</p>
+      <form class="tk-form qz-type" id="irForm"><input class="fld" id="irIn" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Напишите по-английски…" aria-label="Ваш ответ"><button class="btn primary">Проверить</button></form>
+      <button class="tk-link qz-hint" data-ir="dunno">Не помню</button><div class="qz-fb" id="irFb" hidden></div>`,
+      `<button class="btn primary wide" data-ir="next" id="irNext" hidden>Дальше</button>`);
+  } else irWeek();
+}
+// ступени 1–2: вспомнил — выше, нет — заново
+function irRecall(ok, typed) {
+  if (IRS.answered) return; IRS.answered = true;
+  const task = IRS.Q[IRS.i], d = task.d, fb = $("#irFb"), was = d.ir.st;
+  if (ok) { irSched(d, was + 1); IRS.ok++; } else { irSched(d, 1); d.ir.fails = (d.ir.fails || 0) + 1; IRS.reset++; }
+  saveDict(); renderDict();
+  const inp = $("#irIn"); if (inp) inp.disabled = true; const hb = $("[data-ir=dunno]", irPage()); if (hb) hb.hidden = true;
+  fb.hidden = false; fb.className = "qz-fb " + (ok ? "ok" : "bad");
+  fb.innerHTML = `<b>${ok ? "Вспомнили!" : typed ? "Не совсем" : "Ничего страшного"}</b><span class="qz-right">${esc(d.en)} <button class="qz-say" data-ir="say" aria-label="Послушать">🔊</button></span>
+    <span>${ok ? `Следующий повтор — ${was + 1 >= 3 ? "через неделю, это будет проверка" : "через 3 дня"}.` : "Слово начнёт лесенку заново: повторим завтра."}</span>${irPhHTML(d)}`;
+  speak(d.en);
+  $("#irNext").hidden = false;
+}
+// ступень 3: проверка через неделю из трёх частей
+function irWeek() {
+  const task = IRS.Q[IRS.i], d = task.d, part = IRS.part;
+  const eb = `Проверка через неделю · ${part + 1} из 3`;
+  if (part === 0) {
+    irPaint(eb, `${irSteps(3)}<h2 class="qz-q">${esc(vbRu(d) || "—")}</h2><p class="qz-sub">Вспомните слово по-английски. Выученное слово всплывает за 2–3 секунды.</p>
+      <span class="ir-time" id="irT">0</span><div class="ir-btns"><button class="btn primary wide" data-ir="got">Вспомнил!</button><button class="btn ghost wide" data-ir="wnot">Не помню</button></div>`);
+    IRS.t0 = Date.now();
+    IRS.timer = setInterval(() => { const el = $("#irT"); if (!el) return; const s = (Date.now() - IRS.t0) / 1000; el.textContent = Math.floor(s); el.classList.toggle("slow", s > IR_FAST); }, 200);
+  } else if (part === 1) {
+    irPaint(eb, `${irSteps(3)}<h2 class="qz-q en">${esc(d.en)}</h2><p class="qz-sub">${esc(vbRu(d) || "")}</p>
+      <form id="irForm"><label class="ir-lbl" for="irPh">Придумайте новую фразу с этим словом — не ту, что писали раньше</label>
+      <textarea class="fld ir-ta" id="irPh" maxlength="200" autocomplete="off" autocapitalize="sentences" spellcheck="false" placeholder="Новая ситуация из вашей жизни…"></textarea>
+      <div class="qz-fb" id="irFb" hidden></div><div class="ir-btns"><button class="btn primary wide">Готово</button><button type="button" class="btn ghost wide" data-ir="nophrase">Не могу придумать</button></div></form>`);
+  } else {
+    IRS.opts = vbOptions(d);
+    irPaint(eb, `${irSteps(3)}<h2 class="qz-q">Послушайте и выберите перевод</h2><p class="qz-sub">Слово не показываем — только звук.</p>
+      <div class="ir-btns" style="margin:0 0 14px"><button class="btn soft wide" data-ir="say">🔊 Послушать ещё раз</button></div>
+      <div class="qz-opts">${IRS.opts.map((o, k) => `<button class="qz-opt" data-ir="opt" data-o="${k}">${esc(o)}</button>`).join("")}</div>`);
+    setTimeout(() => speak(d.en), 400);
+  }
+}
+function irWeekResult() {
+  const task = IRS.Q[IRS.i], d = task.d, [r0, r1, r2] = IRS.res, all = r0 === 2 && r1 && r2;
+  IRS.week++;
+  if (r0 === 0) { irSched(d, 1); d.ir.fails = (d.ir.fails || 0) + 1; IRS.reset++; }
+  else if (all) { d.ir.st = 4; d.ir.done = Date.now(); d.ir.last = Date.now(); delete d.ir.due; IRS.learned++; IRS.ok++; d.lv = 3; vbFromLv(d); }
+  else { irSched(d, 3); IRS.ok++; }
+  saveDict(); renderDict();
+  const li = (ok, t) => `<li class="${ok ? "" : "no"}"><i>${ok ? "✓" : "✕"}</i><span>${t}</span></li>`;
+  irPaint("Проверка через неделю", `<h2 class="qz-q en">${esc(d.en)}</h2><p class="qz-sub">${esc(vbRu(d) || "")}</p>
+    <ul class="ir-checks">${li(r0 === 2, r0 === 2 ? `Вспомнили за ${IRS.sec} с` : r0 === 1 ? `Вспомнили, но за ${IRS.sec} с — дольше 3 секунд` : "Не вспомнили")}
+    ${li(r1, r1 ? "Придумали новую фразу" : "Новой фразы не получилось")}${li(r2, r2 ? "Узнали на слух" : "На слух не узнали")}</ul>
+    <div class="qz-fb ${all ? "ok" : "bad"}" style="margin-top:14px"><b>${all ? "🎉 Слово выучено" : r0 === 0 ? "Начнём лесенку заново" : "Ещё неделя интервалов"}</b><span>${all ? "Вы вспомнили его через неделю, сами и быстро. Такое слово уже не уйдёт." : r0 === 0 ? "Слово забылось — это нормально. Повторим завтра, потом через 3 дня и через неделю." : "Ничего страшного: слово почти ваше. Проверим снова через неделю."}</span></div>`,
+    `<button class="btn primary wide" data-ir="next">${IRS.i + 1 < IRS.Q.length ? "Дальше" : "Итог"}</button>`);
+  if (typeof gsnd === "function" && all) gsnd("ok", 2);
+}
+function irFinish() {
+  const nx = S.dict.filter(d => d.ir && d.ir.st < 4 && d.ir.due < irEnd() + VDAY && d.ir.due >= irEnd()).length;
+  irPaint("Интервальное повторение", `<div class="qz-res vb-res"><h2>Занятие закончено</h2>
+    <div class="vb-sum"><span><b>${IRS.fresh}</b>новых</span><span><b>${IRS.ok}</b>вспомнили</span><span><b>${IRS.learned}</b>выучено</span></div>
+    ${IRS.reset ? `<p class="vb-next">${plural(IRS.reset, ["слово начнёт", "слова начнут", "слов начнут"])} лесенку заново — это нормально, так и работает метод.</p>` : ""}
+    <p class="vb-next">${nx ? `Завтра вспоминаем ${plural(nx, ["слово", "слова", "слов"])}. Не пропускайте: пауза работает, только если вернуться вовремя.` : "Следующие повторы приложение покажет в карточке «Интервальное повторение»."}</p></div>`,
+    `<button class="btn primary wide" data-ir="close">Готово</button>`);
+  if (typeof gsnd === "function") gsnd("ok", 2);
+}
+function onIrSubmit(e) {
+  e.preventDefault(); if (!IRS) return;
+  const task = IRS.Q[IRS.i], d = task.d;
+  if (task.t === "recall") {
+    const inp = $("#irIn"), v = inp.value.trim(); if (!v) { inp.focus(); return; }
+    const w = String(d.en).replace(/[.!?]+$/, ""), j = judge(v, w);
+    irRecall(j.ok || vbClose(v, w), true); return;
+  }
+  const ta = $("#irPh"), v = ta.value.trim(), fb = $("#irFb");
+  const bad = msg => { fb.hidden = false; fb.className = "qz-fb bad"; fb.innerHTML = `<span>${msg}</span>`; ta.focus(); };
+  if (v.split(/\s+/).length < 3) return bad("Напишите целую фразу — хотя бы три слова.");
+  if (!irHasWord(v, d.en)) return bad(`Во фразе нет слова <b>${esc(d.en)}</b>. Вставьте его.`);
+  if (task.t === "new") {
+    d.ir = { st: 1, start: Date.now(), ph: [v], fails: 0 }; irSched(d, 1); IRS.fresh++;
+    saveDict(); renderDict(); IRS.i++; renderIr(); return;
+  }
+  if ((d.ir.ph || []).some(p => norm(p) === norm(v))) return bad("Это та же фраза, что и раньше. Придумайте новую ситуацию.");
+  d.ir.ph = (d.ir.ph || []).concat(v).slice(-5); IRS.res[1] = true; IRS.part = 2; irWeek();
+}
+function onIrClick(e) {
+  const b = e.target.closest("[data-ir]"); if (!b || !IRS) return;
+  const task = IRS.Q[IRS.i], k = b.dataset.ir;
+  if (k === "close") { clearInterval(IRS.timer); closePageEl(irPage()); IRS = null; renderHcHome(); return; }
+  if (k === "say") { if (task) speak(task.d.en, { el: b }); return; }
+  if (k === "next") { IRS.i++; renderIr(); return; }
+  if (k === "dunno") { irRecall(false, false); return; }
+  if (k === "got" || k === "wnot") {
+    clearInterval(IRS.timer); const s = (Date.now() - IRS.t0) / 1000; IRS.sec = Math.max(1, Math.round(s));
+    if (k === "wnot") { IRS.res = [0, false, false]; irWeekResult(); return; }
+    IRS.fast = s <= IR_FAST + .5;
+    $(".vb-body", irPage()).insertAdjacentHTML("beforeend", `<div class="qz-fb ok"><span class="qz-right">${esc(task.d.en)} <button class="qz-say" data-ir="say" aria-label="Послушать">🔊</button></span><span>Вы вспомнили именно это слово?</span><div class="ir-btns"><button class="btn primary wide" data-ir="yes">Да, это оно</button><button class="btn ghost wide" data-ir="no">Нет, другое</button></div></div>`);
+    $$(".ir-btns", irPage())[0].hidden = true; speak(task.d.en); return;
+  }
+  if (k === "yes") { IRS.res[0] = IRS.fast ? 2 : 1; IRS.part = 1; irWeek(); return; }
+  if (k === "no") { IRS.res = [0, false, false]; irWeekResult(); return; }
+  if (k === "nophrase") { IRS.res[1] = false; IRS.part = 2; irWeek(); return; }
+  if (k === "opt") {
+    if (IRS.answered) return; IRS.answered = true;
+    const i = +b.dataset.o, right = vbRu(task.d), ok = IRS.opts[i] === right;
+    $$(".qz-opt", irPage()).forEach((x, j) => { x.disabled = true; if (IRS.opts[j] === right) x.classList.add("hit"); });
+    if (!ok) b.classList.add("miss");
+    IRS.res[2] = ok; setTimeout(irWeekResult, 900); return;
+  }
+}
+renderHcHome();
 // кнопки под карточкой: четыре оценки с подсказкой, когда слово вернётся
 (() => {
   const ctl = $("#cardCtl"); if (!ctl) return;
