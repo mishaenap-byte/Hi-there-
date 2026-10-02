@@ -23681,7 +23681,17 @@ const PUSH = (() => {
   const key = async () => { let k = lsGet(K_KEY); if (!k) { k = (await call({ mode: "key" })).key; if (k) lsSet(K_KEY, k); } return k; };
   const reg = () => navigator.serviceWorker.ready;
   const tz = () => { try { return Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (e) { return ""; } };
-  const setOn = v => { st.on = v; if (v) lsSet(K_ON, "1"); else lsDel(K_ON); $$('[data-a="push"]').forEach(b => { b.innerHTML = rowHTML(); }); };
+  const testRow = () => `<button class="set-row" data-a="pushTest"><span>🧪</span>Прислать пробное уведомление себе</button>`;
+  const setOn = v => {
+    st.on = v; if (v) lsSet(K_ON, "1"); else lsDel(K_ON);
+    $$('[data-a="push"]').forEach(b => { b.innerHTML = rowHTML(); const t = b.nextElementSibling && b.nextElementSibling.dataset.a === "pushTest" ? b.nextElementSibling : null; if (v && !t) b.insertAdjacentHTML("afterend", testRow()); if (!v && t) t.remove(); });
+  };
+  // пробное уведомление себе: приходит через пару секунд — можно свернуть приложение и посмотреть, как оно выглядит
+  async function test() {
+    toast("Отправляю… сверните приложение — уведомление придёт через пару секунд");
+    try { const r = await call({ mode: "test" }); if (!r.sent) toast("Сервер не нашёл подписку этого телефона. Выключите и снова включите напоминания", { action: "Ок", onAction: () => {} }); }
+    catch (e) { toast("Не отправилось: " + e.message, { action: "Ок", onAction: () => {} }); }
+  }
   const rowHTML = () => `<span>🔔</span>Напоминания: ${st.on ? "включены" : "выключены"}`;
 
   async function enable(quiet) {
@@ -23730,7 +23740,7 @@ const PUSH = (() => {
     if (lsGet(K_SYNC) !== day) { await call({ mode: "subscribe", sub: sub.toJSON(), tz: tz() }).then(() => lsSet(K_SYNC, day)).catch(() => {}); }
     if (!st.on) setOn(true);
   }
-  async function status() { if (!CLOUD.uid) return; try { const r = await call({ mode: "status" }); if (r.admin && !st.admin) { st.admin = true; const s = $('[data-a="push"]'); if (s && !$('[data-a="pushAll"]')) s.insertAdjacentHTML("afterend", adminRow()); } } catch (e) {} }
+  async function status() { if (!CLOUD.uid) return; try { const r = await call({ mode: "status" }); if (r.admin && !st.admin) { st.admin = true; const s = $('[data-a="pushTest"]') || $('[data-a="push"]'); if (s && !$('[data-a="pushAll"]')) s.insertAdjacentHTML("afterend", adminRow()); } } catch (e) {} }
   const adminRow = () => `<button class="set-row" data-a="pushAll"><span>📣</span>Отправить уведомление всем</button>`;
   // предложение включить: после того как человек отправил слова в повторение (не чаще раза в неделю)
   function offer() {
@@ -23761,13 +23771,13 @@ const PUSH = (() => {
   { const t = new URLSearchParams(location.search).get("tab"); if (t) setTimeout(() => openFrom(t), 900); }
 
   document.addEventListener("click", e => {
-    const b = e.target.closest('[data-a="push"], [data-a="pushAll"]'); if (!b) return;
+    const b = e.target.closest('[data-a="push"], [data-a="pushAll"], [data-a="pushTest"]'); if (!b) return;
     e.stopPropagation();
-    if (b.dataset.a === "pushAll") openBroadcast(); else if (st.on) disable(); else enable();
+    if (b.dataset.a === "pushAll") openBroadcast(); else if (b.dataset.a === "pushTest") test(); else if (st.on) disable(); else enable();
   }, true);
   const prevRows = CLOUD.setRows;
   CLOUD.setRows = function () {
-    const row = can() || needInstall() ? `<button class="set-row" data-a="push">${rowHTML()}</button>${st.admin ? adminRow() : ""}` : "";
+    const row = can() || needInstall() ? `<button class="set-row" data-a="push">${rowHTML()}</button>${st.on ? testRow() : ""}${st.admin ? adminRow() : ""}` : "";
     if (this.uid) setTimeout(status, 0);
     return row + prevRows.call(this);
   };
