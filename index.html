@@ -21305,8 +21305,9 @@ const irDone = () => S.dict.filter(d => d.ir && d.ir.st >= 4).length;
 const irSched = (d, st) => { d.ir.st = st; d.ir.due = vbDay0() + IR_GAP[st] * VDAY; d.ir.last = Date.now(); };
 // фраза годится, если в ней есть само слово (или его основа: forget → forgot) и хотя бы три слова
 function irHasWord(ph, w) {
-  const p = " " + norm(ph) + " ", ws = norm(w).split(" ").filter(x => x.length > 2 || norm(w).split(" ").length === 1);
-  return ws.length > 0 && ws.every(x => p.includes(" " + x.slice(0, Math.max(3, x.length - 2))));
+  // короткие слова (to, go, in) ищем целиком, у длинных достаточно основы
+  const p = " " + norm(ph) + " ", all = norm(w).split(" ").filter(Boolean), long = all.filter(x => x.length > 2), ws = long.length ? long : all;
+  return ws.length > 0 && ws.every(x => x.length <= 3 ? p.includes(" " + x + " ") : p.includes(" " + x.slice(0, Math.max(3, x.length - 2))));
 }
 function irCardHTML() {
   const due = irDue(), nl = irNewLeft(), late = irLate(), todo = due.length + nl;
