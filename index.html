@@ -23692,16 +23692,25 @@ const PUSH = (() => {
     // разрешение спрашиваем сразу в обработчике нажатия: iPhone разрешает спросить только так
     const perm = Notification.permission === "default" ? Notification.requestPermission() : Promise.resolve(Notification.permission);
     st.busy = true;
+    let step = "perm";
     try {
       if (await perm !== "granted") { toast("Уведомления запрещены. Включите их в настройках телефона → Hi There"); return; }
+      // каждый шаг со своей причиной — чтобы было видно, что именно не так
+      step = "server";
       const r = await reg(), k = await key();
+      if (!k) throw new Error("server");
+      step = "phone";
       let sub = await r.pushManager.getSubscription();
       if (!sub) sub = await r.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64(k) });
+      step = "save";
       await call({ mode: "subscribe", sub: sub.toJSON(), tz: tz() });
       lsSet(K_SYNC, String(Math.floor(Date.now() / 864e5)));
       setOn(true);
       if (!quiet) toast("Готово: напомню, когда будет пора повторять слова");
-    } catch (e) { toast("Не получилось включить уведомления. Попробуйте позже"); }
+    } catch (e) {
+      const why = step === "server" ? "сервер уведомлений не отвечает (функция push-send в Supabase)" : step === "phone" ? "телефон не дал подписаться" : "сервер не сохранил подписку";
+      toast("Не получилось: " + why + (e && e.message && e.message.length < 60 ? " · " + e.message : ""), { action: "Ок", onAction: () => {} });
+    }
     finally { st.busy = false; }
   }
   async function disable() {
