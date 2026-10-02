@@ -3796,7 +3796,7 @@ html.night .dx-bars i{background:hsl(252 42% 36%)}
 .wk .hc.sheeted .hc-in{opacity:0}
 .wk .hc-bend.x{z-index:2}
 .wk .hc-ghost{transition:transform .44s cubic-bezier(.25,1,.5,1),filter .44s ease,opacity .44s ease}
-.wk .hc-ghost.g1{opacity:1}
+.wk .hc-ghost.g1{opacity:1}.wk .hc-ghost.g2{opacity:0}
 .wk .hc-ghost.fresh{animation:hcFogWk .5s ease both}
 @keyframes hcFogWk{from{opacity:0;transform:translate(-40px,30px) rotate(-17deg) scale(.76)}}
 .night .post img,.night .photo img,.night .feed img:not(.avatar){filter:brightness(.8)}
@@ -20599,8 +20599,9 @@ const HC_GW = 0.95; // длина узора блика относительно
 // там блик и перелив рисуем обычной прозрачностью, без смешивания и без лишних слоёв
 const HC_WK = /AppleWebKit/.test(navigator.userAgent) && !/Chrome|Chromium|CriOS|FxiOS|EdgiOS|Android/.test(navigator.userAgent) || /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 if (HC_WK) document.documentElement.classList.add("wk");
-// iPhone: ближняя задняя карта непрозрачная, дальняя — наполовину (появляется от 0 до 50%)
-if (HC_WK) { HCG.g1[2] = 1; HCG.g1p[2] = 1; }
+// iPhone: ближняя задняя карта непрозрачная; дальнюю не показываем (и пока тянут карточку — тоже),
+// она проявляется, только когда после свайпа выходит на место ближней
+if (HC_WK) { HCG.g1[2] = 1; HCG.g1p[2] = 1; HCG.g2[2] = 0; HCG.g2p[2] = 0; }
 const HC_LITE = !!(window.matchMedia && matchMedia("(pointer:coarse)").matches);
 // две «лампы»: основная слева-сверху и слабее справа; угол в градусах, насколько широко светит
 const HC_LAMPS = [[-30, 1, 27], [36, 0.7, 24]];
