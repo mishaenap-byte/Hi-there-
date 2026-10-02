@@ -20469,7 +20469,8 @@ function hcGhostPull(p) {
 function hcAdvance() {
   if (REDUCED) return;
   const st = $("#cardStage"), g1 = $(".hc-ghost.g1", st), g2 = $(".hc-ghost.g2", st), c = cards.items[cards.pos + 3];
-  if (c) st.insertAdjacentHTML("afterbegin", hcGhostHTML(c, cards.pos + 4, "g2 fresh"));
+  // новую заднюю карту добавляем, когда улетающая уже почти ушла: сборка целой карточки в момент отпускания пальца давала рывок
+  if (c) setTimeout(() => { if (st.isConnected && cards.busy) st.insertAdjacentHTML("afterbegin", hcGhostHTML(c, cards.pos + 4, "g2 fresh")); }, 420);
   if (g2) { g2.style.transition = ""; g2.style.zIndex = 1; hcGhostSet(g2, HCG.g1[0], HCG.g1[1], HCG.g1[2]); }
   return g1 ? hcArrive(g1) : Promise.resolve();
 }
@@ -20736,12 +20737,25 @@ function hcFlipAnim(card, toBack) {
   }).then(() => sh.done());
 }
 // ответ: лист отгибается и улетает в сторону ответа
+// надпись «ЗНАЮ / ПОВТОРИТЬ» улетает вместе с листом. Раньше она оставалась на самой карточке,
+// а карточка в начале улёта возвращается в центр — и надпись «телепортировалась» туда (особенно заметно на iPhone)
+function hcTagFly(card, sh, dir, base) {
+  const tag = $(dir > 0 ? ".hc-tag.know" : ".hc-tag.again", card), root = $(".hc-root", sh.box);
+  $$(".hc-tag", card).forEach(t => { t.style.opacity = 0; });
+  if (!tag || !root) return;
+  const old = $(".hc-tag", root); if (old) old.remove();
+  const t = tag.cloneNode(true), back = base === 180, left = dir > 0 !== back, tilt = dir > 0 ? -12 : 12;
+  // лист перевёрнут (смотрим на оборот): надпись кладём на обратную сторону и зеркалим место
+  t.style.cssText = `opacity:1;left:${left ? "18px" : "auto"};right:${left ? "auto" : "18px"};transform:${back ? "rotateY(180deg) " : ""}translateZ(20px) rotate(${tilt}deg)`;
+  root.appendChild(t);
+}
 function hcLeave(card, dir, dx, dy) {
   if (!card || REDUCED) return Promise.resolve();
   const base = card.classList.contains("flipped") ? 180 : 0; dx = dx || 0; dy = dy || 0;
   const sh = hcSheet(card, "x");
   const at = t => { const e = t * t; return { rot: base + dir * 50 * e, a: 9 * Math.sin(Math.min(1, t * 1.4) * Math.PI / 2), tx: dx + dir * 470 * e, ty: dy - 30 * e, rz: dx / 16 + dir * 18 * e, op: 1 - Math.max(0, (t - 0.6) / 0.4), g: 0.2 + t, gl: 0.3 + 0.7 * t }; };
   sh.set(at(0)); card.style.transition = "none"; card.style.transform = ""; sh.box.style.transition = "none"; sh.box.style.transform = ""; sh.box.style.zIndex = 4; sh.show();
+  hcTagFly(card, sh, dir, base);
   return hcRun(480, t => sh.set(at(t)));
 }
 flip = function () {
@@ -20775,21 +20789,30 @@ bindCard = function (it) {
     sx = e.clientX; sy = e.clientY; dx = 0; drag = true; moved = false;
     try { c.setPointerCapture(e.pointerId); } catch (_) {}
   });
+  // карточку двигаем раз в кадр, а не на каждое событие касания: на iPhone их приходит больше, чем кадров.
+  // Прозрачность надписей меняем у самих надписей — переменная на карточке пересчитывала стили всего её содержимого
+  const tk = $(".hc-tag.know", c), ta = $(".hc-tag.again", c);
+  let raf = 0, ty = 0;
+  const paint = () => {
+    raf = 0; if (!drag) return;
+    const tr = `translate(${dx}px,${ty}px) rotate(${dx / 16}deg)`;
+    c.style.transform = tr;
+    if (HC_WK && c._sheet) c._sheet.box.style.transform = tr;
+    hcGhostPull(Math.min(1, Math.abs(dx) / 260));
+    if (tk) tk.style.opacity = Math.max(0, Math.min(1, dx / 100)).toFixed(2);
+    if (ta) ta.style.opacity = Math.max(0, Math.min(1, -dx / 100)).toFixed(2);
+  };
   c.addEventListener("pointermove", e => {
     if (!drag) return;
     dx = e.clientX - sx; if (!moved && Math.abs(dx) < 6) return;
-    if (!moved) { moved = true; c.style.transition = "none"; }
-    const ty = Math.max(-20, Math.min(20, (e.clientY - sy) / 4)); c._dy = ty;
-    c.style.transform = `translate(${dx}px,${ty}px) rotate(${dx / 16}deg)`;
-    if (HC_WK && c._sheet) { c._sheet.box.style.transition = "none"; c._sheet.box.style.transform = c.style.transform; }
-    hcGhostPull(Math.min(1, Math.abs(dx) / 260));
-    c.style.setProperty("--kn", Math.max(0, Math.min(1, dx / 100)));
-    c.style.setProperty("--ag", Math.max(0, Math.min(1, -dx / 100)));
+    if (!moved) { moved = true; c.style.transition = "none"; if (HC_WK && c._sheet) c._sheet.box.style.transition = "none"; }
+    ty = Math.max(-20, Math.min(20, (e.clientY - sy) / 4)); c._dy = ty;
+    if (!raf) raf = requestAnimationFrame(paint);
   });
-  const reset = () => { c._dy = 0; c.style.transition = ""; c.style.transform = "";
-    if (HC_WK && c._sheet) { c._sheet.box.style.transition = "transform .35s cubic-bezier(.3,1.4,.5,1)"; c._sheet.box.style.transform = ""; } c.style.setProperty("--kn", 0); c.style.setProperty("--ag", 0); hcGhostPull(0); };
+  const reset = () => { cancelAnimationFrame(raf); raf = 0; c._dy = 0; c.style.transition = ""; c.style.transform = "";
+    if (HC_WK && c._sheet) { c._sheet.box.style.transition = "transform .35s cubic-bezier(.3,1.4,.5,1)"; c._sheet.box.style.transform = ""; } if (tk) tk.style.opacity = ""; if (ta) ta.style.opacity = ""; c.style.setProperty("--kn", 0); c.style.setProperty("--ag", 0); hcGhostPull(0); };
   c.addEventListener("pointerup", () => {
-    if (!drag) return; drag = false;
+    if (!drag) return; drag = false; cancelAnimationFrame(raf); raf = 0;
     if (moved && Math.abs(dx) > 90) { answer(dx > 0, dx); return; }
     if (moved) { reset(); return; }
     flip(); // простое касание — переворачиваем сразу, без ожидания
