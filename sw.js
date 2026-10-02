@@ -1,5 +1,5 @@
 // Hi There — сервис-воркер: приложение открывается быстро и без интернета
-const V = "hithere-v70";
+const V = "hithere-v71";
 const TTS_CACHE = "hithere-tts";   // записи голоса — отдельно, переживают обновления приложения
 const SHELL = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./maskable-512.png", "./apple-touch-icon.png"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(V).then(c => c.addAll(SHELL)).then(() => self.skipWaiting())); });
@@ -24,4 +24,22 @@ self.addEventListener("fetch", e => {
       return hit || net;
     }));
   }
+});
+// пуш-уведомления: показываем, даже когда приложение закрыто; по нажатию открываем приложение на нужном экране
+self.addEventListener("push", e => {
+  let d = {};
+  try { d = e.data ? e.data.json() : {}; } catch (_) { d = { body: e.data ? e.data.text() : "" }; }
+  e.waitUntil(self.registration.showNotification(d.title || "Hi There", {
+    body: d.body || "", icon: "./icon-192.png", badge: "./icon-192.png", tag: d.tag || "hithere", data: { tab: d.tab || "" }
+  }));
+});
+self.addEventListener("notificationclick", e => {
+  e.notification.close();
+  const tab = (e.notification.data && e.notification.data.tab) || "";
+  const url = new URL("./" + (tab ? "?tab=" + encodeURIComponent(tab) : ""), self.registration.scope).href;
+  e.waitUntil(self.clients.matchAll({ type: "window", includeUncontrolled: true }).then(ws => {
+    const w = ws.find(x => "focus" in x);
+    if (w) { if (tab) w.postMessage({ push: "open", tab }); return w.focus(); }
+    return self.clients.openWindow(url);
+  }));
 });

@@ -23660,6 +23660,120 @@ const PWA = (() => {
   return { standalone, show };
 })();
 window.PWA_OK = PWA;
+// ================== ПУШ-УВЕДОМЛЕНИЯ (приходят, даже когда приложение закрыто) ==================
+// Подписка телефона хранится в Supabase (таблица push_subs), отправляет функция push-send.
+// iPhone: работает только в приложении с экрана «Домой» (iOS 16.4+), в обычной вкладке Safari пушей нет.
+const PUSH = (() => {
+  const K_ON = "vz.push.on", K_ASK = "vz.push.ask", K_KEY = "vz.push.key", K_SYNC = "vz.push.sync";
+  const ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  const https = location.protocol === "https:";
+  const can = () => https && "serviceWorker" in navigator && "PushManager" in window && "Notification" in window;
+  const standalone = () => !!(window.PWA_OK && window.PWA_OK.standalone());
+  // на iPhone вне экрана «Домой» пушей нет — вместо кнопки показываем, как установить приложение
+  const needInstall = () => https && ios && !standalone() && !can();
+  const st = { on: lsGet(K_ON) === "1", admin: false, busy: false };
+  const call = async body => {
+    const { data, error } = await sb.functions.invoke("push-send", { body }).catch(e => ({ error: e }));
+    if (error || !data || data.error) throw new Error((data && data.error) || (error && error.message) || "push-send");
+    return data;
+  };
+  const b64 = s => { const p = "=".repeat((4 - s.length % 4) % 4), raw = atob((s + p).replace(/-/g, "+").replace(/_/g, "/")); return Uint8Array.from(raw, c => c.charCodeAt(0)); };
+  const key = async () => { let k = lsGet(K_KEY); if (!k) { k = (await call({ mode: "key" })).key; if (k) lsSet(K_KEY, k); } return k; };
+  const reg = () => navigator.serviceWorker.ready;
+  const tz = () => { try { return Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (e) { return ""; } };
+  const setOn = v => { st.on = v; if (v) lsSet(K_ON, "1"); else lsDel(K_ON); $$('[data-a="push"]').forEach(b => { b.innerHTML = rowHTML(); }); };
+  const rowHTML = () => `<span>🔔</span>Напоминания: ${st.on ? "включены" : "выключены"}`;
+
+  async function enable(quiet) {
+    if (st.busy) return;
+    if (needInstall()) { toast("На iPhone напоминания работают в приложении с экрана «Домой»"); if (window.PWA_OK) setTimeout(() => window.PWA_OK.show(), 900); return; }
+    if (!can()) { toast("Этот браузер не умеет присылать уведомления"); return; }
+    if (!CLOUD.uid) { toast("Сначала войдите в аккаунт", { action: "Войти", onAction: () => CLOUD.showAuth() }); return; }
+    // разрешение спрашиваем сразу в обработчике нажатия: iPhone разрешает спросить только так
+    const perm = Notification.permission === "default" ? Notification.requestPermission() : Promise.resolve(Notification.permission);
+    st.busy = true;
+    try {
+      if (await perm !== "granted") { toast("Уведомления запрещены. Включите их в настройках телефона → Hi There"); return; }
+      const r = await reg(), k = await key();
+      let sub = await r.pushManager.getSubscription();
+      if (!sub) sub = await r.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64(k) });
+      await call({ mode: "subscribe", sub: sub.toJSON(), tz: tz() });
+      lsSet(K_SYNC, String(Math.floor(Date.now() / 864e5)));
+      setOn(true);
+      if (!quiet) toast("Готово: напомню, когда будет пора повторять слова");
+    } catch (e) { toast("Не получилось включить уведомления. Попробуйте позже"); }
+    finally { st.busy = false; }
+  }
+  async function disable() {
+    if (st.busy) return; st.busy = true;
+    try {
+      const sub = can() ? await (await reg()).pushManager.getSubscription() : null;
+      if (sub) { await call({ mode: "unsubscribe", endpoint: sub.endpoint }).catch(() => {}); await sub.unsubscribe().catch(() => {}); }
+      setOn(false); toast("Напоминания выключены");
+    } finally { st.busy = false; }
+  }
+  // раз в день сверяем подписку с сервером: телефон может сменить адрес, а на этом телефоне мог войти другой человек
+  async function sync() {
+    if (!CLOUD.uid || !can() || Notification.permission !== "granted") { if (st.on && can() && Notification.permission !== "granted") setOn(false); return; }
+    const sub = await (await reg()).pushManager.getSubscription().catch(() => null);
+    if (!sub) { if (st.on) setOn(false); return; }
+    const day = String(Math.floor(Date.now() / 864e5));
+    if (lsGet(K_SYNC) !== day) { await call({ mode: "subscribe", sub: sub.toJSON(), tz: tz() }).then(() => lsSet(K_SYNC, day)).catch(() => {}); }
+    if (!st.on) setOn(true);
+  }
+  async function status() { if (!CLOUD.uid) return; try { const r = await call({ mode: "status" }); if (r.admin && !st.admin) { st.admin = true; const s = $('[data-a="push"]'); if (s && !$('[data-a="pushAll"]')) s.insertAdjacentHTML("afterend", adminRow()); } } catch (e) {} }
+  const adminRow = () => `<button class="set-row" data-a="pushAll"><span>📣</span>Отправить уведомление всем</button>`;
+  // предложение включить: после того как человек отправил слова в повторение (не чаще раза в неделю)
+  function offer() {
+    if (st.on || !CLOUD.uid || !can() || Notification.permission !== "default") return;
+    const last = +lsGet(K_ASK) || 0; if (Date.now() - last < 7 * 864e5) return;
+    lsSet(K_ASK, String(Date.now()));
+    setTimeout(() => toast("Напомнить, когда пора повторять?", { action: "Включить", onAction: () => enable() }), 2600);
+  }
+  function openBroadcast() {
+    openSheet(`<div class="sh-head"><span class="eyebrow">Уведомления</span><h2>Сообщение всем</h2></div>
+      <p class="feed-note">Придёт всем, кто включил напоминания, даже если приложение закрыто.</p>
+      <label class="fld-label" for="pbTitle">Заголовок</label><input class="fld" id="pbTitle" maxlength="60" value="Hi There">
+      <label class="fld-label" for="pbBody">Текст</label><textarea class="fld" id="pbBody" maxlength="200" rows="3" placeholder="Например: Новый урок уже ждёт вас!"></textarea>
+      <div class="err-msg" id="pbErr" hidden></div>
+      <button class="btn primary wide" data-a="pbSend" style="margin-top:16px">Отправить</button>`);
+    sheetBody.onclick = async e => {
+      const b = e.target.closest('[data-a="pbSend"]'); if (!b || b.disabled) return;
+      const title = $("#pbTitle").value.trim() || "Hi There", body = $("#pbBody").value.trim(), er = $("#pbErr");
+      if (!body) { er.hidden = false; er.textContent = "Напишите текст уведомления."; return; }
+      b.disabled = true; b.textContent = "Отправляю…";
+      try { const r = await call({ mode: "broadcast", title, body }); closeSheet(); toast(`Отправлено: ${r.sent || 0}`); }
+      catch (x) { er.hidden = false; er.textContent = "Не отправилось: " + x.message; b.disabled = false; b.textContent = "Отправить"; }
+    };
+  }
+  // открыть нужный экран по нажатию на уведомление
+  function openFrom(tab) { if (tab === "cards") setTimeout(() => { try { switchTab("cards", true); } catch (e) {} }, 300); }
+  if (can()) navigator.serviceWorker.addEventListener("message", e => { if (e.data && e.data.push === "open") openFrom(e.data.tab); });
+  { const t = new URLSearchParams(location.search).get("tab"); if (t) setTimeout(() => openFrom(t), 900); }
+
+  document.addEventListener("click", e => {
+    const b = e.target.closest('[data-a="push"], [data-a="pushAll"]'); if (!b) return;
+    e.stopPropagation();
+    if (b.dataset.a === "pushAll") openBroadcast(); else if (st.on) disable(); else enable();
+  }, true);
+  const prevRows = CLOUD.setRows;
+  CLOUD.setRows = function () {
+    const row = can() || needInstall() ? `<button class="set-row" data-a="push">${rowHTML()}</button>${st.admin ? adminRow() : ""}` : "";
+    if (this.uid) setTimeout(status, 0);
+    return row + prevRows.call(this);
+  };
+  // выходим из аккаунта — отвязываем телефон, чтобы чужие напоминания сюда не приходили
+  const prevLogout = CLOUD.logout;
+  CLOUD.logout = async function () {
+    try { const sub = can() ? await (await reg()).pushManager.getSubscription() : null; if (sub) { await call({ mode: "unsubscribe", endpoint: sub.endpoint }).catch(() => {}); await sub.unsubscribe().catch(() => {}); } } catch (e) {}
+    lsDel(K_ON); lsDel(K_SYNC);
+    return prevLogout.apply(this, arguments);
+  };
+  setTimeout(() => { sync().catch(() => {}); }, 4000);
+  return { enable, disable, offer, st };
+})();
+// отправил слова в повторение — предлагаем напоминания
+{ const q = irQueue; irQueue = function () { const r = q.apply(this, arguments); try { PUSH.offer(); } catch (e) {} return r; }; }
 // ================== СТАРТ ==================
 renderLevel();
 renderMe();
