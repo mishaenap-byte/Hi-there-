@@ -21,8 +21,20 @@ const cors = {
 };
 const json = (b: unknown, status = 200) => new Response(JSON.stringify(b), { status, headers: { ...cors, "Content-Type": "application/json; charset=utf-8" } });
 
-const PUB = env("VAPID_PUBLIC_KEY"), PRIV = env("VAPID_PRIVATE_KEY");
-if (PUB && PRIV) webpush.setVapidDetails(env("VAPID_SUBJECT") || "mailto:hello@hithere.app", PUB, PRIV);
+// ключи могли вставить с кавычками или пробелами — чистим
+const clean = (v: string) => v.trim().replace(/^["'«]+|["'»]+$/g, "").trim();
+const PUB = clean(env("VAPID_PUBLIC_KEY")), PRIV = clean(env("VAPID_PRIVATE_KEY"));
+let SUBJ = clean(env("VAPID_SUBJECT")) || "mailto:hello@hithere.app";
+if (!/^(mailto:|https:\/\/)/.test(SUBJ)) SUBJ = /@/.test(SUBJ) ? "mailto:" + SUBJ : "mailto:hello@hithere.app";
+// проверяем ключи при запросе, а не при запуске: иначе любая ошибка в Secrets роняет функцию целиком (WORKER_ERROR)
+let vapidErr = "";
+if (PUB && PRIV) {
+  try { webpush.setVapidDetails(SUBJ, PUB, PRIV); }
+  catch (e) {
+    vapidErr = "Ключи в Secrets не подходят: " + ((e as Error).message || e) +
+      ` (VAPID_PUBLIC_KEY: ${PUB.length} символов, нужно 87; VAPID_PRIVATE_KEY: ${PRIV.length}, нужно 43 — не перепутаны ли местами?)`;
+  }
+}
 const ADMINS = env("PUSH_ADMINS").split(",").map(s => s.trim()).filter(Boolean);
 const db = () => createClient(env("SUPABASE_URL"), env("SUPABASE_SERVICE_ROLE_KEY"), { auth: { persistSession: false } });
 
@@ -101,6 +113,8 @@ Deno.serve(async req => {
       return json({ VAPID_PUBLIC_KEY: k.publicKey, VAPID_PRIVATE_KEY: k.privateKey });
     }
     if (!PUB || !PRIV) return json({ error: "Не заданы VAPID_PUBLIC_KEY и VAPID_PRIVATE_KEY" }, 500);
+    if (vapidErr) return json({ error: vapidErr }, 500);
+    if (!env("SUPABASE_URL") || !env("SUPABASE_SERVICE_ROLE_KEY")) return json({ error: "Supabase не передал SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY" }, 500);
     if (mode === "key") return json({ key: PUB });
 
     if (mode === "daily") {
