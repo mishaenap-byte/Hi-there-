@@ -20486,7 +20486,9 @@ function hcArrive(g) {
       rot: -11 * hump, a: 4.2 * hump, g: 1.15 - t * 1.35, gl: Math.sin(Math.PI * Math.min(1, t * 1.15)) };
   };
   sh.set(at(0)); if (!HC_LITE && !HC_WK) sh.box.style.filter = `blur(${bl0}px)`; sh.show();
-  if (HC_WK) return hcPlay(sh, 720, at, 22);
+  // iPhone: сама задняя карта оставалась видна на старом месте, пока её копия-лист выходила вперёд, —
+  // за новой картой на миг мелькала карта того же цвета. Прячем её: дальше карту показывает лист
+  if (HC_WK) { g.style.visibility = "hidden"; return hcPlay(sh, 720, at, 22); }
   return hcRun(720, t => { sh.set(at(t)); if (!HC_LITE) { const b = bl0 * (1 - Math.min(1, t * 2.2)); sh.box.style.filter = b > 0.05 ? `blur(${b.toFixed(2)}px)` : ""; } });
 }
 // ---------- справка о слове на обороте: значения с примерами и отличие от похожего ----------
