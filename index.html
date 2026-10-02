@@ -21302,6 +21302,8 @@ const irPool = () => S.dict.filter(d => !d.ir && !(d.srs && d.srs.st >= 5));
 const irNewLeft = () => Math.min(irPool().length, Math.max(0, IR_NEW - irNewToday()));
 const irLate = () => S.dict.filter(d => d.ir && d.ir.st < 4 && d.ir.due < vbDay0()).length;
 const irDone = () => S.dict.filter(d => d.ir && d.ir.st >= 4).length;
+// готовая фраза (Could I get the bill, please?) — своя фраза к ней не нужна
+const irIsPhrase = d => /[.?!]\s*$/.test(String(d.en).trim()) || String(d.en).trim().split(/\s+/).length >= 4;
 const irSched = (d, st) => { d.ir.st = st; d.ir.due = vbDay0() + IR_GAP[st] * VDAY; d.ir.last = Date.now(); };
 // фраза годится, если в ней есть само слово (или его основа: forget → forgot) и хотя бы три слова
 function irHasWord(ph, w) {
@@ -21328,7 +21330,7 @@ function irHowSheet() {
     <ol><li><b>Сегодня</b> — учим 5 новых слов и к каждому пишем свою фразу из жизни.</li>
     <li><b>Завтра</b> — вспоминаем слово без подсказки, только потом проверяем.</li>
     <li><b>Через 3 дня</b> — снова вспоминаем, не подглядывая.</li>
-    <li><b>Через неделю</b> — проверка: вспомнить за 3 секунды, придумать новую фразу и узнать слово на слух.</li></ol>
+    <li><b>Через неделю</b> — проверка: вспомнить за 3 секунды, придумать новую фразу и узнать слово на слух.</li></ol><p>Если в словаре уже целая фраза (например, «Could I get the bill, please?»), свою фразу к ней писать не нужно.</p>
     <p>Не вспомнили или нажали «Не помню» — слово начинает лесенку заново. На проверке через неделю не получилось хотя бы одно — ещё неделя, и проверим снова.</p>
     <p>Больше 5 новых слов в день не даём: когда слов много, не закрепляется ни одно.</p></div>`);
 }
@@ -21380,9 +21382,9 @@ function renderIr() {
     const inf = vbInfo(d);
     irPaint("Новое слово · день 1", `<h2 class="qz-q en">${esc(d.en)} <button class="qz-say" data-ir="say" aria-label="Послушать">🔊</button></h2>${d.ipa ? `<p class="qz-sub">${esc(d.ipa)}</p>` : ""}
       <p class="qz-sub" style="font-size:18px;color:inherit">${esc(vbRu(d) || "—")}</p>${inf ? hcInfoHTML(inf) : ""}${d.ctx ? `<p class="vb-ctx">Где встретили: «${esc(d.ctx)}»</p>` : ""}
-      <form id="irForm"><label class="ir-lbl" for="irPh">Составьте с ним фразу из своей жизни</label>
+      ${irIsPhrase(d) ? `<p class="vb-tip" style="text-align:left;margin-top:16px">Это уже готовая фраза — свою придумывать не нужно. Прочитайте её вслух пару раз и запомните, когда её говорят.</p><div class="ir-btns"><button class="btn primary wide" data-ir="phOk">Запомнил — дальше</button></div>` : `<form id="irForm"><label class="ir-lbl" for="irPh">Составьте с ним фразу из своей жизни</label>
       <textarea class="fld ir-ta" id="irPh" maxlength="200" autocomplete="off" autocapitalize="sentences" spellcheck="false" placeholder="Например: I ${esc(String(d.en).split(" ")[0].toLowerCase())} …"></textarea>
-      <div class="qz-fb" id="irFb" hidden></div><div class="ir-btns"><button class="btn primary wide">Сохранить фразу</button></div></form>`);
+      <div class="qz-fb" id="irFb" hidden></div><div class="ir-btns"><button class="btn primary wide">Сохранить фразу</button></div></form>`}`);
     setTimeout(() => speak(d.en), 350);
   } else if (task.t === "recall") {
     irPaint(`Повтор · ${IR_STEP[d.ir.st]}`, `${irSteps(d.ir.st)}<h2 class="qz-q">${esc(vbRu(d) || "—")}</h2><p class="qz-sub">Вспомните слово по-английски сами, без подсказки.</p>
@@ -21407,7 +21409,7 @@ function irRecall(ok, typed) {
 // ступень 3: проверка через неделю из трёх частей
 function irWeek() {
   const task = IRS.Q[IRS.i], d = task.d, part = IRS.part;
-  const eb = `Проверка через неделю · ${part + 1} из 3`;
+  const two = irIsPhrase(d), eb = `Проверка через неделю · ${two && part === 2 ? 2 : part + 1} из ${two ? 2 : 3}`;
   if (part === 0) {
     irPaint(eb, `${irSteps(3)}<h2 class="qz-q">${esc(vbRu(d) || "—")}</h2><p class="qz-sub">Вспомните слово по-английски. Выученное слово всплывает за 2–3 секунды.</p>
       <span class="ir-time" id="irT">0</span><div class="ir-btns"><button class="btn primary wide" data-ir="got">Вспомнил!</button><button class="btn ghost wide" data-ir="wnot">Не помню</button></div>`);
@@ -21436,7 +21438,7 @@ function irWeekResult() {
   const li = (ok, t) => `<li class="${ok ? "" : "no"}"><i>${ok ? "✓" : "✕"}</i><span>${t}</span></li>`;
   irPaint("Проверка через неделю", `<h2 class="qz-q en">${esc(d.en)}</h2><p class="qz-sub">${esc(vbRu(d) || "")}</p>
     <ul class="ir-checks">${li(r0 === 2, r0 === 2 ? `Вспомнили за ${IRS.sec} с` : r0 === 1 ? `Вспомнили, но за ${IRS.sec} с — дольше 3 секунд` : "Не вспомнили")}
-    ${li(r1, r1 ? "Придумали новую фразу" : "Новой фразы не получилось")}${li(r2, r2 ? "Узнали на слух" : "На слух не узнали")}</ul>
+    ${irIsPhrase(d) ? "" : li(r1, r1 ? "Придумали новую фразу" : "Новой фразы не получилось")}${li(r2, r2 ? "Узнали на слух" : "На слух не узнали")}</ul>
     <div class="qz-fb ${all ? "ok" : "bad"}" style="margin-top:14px"><b>${all ? "🎉 Слово выучено" : r0 === 0 ? "Начнём лесенку заново" : "Ещё неделя интервалов"}</b><span>${all ? "Вы вспомнили его через неделю, сами и быстро. Такое слово уже не уйдёт." : r0 === 0 ? "Слово забылось — это нормально. Повторим завтра, потом через 3 дня и через неделю." : "Ничего страшного: слово почти ваше. Проверим снова через неделю."}</span></div>`,
     `<button class="btn primary wide" data-ir="next">${IRS.i + 1 < IRS.Q.length ? "Дальше" : "Итог"}</button>`);
   if (typeof gsnd === "function" && all) gsnd("ok", 2);
@@ -21483,7 +21485,8 @@ function onIrClick(e) {
     $(".vb-body", irPage()).insertAdjacentHTML("beforeend", `<div class="qz-fb ok"><span class="qz-right">${esc(task.d.en)} <button class="qz-say" data-ir="say" aria-label="Послушать">🔊</button></span><span>Вы вспомнили именно это слово?</span><div class="ir-btns"><button class="btn primary wide" data-ir="yes">Да, это оно</button><button class="btn ghost wide" data-ir="no">Нет, другое</button></div></div>`);
     $$(".ir-btns", irPage())[0].hidden = true; speak(task.d.en); return;
   }
-  if (k === "yes") { IRS.res[0] = IRS.fast ? 2 : 1; IRS.part = 1; irWeek(); return; }
+  if (k === "yes") { IRS.res[0] = IRS.fast ? 2 : 1; if (irIsPhrase(task.d)) { IRS.res[1] = true; IRS.part = 2; } else IRS.part = 1; irWeek(); return; }
+  if (k === "phOk") { const d = task.d; d.ir = { st: 1, start: Date.now(), ph: [], fails: 0 }; irSched(d, 1); IRS.fresh++; saveDict(); renderDict(); IRS.i++; renderIr(); return; }
   if (k === "no") { IRS.res = [0, false, false]; irWeekResult(); return; }
   if (k === "nophrase") { IRS.res[1] = false; IRS.part = 2; irWeek(); return; }
   if (k === "opt") {
