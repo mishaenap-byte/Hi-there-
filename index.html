@@ -3796,6 +3796,7 @@ html.night .dx-bars i{background:hsl(252 42% 36%)}
 .wk .hc.sheeted .hc-in{opacity:0}
 .wk .hc-bend.x{z-index:2}
 .wk .hc-ghost{transition:transform .44s cubic-bezier(.25,1,.5,1),filter .44s ease,opacity .44s ease}
+.wk .hc-ghost.g1{opacity:1}
 .wk .hc-ghost.fresh{animation:hcFogWk .5s ease both}
 @keyframes hcFogWk{from{opacity:0;transform:translate(-40px,30px) rotate(-17deg) scale(.76)}}
 .night .post img,.night .photo img,.night .feed img:not(.avatar){filter:brightness(.8)}
@@ -20436,7 +20437,7 @@ function hcFit(card) {
 function hcGhostHTML(it, no, cls) {
   const f = hcSides(it, no).front;
   // вместо кнопок — такие же плашки-заглушки, чтобы карта не «прыгала», когда выйдет вперёд
-  return `<div class="hc-ghost ${cls}" style="${hcVars(hcHash(it.en))}" aria-hidden="true" inert>${hcFace("front", f)}</div>`;
+  return `<div class="hc-ghost ${cls}" data-k="${no}|${cards.mode}|${esc(it.en)}" style="${hcVars(hcHash(it.en))}" aria-hidden="true" inert>${hcFace("front", f)}</div>`;
 }
 function hcGhosts() {
   const a = cards.items[cards.pos + 1], b = cards.items[cards.pos + 2];
@@ -20562,9 +20563,26 @@ renderCard = function (enter) {
   ctl.hidden = false;
   const no = cards.pos + 1, inf = it.was ? null : hcInfo(it.en);
   const { front, back } = hcSides(it, no);
-  st.innerHTML = `${hcGhosts()}<div class="hc" id="fcard" style="${hcVars(hcHash(it.en))}" tabindex="0" role="button" aria-label="Перевернуть карточку">
+  const html = `${hcGhosts()}<div class="hc" id="fcard" style="${hcVars(hcHash(it.en))}" tabindex="0" role="button" aria-label="Перевернуть карточку">
       <span class="hc-tag know">ЗНАЮ</span><span class="hc-tag again">ПОВТОРИТЬ</span>
       <div class="hc-in">${hcFace("front", front)}${hcFace("back", back)}</div></div>`;
+  // задние карты, которые после хода уже стоят на своих местах, не пересоздаём: новая копия той же карты
+  // на миг «выскакивала» (на iPhone картинки новой карты дорисовываются не сразу)
+  const keep = {};
+  if (!enter) $$(":scope > .hc-ghost", st).forEach(g => { if (g.style.visibility !== "hidden" && g.dataset.k) keep[g.dataset.k] = g; });
+  const tpl = document.createElement("template"); tpl.innerHTML = html;
+  const nodes = [...tpl.content.children];
+  if (!nodes.some(n => n.dataset && keep[n.dataset.k])) st.innerHTML = html;
+  else {
+    const kept = new Set(nodes.map(n => n.dataset && keep[n.dataset.k]).filter(Boolean));
+    [...st.children].forEach(ch => { if (!kept.has(ch)) ch.remove(); });
+    let ref = null;
+    nodes.forEach(n => {
+      const k = n.dataset && keep[n.dataset.k];
+      if (k) { k.className = n.className; k._arr = null; ["transform", "filter", "opacity", "zIndex", "transition"].forEach(x => { k.style[x] = ""; }); ref = k; }
+      else { if (ref) ref.after(n); else st.prepend(n); ref = n; }
+    });
+  }
   bindCard(it);
   if (!it.was && !inf) hcAskInfo(it.en, it.ru);
   if (typeof addTurtles === "function") addTurtles(); // 🐢 рядом с 🔊 — сразу, чтобы копии для изгиба совпадали с карточкой
@@ -20581,6 +20599,8 @@ const HC_GW = 0.95; // длина узора блика относительно
 // там блик и перелив рисуем обычной прозрачностью, без смешивания и без лишних слоёв
 const HC_WK = /AppleWebKit/.test(navigator.userAgent) && !/Chrome|Chromium|CriOS|FxiOS|EdgiOS|Android/.test(navigator.userAgent) || /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 if (HC_WK) document.documentElement.classList.add("wk");
+// iPhone: ближняя задняя карта непрозрачная, дальняя — наполовину (появляется от 0 до 50%)
+if (HC_WK) { HCG.g1[2] = 1; HCG.g1p[2] = 1; }
 const HC_LITE = !!(window.matchMedia && matchMedia("(pointer:coarse)").matches);
 // две «лампы»: основная слева-сверху и слабее справа; угол в градусах, насколько широко светит
 const HC_LAMPS = [[-30, 1, 27], [36, 0.7, 24]];
@@ -20724,7 +20744,9 @@ function hcPrime() {
   if (typeof GSND !== "undefined" && GSND.fx && typeof HTS !== "undefined" && HTS.warm) HTS.warm();
   const c = $("#fcard"); if (!c || !c.offsetWidth) return;
   if (!c._sheet) { const sh = hcSheet(c, "x"); sh.set({ rot: c.classList.contains("flipped") ? 180 : 0 }); if (HC_WK) sh.show(); }
-  const g = $("#cardStage .hc-ghost.g1"); if (g && !g._arr) g._arr = hcSheet(g, "y");
+  // iPhone: лист для выхода следующей карты в момент касания не собираем — он нужен только после отпускания,
+  // и там он соберётся уже после первого кадра полёта; так палец не ждёт лишней работы в начале свайпа
+  const g = $("#cardStage .hc-ghost.g1"); if (g && !g._arr && !HC_WK) g._arr = hcSheet(g, "y");
 }
 ["#cardStage", "#cardCtl"].forEach(id => { const el = $(id); if (el) el.addEventListener("pointerdown", e => { if (!e.target.closest(".hc-b")) hcPrime(); }, { capture: true, passive: true }); });
 // тяжёлую сборку листа откладываем, пока палец двигает карточку: иначе карточка замирает посреди свайпа
@@ -20737,7 +20759,7 @@ function hcRun(dur, fn) {
 // iPhone: движение листа рассчитываем заранее целиком и отдаём видеочипу (Web Animations).
 // Раньше каждый кадр программа сама двигала десятки полосок, и любая другая работа в этот момент давала фриз;
 // теперь анимация идёт сама, даже если приложение занято. Вид тот же: берём те же кадры, что считает sh.set
-function hcPlay(sh, dur, at, n) {
+function hcPlay(sh, dur, at, n, t0) {
   if (!HC_WK || !sh.box.animate) return hcRun(dur, t => sh.set(at(t)));
   const els = [sh.box].concat($$(".hc-root,.hc-bs,.hc-clip,.hc-glare", sh.box));
   const T = els.map(() => []), O = els.map(() => []), V = els.map(() => []);
@@ -20761,6 +20783,9 @@ function hcPlay(sh, dur, at, n) {
     if (dv) { restore.push([el, v[n]]); el.style.visibility = ""; }
     try { anims.push(el.animate(kf, { duration: dur, easing: "linear", fill: "both" })); } catch (e) {}
   });
+  // t0 — момент, когда отпустили палец: анимация идёт «с той секунды», а не с ближайшего кадра,
+  // поэтому карточка не стоит на месте, пока программа готовит полёт
+  if (t0 != null) anims.forEach(a => { try { a.startTime = t0; } catch (e) {} });
   const end = () => { anims.forEach(a => a.cancel()); restore.forEach(([el, vis]) => { el.style.visibility = vis ? "" : "hidden"; }); };
   return anims.length ? Promise.all(anims.map(a => a.finished.catch(() => {}))).then(end) : Promise.resolve();
 }
@@ -20813,10 +20838,14 @@ function hcLeave(card, dir, dx, dy) {
   if (!card || REDUCED) return Promise.resolve();
   const base = card.classList.contains("flipped") ? 180 : 0; dx = dx || 0; dy = dy || 0;
   const sh = hcSheet(card, "x");
-  const at = t => { const e = t * t; return { rot: base + dir * 50 * e, a: 9 * Math.sin(Math.min(1, t * 1.4) * Math.PI / 2), tx: dx + dir * 470 * e, ty: dy - 30 * e, rz: dx / 16 + dir * 18 * e, op: 1 - Math.max(0, (t - 0.6) / 0.4), g: 0.2 + t, gl: 0.3 + 0.7 * t }; };
+  // после свайпа карта продолжает лететь с той скоростью, с какой её вёл палец (раньше в момент отпускания
+  // она замирала и разгонялась заново — это и выглядело как рывок). После кнопки s0 = 0: разгон как раньше
+  const s0 = Math.max(0, Math.min(1.6, (card._vx || 0) * dir * 0.48 / 470)); card._vx = 0;
+  const at = t => { const e = t * t, f = s0 * t + (1 - s0) * e; return { rot: base + dir * 50 * e, a: 9 * Math.sin(Math.min(1, t * 1.4) * Math.PI / 2), tx: dx + dir * 470 * f, ty: dy - 30 * f, rz: dx / 16 + dir * 18 * f, op: 1 - Math.max(0, (t - 0.6) / 0.4), g: 0.2 + t, gl: 0.3 + 0.7 * t }; };
   sh.set(at(0)); card.style.transition = "none"; card.style.transform = ""; sh.box.style.transition = "none"; sh.box.style.transform = ""; sh.box.style.zIndex = 4; sh.show();
   hcTagFly(card, sh, dir, base);
-  return hcPlay(sh, 480, at, 16);
+  const t0 = card._t0; card._t0 = null;
+  return hcPlay(sh, 480, at, 16, t0);
 }
 flip = function () {
   const c = $("#fcard"); if (!c || cards.busy) return;
@@ -20849,13 +20878,13 @@ bindCard = function (it) {
   c.addEventListener("pointerdown", e => {
     if (typeof HTS !== "undefined" && HTS.warm && typeof GSND !== "undefined" && GSND.fx) HTS.warm();
     if (e.target.closest(".hc-b") || cards.busy) return;
-    sx = e.clientX; sy = e.clientY; dx = 0; drag = true; moved = false; HC.down = true;
+    sx = e.clientX; sy = e.clientY; dx = 0; drag = true; moved = false; HC.down = true; trail = [[e.clientX, e.timeStamp]]; c._vx = 0;
     try { c.setPointerCapture(e.pointerId); } catch (_) {}
   });
   // карточку двигаем раз в кадр, а не на каждое событие касания: на iPhone их приходит больше, чем кадров.
   // Прозрачность надписей меняем у самих надписей — переменная на карточке пересчитывала стили всего её содержимого
   const tk = $(".hc-tag.know", c), ta = $(".hc-tag.again", c);
-  let raf = 0, ty = 0;
+  let raf = 0, ty = 0, trail = [];
   const paint = () => {
     raf = 0; if (!drag) return;
     const tr = `translate(${dx}px,${ty}px) rotate(${dx / 16}deg)`;
@@ -20867,17 +20896,25 @@ bindCard = function (it) {
   };
   c.addEventListener("pointermove", e => {
     if (!drag) return;
-    dx = e.clientX - sx; if (!moved && Math.abs(dx) < 6) return;
+    dx = e.clientX - sx;
+    // скорость пальца за последние ~100 мс — с ней карточка и улетит
+    trail.push([e.clientX, e.timeStamp]); while (trail.length > 2 && e.timeStamp - trail[0][1] > 100) trail.shift();
+    if (!moved && Math.abs(dx) < 6) return;
     if (!moved) { moved = true; c.style.transition = "none"; if (HC_WK && c._sheet) c._sheet.box.style.transition = "none"; }
     ty = Math.max(-20, Math.min(20, (e.clientY - sy) / 4)); c._dy = ty;
     if (!raf) raf = requestAnimationFrame(paint);
   });
   const reset = () => { cancelAnimationFrame(raf); raf = 0; c._dy = 0; c.style.transition = ""; c.style.transform = "";
     if (HC_WK && c._sheet) { c._sheet.box.style.transition = "transform .35s cubic-bezier(.3,1.4,.5,1)"; c._sheet.box.style.transform = ""; } if (tk) tk.style.opacity = ""; if (ta) ta.style.opacity = ""; c.style.setProperty("--kn", 0); c.style.setProperty("--ag", 0); hcGhostPull(0); };
-  c.addEventListener("pointerup", () => {
+  c.addEventListener("pointerup", e => {
     HC.down = false;
     if (!drag) return; drag = false; cancelAnimationFrame(raf); raf = 0;
-    if (moved && Math.abs(dx) > 90) { answer(dx > 0, dx); return; }
+    if (moved && Math.abs(dx) > 90) {
+      // палец остановился перед отпусканием — карточка стартует с места
+      const a = trail[0], b = trail[trail.length - 1], dt = b[1] - a[1];
+      c._vx = dt > 8 && e.timeStamp - b[1] < 60 ? (b[0] - a[0]) / dt * 1000 : 0; c._t0 = performance.now();
+      answer(dx > 0, dx); return;
+    }
     if (moved) { reset(); return; }
     flip(); // простое касание — переворачиваем сразу, без ожидания
   });
