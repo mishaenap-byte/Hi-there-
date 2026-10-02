@@ -3791,14 +3791,11 @@ html.night .dx-bars i{background:hsl(252 42% 36%)}
 .wk .hc-holo{display:none!important}
 .wk .hc-shade{display:none!important}
 .wk .hc-glare{will-change:transform;transform:translateZ(0)}
-.wk .hc-ghost{filter:none!important}
-.wk .hc-ghost.g1{--fog:.5}.wk .hc-ghost.g2{--fog:.7}
-.wk .hc-ghost::after{content:"";position:absolute;inset:0;z-index:5;border-radius:26px;background:var(--bg,#F1F3F6);opacity:var(--fog,.5);pointer-events:none}
 /* iPhone: видимая карточка — это заранее собранный лист; настоящая лежит сверху прозрачной и только ловит касания */
 .wk .hc.sheeted{z-index:3}
 .wk .hc.sheeted .hc-in{opacity:0}
 .wk .hc-bend.x{z-index:2}
-.wk .hc-ghost{transition:transform .44s cubic-bezier(.25,1,.5,1),opacity .44s ease}
+.wk .hc-ghost{transition:transform .44s cubic-bezier(.25,1,.5,1),filter .44s ease,opacity .44s ease}
 .wk .hc-ghost.fresh{animation:hcFogWk .5s ease both}
 @keyframes hcFogWk{from{opacity:0;transform:translate(-40px,30px) rotate(-17deg) scale(.76)}}
 .night .post img,.night .photo img,.night .feed img:not(.avatar){filter:brightness(.8)}
@@ -20454,14 +20451,16 @@ const HCG = {
 const hcGT = v => typeof v === "string" ? v : `translate(${v[0].toFixed(1)}px,${v[1].toFixed(1)}px) rotate(${v[2].toFixed(2)}deg) scale(${v[3].toFixed(3)})`;
 const hcMix = (a, b, p) => a.map((x, i) => x + (b[i] - x) * p);
 // на iPhone размытие заменяем «туманом» — полупрозрачной дымкой поверх карты: размытие там очень дорогое
-function hcGhostSet(g, tr, blur, op) { g.style.transform = hcGT(tr); if (HC_WK) g.style.setProperty("--fog", Math.min(.7, blur / 8).toFixed(2)); else g.style.filter = `blur(${blur.toFixed(2)}px)`; g.style.opacity = op.toFixed(2); }
+// iPhone: размытие меняем только при переходе карт (плавно, через transition), а пока палец тянет карточку —
+// не трогаем каждый кадр: пересчёт размытия на каждом кадре там дорогой
+function hcGhostSet(g, tr, blur, op, pull) { g.style.transform = hcGT(tr); if (!(HC_WK && pull)) g.style.filter = `blur(${blur.toFixed(2)}px)`; g.style.opacity = op.toFixed(2); }
 // тянем верхнюю карту: задние чуть подтягиваются, но остаются в тумане (p от 0 до 1)
 function hcGhostPull(p) {
   HC.pull = p;
   const st = $("#cardStage"), g1 = $(".hc-ghost.g1", st), g2 = $(".hc-ghost.g2", st);
   [[g1, HCG.g1, HCG.g1p], [g2, HCG.g2, HCG.g2p]].forEach(([g, A, B]) => {
     if (!g) return;
-    if (p) { g.style.transition = "none"; hcGhostSet(g, hcMix(A[0], B[0], p), A[1] + (B[1] - A[1]) * p, A[2] + (B[2] - A[2]) * p); }
+    if (p) { g.style.transition = "none"; hcGhostSet(g, hcMix(A[0], B[0], p), A[1] + (B[1] - A[1]) * p, A[2] + (B[2] - A[2]) * p, true); }
     else { g.style.transition = ""; g.style.transform = g.style.filter = g.style.opacity = ""; }
   });
 }
@@ -20470,7 +20469,9 @@ function hcAdvance() {
   if (REDUCED) return;
   const st = $("#cardStage"), g1 = $(".hc-ghost.g1", st), g2 = $(".hc-ghost.g2", st), c = cards.items[cards.pos + 3];
   // новую заднюю карту добавляем, когда улетающая уже почти ушла: сборка целой карточки в момент отпускания пальца давала рывок
-  if (c) setTimeout(() => { if (st.isConnected && cards.busy) st.insertAdjacentHTML("afterbegin", hcGhostHTML(c, cards.pos + 4, "g2 fresh")); }, 420);
+  // iPhone: полёт идёт на видеочипе, поэтому дальнюю карту можно добавить раньше — она успевает целиком проявиться,
+  // пока следующая выходит вперёд (при 420 мс её появление обрывалось перерисовкой стопки и она «выскакивала»)
+  if (c) setTimeout(() => { if (st.isConnected && cards.busy) st.insertAdjacentHTML("afterbegin", hcGhostHTML(c, cards.pos + 4, "g2 fresh")); }, HC_WK ? 120 : 420);
   if (g2) { g2.style.transition = ""; g2.style.zIndex = 1; hcGhostSet(g2, HCG.g1[0], HCG.g1[1], HCG.g1[2]); }
   return g1 ? hcArrive(g1) : Promise.resolve();
 }
@@ -20488,7 +20489,12 @@ function hcArrive(g) {
   sh.set(at(0)); if (!HC_LITE && !HC_WK) sh.box.style.filter = `blur(${bl0}px)`; sh.show();
   // iPhone: сама задняя карта оставалась видна на старом месте, пока её копия-лист выходила вперёд, —
   // за новой картой на миг мелькала карта того же цвета. Прячем её: дальше карту показывает лист
-  if (HC_WK) { g.style.visibility = "hidden"; return hcPlay(sh, 720, at, 22); }
+  if (HC_WK) {
+    g.style.visibility = "hidden";
+    // копия начинает такой же размытой, как задняя карта (пока тянули, её размытие не менялось), и становится чёткой по пути
+    let fa = null; try { fa = sh.box.animate([{ filter: `blur(${HCG.g1[1]}px)` }, { filter: "blur(0px)", offset: 0.45 }, { filter: "blur(0px)" }], { duration: 720, easing: "linear", fill: "both" }); } catch (e) {}
+    return hcPlay(sh, 720, at, 22).then(() => { if (fa) fa.cancel(); });
+  }
   return hcRun(720, t => { sh.set(at(t)); if (!HC_LITE) { const b = bl0 * (1 - Math.min(1, t * 2.2)); sh.box.style.filter = b > 0.05 ? `blur(${b.toFixed(2)}px)` : ""; } });
 }
 // ---------- справка о слове на обороте: значения с примерами и отличие от похожего ----------
