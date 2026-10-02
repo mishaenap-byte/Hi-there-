@@ -20684,7 +20684,15 @@ function hcSheet(card, axis) {
 // лист для переворота и улёта собираем заранее, пока человек смотрит на карточку, — тогда касание срабатывает мгновенно
 function hcPrebuild(card, tries = 0) {
   if (!card || REDUCED || card._sheet) return;
-  if (HC_WK && card.offsetWidth) { const sh = hcSheet(card, "x"); sh.set({ rot: card.classList.contains("flipped") ? 180 : 0 }); sh.show(); hcPrebuildArrive(); return; }
+  // iPhone: лист собираем не в тот же кадр, когда карта встала на место (это и был фриз в конце свайпа),
+  // а чуть позже и только когда палец не на экране; до этого видна обычная карточка — она выглядит так же
+  if (HC_WK && card.offsetWidth) {
+    hcIdle(() => {
+      if (!card.isConnected || card._sheet || cards.busy) return;
+      const sh = hcSheet(card, "x"); sh.set({ rot: card.classList.contains("flipped") ? 180 : 0 }); sh.show(); hcPrebuildArrive();
+    }, 160);
+    return;
+  }
   if (!card.offsetWidth) { if (tries < 20 && card.isConnected) setTimeout(() => hcPrebuild(card, tries + 1), 250); return; }
   const go = () => {
     if (!document.body.contains(card) || card._sheet || cards.busy) return;
@@ -20697,7 +20705,11 @@ function hcPrebuild(card, tries = 0) {
 }
 function hcPrebuildArrive() {
   const g = $("#cardStage .hc-ghost.g1");
-  if (g && !g._arr) setTimeout(() => { if (g.isConnected && !g._arr && !cards.busy) g._arr = hcSheet(g, "y"); }, 200);
+  if (g && !g._arr) hcIdle(() => { if (g.isConnected && !g._arr && !cards.busy) g._arr = hcSheet(g, "y"); }, 450);
+}
+// тяжёлую сборку листа откладываем, пока палец двигает карточку: иначе карточка замирает посреди свайпа
+function hcIdle(fn, ms) {
+  setTimeout(function go() { if (HC.down) { setTimeout(go, 120); return; } requestAnimationFrame(() => setTimeout(fn, 0)); }, ms);
 }
 function hcRun(dur, fn) {
   return new Promise(res => { const t0 = performance.now(); const f = now => { const t = Math.min(1, (now - t0) / dur); fn(t, (now - t0) / 1000); if (t < 1) requestAnimationFrame(f); else res(); }; requestAnimationFrame(f); });
@@ -20774,7 +20786,8 @@ answer = function (ok, dx, g) {
   if (it.key) bankAnswer(it.key, ok);
   // словарь и хранилище обновляем после улёта — чтобы тяжёлая перерисовка списка не дёргала анимацию
   const sync = () => { if (it.did) { const d = S.dict.find(x => x.id === it.did); if (d) { if (typeof vbCardGrade === "function") vbCardGrade(d, g || (ok ? 3 : 1)); else d.lv = ok ? Math.min(3, (d.lv || 0) + 1) : 1; store.set(K_DICT, S.dict); renderDict(); } } };
-  c.style.setProperty(ok ? "--kn" : "--ag", 1);
+  // надпись показывает улетающий лист (hcTagFly); переменная на карточке пересчитывала стили всей карточки в момент отпускания
+  if (REDUCED) c.style.setProperty(ok ? "--kn" : "--ag", 1);
   if (typeof gsnd === "function") requestAnimationFrame(() => gsnd(ok ? "ok" : "remove"));
   setTimeout(sync, REDUCED ? 0 : 1500);
   const arrive = REDUCED ? Promise.resolve() : hcAdvance();
@@ -20786,7 +20799,7 @@ bindCard = function (it) {
   c.addEventListener("pointerdown", e => {
     if (typeof HTS !== "undefined" && HTS.warm && typeof GSND !== "undefined" && GSND.fx) HTS.warm();
     if (e.target.closest(".hc-b") || cards.busy) return;
-    sx = e.clientX; sy = e.clientY; dx = 0; drag = true; moved = false;
+    sx = e.clientX; sy = e.clientY; dx = 0; drag = true; moved = false; HC.down = true;
     try { c.setPointerCapture(e.pointerId); } catch (_) {}
   });
   // карточку двигаем раз в кадр, а не на каждое событие касания: на iPhone их приходит больше, чем кадров.
@@ -20812,12 +20825,13 @@ bindCard = function (it) {
   const reset = () => { cancelAnimationFrame(raf); raf = 0; c._dy = 0; c.style.transition = ""; c.style.transform = "";
     if (HC_WK && c._sheet) { c._sheet.box.style.transition = "transform .35s cubic-bezier(.3,1.4,.5,1)"; c._sheet.box.style.transform = ""; } if (tk) tk.style.opacity = ""; if (ta) ta.style.opacity = ""; c.style.setProperty("--kn", 0); c.style.setProperty("--ag", 0); hcGhostPull(0); };
   c.addEventListener("pointerup", () => {
+    HC.down = false;
     if (!drag) return; drag = false; cancelAnimationFrame(raf); raf = 0;
     if (moved && Math.abs(dx) > 90) { answer(dx > 0, dx); return; }
     if (moved) { reset(); return; }
     flip(); // простое касание — переворачиваем сразу, без ожидания
   });
-  c.addEventListener("pointercancel", () => { drag = false; reset(); });
+  c.addEventListener("pointercancel", () => { HC.down = false; drag = false; reset(); });
   c.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); flip(); } });
   $$(".hc-say", c).forEach(b => b.addEventListener("click", ev => { ev.stopPropagation(); speak(it.en, { el: b }); }));
   $$(".hc-slow", c).forEach(b => b.addEventListener("click", ev => { ev.stopPropagation(); speak(it.en, { el: b, rate: 0.68 }); }));
