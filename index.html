@@ -20690,7 +20690,7 @@ function hcPrebuild(card, tries = 0) {
     hcIdle(() => {
       if (!card.isConnected || card._sheet || cards.busy) return;
       const sh = hcSheet(card, "x"); sh.set({ rot: card.classList.contains("flipped") ? 180 : 0 }); sh.show(); hcPrebuildArrive();
-    }, 160);
+    }, 40);
     return;
   }
   if (!card.offsetWidth) { if (tries < 20 && card.isConnected) setTimeout(() => hcPrebuild(card, tries + 1), 250); return; }
@@ -20705,8 +20705,19 @@ function hcPrebuild(card, tries = 0) {
 }
 function hcPrebuildArrive() {
   const g = $("#cardStage .hc-ghost.g1");
-  if (g && !g._arr) hcIdle(() => { if (g.isConnected && !g._arr && !cards.busy) g._arr = hcSheet(g, "y"); }, 450);
+  if (g && !g._arr) hcIdle(() => { if (g.isConnected && !g._arr && !cards.busy) g._arr = hcSheet(g, "y"); }, 120);
 }
+// палец коснулся карточки или кнопки оценки: всё для полёта должно быть готово ДО того, как карточка полетит.
+// Иначе при быстром свайпе или нажатии кнопки листы собирались прямо в первом кадре полёта — отсюда рывок,
+// а при медленном свайпе они успевали собраться, пока палец тянул карточку
+function hcPrime() {
+  if (cards.busy || REDUCED) return;
+  if (typeof GSND !== "undefined" && GSND.fx && typeof HTS !== "undefined" && HTS.warm) HTS.warm();
+  const c = $("#fcard"); if (!c || !c.offsetWidth) return;
+  if (!c._sheet) { const sh = hcSheet(c, "x"); sh.set({ rot: c.classList.contains("flipped") ? 180 : 0 }); if (HC_WK) sh.show(); }
+  const g = $("#cardStage .hc-ghost.g1"); if (g && !g._arr) g._arr = hcSheet(g, "y");
+}
+["#cardStage", "#cardCtl"].forEach(id => { const el = $(id); if (el) el.addEventListener("pointerdown", e => { if (!e.target.closest(".hc-b")) hcPrime(); }, { capture: true, passive: true }); });
 // тяжёлую сборку листа откладываем, пока палец двигает карточку: иначе карточка замирает посреди свайпа
 function hcIdle(fn, ms) {
   setTimeout(function go() { if (HC.down) { setTimeout(go, 120); return; } requestAnimationFrame(() => setTimeout(fn, 0)); }, ms);
