@@ -193,6 +193,7 @@ p{margin:0}
   transform:translate(-50%,20px);opacity:0;pointer-events:none;transition:transform .45s var(--spring),opacity .25s}
 .toast.show{transform:translate(-50%,0);opacity:1;pointer-events:auto}
 .toast-act{color:var(--marker);font-weight:700}
+.toast-act{white-space:nowrap}.toast{width:max-content}.toast.two{flex-wrap:wrap;row-gap:6px;min-width:min(300px,calc(100% - 32px))}.toast.two>span:first-child{flex:1 1 100%}.toast-acts{display:flex;gap:18px;margin-left:auto}
 
 /* ---------- Лента ---------- */
 .hw-feature{position:relative;background:var(--surface);border-radius:24px;padding:16px;box-shadow:var(--shadow);overflow:hidden}
@@ -3107,6 +3108,36 @@ html.native .w4-worlds{bottom:calc(10px + var(--sab))}
 .ir-warn{margin:10px 0 0;padding:8px 10px;border-radius:12px;background:#FFE1E1;color:#7A1C1C;font-size:13px;font-weight:700;line-height:1.35}
 .ir-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:10px 2px 0;font-size:12.5px;font-weight:700;color:#5B5580}
 .ir-foot button{font-weight:800;text-decoration:underline;color:inherit}
+.ir-foot{flex-wrap:wrap}.ir-foot-b{display:flex;gap:12px;margin-left:auto}
+.ir-empty{margin:10px 0 0;font-size:13px;line-height:1.4;color:#5B5580;font-weight:600}
+.ir-dx{margin:0 0 2px;padding:10px 12px;border-radius:14px;background:rgba(122,92,240,.1);font-size:14px;font-weight:700;line-height:1.35;text-align:center}
+.dx-acts .ir-on{opacity:.85}
+.dx-irb{flex:none;font-size:13px;line-height:1}
+.ir-pick-note{margin:0 0 12px;font-size:14px;line-height:1.45;color:var(--muted,#6B6785)}
+.ir-pick-q{width:100%;margin:0 0 10px}
+.ir-pick{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.ir-pick li[hidden]{display:none}
+.ir-pick label{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:14px;background:rgba(23,23,31,.04);cursor:pointer}
+.ir-pick input{flex:none;width:22px;height:22px;accent-color:#7A5CF0}
+.ir-pick label span{min-width:0;display:flex;flex-direction:column;gap:1px}
+.ir-pick b{font-size:15.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ir-pick small{font-size:13px;color:var(--muted,#6B6785);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ir-pick label:has(input:checked){background:rgba(122,92,240,.14);box-shadow:inset 0 0 0 1.5px #7A5CF0}
+.ir-pick-foot{position:sticky;bottom:-1px;margin:12px -2px 0;padding:10px 2px calc(8px + env(safe-area-inset-bottom,0px));background:var(--surface,#fff)}
+/* предложение после урока — как пуш-уведомление сверху */
+.ir-nudge{position:absolute;left:10px;right:10px;top:calc(10px + env(safe-area-inset-top,0px));z-index:45;padding:12px 14px 12px;border-radius:20px;background:var(--surface,#fff);color:var(--ink,#17171F);
+  box-shadow:0 0 0 1.5px rgba(23,23,31,.08),0 14px 40px rgba(23,23,31,.28);transform:translateY(calc(-100% - 30px));opacity:0;transition:transform .5s var(--spring,cubic-bezier(.2,1.3,.4,1)),opacity .25s}
+.ir-nudge.show{transform:translateY(0);opacity:1}
+.ir-nudge-h{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted,#6B6785)}
+.ir-nudge-h b{font-weight:800;color:inherit}.ir-nudge-h small{margin-left:auto;font-size:12px}
+.ir-nudge-ico{width:22px;height:22px;border-radius:7px;display:grid;place-items:center;background:#7A5CF0;font-size:12px}
+.ir-nudge p{margin:8px 0 0;font-size:15px;line-height:1.4}
+.ir-nudge-w{display:flex;flex-wrap:wrap;gap:5px;margin:9px 0 0}
+.ir-nudge-w span{padding:3px 9px;border-radius:999px;background:rgba(122,92,240,.12);font-size:13px;font-weight:700}
+.ir-nudge-w span.more{background:rgba(23,23,31,.06)}
+.ir-nudge-b{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+html.night .ir-empty,.night .ir-empty{color:var(--muted,#A8A4C0)}
+html.night .ir-pick label,.night .ir-pick label{background:rgba(255,255,255,.06)}
+html.night .ir-nudge,.night .ir-nudge{box-shadow:0 0 0 1.5px rgba(255,255,255,.1),0 14px 40px rgba(0,0,0,.5)}
 .ir-ph{margin:12px 0 0;padding:10px 12px;border-radius:14px;background:rgba(122,92,240,.1);font-size:14px;line-height:1.4}
 .ir-ph small{display:block;margin-bottom:2px;font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--muted,#8C88A3)}
 .ir-ta{width:100%;min-height:76px;resize:vertical}
@@ -11253,7 +11284,7 @@ function vocabToDict(M, words, src) {
   let n = 0;
   words.forEach(w => { if (!inDict(w[0])) { S.dict.unshift({ id: uid(), en: w[0], ru: w[1], ipa: "", kind: kindOf(w[0]), src, ctx: w[2] || "", t: Date.now() }); n++; } });
   if (n) { saveDict(); renderDict(); renderDeckChips(); }
-  toast(n ? `В словаре +${plural(n, ["слово", "слова", "слов"])}` : "Эти слова уже в словаре");
+  irToastBulk(n, words.map(w => ({ en: w[0], ru: w[1] })));
   const st = $("#vcStat"); if (st) st.innerHTML = `В вашем словаре: <b>${vocabWords(M).filter(w => inDict(w[0])).length}</b> из ${vocabWords(M).length}`;
 }
 function startVocabQuiz(id) {
@@ -11271,7 +11302,8 @@ function startVocabQuiz(id) {
     finish: r => {
       if (r.ok >= 12) {
         finishItem(id, 15, "Словарь модуля");
-        return { head: r.ok === 15 ? "Идеально!" : "Словарь засчитан", text: `Правильно ${r.ok} из 15. Слова, которые хотите запомнить, добавьте в свой словарь — они попадут в карточки.`, next: nextStep() };
+        return { head: r.ok === 15 ? "Идеально!" : "Словарь засчитан", text: `Правильно ${r.ok} из 15. Слова, которые хотите запомнить, добавьте в свой словарь — они попадут в карточки.`, next: nextStep(),
+          ir: { key: "V:" + id + ":" + pick.map(w => w[0]).join("|"), title: it.t, words: pick.map(w => ({ en: w[0], ru: w[1], ctx: w[2], src: `📚 ${it.t.replace(/^Словарь: /, "")}` })) } };
       }
       return { head: "Почти получилось", text: `Правильно ${r.ok} из 15, нужно 12. Полистайте темы ещё раз — и попробуйте снова.`, retry: () => startVocabQuiz(id), next: { label: "📚 К словарю", go: () => openVocab(id) } };
     } });
@@ -11379,11 +11411,14 @@ function speak(text, opt = {}) {
 let toastT;
 function toast(msg, opt = {}) {
   const t = $("#toast");
-  t.innerHTML = `<span>${esc(msg)}</span>${opt.action ? `<button class="toast-act">${esc(opt.action)}</button>` : ""}`;
-  if (opt.action) t.querySelector(".toast-act").onclick = () => { opt.onAction(); t.classList.remove("show"); };
+  // одна кнопка (action/onAction) или несколько (actions: [[подпись, функция], …])
+  const acts = opt.actions || (opt.action ? [[opt.action, opt.onAction]] : []);
+  t.classList.toggle("two", acts.length > 1);
+  t.innerHTML = `<span>${esc(msg)}</span>${acts.length > 1 ? `<span class="toast-acts">` : ""}${acts.map((a, i) => `<button class="toast-act" data-i="${i}">${esc(a[0])}</button>`).join("")}${acts.length > 1 ? "</span>" : ""}`;
+  $$(".toast-act", t).forEach(b => { b.onclick = () => { acts[+b.dataset.i][1](); t.classList.remove("show"); }; });
   t.classList.remove("show"); void t.offsetWidth; t.classList.add("show");
   clearTimeout(toastT);
-  toastT = setTimeout(() => t.classList.remove("show"), opt.action ? 4500 : 2300);
+  toastT = setTimeout(() => t.classList.remove("show"), acts.length ? 4500 : 2300);
 }
 
 // ================== НИЖНИЙ ЛИСТ ==================
@@ -11484,14 +11519,14 @@ const inDict = en => { const k = norm(en); return S.dict.some(d => norm(d.en) ==
 function saveDict() { store.set(K_DICT, S.dict); cards.dirty = true; }
 function addToDict(item, fromEl) {
   if (!item || !item.en) return false;
-  if (inDict(item.en)) { toast("Уже есть в словаре"); return false; }
+  if (inDict(item.en)) { const ex = irFind(item.en); toast("Уже есть в словаре", ex && !ex.ir ? { action: "＋ В повторение", onAction: () => irQueue(ex) } : {}); return false; }
   const d = { id: uid(), en: String(item.en).trim(), ru: item.ru || "", ipa: item.ipa || "", kind: kindOf(item.en), src: item.src || "", ctx: item.ctx && norm(item.ctx) !== norm(item.en) ? item.ctx : "", t: Date.now() };
   if (item.c) d.c = item.c;
   S.dict.unshift(d); S.flashId = d.id;
   if (S.tab !== "dict") S.newCount++;
   saveDict(); renderDict(); renderDaily(); renderDeckChips();
   flyFrom(fromEl);
-  toast("Добавлено в словарь: " + (d.en.length > 32 ? d.en.slice(0, 30) + "…" : d.en));
+  toast("В словаре: " + (d.en.length > 26 ? d.en.slice(0, 24) + "…" : d.en), { action: "＋ В повторение", onAction: () => irQueue(d) });
   const fresh = checkAch(); if (fresh.length) setTimeout(() => showReward({ title: "Новое достижение", total: 0, rows: [], ach: fresh }), 1200);
   return true;
 }
@@ -15911,7 +15946,8 @@ function startWords(lv, i) {
   const sit = unitSit(lv, i); if (!sit) { toast("Сначала пройдите диалог"); return; }
   const qs = wordQs(sit, 6), k = ukey(lv, i);
   openQuiz({ title: `Слова · ${PATH[lv].units[i].t}`, qs, need: 0,
-    finish: r => { markStep(k, "w"); return { head: r.ok === r.total ? "Все слова знакомы!" : "Слова пройдены", text: "Добавить эти слова в словарь? Они будут появляться в карточках.", btn: "Добавить в словарь", act: () => { let n = 0; qs.forEach(q => { if (q.word && !inDict(q.word[0])) { addToDict({ en: q.word[0], ru: q.word[2], ipa: q.word[1], src: sit.emoji + " " + sit.title }); n++; } }); toast(n ? `В словаре +${plural(n, ["слово", "слова", "слов"])}` : "Эти слова уже в словаре"); }, next: { label: "Дальше: проверка →", go: () => startCheck(lv, i) } }; } });
+    finish: r => { markStep(k, "w"); return { head: r.ok === r.total ? "Все слова знакомы!" : "Слова пройдены", text: "Добавить эти слова в словарь? Они будут появляться в карточках.", btn: "Добавить в словарь", act: () => { let n = 0; qs.forEach(q => { if (q.word && !inDict(q.word[0])) { addToDict({ en: q.word[0], ru: q.word[2], ipa: q.word[1], src: sit.emoji + " " + sit.title }); n++; } }); irToastBulk(n, qs.filter(q => q.word).map(q => ({ en: q.word[0] }))); }, next: { label: "Дальше: проверка →", go: () => startCheck(lv, i) },
+      ir: { key: "w:" + k, title: PATH[lv].units[i].t, words: qs.filter(q => q.word).map(q => ({ en: q.word[0], ipa: q.word[1], ru: q.word[2], src: sit.emoji + " " + sit.title })) } }; } });
 }
 function startCheck(lv, i) {
   const sit = unitSit(lv, i); if (!sit) { toast("Сначала пройдите диалог"); return; }
@@ -16058,6 +16094,7 @@ function quizResult() {
       </div>
     </div>`;
   QZ.res = o;
+  if (o.ir) setTimeout(() => irSuggest(o.ir), 900);
 }
 function onQuizClick(e) {
   if (!QZ) return;
@@ -16197,7 +16234,8 @@ function startLesson(id, onlyExtra) {
       else if (ok) award({ title: "Урок повторён", rows: [[`${ex.t}: ${l.t}`, 5]], mini: true });
       const idx = ex.lessons.indexOf(l), next = ex.lessons[idx + 1];
       renderEx();
-      if (ok) return { head: r.ok === r.total ? "Идеально!" : "Урок пройден", text: `Правильно ${r.ok} из ${r.total}.`, next: next ? { label: `Дальше: ${next.t} →`, go: () => { openExercise(ex.id); if (EXL[next.id]) openExLesson(next.id); } } : { label: "К упражнениям", go: () => switchTab("ex") }, retry: () => startLesson(id) };
+      if (ok) return { head: r.ok === r.total ? "Идеально!" : "Урок пройден", text: `Правильно ${r.ok} из ${r.total}.`, next: next ? { label: `Дальше: ${next.t} →`, go: () => { openExercise(ex.id); if (EXL[next.id]) openExLesson(next.id); } } : { label: "К упражнениям", go: () => switchTab("ex") }, retry: () => startLesson(id),
+        ir: { key: "E:" + id, title: l.t, words: (EXL[id] && EXL[id].words ? EXL[id].words.map(w => ({ en: w[0], ru: w[1] })) : (l.verbs || []).map(x => ({ en: x.v[0], ru: x.ru }))).map(w => Object.assign(w, { src: "✏️ " + ex.t })) } };
       return { head: "Почти получилось", text: `Правильно ${r.ok} из ${r.total}. Перечитайте правило — и попробуйте ещё раз: разборы после ответов подскажут, где ловушка.`, retry: () => startLesson(id), next: { label: EXL[id] ? "📖 К объяснению" : "📖 К правилу", go: () => { openExercise(ex.id); if (EXL[id]) openExLesson(id); else { openTheory = { [id]: true }; renderExPage(); } } } };
     } });
 }
@@ -19837,7 +19875,7 @@ function startLessonEx(id) {
         if (!was) award({ title: "Урок пройден!", rows: [[`Урок ${L.n}: ${L.t}`, 20]].concat(r.ok === r.total ? [["Без единой ошибки", 5]] : []) });
         return { head: r.ok === r.total ? "Идеально!" : "Урок пройден", text: `Правильно ${r.ok} из ${r.total}.`,
           btn: `Добавить ${L.words.length} слов урока в словарь`, act: () => addLessonWords(L),
-          next: nextStep() };
+          next: nextStep(), ir: { key: "L:" + id, title: `Урок ${L.n}: ${L.t}`, words: L.words.map(w => ({ en: w[0], ru: w[1], src: `📘 Урок ${L.n}` })) } };
       }
       return { head: "Почти получилось", text: `Правильно ${r.ok} из ${r.total}, нужно ${need}. Перечитайте «Как думает англичанин» и ловушки — и попробуйте ещё раз.`,
         retry: () => startLessonEx(id), next: { label: "📘 К теории урока", go: () => openLesson(id) } };
@@ -19847,7 +19885,7 @@ function addLessonWords(L) {
   let n = 0;
   L.words.forEach(w => { if (!inDict(w[0])) { S.dict.unshift({ id: uid(), en: w[0], ru: w[1], ipa: "", kind: kindOf(w[0]), src: `📘 Урок ${L.n}`, ctx: "", t: Date.now() }); n++; } });
   saveDict(); renderDict(); renderDeckChips();
-  toast(n ? `В словаре +${plural(n, ["слово", "слова", "слов"])}` : "Эти слова уже в словаре");
+  irToastBulk(n, L.words.map(w => ({ en: w[0], ru: w[1] })));
 }
 let curExLesson = null;
 function onLessonClick(e) {
@@ -20799,7 +20837,7 @@ function openGroupPick(d) {
 const hcAddToDict = addToDict;
 addToDict = function (item, fromEl) {
   const ok = hcAddToDict(item, fromEl);
-  if (ok && !item._noGroupToast) { const d = S.dict[0]; const t = d.en.length > 26 ? d.en.slice(0, 24) + "…" : d.en; toast("Добавлено: " + t, { action: "В группу", onAction: () => openGroupPick(d) }); }
+  if (ok && !item._noGroupToast) { const d = S.dict[0]; const t = d.en.length > 26 ? d.en.slice(0, 24) + "…" : d.en; toast("Добавлено: " + t, { actions: [["＋ В повторение", () => irQueue(d)], ["В группу", () => openGroupPick(d)]] }); }
   return ok;
 };
 // своё слово: группа выбирается прямо в форме
@@ -21292,13 +21330,13 @@ $("#scr-cards").addEventListener("click", e => { if (e.target.closest("[data-vbp
 // Метод: 5 новых слов за раз, у каждого своя фраза из жизни; на повторе сначала вспоминаем сами, без подсказки.
 // Подсмотрели или не вспомнили — лесенка начинается заново. Через неделю проверка: вспомнить за 3 секунды,
 // придумать новую фразу, узнать на слух. Всё получилось — слово выучено, иначе ещё неделя.
-// d.ir = { st: 1…3 — ступень (4 — выучено), due, start, last, ph: [свои фразы], fails, done }
+// d.ir = { st: 0 — в очереди, 1…3 — ступень (4 — выучено), q, due, start, last, ph: [свои фразы], fails, done }
 const IR_NEW = 5, IR_GAP = [0, 1, 3, 7], IR_FAST = 3;
 const IR_STEP = ["Сегодня", "Завтра", "Через 3 дня", "Через неделю"];
 const irEnd = () => vbDay0() + VDAY;
 const irDue = () => S.dict.filter(d => d.ir && d.ir.st < 4 && d.ir.due < irEnd()).sort((a, b) => a.ir.due - b.ir.due);
 const irNewToday = () => S.dict.filter(d => d.ir && d.ir.start >= vbDay0()).length;
-const irPool = () => S.dict.filter(d => !d.ir && !(d.srs && d.srs.st >= 5));
+const irPool = () => S.dict.filter(d => d.ir && d.ir.st === 0).sort((a, b) => a.ir.q - b.ir.q);
 const irNewLeft = () => Math.min(irPool().length, Math.max(0, IR_NEW - irNewToday()));
 const irLate = () => S.dict.filter(d => d.ir && d.ir.st < 4 && d.ir.due < vbDay0()).length;
 const irDone = () => S.dict.filter(d => d.ir && d.ir.st >= 4).length;
@@ -21311,17 +21349,115 @@ function irHasWord(ph, w) {
   const p = " " + norm(ph) + " ", all = norm(w).split(" ").filter(Boolean), long = all.filter(x => x.length > 2), ws = long.length ? long : all;
   return ws.length > 0 && ws.every(x => x.length <= 3 ? p.includes(" " + x + " ") : p.includes(" " + x.slice(0, Math.max(3, x.length - 2))));
 }
+// ---------- очередь: словарь отдельно, повторение отдельно ----------
+// В лесенку попадают только слова, которые вы сами отправили в повторение: d.ir = { st: 0, q } — ждёт своего первого дня.
+// Добавить можно откуда угодно: из тоста «Добавлено в словарь», из карточки слова, из словаря целиком
+// и по предложению после урока или шага «Моего пути».
+const irFind = en => { const k = norm(en); return S.dict.find(d => norm(d.en) === k); };
+const irQueued = () => S.dict.filter(d => d.ir && d.ir.st === 0).length;
+function irQueue(items, opt = {}) {
+  let n = 0, fresh = 0;
+  [].concat(items).forEach(it => {
+    if (!it || !it.en) return;
+    let d = S.dict.includes(it) ? it : irFind(it.en);
+    if (!d) {
+      d = { id: uid(), en: String(it.en).trim(), ru: it.ru || "", ipa: it.ipa || "", kind: kindOf(it.en), src: it.src || "", ctx: it.ctx && norm(it.ctx) !== norm(it.en) ? it.ctx : "", t: Date.now() };
+      S.dict.unshift(d); fresh++;
+    }
+    if (d.ir) return;
+    d.ir = { st: 0, q: Date.now() + n }; n++;
+  });
+  if (n || fresh) { saveDict(); renderDict(); renderDeckChips(); renderHcHome(); }
+  if (!opt.quiet) toast(n ? `В интервальном повторении +${plural(n, ["слово", "слова", "слов"])}` : "Эти слова уже в повторении");
+  return n;
+}
+// после «добавить всё в словарь» — можно сразу отправить эти слова и в повторение
+function irToastBulk(n, words) {
+  const left = words.filter(w => { const d = irFind(w.en); return d && !d.ir; });
+  const msg = n ? `В словаре +${plural(n, ["слово", "слова", "слов"])}` : "Эти слова уже в словаре";
+  toast(msg, left.length ? { action: "＋ И в повторение", onAction: () => irQueue(left.map(w => irFind(w.en))) } : {});
+}
+function irUnqueue(d) {
+  if (!d.ir || d.ir.st !== 0) return;
+  delete d.ir; saveDict(); renderDict(); renderHcHome();
+}
+// строка в карточке слова
+function irDxHTML(d) {
+  const ir = d.ir;
+  if (!ir) return `<button class="btn soft wide" data-w="ir">🔁 В интервальное повторение</button>`;
+  if (ir.st === 0) return `<button class="btn soft wide ir-on" data-w="ir">✓ В очереди повторения · убрать</button>`;
+  if (ir.st >= 4) return `<p class="ir-dx">🔁 Выучено по лесенке интервального повторения</p>`;
+  const left = Math.round((ir.due - vbDay0()) / VDAY);
+  return `<p class="ir-dx">🔁 В интервальном повторении: ${left <= 0 ? "повторить сегодня" : left === 1 ? "повтор завтра" : `повтор через ${plural(left, ["день", "дня", "дней"])}`}</p>`;
+}
+function irDxToggle(d, b) {
+  if (d.ir && d.ir.st === 0) { irUnqueue(d); toast("Убрано из повторения — в словаре слово осталось"); }
+  else if (!d.ir) irQueue(d);
+  b.outerHTML = irDxHTML(d);
+}
+// выбрать слова из словаря
+function irPickSheet() {
+  const list = S.dict.filter(d => !d.ir);
+  openSheet(`<div class="sh-head"><span class="eyebrow">Интервальное повторение</span><h2>Слова из словаря</h2></div>
+    ${list.length ? `<p class="ir-pick-note">Отметьте слова, которые хотите выучить по лесенке. В день начинаем не больше ${IR_NEW} новых, остальные подождут в очереди.</p>
+    ${list.length > 8 ? `<input class="fld ir-pick-q" id="irPickQ" type="search" autocomplete="off" placeholder="Найти слово…" aria-label="Найти слово">` : ""}
+    <ul class="ir-pick">${list.map(d => `<li data-k="${esc((d.en + " " + (d.ru || "")).toLowerCase())}"><label><input type="checkbox" value="${d.id}"><span><b lang="en">${esc(d.en)}</b><small>${esc(d.ru || "—")}</small></span></label></li>`).join("")}</ul>
+    <div class="ir-pick-foot"><button class="btn primary wide" data-irp="add" disabled>Отметьте слова</button></div>`
+    : `<p class="ir-pick-note">Все слова из словаря уже в повторении. Новые добавляйте кнопкой «＋ В повторение» — она появляется, когда слово попадает в словарь.</p>`}`);
+  const sel = () => $$(".ir-pick input:checked", sheetBody).map(x => x.value);
+  sheetBody.oninput = e => {
+    if (e.target.id === "irPickQ") { const q = e.target.value.trim().toLowerCase(); $$(".ir-pick li", sheetBody).forEach(li => { li.hidden = !!q && !li.dataset.k.includes(q); }); return; }
+    const n = sel().length, b = $("[data-irp=add]", sheetBody);
+    b.disabled = !n; b.textContent = n ? `Добавить ${plural(n, ["слово", "слова", "слов"])}` : "Отметьте слова";
+  };
+  sheetBody.onclick = e => {
+    if (!e.target.closest("[data-irp=add]")) return;
+    const ids = sel(); irQueue(S.dict.filter(d => ids.includes(d.id))); closeSheet();
+  };
+}
+// ---------- предложение после урока: «Давай добавим слова отсюда?» ----------
+const K_IRNO = "hithere.irno.v1";
+function irSuggest(o) {
+  if (!o || !o.words || !o.words.length) return;
+  const no = store.get(K_IRNO, []);
+  if (o.key && no.includes(o.key)) return;
+  const seen = new Set(), words = o.words.filter(w => { const k = norm(w.en), d = irFind(w.en); if (!k || seen.has(k) || (d && d.ir)) return false; seen.add(k); return true; });
+  if (!words.length) return;
+  // сначала пусть закроется окно с наградой
+  const wait = (tries = 0) => { if ($(".reward.open") && tries < 90) { setTimeout(() => wait(tries + 1), 700); return; } irNudge(o, words, no); };
+  wait();
+}
+function irNudge(o, words, no) {
+  const old = $("#irNudge"); if (old) old.remove();
+  const n = words.length, el = document.createElement("div");
+  el.className = "ir-nudge"; el.id = "irNudge"; el.setAttribute("role", "dialog"); el.setAttribute("aria-label", "Предложение добавить слова в повторение");
+  el.innerHTML = `<div class="ir-nudge-h"><span class="ir-nudge-ico" aria-hidden="true">🔁</span><b>Hi There</b><small>сейчас</small></div>
+    <p><b>Привет!</b> Вижу, ты прошёл «${esc(o.title)}». Давай добавим ${plural(n, ["слово", "слова", "слов"])} отсюда в интервальное повторение?</p>
+    <div class="ir-nudge-w" lang="en">${words.slice(0, n > 7 ? 6 : 7).map(w => `<span>${esc(w.en)}</span>`).join("")}${n > 7 ? `<span class="more">+${n - 6}</span>` : ""}</div>
+    <div class="ir-nudge-b"><button class="btn ghost" data-irn="no">Нет</button><button class="btn primary" data-irn="yes">Да</button></div>`;
+  $("#toast").before(el);
+  requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add("show")));
+  const close = () => { el.classList.remove("show"); setTimeout(() => el.remove(), 450); };
+  el.onclick = e => {
+    const b = e.target.closest("[data-irn]"); if (!b) return;
+    if (b.dataset.irn === "yes") irQueue(words);
+    else if (o.key) store.set(K_IRNO, no.concat(o.key).slice(-300));
+    close();
+  };
+}
 function irCardHTML() {
   const due = irDue(), nl = irNewLeft(), late = irLate(), todo = due.length + nl;
   const at = st => S.dict.filter(d => d.ir && d.ir.st === st);
   const cnt = [nl, at(1).length, at(2).length, at(3).length];
   const hot = [nl > 0, ...[1, 2, 3].map(st => at(st).some(d => d.ir.due < irEnd()))];
-  const sum = todo ? [due.length ? `повторить ${due.length}` : "", nl ? `новых ${nl}` : ""].filter(Boolean).join(" · ") : irPool().length || S.dict.some(d => d.ir && d.ir.st < 4) ? "на сегодня всё ✓ — загляните завтра" : "добавьте слова в словарь — и начнём";
+  const sum = todo ? [due.length ? `повторить ${due.length}` : "", nl ? `новых ${nl}` : ""].filter(Boolean).join(" · ") : irPool().length || S.dict.some(d => d.ir && d.ir.st < 4) ? "на сегодня всё ✓ — загляните завтра" : "добавьте слова — и начнём";
+  const q = irQueued(), qn = q - nl;
   return `<section class="ir-card">
     <div class="ir-top"><div><b>Интервальное повторение</b><span>${sum}</span></div><button class="btn primary" data-ir="start"${todo ? "" : " disabled"}>▶ Начать</button></div>
     <ol class="ir-steps" aria-label="Лесенка повторений">${IR_STEP.map((t, i) => `<li class="${hot[i] ? "due" : ""}"><b>${cnt[i]}</b><span>${i ? t : "Новые сегодня"}</span></li>`).join("")}</ol>
     ${late ? `<p class="ir-warn">⏰ ${plural(late, ["слово ждёт", "слова ждут", "слов ждут"])} с прошлых дней. Повторите сегодня, пока слова не ушли по кривой забывания.</p>` : ""}
-    <div class="ir-foot"><span>Выучено по лесенке: ${irDone()}</span><button data-ir="how">Как это работает</button></div>
+    ${!todo && !q && !S.dict.some(d => d.ir && d.ir.st < 4) ? `<p class="ir-empty">Словарь и повторение теперь отдельно: в лесенку попадают только слова, которые вы сами выберете. Отметьте их в словаре или нажмите «＋ В повторение», когда добавляете слово.</p>` : ""}
+    <div class="ir-foot"><span>${qn > 0 ? `В очереди ${qn} · ` : ""}выучено ${irDone()}</span><span class="ir-foot-b"><button data-ir="pick">＋ Добавить слова</button><button data-ir="how">Как это работает</button></span></div>
   </section>`;
 }
 function irHowSheet() {
@@ -21332,7 +21468,8 @@ function irHowSheet() {
     <li><b>Через 3 дня</b> — снова вспоминаем, не подглядывая.</li>
     <li><b>Через неделю</b> — проверка: вспомнить за 3 секунды, придумать новую фразу и узнать слово на слух.</li></ol><p>Если в словаре уже целая фраза (например, «Could I get the bill, please?»), свою фразу к ней писать не нужно.</p>
     <p>Не вспомнили или нажали «Не помню» — слово начинает лесенку заново. На проверке через неделю не получилось хотя бы одно — ещё неделя, и проверим снова.</p>
-    <p>Больше 5 новых слов в день не даём: когда слов много, не закрепляется ни одно.</p></div>`);
+    <p>Больше 5 новых слов в день не даём: когда слов много, не закрепляется ни одно.</p>
+    <p>Словарь и повторение живут отдельно. В словарь можно складывать сколько угодно слов, а в повторение попадают только те, что вы выбрали: кнопкой «＋ В повторение», в карточке слова, через «＋ Добавить слова» или когда приложение после урока предложит взять слова оттуда.</p></div>`);
 }
 const irHcHome = renderHcHome;
 renderHcHome = function () {
@@ -21345,6 +21482,7 @@ $("#scr-cards").addEventListener("click", e => {
   const b = e.target.closest("[data-ir]"); if (!b) return;
   if (b.dataset.ir === "start") startIr();
   if (b.dataset.ir === "how") irHowSheet();
+  if (b.dataset.ir === "pick") irPickSheet();
 });
 
 // ---------- занятие ----------
@@ -21581,7 +21719,7 @@ function dxRowHTML(d) {
   const w = dxWhen(d);
   return `<li><button class="dx-row${S.flashId === d.id ? " flash" : ""}" data-dxo="${d.id}">
     <span class="dx-w"><b>${d.c ? `<span class="d-mk" style="--mc:${d.c}">${esc(d.en)}</span>` : esc(d.en)}</b><small>${esc(d.ru || "—")}</small></span>
-    <span class="dx-when${w === "сегодня" ? " due" : ""}">${d.srs && d.srs.leech ? "🧩 " : ""}${w}</span>
+    ${d.ir && d.ir.st < 4 ? `<span class="dx-irb" title="В интервальном повторении" aria-label="В интервальном повторении">🔁</span>` : ""}<span class="dx-when${w === "сегодня" ? " due" : ""}">${d.srs && d.srs.leech ? "🧩 " : ""}${w}</span>
   </button><button class="dx-ib" data-slowtw="1" data-dxs="${d.id}" aria-label="Послушать ${esc(d.en)}">${DXI.say}</button><button class="dx-ib del" data-slowtw="1" data-dxd="${d.id}" aria-label="Удалить ${esc(d.en)}">${DXI.del}</button></li>`;
 }
 // список словаря перерисовываем, только когда он на экране: иначе тяжёлая перерисовка мешает анимациям карточек
@@ -21645,6 +21783,7 @@ function dxOpen(d) {
     ${sec("Моя ассоциация", `<textarea class="fld dx-note" id="dxNote" rows="2" maxlength="160" placeholder="Образ, созвучие, своя фраза — всё, что поможет вспомнить">${esc(d.note || "")}</textarea>`)}
     ${sec("Группа", `<div class="wg-chips">${[["", "Без группы"]].concat(WG.list.map(g => [g.id, g.e + " " + g.name])).map(([id, nm]) => `<button class="wg-chip sm${(d.g || "") === id || (!id && !wgById(d.g)) ? " on" : ""}" data-w="grp" data-g="${id}">${esc(nm)}</button>`).join("")}<button class="wg-chip sm add" data-w="grp" data-g="+">＋ Новая</button></div>`)}
     <div class="dx-acts">
+      ${irDxHTML(d)}
       <button class="btn primary wide" data-w="learn">${st >= 5 ? "Повторить сейчас" : "Учить сейчас"}</button>
       <div class="dx-acts2"><button class="btn ghost" data-w="known">${st >= 5 ? "Начать заново" : "Я уже знаю это слово"}</button><button class="btn ghost danger-t" data-w="del">Удалить</button></div>
     </div></div>`, { onClose: () => dxSaveNote(d) });
@@ -21658,6 +21797,7 @@ function dxOpen(d) {
       if (b.dataset.g) d.g = b.dataset.g; else delete d.g;
       saveDict(); renderHcHome(); $$('[data-w="grp"]', sheetBody).forEach(x => x.classList.toggle("on", x === b)); renderDict();
     }
+    if (k === "ir") { irDxToggle(d, b); return; }
     if (k === "learn") { dxSaveNote(d); closeSheet(); setTimeout(() => startVocab({ only: [d], intro: !d.srs }), 300); }
     if (k === "known") { dxSaveNote(d); if (st >= 5) { delete d.srs; d.lv = 0; } else { d.lv = 3; vbFromLv(d); } saveDict(); renderDict(); closeSheet(); toast(st >= 5 ? "Слово снова в изучении" : "Отмечено как выученное"); }
     if (k === "del") {
