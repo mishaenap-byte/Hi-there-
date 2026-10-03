@@ -24532,13 +24532,13 @@ const PUSH = (() => {
   function openBroadcast() {
     openSheet(`<div class="sh-head"><span class="eyebrow">Уведомления</span><h2>Сообщение всем</h2></div>
       <p class="feed-note">Придёт всем, кто включил напоминания, даже если приложение закрыто.</p>
-      <label class="fld-label" for="pbTitle">Заголовок</label><input class="fld" id="pbTitle" maxlength="60" value="Hi There">
+      <label class="fld-label" for="pbTitle">Заголовок</label><input class="fld" id="pbTitle" maxlength="60" value="" placeholder="Например: Новые уроки 🎉">
       <label class="fld-label" for="pbBody">Текст</label><textarea class="fld" id="pbBody" maxlength="200" rows="3" placeholder="Например: Новый урок уже ждёт вас!"></textarea>
       <div class="err-msg" id="pbErr" hidden></div>
       <button class="btn primary wide" data-a="pbSend" style="margin-top:16px">Отправить</button>`);
     sheetBody.onclick = async e => {
       const b = e.target.closest('[data-a="pbSend"]'); if (!b || b.disabled) return;
-      const title = $("#pbTitle").value.trim() || "Hi There", body = $("#pbBody").value.trim(), er = $("#pbErr");
+      const title = $("#pbTitle").value.trim(), body = $("#pbBody").value.trim(), er = $("#pbErr");
       if (!body) { er.hidden = false; er.textContent = "Напишите текст уведомления."; return; }
       b.disabled = true; b.textContent = "Отправляю…";
       try { const r = await call({ mode: "broadcast", title, body }); closeSheet(); toast(`Отправлено: ${r.sent || 0}`); }

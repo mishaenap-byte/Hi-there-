@@ -1,5 +1,5 @@
 // Hi There — сервис-воркер: приложение открывается быстро и без интернета
-const V = "hithere-v82";
+const V = "hithere-v83";
 const TTS_CACHE = "hithere-tts";   // записи голоса — отдельно, переживают обновления приложения
 const BOOK_CACHE = "hithere-books";
 const INBOX = "hithere-inbox";     // пришедшие уведомления: приложение забирает их в личные сообщения от «Hi There» // аудио книг: файлы не меняются, после обновления приложения качать заново не нужно
@@ -41,7 +41,10 @@ self.addEventListener("fetch", e => {
 self.addEventListener("push", e => {
   let d = {};
   try { d = e.data ? e.data.json() : {}; } catch (_) { d = { body: e.data ? e.data.text() : "" }; }
-  const item = { id: Date.now() + "-" + Math.random().toString(36).slice(2, 7), title: d.title || "Hi There", body: d.body || "", tab: d.tab || "", at: Date.now() };
+  // телефон сам пишет «from Hi There» — заголовок «Hi There» повторял бы его: тогда заголовком делаем сам текст
+  let title = (d.title || "").trim(), body = (d.body || "").trim();
+  if (!title || title === "Hi There") { if (body.length <= 60) { title = body || "Hi There"; body = ""; } else title = "📣 Новое сообщение"; }
+  const item = { id: Date.now() + "-" + Math.random().toString(36).slice(2, 7), title, body, tab: d.tab || "", at: Date.now() };
   e.waitUntil(Promise.all([
     self.registration.showNotification(item.title, {
       body: item.body, icon: "./icon-192.png", badge: "./icon-192.png", tag: d.tag || "hithere", data: { tab: item.tab || "dm" }
