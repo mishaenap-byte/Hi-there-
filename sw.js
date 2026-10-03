@@ -1,11 +1,12 @@
 // Hi There — сервис-воркер: приложение открывается быстро и без интернета
-const V = "hithere-v81";
+const V = "hithere-v82";
 const TTS_CACHE = "hithere-tts";   // записи голоса — отдельно, переживают обновления приложения
-const BOOK_CACHE = "hithere-books"; // аудио книг: файлы не меняются, после обновления приложения качать заново не нужно
+const BOOK_CACHE = "hithere-books";
+const INBOX = "hithere-inbox";     // пришедшие уведомления: приложение забирает их в личные сообщения от «Hi There» // аудио книг: файлы не меняются, после обновления приложения качать заново не нужно
 const SHELL = ["./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./maskable-512.png", "./apple-touch-icon.png"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(V).then(c => c.addAll(SHELL)).then(() => self.skipWaiting())); });
 self.addEventListener("activate", e => {
-  e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== V && k !== TTS_CACHE && k !== BOOK_CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim()));
+  e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== V && k !== TTS_CACHE && k !== BOOK_CACHE && k !== INBOX).map(k => caches.delete(k)))).then(() => self.clients.claim()));
 });
 self.addEventListener("fetch", e => {
   const r = e.request, u = new URL(r.url);
@@ -40,13 +41,20 @@ self.addEventListener("fetch", e => {
 self.addEventListener("push", e => {
   let d = {};
   try { d = e.data ? e.data.json() : {}; } catch (_) { d = { body: e.data ? e.data.text() : "" }; }
-  e.waitUntil(self.registration.showNotification(d.title || "Hi There", {
-    body: d.body || "", icon: "./icon-192.png", badge: "./icon-192.png", tag: d.tag || "hithere", data: { tab: d.tab || "" }
-  }));
+  const item = { id: Date.now() + "-" + Math.random().toString(36).slice(2, 7), title: d.title || "Hi There", body: d.body || "", tab: d.tab || "", at: Date.now() };
+  e.waitUntil(Promise.all([
+    self.registration.showNotification(item.title, {
+      body: item.body, icon: "./icon-192.png", badge: "./icon-192.png", tag: d.tag || "hithere", data: { tab: item.tab || "dm" }
+    }),
+    // сохраняем текст, чтобы его можно было прочитать в приложении: «Сообщения» → «Hi There»
+    caches.open(INBOX).then(c => c.match("./__inbox").then(r => r ? r.json() : []).catch(() => []).then(list => {
+      list.push(item); return c.put("./__inbox", new Response(JSON.stringify(list.slice(-50)), { headers: { "Content-Type": "application/json" } }));
+    })).then(() => self.clients.matchAll({ type: "window", includeUncontrolled: true })).then(ws => ws.forEach(w => w.postMessage({ push: "inbox" })))
+  ]));
 });
 self.addEventListener("notificationclick", e => {
   e.notification.close();
-  const tab = (e.notification.data && e.notification.data.tab) || "";
+  const tab = (e.notification.data && e.notification.data.tab) || "dm";
   const url = new URL("./" + (tab ? "?tab=" + encodeURIComponent(tab) : ""), self.registration.scope).href;
   e.waitUntil(self.clients.matchAll({ type: "window", includeUncontrolled: true }).then(ws => {
     const w = ws.find(x => "focus" in x);

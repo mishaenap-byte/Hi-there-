@@ -14407,11 +14407,11 @@ $("#dmPage").addEventListener("submit", e => {
   dmSend(v);
 });
 function openDmList() {
-  const names = Object.keys(S.dms).filter(n => S.dms[n].length).sort((a, b) => S.dms[b].length - S.dms[a].length);
+  const names = Object.keys(S.dms).filter(n => S.dms[n].length).sort((a, b) => (b === "Hi There") - (a === "Hi There") || S.dms[b].length - S.dms[a].length);
   const contacts = [];
   S.groups.forEach(g => g.members.forEach(m => { if (m.n !== "Вы" && !names.includes(m.n) && !contacts.some(c => c.n === m.n)) contacts.push({ n: m.n, g }); }));
   openSheet(`<div class="sh-head"><span class="eyebrow">Сообщения</span><h2>Личные чаты</h2></div>
-    ${names.length ? `<div class="lib-list">${names.map(n => { const last = S.dms[n][S.dms[n].length - 1], un = S.dms[n].filter(m => m.unread).length; return `<button class="lib-item" data-dm="${esc(n)}"><span class="ava" style="--h:${hue(n)}">${esc(initials(n))}</span><span class="li-main"><b>${esc(n)}</b><span>${last.a === "Вы" ? "Вы: " : ""}${last.voice ? "🎤 Голосовое · " + fmtDur(last.voice.d) : esc(last.t)}</span></span>${un ? `<span class="dm-un">${un}</span>` : `<span class="muted" style="font-size:12px">${esc(last.time || "")}</span>`}</button>`; }).join("")}</div>` : `<div class="empty">Личных чатов пока нет</div>`}
+    ${names.length ? `<div class="lib-list">${names.map(n => { const last = S.dms[n][S.dms[n].length - 1], un = S.dms[n].filter(m => m.unread).length; return `<button class="lib-item" data-dm="${esc(n)}">${n === "Hi There" ? `<span class="ava" style="background:var(--sign,#FFEC3D)">👋</span>` : `<span class="ava" style="--h:${hue(n)}">${esc(initials(n))}</span>`}<span class="li-main"><b>${esc(n)}</b><span>${last.a === "Вы" ? "Вы: " : ""}${last.voice ? "🎤 Голосовое · " + fmtDur(last.voice.d) : esc(last.t)}</span></span>${un ? `<span class="dm-un">${un}</span>` : `<span class="muted" style="font-size:12px">${esc(last.time || "")}</span>`}</button>`; }).join("")}</div>` : `<div class="empty">Личных чатов пока нет</div>`}
     ${contacts.length ? `<h3 class="sh-sub">Написать участнику группы</h3><div class="contact-row">${contacts.slice(0, 12).map(c => `<button class="contact" data-dm="${esc(c.n)}" data-g="${c.g.id}"><span class="ava" style="--h:${hue(c.n)}">${esc(initials(c.n))}</span><span>${esc(c.n.split(" ")[0])}</span></button>`).join("")}</div>` : ""}`);
   sheetBody.onclick = e => { const b = e.target.closest("[data-dm]"); if (!b) return; closeSheet(); setTimeout(() => openDM(b.dataset.dm, b.dataset.g ? findGroup(b.dataset.g) : null), 250); };
 }
@@ -24409,6 +24409,40 @@ window.PWA_OK = PWA;
 // ================== ПУШ-УВЕДОМЛЕНИЯ (приходят, даже когда приложение закрыто) ==================
 // Подписка телефона хранится в Supabase (таблица push_subs), отправляет функция push-send.
 // iPhone: работает только в приложении с экрана «Домой» (iOS 16.4+), в обычной вкладке Safari пушей нет.
+// ================== УВЕДОМЛЕНИЯ → ЛИЧНЫЕ СООБЩЕНИЯ ОТ «Hi There» ==================
+// сервис-воркер складывает каждое пришедшее уведомление в кэш «hithere-inbox»; здесь забираем их в чат «Hi There»
+const HT_INBOX = (() => {
+  const name = "Hi There", INBOX = "hithere-inbox";
+  const fmt = ts => { const d = new Date(ts); return String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0"); };
+  async function pull() {
+    if (!("caches" in window)) return 0;
+    try {
+      const c = await caches.open(INBOX), r = await c.match("./__inbox"); if (!r) return 0;
+      const list = await r.json(); if (!list.length) return 0;
+      const box = S.dms[name] = S.dms[name] || [];
+      list.forEach(it => { if (box.some(m => m.nid === it.id)) return; box.push({ a: name, t: it.body ? it.title + " — " + it.body : it.title, time: fmt(it.at), unread: true, nid: it.id }); });
+      await c.put("./__inbox", new Response("[]", { headers: { "Content-Type": "application/json" } }));
+      saveDms(); renderDmBadge();
+      if (dmWith && dmWith.n === name && !$("#dmPage").hidden) { box.forEach(m => { delete m.unread; }); saveDms(); renderDmBadge(); dmRerender(); scrollChatBox("dm", true); }
+      return list.length;
+    } catch (e) { return 0; }
+  }
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) pull(); });
+  setTimeout(pull, 600);
+  return { name, pull };
+})();
+// чат «Hi There» — только для чтения: без поля ввода, вместо уровня — подпись
+{
+  const base = renderDM;
+  renderDM = function () {
+    base();
+    if (!dmWith || dmWith.n !== HT_INBOX.name) return;
+    const pg = $("#dmPage"), f = $(".gchat-form", pg), t = $(".ph-title", pg);
+    if (f) f.hidden = true;
+    if (t) { t.removeAttribute("data-member"); const sp = $("span:not(.ava)", t.lastElementChild || t); if (sp) sp.textContent = "Уведомления приложения"; const av = $(".ava", t); if (av) { av.textContent = "👋"; av.style.background = "var(--sign,#FFEC3D)"; } }
+    if (!S.dms[HT_INBOX.name].length) $("#dmBox").insertAdjacentHTML("afterbegin", `<p class="muted" style="text-align:center;margin:24px 12px;font-size:14px">Здесь будут уведомления приложения: напоминания и новости.</p>`);
+  };
+}
 const PUSH = (() => {
   const K_ON = "vz.push.on", K_ASK = "vz.push.ask", K_KEY = "vz.push.key", K_SYNC = "vz.push.sync";
   const ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
@@ -24512,8 +24546,14 @@ const PUSH = (() => {
     };
   }
   // открыть нужный экран по нажатию на уведомление
-  function openFrom(tab) { if (tab === "cards") setTimeout(() => { try { switchTab("cards", true); } catch (e) {} }, 300); }
-  if (can()) navigator.serviceWorker.addEventListener("message", e => { if (e.data && e.data.push === "open") openFrom(e.data.tab); });
+  function openFrom(tab) {
+    if (tab === "cards") setTimeout(() => { try { switchTab("cards", true); } catch (e) {} }, 300);
+    if (tab === "dm") HT_INBOX.pull().then(() => setTimeout(() => { try { switchTab("feed", true); openDM(HT_INBOX.name); } catch (e) {} }, 300));
+  }
+  if (can()) navigator.serviceWorker.addEventListener("message", e => {
+    if (e.data && e.data.push === "open") openFrom(e.data.tab);
+    if (e.data && e.data.push === "inbox") HT_INBOX.pull();
+  });
   { const t = new URLSearchParams(location.search).get("tab"); if (t) setTimeout(() => openFrom(t), 900); }
 
   document.addEventListener("click", e => {
