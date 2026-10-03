@@ -4,7 +4,20 @@
 <meta charset="utf-8">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Hi There"><meta name="theme-color" content="#FFEC3D">
 <link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="Hi There — учите английский на живых ситуациях">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<style>html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+<script>
+/* приложение не зумится: двумя пальцами и Ctrl+колёсиком нельзя, двойной тап выключен через touch-action */
+(function () {
+  var stop = function (e) { e.preventDefault(); };
+  document.addEventListener("gesturestart", stop, { passive: false });
+  document.addEventListener("gesturechange", stop, { passive: false });
+  document.addEventListener("gestureend", stop, { passive: false });
+  document.addEventListener("touchmove", function (e) { if (e.touches.length > 1 || (e.scale && e.scale !== 1)) e.preventDefault(); }, { passive: false });
+  document.addEventListener("wheel", function (e) { if (e.ctrlKey) e.preventDefault(); }, { passive: false });
+  document.addEventListener("keydown", function (e) { if ((e.ctrlKey || e.metaKey) && /^[=+\-0]$/.test(e.key)) e.preventDefault(); });
+})();
+</script>
 <title>Hi There</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14354,8 +14367,9 @@ function openMember(n, g) {
     openSheet(`<div class="mb-hero">${av.e ? `<span class="ava xl" style="background:${esc(av.c || "#3FB2FF")}"><span class="ava-e">${esc(av.e)}</span></span>` : `<span class="ava xl" style="--h:${hue(n)}">${esc(initials(n))}</span>`}<h2>${esc(n)}</h2>
         <div class="pf-chips"><span class="pf-chip"><b>${esc(i.level)}</b> ${esc((LVL_INFO[i.level] || LVL_INFO.A2)[0])}</span>${g.owner === n ? `<span class="pf-chip">🧭 создатель группы</span>` : ""}</div></div>
       ${groups.length ? `<p class="muted" style="font-size:13px;margin-top:12px;text-align:center">Общие группы: ${groups.map(x => esc(x.emoji + " " + x.name)).join(", ")}</p>` : ""}
-      <div class="task-box"><b>Личные сообщения — в следующем обновлении</b>Пока пишите друг другу в чате группы.</div>`);
-    sheetBody.onclick = null; return;
+      <button class="btn primary wide" data-a="dm" style="margin-top:16px">✉ Написать лично</button>`);
+    sheetBody.onclick = e => { if (e.target.closest('[data-a="dm"]')) { closeSheet(); setTimeout(() => openDM(n, g, m.uid), 250); } };
+    return;
   }
   const sample = ACHV.filter((a, k) => (hue(n) + k) % 3 === 0).slice(0, 4);
   const doneHw = S.groups.reduce((s, x) => s + x.hw.filter(h => { const sb = subOf(h, n); return sb && sb.status === "reviewed"; }).length, 0);
@@ -14375,29 +14389,40 @@ function openMember(n, g) {
 
 // ---------- Личные сообщения ----------
 let dmWith = null;
+// собеседник — живой человек из облака: имя → id (чтобы чат из списка открывался снова)
+const K_DMU = "vz.dmu";
+const DMU = store.get(K_DMU, null) || {};
 function dmUnread() { return Object.keys(S.dms).reduce((s, n) => s + S.dms[n].filter(m => m.unread).length, 0); }
 function renderDmBadge() { const b = $("#dmBadge"); if (!b) return; const n = dmUnread(); b.hidden = !n; b.textContent = n; }
-function openDM(n, g) {
+function openDM(n, g, uid) {
   dmWith = { n, g: g || S.groups.find(x => x.members.some(m => m.n === n)) || null };
+  if (!uid && dmWith.g) { const m = dmWith.g.members.find(x => x.n === n); if (m && m.uid) uid = m.uid; }
+  uid = uid || DMU[n] || null;
+  if (uid && CLOUD && CLOUD.dmLoad) { dmWith.uid = uid; if (DMU[n] !== uid) { DMU[n] = uid; store.set(K_DMU, DMU); } }
   S.dms[n] = S.dms[n] || [];
   S.dms[n].forEach(m => { delete m.unread; }); saveDms(); renderDmBadge();
   renderDM(); openPageEl($("#dmPage")); scrollChatBox("dm", false);
+  if (dmWith.uid) CLOUD.dmLoad(dmWith);
 }
 function renderDM() {
-  const n = dmWith.n, i = memberInfo(n, dmWith.g);
+  const n = dmWith.n, fr = (FR.list || []).find(x => dmWith.uid ? x.id === dmWith.uid : !dmWith.g && x.n === dmWith.n);
+  const i = fr ? { level: fr.st && fr.st.lv || "", streak: fr.st && fr.st.streak || 0 } : memberInfo(n, dmWith.g);
   $("#dmPage").innerHTML = `<div class="page-head"><button class="icon-btn" data-a="back" aria-label="Назад">${ICON.back}</button>
-    <button class="ph-title" data-member="${esc(n)}"><span class="ava" style="--h:${hue(n)}">${esc(initials(n))}</span><div style="min-width:0;text-align:left"><b>${esc(n)}</b><span>${esc(i.level)} · 🔥 ${i.streak}${dmWith.g ? " · " + esc(dmWith.g.name) : ""}</span></div></button></div>
+    <button class="ph-title" data-member="${esc(n)}"><span class="ava" style="--h:${hue(n)}">${esc(initials(n))}</span><div style="min-width:0;text-align:left"><b>${esc(n)}</b><span>${i.level ? esc(i.level) + " · " : ""}🔥 ${i.streak}${dmWith.g ? " · " + esc(dmWith.g.name) : ""}</span></div></button></div>
     ${chatBoxHTML(S.dms[n], false, "Личное сообщение…", "dm", "dm:" + n)}`;
 }
 const dmRerender = () => { const box = $("#dmBox"); if (!$("#dmPage").hidden && dmWith && box) box.innerHTML = chatHTML(S.dms[dmWith.n], false, "dm:" + dmWith.n) + `<div class="typing-line" id="dmTyping" hidden></div>`; };
 $("#dmPage").addEventListener("click", e => {
   if (e.target.closest('[data-a="back"]')) { closePageEl($("#dmPage"), () => { dmWith = null; }); return; }
-  const m = e.target.closest("[data-member]"); if (m && dmWith) openMember(m.dataset.member, dmWith.g);
+  const m = e.target.closest("[data-member]"); if (!m || !dmWith) return;
+  const fr = (FR.list || []).find(x => dmWith.uid ? x.id === dmWith.uid : !dmWith.g && x.n === dmWith.n);
+  if (fr) openFriend(fr); else if (dmWith.g) openMember(m.dataset.member, dmWith.g);
 });
 function dmSend(payload) {
   if (!dmWith) return;
   const who = dmWith.n, rr = () => dmRerender();
   rr.alive = () => !$("#dmPage").hidden && dmWith && dmWith.n === who;
+  if (dmWith.uid) { CLOUD.dmSend(who, dmWith.uid, payload, rr); return; }
   sendChat(S.dms[who], payload, who, rr, saveDms, "dm");
 }
 $("#dmPage").addEventListener("submit", e => {
@@ -14409,11 +14434,12 @@ $("#dmPage").addEventListener("submit", e => {
 function openDmList() {
   const names = Object.keys(S.dms).filter(n => S.dms[n].length).sort((a, b) => (b === "Hi There") - (a === "Hi There") || S.dms[b].length - S.dms[a].length);
   const contacts = [];
+  (FR.list || []).forEach(f => { if (!names.includes(f.n) && !contacts.some(c => c.n === f.n)) contacts.push({ n: f.n, u: f.demo ? "" : f.id }); });
   S.groups.forEach(g => g.members.forEach(m => { if (m.n !== "Вы" && !names.includes(m.n) && !contacts.some(c => c.n === m.n)) contacts.push({ n: m.n, g }); }));
   openSheet(`<div class="sh-head"><span class="eyebrow">Сообщения</span><h2>Личные чаты</h2></div>
     ${names.length ? `<div class="lib-list">${names.map(n => { const last = S.dms[n][S.dms[n].length - 1], un = S.dms[n].filter(m => m.unread).length; return `<button class="lib-item" data-dm="${esc(n)}">${n === "Hi There" ? `<span class="ava" style="background:var(--sign,#FFEC3D)">👋</span>` : `<span class="ava" style="--h:${hue(n)}">${esc(initials(n))}</span>`}<span class="li-main"><b>${esc(n)}</b><span>${last.a === "Вы" ? "Вы: " : ""}${last.voice ? "🎤 Голосовое · " + fmtDur(last.voice.d) : esc(last.t)}</span></span>${un ? `<span class="dm-un">${un}</span>` : `<span class="muted" style="font-size:12px">${esc(last.time || "")}</span>`}</button>`; }).join("")}</div>` : `<div class="empty">Личных чатов пока нет</div>`}
-    ${contacts.length ? `<h3 class="sh-sub">Написать участнику группы</h3><div class="contact-row">${contacts.slice(0, 12).map(c => `<button class="contact" data-dm="${esc(c.n)}" data-g="${c.g.id}"><span class="ava" style="--h:${hue(c.n)}">${esc(initials(c.n))}</span><span>${esc(c.n.split(" ")[0])}</span></button>`).join("")}</div>` : ""}`);
-  sheetBody.onclick = e => { const b = e.target.closest("[data-dm]"); if (!b) return; closeSheet(); setTimeout(() => openDM(b.dataset.dm, b.dataset.g ? findGroup(b.dataset.g) : null), 250); };
+    ${contacts.length ? `<h3 class="sh-sub">Написать другу или участнику группы</h3><div class="contact-row">${contacts.slice(0, 12).map(c => `<button class="contact" data-dm="${esc(c.n)}" data-g="${c.g ? c.g.id : ""}" data-u="${esc(c.u || "")}"><span class="ava" style="--h:${hue(c.n)}">${esc(initials(c.n))}</span><span>${esc(c.n.split(" ")[0])}</span></button>`).join("")}</div>` : ""}`);
+  sheetBody.onclick = e => { const b = e.target.closest("[data-dm]"); if (!b) return; closeSheet(); setTimeout(() => openDM(b.dataset.dm, b.dataset.g ? findGroup(b.dataset.g) : null, b.dataset.u || null), 250); };
 }
 $("#dmBtn").addEventListener("click", openDmList);
 
@@ -22825,12 +22851,13 @@ function openFriend(f) {
       <span class="fr-bar"><i style="width:${pct}%"></i></span><span class="fr-now-meta">${st.total ? `Пройдено ${st.done || 0} из ${st.total}` : ""}${relText(st) ? " · " + esc(relText(st)) : ""}</span></div>
     <div class="pf-stats" style="margin-top:12px"><div class="pf-stat"><span class="pe">🔥</span><div><b>${Math.floor(+st.streak || 0)}</b><span>дней подряд</span></div></div>
       <div class="pf-stat"><span class="pe">🎓</span><div><b>${esc(st.lv || "—")}</b><span>уровень</span></div></div></div>
-    <div class="fr-acts"><button class="btn primary wide" data-a="nudge" ${nudgedToday(f) ? "disabled" : ""}>${nudgedToday(f) ? "✓ Позвали сегодня" : "👋 Позвать заниматься"}</button>
+    <div class="fr-acts"><button class="btn primary wide" data-a="dm">✉ Написать</button><button class="btn soft wide" data-a="nudge" ${nudgedToday(f) ? "disabled" : ""}>${nudgedToday(f) ? "✓ Позвали сегодня" : "👋 Позвать заниматься"}</button>
       ${st.lv ? `<button class="btn soft wide" data-a="path">🪜 Посмотреть на пути</button>` : ""}
       <button class="btn ghost wide" data-a="del" style="color:var(--danger)">Удалить из друзей</button></div>`);
   sheetBody.onclick = e => {
     const a = e.target.closest("[data-a]"); if (!a) return;
     if (a.dataset.a === "nudge") nudgeFriend(f);
+    if (a.dataset.a === "dm") { closeSheet(); setTimeout(() => openDM(f.n, null, f.demo ? null : f.id), 260); }
     if (a.dataset.a === "path") { closeSheet(); setTimeout(() => openPath(PATH[st.lv] ? st.lv : undefined), 260); }
     if (a.dataset.a === "del") {
       if (!a.dataset.sure) { a.dataset.sure = "1"; a.textContent = "Нажмите ещё раз, чтобы удалить"; return; }
@@ -23693,6 +23720,50 @@ sb.auth.onAuthStateChange((ev, session) => setTimeout(() => onAuth(ev, session),
   };
   FR.inviteLink = () => CLOUD.uid ? siteUrl() + "?friend=" + CLOUD.uid : null;
 
+  // ---------- личные сообщения между людьми (таблица direct_messages) ----------
+  const dmObj = r => ({ id: r.id, a: r.sender === CLOUD.uid ? "Вы" : nameOf(r.sender), t: typeof r.text === "string" ? r.text : "", time: clock(r.created_at) });
+  const dmOpenWith = uid => dmWith && dmWith.uid === uid && !$("#dmPage").hidden;
+  CLOUD.dmLoad = async w => {
+    if (!CLOUD.uid) return;
+    const me = CLOUD.uid, u = w.uid;
+    const { data, error } = await sb.from("direct_messages").select("id,sender,recipient,text,created_at")
+      .or(`and(sender.eq.${me},recipient.eq.${u}),and(sender.eq.${u},recipient.eq.${me})`)
+      .order("created_at", { ascending: false }).limit(200);
+    if (error || dmWith !== w) return;
+    await needProfiles([u]);
+    const pending = (S.dms[w.n] || []).filter(m => m.a === "Вы" && !m.id && !m.failed);
+    S.dms[w.n] = data.reverse().map(dmObj).concat(pending);
+    saveDms(); renderDmBadge();
+    if (dmOpenWith(u)) { dmRerender(); scrollChatBox("dm", false); }
+  };
+  CLOUD.dmSend = (n, uid, payload, rr) => {
+    const msg = typeof payload === "string" ? { t: payload } : payload;
+    const m = Object.assign({}, msg, { a: "Вы", time: hhmm(), fresh: true });
+    const list = S.dms[n] = S.dms[n] || [];
+    list.push(m); R.counts.msgs++; saveR(); saveDms();
+    rr(); scrollChatBox("dm", true);
+    if (!CLOUD.uid) { m.failed = true; toast("Чтобы писать друзьям, войдите в аккаунт"); return; }
+    const text = (msg.t || (msg.voice && msg.voice.say ? "🎤 " + msg.voice.say : "🎤 Голосовое сообщение")).slice(0, 1000);
+    sb.from("direct_messages").insert({ sender: CLOUD.uid, recipient: uid, text }).select("id").single()
+      .then(({ data, error }) => { if (error) { m.failed = true; toast("Сообщение не отправилось — проверьте интернет"); } else { m.id = data.id; saveDms(); } });
+  };
+  async function onDirect(r) {
+    if (!r || r.sender === CLOUD.uid) return;
+    await needProfiles([r.sender]);
+    const n = nameOf(r.sender);
+    if (DMU[n] !== r.sender) { DMU[n] = r.sender; store.set(K_DMU, DMU); }
+    const list = S.dms[n] = S.dms[n] || [];
+    if (list.some(m => m.id === r.id)) return;
+    list.forEach(m => { delete m.fresh; });
+    const m = dmObj(r); m.fresh = true;
+    const open = dmOpenWith(r.sender);
+    if (!open) m.unread = true;
+    list.push(m); saveDms(); renderDmBadge();
+    if (open) { dmRerender(); scrollChatBox("dm", true); }
+    else if (String(m.t).startsWith("👋")) toast(`👋 ${n} зовёт вас позаниматься`, { long: true });
+    else toast(`💬 ${n}: ${m.t.slice(0, 50)}`, { long: true });
+  }
+
   // живые обновления: заявки и «позвать заниматься»
   function live() {
     sb.channel("hi-there-friends")
@@ -23705,8 +23776,7 @@ sb.auth.onAuthStateChange((ev, session) => setTimeout(() => onAuth(ev, session),
         loadFriends();
       })
       .on("postgres_changes", { event: "INSERT", schema: "public", table: "direct_messages", filter: "recipient=eq." + CLOUD.uid }, e => {
-        const r = e.new; if (!r || !String(r.text || "").startsWith("👋")) return;
-        needProfiles([r.sender]).then(() => toast(`👋 ${nameOf(r.sender)} зовёт вас позаниматься`, { long: true }));
+        onDirect(e.new);
       })
       .subscribe();
   }
