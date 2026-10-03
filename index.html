@@ -7,7 +7,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <style>html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 html.kb .stage{align-items:flex-start}
-html.kb .app{height:var(--kbh,100%)!important;max-height:none!important;top:var(--kbt,0px)}</style>
+html.kb .app{height:var(--kbh,100%)!important;max-height:none!important;top:var(--kbt,0px)}
+html.rot-l body,html.rot-r body{position:fixed;top:0;left:0;width:var(--rw,100vh)!important;height:var(--rh,100vw)!important;transform-origin:0 0}
+html.rot-l body{transform:rotate(-90deg) translateX(-100%)}
+html.rot-r body{transform:rotate(90deg) translateY(-100%)}
+html.rot-l .stage,html.rot-r .stage{padding:0}html.rot-l .app,html.rot-r .app{max-width:none;max-height:none;border-radius:0;border:0;box-shadow:none}html.rot-l .about,html.rot-r .about{display:none}</style>
 <script>
 /* приложение не зумится: двумя пальцами и Ctrl+колёсиком нельзя, двойной тап выключен через touch-action */
 (function () {
@@ -23,14 +27,26 @@ html.kb .app{height:var(--kbh,100%)!important;max-height:none!important;top:var(
    Шапка чата с именем остаётся на месте, поднимается только переписка и поле ввода */
 (function () {
   var vv = window.visualViewport; if (!vv) return;
-  var de = document.documentElement, raf = 0, on = false;
+  var de = document.documentElement, raf = 0, on = false, full = 0;
+  var typingEl = function () { var a = document.activeElement; return a && (a.tagName === "INPUT" || a.tagName === "TEXTAREA" || a.isContentEditable) ? a : null; };
+  // iPhone, открывая клавиатуру, сам прокручивает блоки с overflow:hidden (сам экран чата, приложение),
+  // чтобы показать поле ввода, — из-за этого шапка с именем уезжала вверх. Возвращаем их на место.
+  function unshift(a) {
+    for (var el = a && a.parentElement; el && el !== document.body; el = el.parentElement) {
+      if (el.scrollTop && getComputedStyle(el).overflowY === "hidden") el.scrollTop = 0;
+    }
+    if (window.scrollY && !on) window.scrollTo(0, 0);
+  }
   function fit() {
     raf = 0;
-    var a = document.activeElement, typing = a && (a.tagName === "INPUT" || a.tagName === "TEXTAREA" || a.isContentEditable);
-    var kb = !!typing && window.innerHeight - vv.height > 120;
+    var a = typingEl();
+    if (!a) full = Math.max(vv.height, window.innerHeight);
+    else if (!full) full = Math.max(window.innerHeight, vv.height);
+    var kb = !!a && full - vv.height > 120;
+    if (a) unshift(a);
     if (kb) {
       de.style.setProperty("--kbh", vv.height + "px");
-      // pageTop — где видимая часть экрана в документе: iOS может прокрутить и сам документ, не только видимую область
+      // pageTop — где видимая часть экрана в документе: iOS может прокрутить и сам документ
       de.style.setProperty("--kbt", (vv.pageTop != null ? vv.pageTop : vv.offsetTop + window.scrollY) + "px");
       if (!on) {
         on = true; de.classList.add("kb");
@@ -45,9 +61,32 @@ html.kb .app{height:var(--kbh,100%)!important;max-height:none!important;top:var(
   }
   function q() { if (!raf) raf = requestAnimationFrame(fit); }
   vv.addEventListener("resize", q); vv.addEventListener("scroll", q); window.addEventListener("scroll", q);
+  document.addEventListener("scroll", function (e) { var a = typingEl(), t = e.target; if (a && t && t.nodeType === 1 && t.contains(a)) q(); }, true);
   document.addEventListener("input", function () { setTimeout(q, 30); });
   document.addEventListener("focusin", function () { q(); setTimeout(q, 300); setTimeout(q, 700); });
   document.addEventListener("focusout", function () { setTimeout(q, 80); });
+  window.addEventListener("orientationchange", function () { full = 0; });
+})();
+/* экран не поворачивается: если телефон положили боком, приложение остаётся вертикальным */
+(function () {
+  var de = document.documentElement;
+  var phone = window.matchMedia && matchMedia("(pointer:coarse)").matches && Math.min(screen.width, screen.height) < 600;
+  if (!phone) return;
+  try { screen.orientation && screen.orientation.lock && screen.orientation.lock("portrait").catch(function () {}); } catch (e) {}
+  function angle() {
+    if (typeof window.orientation === "number") return window.orientation;
+    return screen.orientation ? screen.orientation.angle : 0;
+  }
+  function fix() {
+    var w = window.innerWidth, h = window.innerHeight, land = w > h, a = angle();
+    de.classList.toggle("rot-l", land && (a === 90));
+    de.classList.toggle("rot-r", land && a !== 90);
+    if (land) { de.style.setProperty("--rw", h + "px"); de.style.setProperty("--rh", w + "px"); }
+    else { de.style.removeProperty("--rw"); de.style.removeProperty("--rh"); }
+  }
+  fix();
+  window.addEventListener("resize", fix);
+  window.addEventListener("orientationchange", function () { setTimeout(fix, 60); setTimeout(fix, 400); });
 })();
 </script>
 <title>Hi There</title>
@@ -4033,7 +4072,7 @@ html.night .hc-del{background:var(--surface-2);border-color:var(--edge);color:va
 html.night .dx-hero,html.night .dx-list{background:var(--surface);border-color:var(--edge);box-shadow:0 4px 0 var(--edge)}
 html.night .dx-add{background:var(--sign);border-color:var(--edge);color:var(--sign-ink);box-shadow:0 2px 0 var(--edge)}
 html.night .dx-round{background:var(--y);border-color:var(--edge);color:var(--ink);box-shadow:0 3px 0 var(--edge)}
-html.night .wg-chip.on{background:var(--y,var(--lemon,#5C5218));border-color:var(--edge);color:var(--ink);box-shadow:0 2px 0 var(--edge)}
+html.night .wg-chip.on{background:var(--y,var(--lemon,#3B3470));border-color:var(--edge);color:var(--ink);box-shadow:0 2px 0 var(--edge)}
 /* чёрные «геройские» карточки (серия, цель недели) ночью остаются чёрными, как днём */
 html.night[data-look="sticker"] :is(.ph-streak,.goal-card,.ms-hero){background:var(--hero);color:var(--hero-ink)}
 html.night[data-look="sticker"] .phs-grid i{background:rgba(255,255,255,.1)}
@@ -4117,15 +4156,15 @@ html.night .path-btn i{color:var(--sign-ink)!important}
 :root.night[data-palette="focus"][data-look="sticker"][data-theme="dark"]{color-scheme:dark;
   --stage:#06090D;--bg:#0E131B;--surface:#171E29;--surface-2:#1F2734;--line:#2B3443;
   --ink:#C5CCD7;--ink-2:#9DA6B5;--muted:#7E889B;
-  --accent:#C5CCD7;--accent-2:#7DB6EC;--accent-ink:#0E131B;--accent-soft:#3A3414;
+  --accent:#C5CCD7;--accent-2:#7DB6EC;--accent-ink:#0E131B;--accent-soft:#2A2550;
   --sign:#D9BE2C;--sign-2:#B09A1C;--sign-ink:#17171F;
-  --marker:#D9BE2C;--marker-hl:#D9BE2C;--marker-soft:#332E14;--marker-ink:#17171F;
+  --marker:#D9BE2C;--marker-hl:#D9BE2C;--marker-soft:#241F42;--marker-ink:#17171F;
   --in:#171E29;--in-ink:#C5CCD7;--out:#1B3550;--out-ink:#C9D3E0;
   --chat-bg:#0E131B;--chat-dot:#1D2532;
   --danger:#EE8A5C;--danger-soft:#3A2419;--ok:#4BB97C;--ok-soft:#163023;
   --en-ink:#C5CCD7;--en-bg:#172A40;--en-line:#C5CCD7;
   --grad:#2C3546;--grad-bank:#6A3A1C;
-  --lemon:#5C5218;--tangerine:#6A3A1C;--bubblegum:#5E2747;--sky:#17496E;--grass:#1C5C3B;
+  --lemon:#3B3470;--tangerine:#6A3A1C;--bubblegum:#5E2747;--sky:#17496E;--grass:#1C5C3B;
   --edge:#5A667C;--edge-soft:#3A4456;--rim:#171E29;--paper:#171E29;--inv:#2C3546;--on-ink:#C5CCD7;--warm-ink:#F0A365;
   --hero:#05080C;--hero-ink:#C5CCD7;--hero-hl:#E3C62E;
   --shadow-sm:0 0 0 2.5px var(--edge),0 0 0 6px var(--rim),0 8px 18px rgba(0,0,0,.35);
