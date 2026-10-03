@@ -4134,55 +4134,7 @@ html.night .dx-bars i{background:hsl(252 42% 36%)}
 .in-step-safari .in-copy{margin-top:0;height:42px}
 .in-step-safari .in-fail{margin:0}
 .in-lbl u{text-decoration-thickness:2px}
-/* ===== Новые вкладки: Учёба · Упражнения · Слова · Люди ===== */
-.tabbar{grid-template-columns:repeat(4,1fr)}
-.tab-ind{width:calc((100% - 16px)/4)}
-[data-look="sticker"] .tab-ind{width:calc((100% - 12px)/4)}
-[data-look="sticker"] .tab > span:not(.badge){position:static;width:auto;height:auto;overflow:visible;clip:auto;white-space:nowrap;font-size:11.5px;line-height:1.1}
-[data-look="sticker"] .tab{padding:7px 0 6px;min-height:56px;gap:3px}
-[data-look="sticker"] .tab svg{width:25px;height:25px}
-[data-look="sticker"] .tab .badge{top:2px;left:calc(50% + 6px)}
-[data-look="route"] .tab{font-size:12px}
-/* шапка: одни и те же кнопки на каждой вкладке */
-.top > .pills{flex-direction:row!important;align-items:center;margin-left:auto}
-.pills:not([data-on="feed"]) :is(#themeBtn,#dmBtn){display:none}
-#scr-home .top{padding-bottom:6px}
-#scr-ex .top h1{font-size:25px;white-space:nowrap}
-#feedSeg.four button{white-space:nowrap;font-size:12.5px;padding:0 2px}
-#feedSeg.four .seg-n{min-width:16px;height:16px;line-height:16px;font-size:10px;padding:0 4px;margin-left:2px}
-/* «Учёба» */
-.hm-scroll{padding:4px 16px 28px}
-.hm-scroll > div:empty{display:none}
-.hm-hi{padding:2px 4px 12px}
-.hm-hi h2{margin:0;font:400 26px/1.1 "Dela Gothic One",var(--f-display,system-ui);color:var(--ink)}
-.hm-hi p{margin:5px 0 0;font-size:14px;font-weight:600;color:var(--muted)}
-.hm-path{margin:6px 4px 18px}
-.hm-card{display:block;width:100%;box-sizing:border-box;text-align:left;margin:0 0 16px;padding:14px 16px;border-radius:24px;background:#fff;color:#17171F;box-shadow:inset 0 0 0 2.5px #17171F,0 4px 0 #17171F;font:inherit}
-.hm-card .eyebrow{color:#4A4E5A}
-.hm-rev{background:#EEEBFF}
-.hm-row{display:flex;align-items:center;gap:12px;margin-top:8px}
-.hm-big{flex:none;font:400 34px/1 "Dela Gothic One",var(--f-display,system-ui);min-width:34px;text-align:center}
-.hm-row p{flex:1;margin:0;font-size:13.5px;line-height:1.35;font-weight:700;color:#4A4E5A}
-.hm-row .btn{flex:none;height:44px;padding:0 18px}
-.hm-goal{display:flex;align-items:center;gap:14px;cursor:pointer;transition:transform .15s}
-.hm-goal:active{transform:translateY(3px);box-shadow:inset 0 0 0 2.5px #17171F,0 1px 0 #17171F}
-.hm-goal .goal-donut{width:70px;height:70px;background:conic-gradient(#FF85CC calc(var(--g) * 1%),#ECEEF2 0)}
-.hm-goal .goal-donut::before{background:#fff}
-.hm-goal .goal-donut span{color:#17171F}
-.hm-gt{display:flex;flex-direction:column;gap:2px;min-width:0}
-.hm-gt b{font:400 19px/1.15 "Dela Gothic One",var(--f-display,system-ui)}
-.hm-gt small{font-size:13px;font-weight:700;color:#4A4E5A}
-.hm-daily{margin-top:4px}
-/* «Упражнения»: книги — широкой карточкой сверху */
-.ex-grid.one{grid-template-columns:1fr}
-.ex-grid.one .ex-tile{display:grid;grid-template-columns:52px 1fr;column-gap:12px;row-gap:3px;align-items:start;min-height:0}
-.ex-grid.one .ex-e{grid-row:1/4;margin:0}
-.ex-grid.one .ex-tile em{margin-top:2px;padding-top:0}
-#scr-ex .ex-scroll > .ex-h:first-child{margin-top:6px}
-/* «Слова»: переключатель на обоих экранах, «+» — круглая кнопка внизу справа */
-#scr-cards:not(.hc-home) .nt-cseg,#scr-cards:not(.hc-home) .top > .pills{display:none}
-#scr-cards .top{flex-wrap:nowrap}
-#scr-cards:not(.hc-home) .top{flex-wrap:wrap}
+/* ===== Book: круглая «+» внизу справа, повторение лесенкой ===== */
 .nt-fab{position:absolute;right:16px;bottom:14px;z-index:4;width:58px!important;height:58px!important;margin:0!important;border-radius:50%;display:grid;place-items:center;padding:0 0 3px!important;
   background:#FFEC3D!important;color:#17171F!important;border:2.5px solid #17171F!important;box-shadow:0 4px 0 #17171F,0 10px 22px rgba(23,23,31,.18)!important;font:800 32px/1 var(--f-body,system-ui)!important;cursor:pointer;transition:transform .15s,opacity .25s}
 .nt-fab:active{transform:translateY(3px);box-shadow:0 1px 0 #17171F!important}
@@ -4190,13 +4142,6 @@ html.night .dx-bars i{background:hsl(252 42% 36%)}
 #dictScroll{padding-bottom:96px}
 .dx-when:empty,.dx-irb{display:none}
 .dx-word .dx-prog{display:none}
-/* ночь */
-html.night .hm-card,.night .hm-card{background:var(--surface);color:var(--ink);box-shadow:inset 0 0 0 2px rgba(0,0,0,.28),0 4px 0 rgba(0,0,0,.28)}
-html.night .hm-rev,.night .hm-rev{background:hsl(249 35% 17%)}
-html.night .hm-card .eyebrow,html.night .hm-row p,html.night .hm-gt small,.night .hm-card .eyebrow,.night .hm-row p,.night .hm-gt small{color:var(--muted)}
-html.night .hm-goal .goal-donut::before,.night .hm-goal .goal-donut::before{background:var(--surface)}
-html.night .hm-goal .goal-donut,.night .hm-goal .goal-donut{background:conic-gradient(var(--sign) calc(var(--g) * 1%),var(--line) 0)}
-html.night .hm-goal .goal-donut span,.night .hm-goal .goal-donut span{color:var(--ink)}
 html.night .nt-fab,.night .nt-fab{background:var(--sign)!important;color:var(--sign-ink)!important;border:0!important;box-shadow:0 8px 20px rgba(0,0,0,.35)!important}
 </style>
 
@@ -13489,7 +13434,7 @@ function openInvite(g) {
   const text = `Присоединяйся к группе «${g.name}» в «Hi There» — учим английский на реальных ситуациях. Код группы: ${g.code}` + (CLOUD && g.cloud ? `\n${siteUrl()}?join=${encodeURIComponent(g.code)}\nНа iPhone открывай ссылку в Safari — так приложение можно установить на экран.` : "");
   openSheet(`<div class="sh-head"><span class="eyebrow">Приглашение</span><h2>Пригласить в «${esc(g.name)}»</h2></div>
     ${full ? `<div class="task-box" style="margin-top:0"><b>Группа заполнена</b>В группе уже 10 из 10 участников — это максимум, чтобы каждый успевал проверять ДЗ друзей.</div>` : `
-    <p class="muted" style="font-size:14px">Отправьте друзьям код — они введут его в разделе «Группы» → «Вступить по коду».</p>
+    <p class="muted" style="font-size:14px">Отправьте друзьям код — они введут его в разделе «Мои группы» → «Вступить по коду».</p>
     <div class="code-box">${esc(g.code)}</div>
     ${slotsHTML(g)}<p class="slots-lbl">Свободно мест: ${MAX_MEMBERS - g.members.length} из ${MAX_MEMBERS}</p>
     <label class="fld-label" for="invText">Текст приглашения</label>
@@ -14144,7 +14089,7 @@ function finishOnboarding(demo) {
   renderMe(); renderFeed(); renderGroups(); renderPath();
   const o = $("#onboard"); o.classList.add("out");
   setTimeout(() => { o.hidden = true; o.classList.remove("out"); }, 500);
-  switchTab("home");
+  switchTab("ex");
 }
 function renderOnb(dir) {
   const o = $("#onboard"), d = OB.d, st = OB_STEPS[OB.step];
@@ -15748,7 +15693,7 @@ function chatTour() {
     GUIDE.chatTour = 1; saveGuide();
     spotlight([
       { el: () => $("#chatList .msg.them .bubble"), text: "Это пишет собеседник. <b>🔊</b> — послушать фразу, <b>«Разбор»</b> — перевод и объяснение, как она устроена." },
-      { el: () => $("#chatList .msg.them .b-text .mw"), pad: 4, text: "Нажмите на <b>любое слово</b> — выделите его маркером, и оно попадёт в ваш словарь на вкладке <b>«Слова»</b>." },
+      { el: () => $("#chatList .msg.them .b-text .mw"), pad: 4, text: "Нажмите на <b>любое слово</b> — выделите его маркером, и оно попадёт в ваш словарь в <b>Book</b>." },
       { el: () => ($("#talk") && !$("#talk").hidden ? $("#talk") : $("#composer")), pad: 4, text: "Ваша очередь! Вверху — что нужно сказать по-русски. <b>Соберите фразу из слов</b> по порядку или переключитесь на «Написать». Застряли — нажмите 💡." }
     ]);
   };
@@ -21001,7 +20946,7 @@ function hcSetView(v) {
     const a = e.target.closest("[data-hc]"); if (!a) return;
     const k = a.dataset.hc;
     if (k === "edit") { e.stopPropagation(); openGroupEdit(a.dataset.g); return; }
-    if (k === "open") { const id = a.dataset.id; if (!itemsFor(id).length) { toast(id.startsWith("g:") ? "В этой группе пока нет слов — добавьте их в словаре" : "Здесь пока пусто"); return; } startDeck(id); return; }
+    if (k === "open") { const id = a.dataset.id; if (!itemsFor(id).length) { toast(id.startsWith("g:") ? "В этой группе пока нет слов — добавьте их в Book" : "Здесь пока пусто"); return; } startDeck(id); return; }
     if (k === "home") { hcSetView("home"); return; }
     if (k === "newGroup") { openGroupNew(); return; }
   });
@@ -21171,7 +21116,7 @@ renderCard = function (enter) {
   const it = cards.items[cards.pos];
   if (!cards.items.length || !it) {
     ctl.hidden = true;
-    if (!cards.items.length) { st.innerHTML = `<div class="deck-done"><h3>Здесь пока пусто</h3><p>Добавляйте слова в словарь — они появятся в этой колоде.</p><div class="dd-btns"><button class="btn primary" data-hc="home">К колодам</button></div></div>`; return; }
+    if (!cards.items.length) { st.innerHTML = `<div class="deck-done"><h3>Здесь пока пусто</h3><p>Добавляйте слова в Book — они появятся в этой колоде.</p><div class="dd-btns"><button class="btn primary" data-hc="home">К колодам</button></div></div>`; return; }
     const total = cards.items.length, pct = Math.round(cards.known / total * 100);
     if (!cards.rewarded && total >= 3) { cards.rewarded = true; R.counts.decks++; saveR(); const nm = hcDeckName(cards.deck); setTimeout(() => award({ title: "Колода пройдена", rows: [["Колода «" + nm + "»", 10]], mini: true }), 700); }
     st.innerHTML = `<div class="deck-done"><div class="ring" id="ddRing" style="--rc:${pct >= 70 ? "var(--accent)" : pct >= 40 ? "var(--p3)" : "var(--danger)"}"><span>${cards.known}<small>из ${total}</small></span></div>
@@ -22795,7 +22740,7 @@ renderPath2 = function () {
 const frStoreSet = store.set.bind(store);
 store.set = (k, v) => { frStoreSet(k, v); if (k === K_PATH || k === K_R) { clearTimeout(FR.t); FR.t = setTimeout(() => { renderFriends(); FR.publish(); }, 800); } };
 FR.publish = () => {};
-if (INTRO.groups && INTRO.groups.steps) INTRO.groups.steps.push(["👋", "<b>«Друзья»</b> — добавьте друга и смотрите, кто на каком уроке пути"]);
+if (INTRO.groups && INTRO.groups.steps) INTRO.groups.steps.push(["👋", "<b>«Мои друзья»</b> — добавьте друга и смотрите, кто на каком уроке пути"]);
 renderFriends();
 
 // ---------- «Добавить в друзья» из группы: аватарка в чате и список участников ----------
@@ -23551,7 +23496,7 @@ sb.auth.onAuthStateChange((ev, session) => setTimeout(() => onAuth(ev, session),
       const a = e.target.closest("[data-a]"); if (!a) return;
       closeSheet();
       if (a.dataset.a === "yes") FR.accept(f.id);
-      else { toast("Заявка ждёт в «Люди» → «Друзья»"); setTimeout(() => askNewRequests(), 800); }
+      else { toast("Заявка ждёт в «Люди» → «Мои друзья»"); setTimeout(() => askNewRequests(), 800); }
     };
   }
 
@@ -23572,7 +23517,7 @@ sb.auth.onAuthStateChange((ev, session) => setTimeout(() => onAuth(ev, session),
       return { err: "Не получилось — проверьте интернет." };
     }
     await loadFriends();
-    return { msg: data === "accepted" ? "Теперь вы друзья! 🎉" : data === "exists" ? "Вы уже друзья" : data === "pending" ? "Заявка уже отправлена — ждём ответа" : "Заявка отправлена — друг увидит её в разделе «Люди» → «Друзья»" };
+    return { msg: data === "accepted" ? "Теперь вы друзья! 🎉" : data === "exists" ? "Вы уже друзья" : data === "pending" ? "Заявка уже отправлена — ждём ответа" : "Заявка отправлена — друг увидит её в «Люди» → «Мои друзья»" };
   };
   FR.accept = async id => {
     const [a, b] = pairOf(CLOUD.uid, id);
@@ -24412,7 +24357,7 @@ const PUSH = (() => {
     };
   }
   // открыть нужный экран по нажатию на уведомление
-  function openFrom(tab) { if (tab === "cards" || tab === "dict") setTimeout(() => { try { setView("#dictSeg", DICT_VIEWS, "words"); switchTab("dict", true); } catch (e) {} }, 300); }
+  function openFrom(tab) { if (tab === "cards") setTimeout(() => { try { switchTab("cards", true); } catch (e) {} }, 300); }
   if (can()) navigator.serviceWorker.addEventListener("message", e => { if (e.data && e.data.push === "open") openFrom(e.data.tab); });
   { const t = new URLSearchParams(location.search).get("tab"); if (t) setTimeout(() => openFrom(t), 900); }
 
@@ -24439,215 +24384,39 @@ const PUSH = (() => {
 })();
 // отправил слова в повторение — предлагаем напоминания
 { const q = irQueue; irQueue = function () { const r = q.apply(this, arguments); try { PUSH.offer(); } catch (e) {} return r; }; }
-// ================== НОВЫЕ ВКЛАДКИ: Учёба · Упражнения · Слова · Люди ==================
-// Учёба — что сделать сегодня: мой путь, повторение слов, цель дня, фразы дня.
-// Упражнения — тренировки по группам: чтение, грамматика, живая речь.
-// Слова — словарь с повторением, карточки и подборки фраз.
-// Люди — лента, группы, друзья и ДЗ.
-const NT_ORDER = ["home", "ex", "dict", "feed"];
-const NT_HELP = { home: "home", ex: "ex", dict: "dict", cards: "cards", feed: "feed" };
-const NT_PILLS = $("#scr-feed .pills");
-const ntTab = n => (n === "cards" ? "dict" : tabOf(n));
-// шапка нужного экрана: кнопки ?, серия и профиль переезжают туда, куда перешли
-function ntPlacePills(name) {
-  if (!NT_PILLS) return;
-  const t = name === "cards" ? "cards" : tabOf(name), top = $(`#scr-${t} .top`); if (!top) return;
-  if (NT_PILLS.parentNode !== top) top.appendChild(NT_PILLS);
-  NT_PILLS.dataset.on = t;
-  const h = $(".help-btn", NT_PILLS); if (h) h.dataset.help = NT_HELP[t] || t;
-}
+// ================== ВКЛАДКИ: «Люди» вместо «Ленты», «Учёба» вместо «Пути»; в Book — повторение лесенкой и круглая «＋» ==================
 (() => {
-  // ---------- экран «Учёба» ----------
-  $(".screens").insertAdjacentHTML("afterbegin", `<section class="screen" id="scr-home" aria-label="Учёба">
-    <header class="top"></header>
-    <div class="scroll hm-scroll" id="homeScroll"><div id="hmHi"></div><div id="hmPath"></div><div id="hmRev"></div><div id="hmGoal"></div></div>
-  </section>`);
-  const brand = $("#scr-feed .top .brand"); if (brand) $("#scr-home .top").appendChild(brand);
-  // фразы дня — на «Учёбу»
-  const daily = $("#dictScroll .daily"); if (daily) { daily.classList.add("hm-daily"); $("#homeScroll").appendChild(daily); }
-
-  // ---------- «Люди»: лента, группы, друзья, ДЗ ----------
+  const bar = $("#tabbar"), fd = $('.tab[data-tab="feed"]', bar), pt = $(".tab-path", bar);
+  fd.firstElementChild.outerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="6.2"/><path d="M5.6 10.3c-2.6 1.6-3.9 3.1-3.4 4.1.8 1.5 6 .3 11.6-2.6s9.4-6.6 8.6-8.1c-.5-1-2.6-.9-5.4.2"/></svg>`;
+  $("span:not(.badge)", fd).textContent = "Люди";
   $("#scr-feed").setAttribute("aria-label", "Люди");
-  $("#scr-feed .top").insertAdjacentHTML("afterbegin", `<h1>Люди</h1>`);
-  const fs = $("#feedSeg");
-  fs.classList.remove("three"); fs.classList.add("four");
-  [["feed", "Лента"], ["groups", "Группы"], ["friends", "Друзья"]].forEach(([v, t]) => { const b = $(`button[data-v="${v}"]`, fs); if (b && b.firstChild && b.firstChild.nodeType === 3) b.firstChild.nodeValue = t + (b.children.length ? " " : ""); });
-  fs.insertAdjacentHTML("beforeend", `<button data-v="hw">ДЗ</button>`);
-  $("#friendsScroll").after($("#hwScroll"));
-  FEED_VIEWS.hw = "#hwScroll"; delete DICT_VIEWS.hw;
-
-  // ---------- «Слова»: словарь, карточки, подборки ----------
-  const dict = $("#scr-dict");
-  dict.setAttribute("aria-label", "Слова");
-  $(".top h1", dict).textContent = "Слова";
-  $(".top-acts .help-btn", dict)?.remove();
-  const ds = $("#dictSeg");
-  ds.setAttribute("aria-label", "Раздел «Слова»");
-  ds.innerHTML = `<span class="seg-ind"></span><button class="on" data-v="words">Словарь</button><button data-v="cards">Карточки</button><button data-v="packs">Подборки</button>`;
-  ds.addEventListener("click", e => { const b = e.target.closest('button[data-v="cards"]'); if (!b) return; e.stopPropagation(); switchTab("cards"); }, true);
+  if (pt) { $("span", pt).textContent = "Учёба"; pt.setAttribute("aria-label", "Учёба: весь путь"); }
+  // «+» — круглая кнопка внизу справа, только в словаре
+  const dict = $("#scr-dict"), add = $("#dictAdd");
+  if (add) { add.className = "dx-add nt-fab"; add.textContent = "＋"; add.setAttribute("aria-label", "Добавить слово или фразу"); dict.appendChild(add); }
   dict.dataset.v = "words";
-  // «+» — круглая кнопка внизу справа
-  const add = $("#dictAdd"); if (add) { add.className = "dx-add nt-fab"; add.textContent = "＋"; dict.appendChild(add); }
   dict.addEventListener("click", e => {
     const b = e.target.closest("[data-ir]"); if (!b) return;
     if (b.dataset.ir === "start") startIr();
     if (b.dataset.ir === "how") irHowSheet();
     if (b.dataset.ir === "pick") irPickSheet();
   });
-  // экран колод — часть «Слов»: та же шапка и тот же переключатель
-  const cs = $("#scr-cards");
-  cs.setAttribute("aria-label", "Слова · Карточки");
-  $(".top h1", cs).textContent = "Слова";
-  $(".top .help-btn", cs)?.remove();
-  $(".top", cs).insertAdjacentHTML("afterend", `<div class="seg-wrap nt-cseg"><div class="seg wide three" id="cardsSeg" role="tablist" aria-label="Раздел «Слова»" style="--si:1"><span class="seg-ind"></span><button data-v="words">Словарь</button><button class="on" data-v="cards">Карточки</button><button data-v="packs">Подборки</button></div></div>`);
-  $("#cardsSeg").addEventListener("click", e => {
-    const b = e.target.closest("button[data-v]"); if (!b || b.dataset.v === "cards") return;
-    setView("#dictSeg", DICT_VIEWS, b.dataset.v); switchTab("dict");
-  });
-
-  // ---------- нижнее меню: 4 вкладки с подписями ----------
-  const bar = $("#tabbar"), tab = k => $(`.tab[data-tab="${k}"]`, bar);
-  $(".tab-path", bar)?.remove(); tab("cards")?.remove();
-  bar.insertAdjacentHTML("beforeend", `<button class="tab" data-tab="home" role="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 9 12 4.5 21.5 9 12 13.5z"/><path d="M6.5 11v4.6c0 1.6 2.5 3.2 5.5 3.2s5.5-1.6 5.5-3.2V11"/><path d="M21.5 9v5"/></svg><span>Учёба</span></button>`);
-  const ex = tab("ex"), dt = tab("dict"), fd = tab("feed");
-  dt.firstElementChild.outerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7.5" y="3" width="13" height="16" rx="3"/><path d="M4 7.5v10a3.5 3.5 0 0 0 3.5 3.5H15"/></svg>`;
-  $("span:not(.badge)", dt).textContent = "Слова";
-  fd.firstElementChild.outerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="6.2"/><path d="M5.6 10.3c-2.6 1.6-3.9 3.1-3.4 4.1.8 1.5 6 .3 11.6-2.6s9.4-6.6 8.6-8.1c-.5-1-2.6-.9-5.4.2"/></svg>`;
-  $("span:not(.badge)", fd).textContent = "Люди";
-  bar.append(tab("home"), ex, dt, fd);
-  ex.removeAttribute("aria-label");
 })();
-
-// ---------- переключение вкладок ----------
-TABS.splice(0, TABS.length, "home", "ex", "walk", "dict", "cards", "feed");
-const ntSwitch = switchTab;
-switchTab = function (name, instant) {
-  ntSwitch(name, instant);
-  const t = ntTab(name);
-  $$("#tabbar .tab").forEach(b => { const on = b.dataset.tab === t; b.classList.toggle("active", on); b.setAttribute("aria-selected", on ? "true" : "false"); });
-  $("#tabInd").style.setProperty("--i", Math.max(0, NT_ORDER.indexOf(t)));
-  ntPlacePills(name);
-  if (name === "home") renderHome();
-  if (name === "cards") { const sg = $("#cardsSeg"); if (sg) $$("button", sg).forEach(b => b.classList.toggle("on", b.dataset.v === "cards")); }
-};
 const ntSetView = setView;
 setView = function (segSel, views, v) { ntSetView(segSel, views, v); if (segSel === "#dictSeg") $("#scr-dict").dataset.v = v; };
-
-// ---------- «Учёба» ----------
-function hmPathHTML() {
-  const lv = PS.level, L = PATH[lv];
-  if (COURSE[lv]) {
-    const cur = courseCur(lv), items = courseItems(lv), done = courseDone(lv), m = cur ? COURSE[lv].modules[cur.mi] : null;
-    const mDone = m ? m.items.filter(itemDone).length : 0;
-    return `<section class="ex-path hm-path">
-      <div class="ex-path-top"><span class="eyebrow">🎓 Мой путь</span><span class="ex-lv">${lv}${L.next ? ` → ${L.next}` : ""}</span></div>
-      <b class="ex-path-t">${cur ? esc(itemLabel(cur)) : "Новые уроки готовятся"}</b>
-      <span class="ex-path-g">${m ? `Модуль ${cur.mi + 1} «${esc(m.t)}» · ${mDone} из ${m.items.length}` : esc(COURSE[lv].goal)}</span>
-      <div class="pt-bar"><i style="width:${done / items.length * 100}%"></i></div>
-      <div class="ex-path-btns"><button class="btn primary" data-hm="go">${done ? "▶ Продолжить" : "▶ Начать"}</button><button class="btn ghost" data-hm="map">Весь путь</button></div>
-    </section>`;
-  }
-  const ci = Math.min(curIndex(lv), L.units.length - 1), u = L.units[ci], dc = doneCount(lv), allDone = curIndex(lv) >= L.units.length;
-  return `<section class="ex-path hm-path">
-    <div class="ex-path-top"><span class="eyebrow">🎓 Мой путь</span><span class="ex-lv">${lv}${L.next ? ` → ${L.next}` : ""}</span></div>
-    <b class="ex-path-t">${allDone ? `Все ступени ${lv} пройдены` : `Ступень ${ci + 1} из ${L.units.length}: ${esc(u.t)}`}</b>
-    <span class="ex-path-g">${allDone ? `Осталось сдать экзамен на ${L.next || "следующий уровень"}` : `${esc(u.g)} · ${esc(u.can)}`}</span>
-    <div class="pt-bar"><i style="width:${dc / L.units.length * 100}%"></i></div>
-    <div class="ex-path-btns"><button class="btn primary" data-hm="go">${allDone ? "🎓 К экзамену" : dc || stepsOf(ukey(lv, ci)).d ? "▶ Продолжить" : "▶ Начать"}</button><button class="btn ghost" data-hm="map">Весь путь</button></div>
-  </section>`;
-}
-function hmRevHTML() {
-  const due = irDue().length, nl = irNewLeft(), todo = due + nl, any = irPool().length || S.dict.some(d => d.ir && d.ir.st < 4);
-  const txt = todo ? `${plural(todo, ["слово ждёт", "слова ждут", "слов ждут"]).replace(/^\S+\s/, "")}: ${[due ? `повторить ${due}` : "", nl ? `новых ${nl}` : ""].filter(Boolean).join(", ")}`
-    : any ? "На сегодня всё повторено. Следующие слова вернутся завтра" : "Выберите слова, которые хотите запомнить надолго";
-  return `<section class="hm-card hm-rev">
-    <span class="eyebrow">🔁 Повторение слов</span>
-    <div class="hm-row"><b class="hm-big">${todo || (any ? "✓" : "0")}</b><p>${txt}</p>
-    <button class="btn ${todo ? "primary" : "soft"}" data-hm="${todo ? "rev" : any ? "words" : "pick"}">${todo ? "Повторить" : any ? "Слова" : "Выбрать"}</button></div>
-  </section>`;
-}
-function hmGoalHTML() {
-  const pct = Math.min(100, R.today / R.goal * 100), left = Math.max(0, R.goal - R.today);
-  return `<button class="hm-card hm-goal" data-hm="goal">
-    <span class="goal-donut" style="--g:${pct}"><span>${Math.min(R.today, R.goal)}<small>/${R.goal}</small></span></span>
-    <span class="hm-gt"><span class="eyebrow">🎯 Цель дня</span><b>${R.streakToday ? "Выполнена! 🔥" : `Ещё ${left} XP`}</b><small>${R.streakToday ? `Серия: ${plural(R.streak, ["день", "дня", "дней"])} подряд` : `и серия станет ${plural(R.streak + 1, ["день", "дня", "дней"])}`}</small></span>
-  </button>`;
-}
-function renderHome() {
-  if (!$("#homeScroll")) return;
-  const nm = ME && ME.name ? String(ME.name).trim().split(/\s+/)[0] : "";
-  $("#hmHi").innerHTML = `<div class="hm-hi"><h2>Привет${nm ? ", " + esc(nm) : ""}!</h2><p>Сегодня: урок, повторение слов и цель дня</p></div>`;
-  $("#hmPath").innerHTML = hmPathHTML();
-  $("#hmRev").innerHTML = hmRevHTML();
-  $("#hmGoal").innerHTML = hmGoalHTML();
-}
-$("#scr-home").addEventListener("click", e => {
-  const b = e.target.closest("[data-hm]"); if (!b) return;
-  const k = b.dataset.hm, lv = PS.level;
-  if (k === "go") {
-    if (COURSE[lv]) { const cur = courseCur(lv); if (cur) openItem(cur.id); else openPath(); }
-    else if (curIndex(lv) >= PATH[lv].units.length) openPath(); else openUnit(lv, curIndex(lv));
-  }
-  if (k === "map") openPath();
-  if (k === "rev") startIr();
-  if (k === "pick") irPickSheet();
-  if (k === "words") { setView("#dictSeg", DICT_VIEWS, "words"); switchTab("dict"); }
-  if (k === "goal") $("#streakPill").click();
-});
-
-// ---------- «Упражнения»: карточка пути переехала на «Учёбу», тренировки — по группам ----------
-const ntRenderEx = renderEx;
-renderEx = function () {
-  const scr = $("#scr-ex"), had = NT_PILLS && scr.contains(NT_PILLS);
-  if (had) NT_PILLS.remove();   // шапку перерисуют — кнопки не теряем
-  ntRenderEx.apply(this, arguments);
-  $(".ex-path", scr)?.remove();
-  $(".top > .help-btn", scr)?.remove();
-  const g = $(".ex-grid", scr);
-  if (g) {
-    const tiles = [...g.children], is = s => tiles.filter(t => t.matches(s));
-    const read = is('[data-x="books"]'), gram = is("[data-ex]"), live = ["chunks", "dialogs", "games", "walk"].flatMap(x => is(`[data-x="${x}"]`));
-    const rest = tiles.filter(t => !read.includes(t) && !gram.includes(t) && !live.includes(t));
-    const frag = document.createDocumentFragment();
-    [["📖 Чтение", read, " one"], ["🧠 Грамматика", gram, ""], ["💬 Живая речь", live.concat(rest), ""]].forEach(([h, list, cls]) => {
-      if (!list.length) return;
-      const hh = document.createElement("h3"); hh.className = "ex-h"; hh.textContent = h; frag.appendChild(hh);
-      const box = document.createElement("div"); box.className = "ex-grid" + cls; list.forEach(t => box.appendChild(t)); frag.appendChild(box);
-    });
-    $(".ex-h", scr)?.remove();
-    g.replaceWith(frag);
-  }
-  if (had || tabOf(S.tab) === "ex") ntPlacePills(S.tab);
-  renderHome();
-};
-INTRO.ex.lead = "Тренировки по темам: чтение, грамматика и живая речь.";
-INTRO.ex.steps = INTRO.ex.steps.filter(s => !/Полное обучение|нижней панели/.test(s[1]));
-INTRO.ex.steps.unshift(["🎓", "Свой путь по урокам — на вкладке <b>«Учёба»</b>. Здесь — тренировки на любую тему в любом порядке"]);
-INTRO.home = { e: "🎓", t: "Учёба", lead: "Всё, что стоит сделать сегодня, — на одном экране.", steps: [
-  ["🎓", "<b>Мой путь</b> — следующий урок. «Весь путь» — все уровни, модули и уроки"],
-  ["🔁", "<b>Повторение слов</b> — слова, которым сегодня пора вернуться"],
-  ["🎯", "<b>Цель дня</b> — наберите опыт (XP), чтобы продлить серию 🔥"],
-  ["☀️", "<b>Фразы дня</b> — новые фразы каждый день: добавляйте их в словарь"]] };
-INTRO.dict = { e: "🃏", t: "Слова", lead: "Ваши слова, повторение и карточки — в одном месте.", steps: [
-  ["🔁", "<b>Повторение</b> сверху — лесенка: сегодня, завтра, через 3 дня, через неделю"],
-  ["🖍️", "<b>Словарь</b> — слова, которые вы выделили маркером или добавили круглой кнопкой «＋»"],
-  ["🃏", "<b>Карточки</b> — колоды для тренировки: ваши группы и готовые темы"],
-  ["📦", "<b>Подборки</b> — готовые пакеты фраз по темам, можно добавить целиком"]] };
 INTRO.feed.t = "Люди";
-INTRO.feed.steps = INTRO.feed.steps.map(s => [s[0], s[1].replace("«Мои группы»", "«Группы»")]);
-INTRO.feed.steps.push(["📝", "<b>ДЗ</b> — задания: напишите ответ по-английски, а другие ученики его проверят"]);
-if (INTRO.groups) INTRO.groups.t = "Группы";
+INTRO.ex.steps = INTRO.ex.steps.map(s => [s[0], s[1].replace("Лестница в центре нижней панели", "Кнопка «Учёба» с человечком на лестнице в центре нижней панели")]);
+INTRO.dict.steps.unshift(["🔁", "<b>Интервальное повторение</b> сверху — лесенка: сегодня, завтра, через 3 дня, через неделю"]);
+INTRO.dict.steps.push(["＋", "Своё слово или фразу добавляйте <b>круглой кнопкой «＋»</b> внизу справа"]);
 
-// ---------- одно повторение: лесенка ----------
-// в «Словах» сверху — лесенка; на экране колод её больше нет
+// ---------- повторение — в словаре: лесенка вместо прежней стопки; на экране колод её больше нет ----------
 dxHeroHTML = () => irCardHTML();
 const ntHcHome = renderHcHome;
 renderHcHome = function () {
   ntHcHome.apply(this, arguments);
   const box = $("#hcHome"); if (box) { $(".ir-card", box)?.remove(); $(".vb-cta", box)?.remove(); }
-  renderBadge(); renderHome();
 };
-// подписи в списке слов — по лесенке
+// подписи и фильтры в списке слов — по лесенке
 dxWhen = function (d) {
   const ir = d.ir; if (!ir) return "";
   if (ir.st >= 4) return "выучено";
@@ -24663,26 +24432,14 @@ Object.assign(dxIs, {
 });
 DX_F.splice(0, DX_F.length, ["all", "Все"], ["irdue", "Сегодня"], ["irin", "В повторении"], ["irno", "Не в повторении"], ["irdone", "Выучено"]);
 if (!dxIs[S.dxF] || !DX_F.some(f => f[0] === S.dxF)) S.dxF = "all";
-// на вкладке «Слова» — сколько слов ждёт повторения
-renderBadge = function () {
-  const b = $("#dictBadge"); if (!b) return;
-  let n = 0; try { n = irDue().length + irNewLeft(); } catch (e) {}
-  b.hidden = !n; b.textContent = n;
-};
-const ntRenderMe = renderMe;
-renderMe = function () { const r = ntRenderMe.apply(this, arguments); renderHome(); return r; };
 const ntRenderDict = renderDict;
 renderDict = function () {
   const r = ntRenderDict.apply(this, arguments);
   const c = $("#dictCount"); if (c && S.dict.length) c.textContent = `${plural(S.dict.length, ["слово", "слова", "слов"])} · ${irDone()} выучено`;
-  renderBadge(); return r;
+  return r;
 };
-// колода «Повторить сегодня» считала по старой системе — повторение теперь одно, лесенкой
-const ntHcDecks = hcDecks;
-hcDecks = function () { const r = ntHcDecks.apply(this, arguments); r.mine = r.mine.filter(d => d.id !== "due"); return r; };
-renderEx();
-renderHome();
-renderBadge();
+renderDict();
+renderHcHome();
 // ================== СТАРТ ==================
 renderLevel();
 renderMe();
@@ -24697,7 +24454,7 @@ renderDict();
 renderPacks();
 renderDeckChips();
 startDeck("mine");
-switchTab("home", true);
+switchTab("feed", true);
 if (GUIDE.chatTour) { const lv = PS.level, ci = Math.min(curIndex(lv), PATH[lv].units.length - 1), us = unitSit(lv, ci); if (us) loadSituation(us, { unit: ukey(lv, ci) }); else loadSituation(SITS[0]); } else chatWelcome();
 if (!ME) startOnboarding();
 </script>
