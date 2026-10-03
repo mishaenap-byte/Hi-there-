@@ -2538,6 +2538,63 @@ html.native #sheet{padding-bottom:var(--sab)}
 .ck-dbody{padding-bottom:20px}
 .ck-setup{margin:4px 0 14px;padding:10px 12px;border-radius:14px;background:#F1F3F6;font-size:14px;font-weight:700;color:#4A4E5A;line-height:1.4}
 .ck-dfoot{flex:none;padding:10px 16px calc(14px + env(safe-area-inset-bottom,0px));border-top:2px solid #E3E6EC;background:#fff;min-height:20px}
+/* книги: обложка, список басен, чтение по фразам */
+.bk-cover{display:flex;gap:14px;align-items:center;margin:4px 2px 12px;padding:14px;border-radius:24px;background:#FFE1BE;box-shadow:inset 0 0 0 2.5px #17171F}
+.bk-book{position:relative;flex:none;width:84px;height:116px;border-radius:6px 12px 12px 6px;background:#7A2E1F;box-shadow:inset 0 0 0 2.5px #17171F,4px 5px 0 #17171F;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;color:#F8D9A0}
+.bk-book i{position:absolute;left:9px;top:0;bottom:0;width:2.5px;background:rgba(0,0,0,.35)}
+.bk-book b{font:400 13.5px/1.1 "Dela Gothic One",var(--f-body,system-ui);padding:6px 4px 6px 12px;border-top:1.5px solid #F8D9A0;border-bottom:1.5px solid #F8D9A0}
+.bk-book small{font-size:10.5px;font-weight:800;letter-spacing:.08em;padding-left:8px}
+.bk-ci{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.bk-ci small{font-size:11.5px;font-weight:800;color:#6B4A2A}
+.bk-ci b{font:400 19px/1.15 "Dela Gothic One",var(--f-body,system-ui);color:#17171F}
+.bk-ci>span{font-size:13px;font-weight:700;color:#4A4E5A;margin-bottom:8px}
+.bk-ci em{font-style:normal;font-size:12.5px;font-weight:800;color:#4A4E5A;margin-top:6px}
+.bk-how{margin:0 4px 16px;font-size:13.5px;line-height:1.45;font-weight:600;color:#4A4E5A}
+.bk-item{width:100%;display:flex;align-items:center;gap:12px;margin:0 0 10px;padding:11px 14px 11px 11px;border-radius:20px;background:#fff;box-shadow:inset 0 0 0 2.5px #17171F,0 4px 0 #17171F;text-align:left;transition:transform .15s}
+.bk-item:active{transform:translateY(3px);box-shadow:inset 0 0 0 2.5px #17171F,0 1px 0 #17171F}
+.bk-no{flex:none;width:36px;height:36px;border-radius:12px;display:grid;place-items:center;background:#FFE1BE;box-shadow:inset 0 0 0 2px #17171F;font:400 14px "Dela Gothic One",var(--f-body,system-ui);color:#17171F}
+.bk-item.done .bk-no{background:#7BEA64}
+.bk-it{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.bk-it b{font-size:15px;font-weight:800;line-height:1.25;color:#17171F}
+.bk-it span{font-size:12.5px;font-weight:600;color:#6B7080}
+.bk-dur{flex:none;font-size:12px;font-weight:800;color:#6B7080}
+.bk-read{padding-bottom:36px}
+.bk-h{margin:6px 2px 2px;font:400 23px/1.2 "Dela Gothic One",var(--f-body,system-ui);color:#17171F}
+.bk-ru{margin:0 2px 14px;font-size:14px;font-weight:700;color:#6B7080}
+.bk-p{margin:0 2px 14px;font-size:18px;line-height:1.6;font-weight:600;color:#2A2D36}
+.bk-s{border-radius:8px;padding:1px 2px;margin:0 -2px;cursor:pointer;-webkit-box-decoration-break:clone;box-decoration-break:clone;transition:background-color .2s,color .2s}
+.bk-s.cur{background:#FFF3A6;box-shadow:0 0 0 1.5px rgba(23,23,31,.18)}
+.bk-s.now{background:#FFE14D;color:#17171F}
+.bk-moral{margin:6px 0 14px;padding:12px 14px;border-radius:18px;background:#EDE6FF;box-shadow:inset 0 0 0 2.5px #17171F}
+.bk-moral small{display:block;font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:#5B4A8A;margin-bottom:4px}
+.bk-moral p{margin:0;font-size:17px;line-height:1.5;font-weight:800;color:#17171F}
+.bk-moral em{display:block;margin-top:6px;font-style:normal;font-size:13.5px;font-weight:600;color:#4A4E5A;line-height:1.4}
+.bk-read.hide .bk-s:not(.open){color:transparent;background:#E6E8EE;text-shadow:none}
+.bk-read.hide .bk-s.cur:not(.open){background:#FFE9A3}
+.bk-read.hide .bk-s.now:not(.open){background:#FFE14D}
+.bk-read.hide .bk-moral em{visibility:hidden}
+.bk-end{margin:18px 0 6px;padding:16px;border-radius:20px;background:#F4FDF6;box-shadow:inset 0 0 0 2.5px #17171F;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+.bk-end b{font:400 16px "Dela Gothic One",var(--f-body,system-ui)}
+.bk-end span{font-size:13.5px;font-weight:600;color:#4A4E5A}
+.bk-end .btn{max-width:100%;white-space:normal;height:auto;min-height:44px;padding:8px 16px}
+.bk-foot{flex:none;padding:10px 14px calc(12px + env(safe-area-inset-bottom,0px));border-top:2px solid #E3E6EC;background:#fff}
+.bk-opts{display:flex;gap:6px;align-items:center;margin-bottom:10px}
+.bk-mode{display:flex;padding:3px;border-radius:12px;background:#F1F3F6}
+.bk-mode button{padding:6px 10px;border-radius:9px;font-size:12.5px;font-weight:800;color:#6B7080;white-space:nowrap}
+.bk-mode button.on{background:#17171F;color:#fff}
+.bk-chip{padding:7px 9px;border-radius:11px;background:#F1F3F6;font-size:12.5px;font-weight:800;color:#2A2D36;white-space:nowrap}
+.bk-chip.on{background:#FFE14D;box-shadow:inset 0 0 0 1.5px #17171F}
+.bk-opts .bk-chip:last-child{margin-left:auto}
+.bk-ctl{display:flex;align-items:center;justify-content:center;gap:14px;position:relative}
+.bk-b{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;background:#F1F3F6;color:#17171F}
+.bk-b:active{transform:scale(.94)}
+.bk-play{width:64px;height:64px;border-radius:22px;display:grid;place-items:center;background:#FFE14D;color:#17171F;box-shadow:inset 0 0 0 2.5px #17171F,0 4px 0 #17171F}
+.bk-play:active{transform:translateY(3px);box-shadow:inset 0 0 0 2.5px #17171F,0 1px 0 #17171F}
+.bk-play svg{width:28px;height:28px}
+.bk-cnt{position:absolute;right:0;bottom:-2px;font-size:11.5px;font-weight:800;color:#8A8F9C}
+.bk-spin{width:24px;height:24px;border-radius:50%;border:3px solid rgba(23,23,31,.2);border-top-color:#17171F;animation:bkSpin .8s linear infinite}
+@keyframes bkSpin{to{transform:rotate(360deg)}}
+@media (max-width:370px){.bk-mode button{padding:6px 7px}.bk-chip{padding:7px 7px}.bk-ctl{gap:10px}.bk-cnt{display:none}}
 html.native .ck-dfoot{padding-bottom:calc(14px + var(--sab))}
 .ck-your{margin:2px 2px 8px;font-size:12px;font-weight:800;color:#6B7080;text-transform:uppercase;letter-spacing:.03em}
 .ck-opts{display:flex;flex-direction:column;gap:8px}
@@ -3603,6 +3660,30 @@ html.night .ck-opt:active{box-shadow:inset 0 0 0 2.5px rgba(0,0,0,.28),0 1px 0 r
 html.night .ck-opt.miss{background:hsl(0 35% 17%);box-shadow:inset 0 0 0 2.5px rgba(0,0,0,.28);color:hsl(0 32% 74%)}
 html.night .ck-why{background:hsl(44 38% 15%)}
 html.night .ck-typing i{background:hsl(219 9% 22%)}
+html.night .bk-cover{background:hsl(30 38% 16%);box-shadow:inset 0 0 0 2.5px rgba(0,0,0,.28)}
+html.night .bk-book{box-shadow:inset 0 0 0 2.5px rgba(0,0,0,.35),4px 5px 0 rgba(0,0,0,.35)}
+html.night .bk-ci small{color:hsl(32 40% 70%)}
+html.night .bk-ci b{color:var(--ink)}
+html.night :is(.bk-ci>span,.bk-ci em,.bk-how,.bk-moral em,.bk-end span){color:var(--ink-2,var(--ink))}
+html.night .bk-item{background:var(--surface);box-shadow:inset 0 0 0 2.5px rgba(0,0,0,.28),0 4px 0 rgba(0,0,0,.28)}
+html.night .bk-item:active{box-shadow:inset 0 0 0 2.5px rgba(0,0,0,.28),0 1px 0 rgba(0,0,0,.28)}
+html.night .bk-no{background:hsl(30 38% 22%);box-shadow:inset 0 0 0 2px rgba(0,0,0,.28);color:var(--ink)}
+html.night .bk-item.done .bk-no{background:hsl(110 42% 36%)}
+html.night :is(.bk-it b,.bk-h,.bk-p,.bk-moral p,.bk-end b){color:var(--ink)}
+html.night .bk-s.cur{background:hsl(50 45% 22%);box-shadow:0 0 0 1.5px rgba(255,255,255,.12)}
+html.night .bk-s.now{background:hsl(50 70% 34%);color:#fff}
+html.night .bk-moral{background:hsl(257 35% 17%);box-shadow:inset 0 0 0 2.5px rgba(0,0,0,.28)}
+html.night .bk-moral small{color:hsl(257 50% 78%)}
+html.night .bk-read.hide .bk-s:not(.open){background:hsl(216 11% 20%)}
+html.night .bk-read.hide .bk-s.cur:not(.open){background:hsl(50 45% 22%)}
+html.night .bk-read.hide .bk-s.now:not(.open){background:hsl(50 70% 34%)}
+html.night .bk-end{background:hsl(133 35% 17%);box-shadow:inset 0 0 0 2.5px rgba(0,0,0,.28)}
+html.night .bk-foot{border-top:2px solid var(--line);background:var(--surface)}
+html.night :is(.bk-mode,.bk-chip,.bk-b){background:hsl(216 11% 17%);color:var(--ink)}
+html.night .bk-mode button{color:var(--muted)}
+html.night .bk-mode button.on{background:var(--ink);color:var(--bg)}
+html.night .bk-chip.on{background:hsl(50 70% 34%);color:#fff;box-shadow:none}
+html.night .bk-play{background:var(--sign);color:var(--sign-ink);box-shadow:inset 0 0 0 2.5px rgba(0,0,0,.28),0 4px 0 rgba(0,0,0,.28)}
 html.night .w4-page{background:hsl(249 22% 17%)}
 html.night .w4{color:hsl(249 23% 74%)}
 html.night .w4-card{background:rgba(22,29,40,.95);box-shadow:0 10px 28px rgba(30,20,70,.18),inset 0 1px 0 var(--line)}
@@ -19704,6 +19785,239 @@ renderEx = function () {
   g.insertAdjacentHTML("afterbegin", `<button class="ex-tile" data-x="chunks" style="--tb:#EDE6FF"><span class="ex-e">🧩</span><b>Чанки</b><span>100 готовых фраз для живого разговора: 10 тем</span><em>${started ? `${done} из 10 тем` : "10 тем · 100 фраз"}</em>${done === 10 ? `<i class="ex-ok">✓</i>` : `<i class="ex-tag">Новое</i>`}</button>`);
 };
 $("#scr-ex").addEventListener("click", e => { if (e.target.closest('[data-x="chunks"]')) openChunks(); });
+renderEx();
+// ================== КНИГИ: читаем и слушаем оригинал по фразам ==================
+// Æsop's Fables, A New Revised Version (1884). Запись LibriVox — общественное достояние; файлы лежат рядом с сайтом в books/aesop/.
+// Каждая фраза привязана к записи: [текст, начало, конец] в секундах от начала файла басни. Стыки фраз стоят в паузах чтеца.
+const AESOP = [{"n":1,"t":"The Wolf Turned Shepherd","ru":"Волк в одежде пастуха","a":"f01.mp3","d":40.8,"tt":[0.25,2.47],"p":[[["A wolf, finding that the sheep were so afraid of him that he could not get near them, disguised himself in the dress of a shepherd,",4.12,11.76],["and thus attired approached the flock.",12.17,14.84],["As he came near, he found the shepherd fast asleep.",15.6,18.79],["As the sheep did not run away,",19.59,21.91],["he resolved to imitate the voice of the shepherd.",22.36,25.17],["In trying to do so, he only howled, and awoke the shepherd.",25.85,30.02],["As he could not run away, he was soon killed.",30.41,33.6]]],"m":[["Those who attempt to act in disguise are apt to overdo it.",35.31,40.35]],"mru":"Кто притворяется другим, обычно перегибает палку."},{"n":2,"t":"The Stag at the Pool","ru":"Олень у пруда","a":"f02.mp3","d":55.2,"tt":[0.25,2.05],"p":[[["A stag saw his shadow reflected in the water, and greatly admired the size of his horns,",3.57,9.33],["but felt angry with himself for having such weak feet.",9.9,13.63],["While he was thus contemplating himself, a Lion appeared at the pool.",14.36,19.08],["The Stag betook himself to flight, and kept himself with ease at a safe distance from the Lion, until he entered a wood and became entangled with his horns.",19.46,30.47],["The Lion quickly came up with him and caught him.",30.95,34.32],["When too late he thus reproached himself: \"Woe is me!",35.0,39.09],["How have I deceived myself!",39.35,41.18],["These feet which would have saved me I despised,",41.61,45.26],["and I gloried in these antlers which have proved my destruction.\"",45.53,49.97]]],"m":[["What is most truly valuable is often underrated.",50.6,54.82]],"mru":"Самое ценное мы часто недооцениваем."},{"n":3,"t":"The Fox and the Mask","ru":"Лиса и маска","a":"f03.mp3","d":27.9,"tt":[0.25,2.47],"p":[[["A fox entered the house of an actor,",2.96,5.28],["and, rummaging through all his properties, came upon a Mask, an admirable imitation of a human head.",5.49,12.56],["He placed his paws on it, and said:",12.96,15.5],["\"What a beautiful head! yet it is of no value, as it entirely wants brains.\"",15.82,23.37]]],"m":[["A fair face is of little use without sense.",23.95,27.54]],"mru":"Красивое лицо мало стоит без ума."},{"n":4,"t":"The Bear and the Fox","ru":"Медведь и Лиса","a":"f04.mp3","d":31.0,"tt":[0.25,2.32],"p":[[["A bear boasted very much of his philanthropy,",2.86,6.2],["saying \"that of all animals he was the most tender in his regard for man, for he had such respect for him, that he would not even touch his dead body.\"",6.39,16.82],["A Fox hearing these words said with a smile to the Bear: \"Oh, that you would eat the dead and not the living!\"",17.34,25.26]]],"m":[["We should not wait till a person is dead, to give him our respect.",25.86,30.56]],"mru":"Не стоит ждать, пока человек умрёт, чтобы оказать ему уважение."},{"n":5,"t":"The Wolf and the Lamb","ru":"Волк и Ягнёнок","a":"f05.mp3","d":75.0,"tt":[0.25,2.12],"p":[[["A Wolf, meeting with a Lamb astray from the fold, resolved not to lay violent hands on him,",2.86,9.37],["but to find some plea, which should justify to the Lamb himself his right to eat him.",9.57,15.71],["He then addressed him: \"Sirrah, last year you grossly insulted me.\"",16.17,20.89],["\"Indeed,\" bleated the Lamb in a mournful tone of voice,",21.38,25.21],["\"I was not then born.\"",25.42,27.38],["Then said the Wolf: \"You feed in my pasture.\"",27.86,31.75],["\"No, good sir,\" replied the Lamb, \"I have not yet tasted grass.\"",32.08,37.52],["Again said the Wolf: \"You drink of my well.\"",37.94,41.4],["\"No,\" exclaimed the Lamb, \"I never yet drank water, for as yet my mother's milk is both food and drink to me.\"",41.73,50.87],["On which the Wolf seized him, and ate him up, saying:",51.31,55.3],["\"Well! I won't remain supperless, even though you refute every one of my imputations.\"",55.57,61.56]]],"m":[["The tyrant will always find a pretext for his tyranny, and it is useless for the innocent to try by reasoning to get justice, when the oppressor intends to be unjust.",62.37,74.65]],"mru":"Тиран всегда найдёт повод, и невинному бесполезно искать справедливости доводами, если обидчик решил быть несправедливым."},{"n":6,"t":"The One-Eyed Doe","ru":"Одноглазая лань","a":"f06.mp3","d":52.8,"tt":[0.25,2.54],"p":[[["A Doe, blind of an eye, was accustomed to graze as near to the edge of the sea as she possibly could, to secure greater safety.",3.39,12.34],["She turned her eye towards the land, that she might perceive the approach of a hunter or hound, and her injured eye towards the sea, from which she entertained no anticipation of danger.",12.75,24.48],["Some boatmen, sailing by, saw her, and, taking a successful aim, mortally wounded her.",25.0,32.63],["Said she: \"O wretched creature that I am! to take such precaution against the land, and, after all,",33.05,40.41],["to find this seashore, to which I had come for safety, so much more perilous.\"",40.64,46.82]]],"m":[["Danger sometimes comes from a source that is least suspected.",47.99,52.44]],"mru":"Опасность порой приходит оттуда, откуда её меньше всего ждёшь."},{"n":7,"t":"The Dog, Cock and Fox","ru":"Пёс, Петух и Лиса","a":"f07.mp3","d":62.2,"tt":[0.25,2.69],"p":[[["A Dog and a Cock, traveling together,",3.3,6.07],["took shelter at night in a thick wood.",6.29,8.7],["The Cock perched himself on a high branch, while the Dog found a bed at the foot of the tree.",9.12,14.74],["When morning dawned, the Cock, as usual, crowed very loudly.",15.76,20.19],["A Fox, hearing the sound, and wishing to make a breakfast on him, came and stood under the branches,",20.52,26.39],["saying how earnestly he desired to make the acquaintance of the owner of so sweet a voice.",26.7,32.87]],[["\"If you will admit me,\" said he, \"I should very much like to spend the day with you.\"",33.43,39.28]],[["The Cock said: \"Sir, do me the favor to go round and wake up my porter, that he may open the door, and let you in.\"",39.96,48.17],["On the Fox approaching the tree, the Dog sprang out and caught him and quickly tore him in pieces.",48.67,55.01]]],"m":[["Those who try to entrap others are often caught by their own schemes.",56.01,61.83]],"mru":"Кто ставит ловушки другим, часто сам в них попадается."},{"n":8,"t":"The Mouse, the Frog, and the Hawk","ru":"Мышь, Лягушка и Ястреб","a":"f08.mp3","d":62.8,"tt":[0.25,2.73],"p":[[["A Mouse, by an unlucky chance, formed an intimate acquaintance with a Frog.",3.55,8.81],["The Frog one day, intent on mischief, bound the foot of the Mouse tightly to his own.",9.45,14.93],["Thus joined together, the Frog led his friend toward the pool in which he lived,",15.21,20.21],["until he reached the very brink, when suddenly jumping in,",20.34,24.54],["he dragged the Mouse in with him.",24.75,26.68],["The Frog enjoyed the water amazingly, and swam croaking about as if he had done a meritorious action.",27.24,34.58],["The unhappy Mouse was soon suffocated with the water, and his dead body floated about on the surface, tied to the foot of the Frog.",35.06,43.91],["A Hawk observed it, and, pouncing upon it, carried it up aloft.",44.39,49.4],["The Frog, being still fastened to the leg of the Mouse,",49.86,53.37],["was also carried off a prisoner, and was eaten by the Hawk.",53.77,58.64]]],"m":[["Harm hatch, harm catch.",59.61,62.4]],"mru":"Не рой другому яму — сам в неё попадёшь."},{"n":9,"t":"The Dog and the Oyster","ru":"Пёс и устрица","a":"f09.mp3","d":31.6,"tt":[0.25,2.73],"p":[[["A Dog, used to eating eggs, saw an Oyster,",3.48,7.52],["and opening his mouth to its widest extent, swallowed it down with the utmost relish, supposing it to be an egg.",7.81,16.0],["Soon afterwards suffering great pain in his stomach, he said:",16.41,20.22],["\"I deserve all this torment, for my folly in thinking that everything round must be an egg.\"",20.74,26.81]]],"m":[["Who acts in haste repents at leisure.",27.35,31.2]],"mru":"Кто спешит, тот потом долго жалеет."},{"n":10,"t":"The Wolf and the Shepherds","ru":"Волк и пастухи","a":"f10.mp3","d":22.9,"tt":[0.25,2.35],"p":[[["A Wolf passing by, saw some shepherds in a hut eating for their dinner a haunch of mutton.",3.15,8.59],["Approaching them, he said: \"What a clamor you would raise, if I were to do as you are doing!\"",8.97,15.32]]],"m":[["Men are too apt to condemn in others the very things they practice themselves.",16.44,22.55]],"mru":"Люди охотно осуждают в других то, что делают сами."},{"n":11,"t":"The Hares and the Frogs","ru":"Зайцы и лягушки","a":"f11.mp3","d":57.0,"tt":[0.25,2.74],"p":[[["The Hares, oppressed with a sense of their own exceeding timidity,",3.53,7.76],["and weary of the perpetual alarm to which they were exposed,",7.95,12.1],["with one accord determined to put an end to themselves and their troubles,",12.38,17.48],["by jumping from a lofty precipice into a deep lake below.",17.6,21.57],["As they scampered off in a very numerous body to carry out their resolve, the Frogs lying on the banks of the lake heard the noise of their feet,",22.03,31.2],["and rushed helter-skelter to the deep water for safety.",31.41,34.58],["On seeing the rapid disappearance of the Frogs,",35.11,38.04],["one of the Hares cried out to his companions: \"Stay, my friends,",38.32,42.97],["do not do as you intended; for you now see that other creatures who yet live are more timorous than ourselves.\"",43.12,51.01]]],"m":[["We are encouraged by seeing others that are worse off than ourselves.",52.03,56.56]],"mru":"Нас ободряет, когда мы видим тех, кому ещё хуже."},{"n":12,"t":"The Lion and the Boar","ru":"Лев и Кабан","a":"f12.mp3","d":51.1,"tt":[0.25,2.39],"p":[[["On a summer day, when the great heat induced a general thirst, a Lion and a Boar came at the same moment to a small well to drink.",3.48,12.15],["They fiercely disputed which of them should drink first,",12.57,16.04],["and were soon engaged in the agonies of a mortal combat.",16.24,20.58],["On their stopping on a sudden to take breath for the fiercer renewal of the strife, they saw some Vultures waiting in the distance to feast on the one which should fall first.",21.14,31.31],["They at once made up their quarrel, saying:",31.84,34.46],["\"It is better for us to make friends, than to become the food of Crows or Vultures, as will certainly happen if we are disabled.\"",34.73,42.45]]],"m":[["Those who strive are often watched by others who will take advantage of their defeat to benefit themselves.",43.34,50.66]],"mru":"За теми, кто дерётся, часто следят те, кто готов нажиться на их поражении."},{"n":13,"t":"The Mischievous Dog","ru":"Озорной пёс","a":"f13.mp3","d":57.0,"tt":[0.25,1.95],"p":[[["A Dog used to run up quietly to the heels of those he met,",2.86,6.54],["and to bite them without notice.",6.69,8.56],["His master sometimes suspended a bell about his neck,",8.9,12.41],["that he might give notice of his presence wherever he went,",12.71,15.71],["and sometimes he fastened a chain about his neck, to which was attached a heavy clog, so that he could not be so quick at biting people's heels.",15.91,25.14]],[["The Dog grew proud of his bell and clog, and went with them all over the market-place.",25.86,32.04],["An old hound said to him: \"Why do you make such an exhibition of yourself?",32.45,37.84],["That bell and clog that you carry are not, believe me, orders of merit, but, on the contrary, marks of disgrace,",38.25,46.4],["a public notice to all men to avoid you as an ill-mannered dog.\"",46.97,51.8]]],"m":[["Those who achieve notoriety often mistake it for fame.",52.33,56.64]],"mru":"Дурную славу часто путают со славой."},{"n":14,"t":"The Quack Frog","ru":"Лягушка-знахарь","a":"f14.mp3","d":30.1,"tt":[0.25,2.12],"p":[[["A Frog once made proclamation to all the beasts that he was a learned physician, and able to heal all diseases.",2.9,11.31],["A Fox asked him: \"How can you pretend to prescribe for others, and you are unable to heal your own lame gait and wrinkled skin?\"",11.74,21.06]]],"m":[["Those who pretend that they can mend others should first mend themselves, and then they will be more readily believed.",22.07,29.74]],"mru":"Кто берётся исправлять других, пусть сначала исправит себя — тогда ему скорее поверят."},{"n":15,"t":"The Ass, the Fox, and the Lion","ru":"Осёл, Лиса и Лев","a":"f15.mp3","d":44.5,"tt":[0.25,3.24],"p":[[["The Ass and the Fox, having entered into a partnership together,",4.51,8.52],["went out into the forest to hunt.",8.9,11.18],["They had not proceeded far, when they met a Lion.",11.5,14.32],["The Fox approached the Lion and promised to contrive for him the capture of the Ass, if he would pledge his word that his own life should be spared.",14.77,23.65],["On his assuring him that he would not injure him,",24.07,26.91],["the Fox led the Ass to a deep pit, and contrived that he should fall into it.",27.1,32.39],["The Lion, seeing that the Ass was secured,",32.8,35.49],["immediately clutched the Fox, and then attacked the Ass at his leisure.",35.69,40.74]]],"m":[["Traitors must expect treachery.",41.45,44.1]],"mru":"Предатель должен ждать предательства."},{"n":16,"t":"The Wolf and the Sheep","ru":"Волк и овцы","a":"f16.mp3","d":27.7,"tt":[0.25,2.11],"p":[[["A Wolf, being sick and maimed, called to a Sheep,",2.92,6.07],["who was passing, and asked him to fetch some water from the stream.",6.09,9.47],["\"For,\" he said, \"if you will bring me drink,",9.88,12.86],["I will find means to provide myself with meat.\"",12.95,15.78],["\"Yes,\" said the Sheep, \"if I should bring you the draught, you would doubtless make me provide the meat also.\"",16.18,23.45]]],"m":[["Hypocritical speeches are easily seen through.",24.15,27.3]],"mru":"Лицемерные речи легко раскусить."},{"n":17,"t":"The Cock and the Jewel","ru":"Петух и жемчужина","a":"f17.mp3","d":24.5,"tt":[0.25,2.27],"p":[[["A Cock, scratching for food for himself and his hens, found a precious stone; on which he said:",3.63,9.83],["\"If thy owner had found thee, and not I,",10.1,12.95],["he would have taken thee up, and have set thee in thy first estate;",13.14,16.97],["but I have found thee for no purpose.",17.33,19.7],["I would rather have one barleycorn than all the jewels in the world.\"",20.09,24.12]]],"m":[],"mru":""},{"n":38,"t":"The Old Man and the Three Young Men","ru":"Старик и трое юношей","a":"f38.mp3","d":63.7,"tt":[0.25,3.39],"p":[[["As an old man was planting a tree,",4.13,6.44],["three young men came along and began to make sport of him, saying:",6.64,10.32],["\"It shows your foolishness to be planting a tree at your age.",10.59,14.67],["The tree cannot bear fruit for many years, while you must very soon die.",15.01,19.63],["What is the use of your wasting your time in providing pleasure for others to share long after you are dead?\"",19.88,26.16],["The old man stopped in his labor and replied: \"Others before me provided for my happiness,",27.11,33.77],["and it is my duty to provide for those who shall come after me.",34.06,38.04],["As for life, who is sure of it for a day?",38.41,41.62],["You may all die before me.\"",41.9,43.84],["The old man's words came true; one of the young men went on a voyage at sea and was drowned, another went to war and was shot,",44.36,52.71],["and the third fell from a tree and broke his neck.",53.0,56.02]]],"m":[["We should not think wholly of ourselves,",57.04,59.86],["and we should remember that life is uncertain.",60.07,63.25]],"mru":"Не стоит думать только о себе, и надо помнить, что жизнь непредсказуема."},{"n":39,"t":"The Lion and the Fox","ru":"Лев и Лиса","a":"f39.mp3","d":45.6,"tt":[0.25,2.54],"p":[[["A Fox entered into partnership with a Lion,",3.91,6.81],["on the pretense of becoming his servant.",6.99,9.35],["Each undertook his proper duty in accordance with his own nature and powers.",9.69,14.56],["The Fox discovered and pointed out the prey, the Lion sprang on it and seized it.",14.91,20.5],["The Fox soon became jealous of the Lion carrying off the Lion's share,",20.96,25.62],["and said that he would no longer find out the prey, but would capture it on his own account.",25.83,32.09],["The next day he attempted to snatch a lamb from the fold, but fell himself a prey to the huntsman and his hounds.",32.71,40.99]]],"m":[["Keep to your place, if you would succeed.",42.03,45.2]],"mru":"Знай своё место, если хочешь успеха."},{"n":40,"t":"The Horse and the Stag","ru":"Конь и Олень","a":"f40.mp3","d":49.6,"tt":[0.25,2.53],"p":[[["The Horse had the plain entirely to himself.",3.96,7.29],["A Stag intruded into his domain and shared his pasture.",7.83,11.63],["The Horse, desiring to revenge himself on the stranger, requested a man, if he were willing,",12.06,18.15],["to help him in punishing the Stag.",18.32,20.28],["The man replied, that if the Horse would receive a bit in his mouth,",20.9,24.32],["and agree to carry him, he would contrive very effectual weapons against the Stag.",24.51,30.23],["The Horse consented, and allowed the man to mount him.",30.63,34.03],["From that hour he found that, instead of obtaining revenge on the Stag, he had enslaved himself to the service of man.",34.84,43.82]]],"m":[["He who seeks to injure others often injures only himself.",44.86,49.23]],"mru":"Кто хочет навредить другим, часто вредит только себе."},{"n":41,"t":"The Lion and the Dolphin","ru":"Лев и Дельфин","a":"f41.mp3","d":64.3,"tt":[0.25,2.43],"p":[[["A Lion, roaming by the sea-shore, saw a Dolphin lift up its head out of the waves,",3.13,8.82],["and asked him to contract an alliance with him;",8.87,11.87],["saying that of all the animals, they ought to be the best friends,",12.14,15.55],["since the one was the king of beasts on the earth,",15.71,18.23],["and the other was the sovereign ruler of all the inhabitants of the ocean.",18.63,22.96],["The Dolphin gladly consented to this request.",23.76,26.54],["Not long afterwards the Lion had a combat with a wild bull, and called on the Dolphin to help him.",27.4,34.14],["The Dolphin, though quite willing to give him assistance, was unable to do so,",34.47,39.58],["as he could not by any means reach the land.",39.82,42.75],["The Lion abused him as a traitor.",43.26,46.47],["The Dolphin replied: \"Nay, my friend, blame not me, but Nature,",46.86,51.95],["which, while giving me the sovereignty of the sea, has quite denied me the power of living upon the land.\"",52.28,59.51]]],"m":[["Let every one stick to his own element.",60.42,63.93]],"mru":"Пусть каждый держится своей стихии."},{"n":42,"t":"The Mice in Council","ru":"Совет мышей","a":"f42.mp3","d":43.8,"tt":[0.25,2.46],"p":[[["The Mice summoned a council to decide how they might best devise means for obtaining notice of the approach of their great enemy the Cat.",3.95,13.27],["Among the many plans devised, the one that found most favor was the proposal to tie a bell to the neck of the Cat,",13.8,22.05],["that the Mice, being warned by the sound of the tinkling, might run away and hide themselves in their holes at his approach.",22.28,29.97],["But when the Mice further debated who among them should thus \"bell the Cat,\"",30.42,35.42],["there was no one found to do it.",35.68,38.19]]],"m":[["Let those who propose be willing to perform.",39.67,43.38]],"mru":"Кто предлагает, тот пусть и делает."},{"n":43,"t":"The Camel and the Arab","ru":"Верблюд и араб","a":"f43.mp3","d":26.3,"tt":[0.25,2.72],"p":[[["An Arab Camel-driver having completed the lading of his Camel, asked him which he would like best,",6.39,13.36],["to go up hill or down hill.",13.51,15.58],["The poor beast replied, not without a touch of reason:",16.1,19.64],["\"Why do you ask me?",19.94,22.02],["Is it that the level way through the desert is closed?\"",22.37,25.88]]],"m":[],"mru":""},{"n":44,"t":"The Fighting Cocks and the Eagle","ru":"Петухи и Орёл","a":"f44.mp3","d":43.0,"tt":[0.25,2.74],"p":[[["Two Game Cocks were fiercely fighting for the mastery of the farm-yard.",3.95,8.52],["One at last put the other to flight.",9.08,11.71],["The vanquished Cock skulked away and hid himself in a quiet corner.",12.12,16.5],["The conqueror, flying up to a high wall, flapped his wings and crowed exultingly with all his might.",16.86,24.52],["An Eagle sailing through the air pounced upon him,",24.95,28.52],["and carried him off in his talons.",28.65,31.06],["The vanquished Cock immediately came out of his corner,",31.66,34.84],["and ruled henceforth with undisputed mastery.",35.07,38.85]]],"m":[["Pride goes before destruction.",39.81,42.57]],"mru":"Гордыня предшествует падению."}];
+const BOOKS = [{ id: "aesop", t: "Æsop's Fables", sub: "A New Revised Version", year: 1884, dir: "books/aesop/", items: AESOP }];
+const K_BK = "vzhivuyu.books.v1";
+const BKP = Object.assign({ done: {}, mode: "one", rate: 1, hide: false, last: 0 }, store.get(K_BK, {}) || {});
+const saveBk = () => store.set(K_BK, BKP);
+const bkKey = n => "aesop:" + n;
+const bkTime = s => { s = Math.round(s); return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); };
+const BK_RATES = [1, 0.85, 0.7];
+const BK_SILENT = "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=";
+const bkAu = new Audio(); bkAu.preload = "auto";
+const bk = { it: null, segs: [], i: 0, last: -1, on: false, one: false, src: "", url: "", ready: null, wait: false, raf: 0, rev: new Set(), unlocked: false };
+
+function bkPage(id) {
+  let p = $("#" + id);
+  if (!p) { p = document.createElement("div"); p.className = "page gpage bk-page"; p.id = id; p.hidden = true; $("#profilePage").before(p); p.addEventListener("click", onBkClick); }
+  return p;
+}
+
+// ---------- список басен ----------
+function openBooks() { renderBooks(); const p = bkPage("bkPage"); if (!p.classList.contains("open")) openPageEl(p); }
+function renderBooks() {
+  const p = bkPage("bkPage"), b = BOOKS[0], n = b.items.length, dn = b.items.filter(x => BKP.done[bkKey(x.n)]).length;
+  const keep = $(".page-body", p) ? $(".page-body", p).scrollTop : 0;
+  p.innerHTML = `<div class="page-head"><button class="icon-btn" data-b="close" aria-label="Назад">${ICON.back}</button>
+      <div class="ph-title"><span class="ph-emoji" aria-hidden="true">📚</span><div style="min-width:0"><b>Книги</b><span>Читаем и слушаем оригинал</span></div></div></div>
+    <div class="scroll page-body">
+      <section class="bk-cover">
+        <div class="bk-book" aria-hidden="true"><i></i><b>Æsop's<br>Fables</b><small>1884</small></div>
+        <div class="bk-ci"><small>Эзоп · ${b.year}</small><b>${esc(b.t)}</b><span>${esc(b.sub)}</span>
+          <div class="ck-meter"><i style="width:${dn / n * 100}%"></i></div><em>Прослушано ${dn} из ${plural(n, ["басни", "басен", "басен"])}</em></div>
+      </section>
+      <p class="bk-how">Нажмите на фразу — она прозвучит голосом чтеца. В режиме «По фразам» запись останавливается после каждой фразы: повторите вслух или запишите под диктовку.</p>
+      ${b.items.map((x, i) => { const dn1 = BKP.done[bkKey(x.n)];
+        return `<button class="bk-item${dn1 ? " done" : ""}" data-b="open" data-n="${x.n}"><span class="bk-no">${dn1 ? "✓" : i + 1}</span>
+          <span class="bk-it"><b>${esc(x.t)}</b><span>${esc(x.ru)}</span></span><span class="bk-dur">${bkTime(x.d)}</span></button>`; }).join("")}
+      <p class="feed-note">Запись: LibriVox, общественное достояние.</p>
+    </div>`;
+  $(".page-body", p).scrollTop = keep;
+}
+
+// ---------- басня ----------
+function openFable(n) {
+  const it = BOOKS[0].items.find(x => x.n === +n); if (!it) return;
+  bkUnlock(); bkStop();
+  bk.it = it; bk.i = 0; bk.last = -1; bk.rev = new Set();
+  bk.segs = [[it.t + ".", it.tt[0], it.tt[1]]].concat(...it.p, it.m).map(s => ({ t: s[0], s: s[1], e: s[2] }));
+  BKP.last = it.n; saveBk();
+  renderFable();
+  const p = bkPage("bkrPage"); if (!p.classList.contains("open")) openPageEl(p);
+  $(".page-body", p).scrollTop = 0;
+  bkLoad(it).catch(() => {});
+}
+function renderFable() {
+  const it = bk.it, p = bkPage("bkrPage"); let k = 0;
+  const seg = () => { const i = k++; return `<span class="bk-s" data-b="seg" data-i="${i}">${esc(bk.segs[i].t)}</span>`; };
+  p.innerHTML = `<div class="page-head"><button class="icon-btn" data-b="back" aria-label="Назад">${ICON.back}</button>
+      <div class="ph-title"><span class="ph-emoji" aria-hidden="true">📖</span><div style="min-width:0"><b>${esc(it.t)}</b><span>${esc(it.ru)}</span></div></div></div>
+    <div class="scroll page-body bk-read${BKP.hide ? " hide" : ""}">
+      <h2 class="bk-h">${seg()}</h2><p class="bk-ru">${esc(it.ru)}</p>
+      ${it.p.map(pa => `<p class="bk-p">${pa.map(() => seg()).join(" ")}</p>`).join("")}
+      ${it.m.length ? `<div class="bk-moral"><small>Мораль</small><p>${it.m.map(() => seg()).join(" ")}</p>${it.mru ? `<em>${esc(it.mru)}</em>` : ""}</div>` : ""}
+      <div class="bk-end" hidden></div>
+    </div>
+    <div class="bk-foot">
+      <div class="bk-opts">
+        <div class="bk-mode" role="group" aria-label="Как читать"><button data-b="mode" data-v="one">По фразам</button><button data-b="mode" data-v="all">Подряд</button></div>
+        <button class="bk-chip" data-b="rate" aria-label="Скорость"></button>
+        <button class="bk-chip" data-b="hide"></button>
+      </div>
+      <div class="bk-ctl">
+        <button class="bk-b" data-b="prev" aria-label="Предыдущая фраза"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M6 5h2.4v14H6zM19 5.6v12.8a.8.8 0 0 1-1.25.66L9.6 13.3a1.6 1.6 0 0 1 0-2.6l8.15-5.76A.8.8 0 0 1 19 5.6z"/></svg></button>
+        <button class="bk-b" data-b="again" aria-label="Повторить фразу"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"/><path d="M4.5 4.5v4h4"/></svg></button>
+        <button class="bk-play" data-b="play" aria-label="Слушать"></button>
+        <button class="bk-b" data-b="next" aria-label="Следующая фраза"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M18 5h-2.4v14H18zM5 5.6v12.8a.8.8 0 0 0 1.25.66l8.15-5.76a1.6 1.6 0 0 0 0-2.6L6.25 4.94A.8.8 0 0 0 5 5.6z"/></svg></button>
+        <span class="bk-cnt"></span>
+      </div>
+    </div>`;
+  bkUI(); bkMark();
+}
+function bkUI() {
+  const p = $("#bkrPage"); if (!p || !bk.it) return;
+  $$(".bk-mode button", p).forEach(b => b.classList.toggle("on", b.dataset.v === BKP.mode));
+  $('[data-b="rate"]', p).textContent = String(BKP.rate).replace(".", ",") + "×";
+  const h = $('[data-b="hide"]', p); h.textContent = BKP.hide ? "🙈 Текст скрыт" : "👁 Текст виден"; h.classList.toggle("on", BKP.hide);
+  const pl = $('[data-b="play"]', p);
+  pl.innerHTML = bk.wait ? `<i class="bk-spin"></i>` : bk.on ? ICON.pause : ICON.play;
+  pl.setAttribute("aria-label", bk.on ? "Пауза" : "Слушать");
+  pl.classList.toggle("on", bk.on);
+  $(".bk-cnt", p).textContent = `${Math.min(bk.i, bk.segs.length - 1) + 1} / ${bk.segs.length}`;
+}
+// подсветка: текущая фраза, прозвучавшие, открытые в режиме «текст скрыт»
+function bkMark(scroll) {
+  const p = $("#bkrPage"); if (!p) return;
+  $$(".bk-s", p).forEach(el => {
+    const i = +el.dataset.i;
+    el.classList.toggle("cur", i === bk.i);
+    el.classList.toggle("now", i === bk.i && bk.on);
+    el.classList.toggle("open", bk.rev.has(i));
+  });
+  if (scroll !== false) {
+    const el = $(`.bk-s[data-i="${bk.i}"]`, p), sc = $(".page-body", p);
+    if (el && sc) {
+      const r = el.getBoundingClientRect(), rs = sc.getBoundingClientRect();
+      if (r.top < rs.top + 40 || r.bottom > rs.bottom - 40) sc.scrollTo({ top: sc.scrollTop + r.top - rs.top - rs.height * 0.3, behavior: "smooth" });
+    }
+  }
+  bkUI();
+}
+
+// ---------- звук ----------
+// iPhone разрешает звук только после нажатия: «разогреваем» плеер в момент открытия басни
+function bkUnlock() {
+  if (bk.unlocked) return; bk.unlocked = true;
+  try { bkAu.src = BK_SILENT; const pr = bkAu.play(); if (pr) pr.then(() => bkAu.pause()).catch(() => {}); } catch (e) {}
+}
+// файл скачиваем целиком (так он попадает в кэш и работает без интернета), играем из памяти
+function bkLoad(it) {
+  const src = BOOKS[0].dir + it.a;
+  if (bk.src === src && bk.ready) return bk.ready;
+  bk.src = src;
+  const pr = fetch(src).then(r => { if (!r.ok) throw new Error("http " + r.status); return r.blob(); }).then(bl => new Promise((res, rej) => {
+    if (bk.src !== src) { rej(new Error("stale")); return; }
+    if (bk.url) URL.revokeObjectURL(bk.url);
+    bk.url = URL.createObjectURL(bl);
+    const off = () => { bkAu.removeEventListener("loadedmetadata", ok); bkAu.removeEventListener("error", bad); };
+    const ok = () => { off(); res(); }, bad = () => { off(); rej(new Error("audio")); };
+    bkAu.addEventListener("loadedmetadata", ok); bkAu.addEventListener("error", bad);
+    bkAu.src = bk.url; bkAu.load();
+  }));
+  bk.ready = pr;
+  pr.catch(() => { if (bk.ready === pr) { bk.ready = null; bk.src = ""; } });
+  return pr;
+}
+function bkStop() {
+  bk.on = false; cancelAnimationFrame(bk.raf);
+  try { bkAu.pause(); } catch (e) {}
+}
+// one = остановиться в конце фразы i; иначе читать подряд до конца басни
+function bkPlay(i, one) {
+  const s = bk.segs[i]; if (!s) return;
+  const it = bk.it;
+  try { speechSynthesis.cancel(); } catch (e) {}
+  bkStop(); bk.i = i; bk.one = one; bk.last = -1; $(".bk-end", $("#bkrPage")).hidden = true;
+  const go = () => {
+    if (bk.it !== it) return;
+    bkAu.playbackRate = BKP.rate; bkAu.defaultPlaybackRate = BKP.rate;
+    try { bkAu.preservesPitch = true; bkAu.webkitPreservesPitch = true; } catch (e) {}
+    if (Math.abs(bkAu.currentTime - s.s) > 0.04) bkAu.currentTime = s.s;
+    bk.on = true; bkMark(); bkTick();
+    const pr = bkAu.play();
+    if (pr) pr.catch(err => { bk.on = false; bkMark(false); if (err && err.name === "NotAllowedError") toast("Нажмите ▶ ещё раз"); });
+  };
+  if (bk.ready && !bk.wait && bkAu.readyState >= 1 && bk.src === BOOKS[0].dir + it.a) { go(); return; }
+  bk.wait = true; bkMark();
+  bkLoad(it).then(() => { bk.wait = false; go(); }).catch(e => { bk.wait = false; bkMark(false); if (e.message !== "stale") toast("Не удалось загрузить запись — проверьте интернет"); });
+}
+function bkCheck() {
+  if (!bk.on) return;
+  const t = bkAu.currentTime, s = bk.segs[bk.i];
+  if (bk.one) { if (t >= s.e - 0.02 || bkAu.ended) bkDone(); return; }
+  let j = bk.i; while (j + 1 < bk.segs.length && t >= bk.segs[j + 1].s - 0.02) j++;
+  if (j !== bk.i) { if (BKP.hide) bk.rev.add(bk.i); bk.i = j; bkMark(); }
+  if (t >= bk.segs[bk.segs.length - 1].e - 0.02 || bkAu.ended) bkDone();
+}
+function bkTick() { cancelAnimationFrame(bk.raf); const step = () => { bkCheck(); if (bk.on) bk.raf = requestAnimationFrame(step); }; bk.raf = requestAnimationFrame(step); }
+bkAu.addEventListener("timeupdate", bkCheck);   // если экран погас и анимация на паузе
+bkAu.addEventListener("pause", () => { if (bk.on && bkAu.paused && !bkAu.ended) { bk.on = false; cancelAnimationFrame(bk.raf); bkMark(false); } });
+// фраза (или вся басня) дозвучала
+function bkDone() {
+  bkStop();
+  const i = bk.i, lastSeg = bk.segs.length - 1;
+  if (BKP.hide) bk.rev.add(i);
+  if (i >= lastSeg) { bkFinish(); return; }
+  if (bk.one && BKP.mode === "one") { bk.last = i; bk.i = i + 1; }     // курсор на следующую фразу — ждём «▶»
+  bkMark(false);
+}
+function bkFinish() {
+  const it = bk.it, first = !BKP.done[bkKey(it.n)];
+  BKP.done[bkKey(it.n)] = 1; saveBk();
+  bk.i = 0; bk.last = -1; bkMark(false);
+  const items = BOOKS[0].items, nx = items[items.indexOf(it) + 1];
+  const end = $(".bk-end", $("#bkrPage"));
+  end.innerHTML = `<b>${first ? "🎉 Басня прослушана" : "✓ Басня прослушана"}</b>${nx ? `<button class="btn primary" data-b="open" data-n="${nx.n}">Следующая: ${esc(nx.t)}</button>` : `<span>Это последняя басня с записью.</span>`}`;
+  end.hidden = false;
+  const sc = $("#bkrPage .page-body"); if (sc) sc.scrollTo({ top: sc.scrollHeight, behavior: "smooth" });
+  if (first && $("#bkPage") && !$("#bkPage").hidden) renderBooks();
+  if (first) renderEx();
+}
+
+const bkRef = () => !bk.on && bk.last >= 0 && bk.last === bk.i - 1 ? bk.last : bk.i;
+function onBkClick(e) {
+  const a = e.target.closest("[data-b]"); if (!a || a.disabled) return;
+  const c = a.dataset.b;
+  if (c === "close") closePageEl(bkPage("bkPage"));
+  if (c === "open") openFable(a.dataset.n);
+  if (c === "back") { bkStop(); closePageEl(bkPage("bkrPage")); renderBooks(); }
+  if (!bk.it || !a.closest("#bkrPage")) return;
+  const one = BKP.mode === "one", n = bk.segs.length;
+  switch (c) {
+    case "seg": {
+      const i = +a.dataset.i;
+      if (BKP.hide && !bk.rev.has(i) && !a.classList.contains("cur")) { bk.rev.add(i); bkMark(false); break; }  // скрытую фразу сначала открываем
+      bkPlay(i, one); break;
+    }
+    case "play":
+      if (bk.wait) break;
+      if (bk.on) { bkStop(); bkMark(false); break; }
+      bkPlay(Math.min(bk.i, n - 1), one); break;
+    // «текущая» для кнопок — та, что звучит, или та, что только что прозвучала
+    case "again": bkPlay(bkRef(), one); break;
+    case "prev": bkPlay(Math.max(0, bkRef() - 1), one); break;
+    case "next": bkPlay(Math.min(n - 1, bkRef() + 1), one); break;
+    case "mode": BKP.mode = a.dataset.v; saveBk(); if (bk.on) bk.one = BKP.mode === "one"; bkUI(); break;
+    case "rate": { const k = BK_RATES.indexOf(BKP.rate); BKP.rate = BK_RATES[(k + 1) % BK_RATES.length]; saveBk(); bkAu.playbackRate = BKP.rate; bkUI(); toast(BKP.rate === 1 ? "Обычная скорость" : "Медленнее: " + String(BKP.rate).replace(".", ",") + "×"); break; }
+    case "hide": BKP.hide = !BKP.hide; saveBk(); $(".bk-read", $("#bkrPage")).classList.toggle("hide", BKP.hide); bkUI(); if (BKP.hide) toast("Текст скрыт: слушайте и записывайте, потом нажмите на фразу, чтобы проверить"); break;
+  }
+}
+
+// плитка в «Упражнениях» — рядом с «Чанками»
+const renderExBk = renderEx;
+renderEx = function () {
+  renderExBk();
+  const g = $("#scr-ex .ex-grid"); if (!g || $('[data-x="books"]', g)) return;
+  const n = AESOP.length, dn = AESOP.filter(x => BKP.done[bkKey(x.n)]).length;
+  const html = `<button class="ex-tile" data-x="books" style="--tb:#FFE1BE"><span class="ex-e">📚</span><b>Книги</b><span>Басни Эзопа в оригинале: слушаем и читаем по фразам</span><em>${dn ? `${dn} из ${n} басен` : `${n} басен с аудио`}</em>${dn === n ? `<i class="ex-ok">✓</i>` : `<i class="ex-tag">Новое</i>`}</button>`;
+  const ch = $('[data-x="chunks"]', g);
+  if (ch) ch.insertAdjacentHTML("afterend", html); else g.insertAdjacentHTML("afterbegin", html);
+};
+$("#scr-ex").addEventListener("click", e => { if (e.target.closest('[data-x="books"]')) openBooks(); });
 renderEx();
 // ================== СТРАНИЦА «НЕПРАВИЛЬНЫЕ ГЛАГОЛЫ»: как выбрать форму + список + тренировки ==================
 let irrQuery = "";

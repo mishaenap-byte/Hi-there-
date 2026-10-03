@@ -1,15 +1,21 @@
 // Hi There — сервис-воркер: приложение открывается быстро и без интернета
-const V = "hithere-v72";
+const V = "hithere-v73";
 const TTS_CACHE = "hithere-tts";   // записи голоса — отдельно, переживают обновления приложения
+const BOOK_CACHE = "hithere-books"; // аудио книг: файлы не меняются, после обновления приложения качать заново не нужно
 const SHELL = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./maskable-512.png", "./apple-touch-icon.png"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(V).then(c => c.addAll(SHELL)).then(() => self.skipWaiting())); });
 self.addEventListener("activate", e => {
-  e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== V && k !== TTS_CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim()));
+  e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== V && k !== TTS_CACHE && k !== BOOK_CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim()));
 });
 self.addEventListener("fetch", e => {
   const r = e.request, u = new URL(r.url);
   if (r.method === "GET" && u.pathname.includes("/storage/v1/object/public/tts/")) {  // озвучка: файл не меняется — берём из кэша
     e.respondWith(caches.open(TTS_CACHE).then(c => c.match(r).then(hit => hit || fetch(r).then(res => { if (res.ok) c.put(r, res.clone()); return res; }))));
+    return;
+  }
+  if (r.method === "GET" && u.origin === location.origin && /\/books\/.+\.mp3$/.test(u.pathname)) {  // книги: из кэша, без интернета тоже
+    if (r.headers.has("range")) return;                                              // запросы кусками — напрямую в сеть
+    e.respondWith(caches.open(BOOK_CACHE).then(c => c.match(r).then(hit => hit || fetch(r).then(res => { if (res.status === 200) c.put(r, res.clone()); return res; }))));
     return;
   }
   if (r.method !== "GET" || u.hostname.endsWith("supabase.co")) return;          // база — всегда напрямую
