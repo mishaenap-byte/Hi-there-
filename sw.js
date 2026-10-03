@@ -1,8 +1,8 @@
 // Hi There — сервис-воркер: приложение открывается быстро и без интернета
-const V = "hithere-v75";
+const V = "hithere-v76";
 const TTS_CACHE = "hithere-tts";   // записи голоса — отдельно, переживают обновления приложения
 const BOOK_CACHE = "hithere-books"; // аудио книг: файлы не меняются, после обновления приложения качать заново не нужно
-const SHELL = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./maskable-512.png", "./apple-touch-icon.png"];
+const SHELL = ["./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./maskable-512.png", "./apple-touch-icon.png"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(V).then(c => c.addAll(SHELL)).then(() => self.skipWaiting())); });
 self.addEventListener("activate", e => {
   e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== V && k !== TTS_CACHE && k !== BOOK_CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim()));
@@ -19,9 +19,14 @@ self.addEventListener("fetch", e => {
     return;
   }
   if (r.method !== "GET" || u.hostname.endsWith("supabase.co")) return;          // база — всегда напрямую
-  if (r.mode === "navigate") {                                                       // страница: сначала сеть (свежая версия), без сети — из кэша
-    e.respondWith(fetch(r).then(res => { const c = res.clone(); caches.open(V).then(x => x.put("./index.html", c)); return res; })
-      .catch(() => caches.match("./index.html")));
+  if (r.mode === "navigate") {   // страница: сначала сеть (свежая версия); без сети или если сеть молчит 4 с — из кэша
+    const net = fetch(r);
+    e.waitUntil(net.then(res => res.ok && res.type === "basic" ? caches.open(V).then(x => x.put("./index.html", res.clone())) : null).catch(() => {}));
+    e.respondWith(caches.match("./index.html").then(hit => {
+      if (!hit) return net;
+      const slow = new Promise(ok => setTimeout(() => ok(hit), 4000));
+      return Promise.race([net.then(res => res.ok ? res : hit, () => hit), slow]);
+    }));
     return;
   }
   if (/fonts\.(googleapis|gstatic)\.com$/.test(u.hostname) || u.origin === location.origin) { // шрифты и иконки: из кэша, обновляем в фоне
