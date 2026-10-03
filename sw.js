@@ -1,5 +1,5 @@
 // Hi There — сервис-воркер: приложение открывается быстро и без интернета
-const V = "hithere-v76";
+const V = "hithere-v77";
 const TTS_CACHE = "hithere-tts";   // записи голоса — отдельно, переживают обновления приложения
 const BOOK_CACHE = "hithere-books"; // аудио книг: файлы не меняются, после обновления приложения качать заново не нужно
 const SHELL = ["./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./maskable-512.png", "./apple-touch-icon.png"];
