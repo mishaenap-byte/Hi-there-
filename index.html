@@ -11663,6 +11663,450 @@ COURSE.A2 = {
   });
 })();
 
+// ================== Курс B1 → B2: список модулей и шагов (шаги без содержимого показываются как «готовится») ==================
+COURSE.B1 = {
+  title: "Путь от B1 (Пороговый) к B2 (Продвинутый)",
+  goal: "Говорить уверенно и подробно: рассказывать истории и опыт, описывать людей и места, рассуждать о желаниях, планах и прогнозах, делать выводы и пересказывать новости.",
+  targets: ["Словарь: с 2500–3000 до 4000+ слов — устойчивые сочетания, фразовые глаголы, словообразование",
+    "Present Perfect с for / since и Present Perfect Continuous", "used to и would — привычки прошлого", "Past Perfect и связный рассказ: by the time, as soon as",
+    "who / which / whose и уточнения с запятыми", "Вежливые вопросы и хвостики: I was wondering if…, isn't it?",
+    "Артикли с географией и абстрактными словами; сравнения: far better, the more… the better", "-ing или to, второе условное, I wish",
+    "Прогнозы, Future Continuous и Future Perfect", "Догадки: must, might, can't; правила: mustn't или don't have to", "Пассив во всех временах и косвенная речь",
+    "Письма: история, описание, сравнение, совет, формальная жалоба"],
+  modules: [
+    { t: "Опыт и перемены", e: "🔁", items: [
+      { id: "b1-01", kind: "lesson", t: "Present Perfect: for и since" },
+      { id: "b1-02", kind: "lesson", t: "Present Perfect Continuous" },
+      { id: "b1-03", kind: "lesson", t: "used to и would" },
+      { id: "b1-m1-vocab", kind: "vocab", t: "Словарь: перемены и привычки" },
+      { id: "b1-m1-sit", kind: "sit", t: "Ситуация: встреча через десять лет" },
+      { id: "b1-m1-listen", kind: "listen", t: "Аудирование: как изменился мой город" },
+      { id: "b1-m1-read", kind: "read", t: "Чтение: жизнь до смартфонов" },
+      { id: "b1-m1-mail", kind: "mail", t: "Письмо старому другу" },
+      { id: "b1-m1-test", kind: "test", t: "Тест модуля" }] },
+    { t: "Истории", e: "📖", items: [
+      { id: "b1-04", kind: "lesson", t: "Past Perfect" },
+      { id: "b1-05", kind: "lesson", t: "Времена рассказа вместе" },
+      { id: "b1-06", kind: "lesson", t: "Связки: by the time, as soon as" },
+      { id: "b1-m2-vocab", kind: "vocab", t: "Словарь: сильные чувства и события" },
+      { id: "b1-m2-sit", kind: "sit", t: "Ситуация: опоздали на самолёт" },
+      { id: "b1-m2-listen", kind: "listen", t: "Аудирование: невероятное совпадение" },
+      { id: "b1-m2-read", kind: "read", t: "Чтение: короткий рассказ" },
+      { id: "b1-m2-mail", kind: "mail", t: "История для конкурса" },
+      { id: "b1-m2-test", kind: "test", t: "Тест модуля" }] },
+    { t: "Люди вокруг", e: "🧑‍🤝‍🧑", items: [
+      { id: "b1-07", kind: "lesson", t: "who, which, that, where, whose" },
+      { id: "b1-08", kind: "lesson", t: "Уточнения с запятыми" },
+      { id: "b1-09", kind: "lesson", t: "Вежливые вопросы и хвостики" },
+      { id: "b1-m3-vocab", kind: "vocab", t: "Словарь: характер и отношения" },
+      { id: "b1-m3-sit", kind: "sit", t: "Ситуация: знакомство на вечеринке" },
+      { id: "b1-m3-listen", kind: "listen", t: "Аудирование: мой сосед" },
+      { id: "b1-m3-read", kind: "read", t: "Чтение: ищу соседа по квартире" },
+      { id: "b1-m3-mail", kind: "mail", t: "Человек, который на меня повлиял" },
+      { id: "b1-m3-test", kind: "test", t: "Тест модуля" }] },
+    { t: "Места и мир", e: "🌍", items: [
+      { id: "b1-10", kind: "lesson", t: "Артикли: география и общие понятия" },
+      { id: "b1-11", kind: "lesson", t: "Сравнения: far better, the more…" },
+      { id: "b1-m4-vocab", kind: "vocab", t: "Словарь: города, страны, природа" },
+      { id: "b1-m4-sit", kind: "sit", t: "Ситуация: куда переехать?" },
+      { id: "b1-m4-listen", kind: "listen", t: "Аудирование: лучший город для жизни" },
+      { id: "b1-m4-read", kind: "read", t: "Чтение: путеводитель" },
+      { id: "b1-m4-mail", kind: "mail", t: "Сравнение двух мест" },
+      { id: "b1-m4-test", kind: "test", t: "Тест модуля" }] },
+    { t: "Желания и выбор", e: "💭", items: [
+      { id: "b1-12", kind: "lesson", t: "-ing или to после глагола" },
+      { id: "b1-13", kind: "lesson", t: "Второе условное: If I had…" },
+      { id: "b1-14", kind: "lesson", t: "I wish и If only" },
+      { id: "b1-m5-vocab", kind: "vocab", t: "Словарь: деньги, решения, мечты" },
+      { id: "b1-m5-sit", kind: "sit", t: "Ситуация: какую работу выбрать?" },
+      { id: "b1-m5-listen", kind: "listen", t: "Аудирование: если бы я выиграл миллион" },
+      { id: "b1-m5-read", kind: "read", t: "Чтение: колонка советов" },
+      { id: "b1-m5-mail", kind: "mail", t: "Совет другу" },
+      { id: "b1-m5-test", kind: "test", t: "Тест модуля" }] },
+    { t: "Планы и прогнозы", e: "🔮", items: [
+      { id: "b1-15", kind: "lesson", t: "Прогнозы: going to, likely to" },
+      { id: "b1-16", kind: "lesson", t: "Future Continuous и Future Perfect" },
+      { id: "b1-m6-vocab", kind: "vocab", t: "Словарь: технологии, карьера, будущее" },
+      { id: "b1-m6-sit", kind: "sit", t: "Ситуация: сроки проекта" },
+      { id: "b1-m6-listen", kind: "listen", t: "Аудирование: жизнь в 2050 году" },
+      { id: "b1-m6-read", kind: "read", t: "Чтение: прогнозы экспертов" },
+      { id: "b1-m6-mail", kind: "mail", t: "Письмо о планах на год" },
+      { id: "b1-m6-test", kind: "test", t: "Тест модуля" }] },
+    { t: "Предположения и правила", e: "🔎", items: [
+      { id: "b1-17", kind: "lesson", t: "Догадки: must, might, can't" },
+      { id: "b1-18", kind: "lesson", t: "mustn't или don't have to" },
+      { id: "b1-m7-vocab", kind: "vocab", t: "Словарь: здоровье, правила, техника" },
+      { id: "b1-m7-sit", kind: "sit", t: "Ситуация: жалоба в отеле" },
+      { id: "b1-m7-listen", kind: "listen", t: "Аудирование: загадочная пропажа" },
+      { id: "b1-m7-read", kind: "read", t: "Чтение: правила спортзала" },
+      { id: "b1-m7-mail", kind: "mail", t: "Формальная жалоба" },
+      { id: "b1-m7-test", kind: "test", t: "Тест модуля" }] },
+    { t: "Новости и пересказ", e: "📰", items: [
+      { id: "b1-19", kind: "lesson", t: "Пассив во всех временах" },
+      { id: "b1-20", kind: "lesson", t: "Косвенная речь: вопросы и просьбы" },
+      { id: "b1-m8-vocab", kind: "vocab", t: "Словарь: новости и общество" },
+      { id: "b1-m8-sit", kind: "sit", t: "Ситуация: такси и служба поддержки" },
+      { id: "b1-m8-listen", kind: "listen", t: "Аудирование: выпуск новостей" },
+      { id: "b1-m8-read", kind: "read", t: "Чтение: новостная заметка" },
+      { id: "b1-m8-mail", kind: "mail", t: "Пересказ разговора коллеге" },
+      { id: "b1-m8-test", kind: "test", t: "Тест модуля" }] }
+  ]
+};
+
+// ================== Курс B1 → B2, модуль 1 «Опыт и перемены»: уроки 1–3 ==================
+Object.assign(LESSONS, {
+  "b1-01": {
+    n: 1, t: "Present Perfect: for и since", min: 20,
+    why: "«Я живу здесь пять лет», «Мы знакомы со школы». По-русски тут настоящее время: «живу», «знакомы». Англичанин видит другое: это началось в прошлом и тянется до сегодня. Для такой нитки из прошлого в сейчас нужен Present Perfect: <b>I've lived here for five years.</b>",
+    goals: ["Говорить, сколько что длится: <b>I've known her for ten years.</b>", "Выбирать <b>for</b> (сколько) или <b>since</b> (с какого момента): <b>since 2019, since I was a child</b>", "Спрашивать <b>How long have you…?</b> и отличать нитку до сегодня от законченного прошлого: <b>I lived there for two years</b> (уже не живу)"],
+    look: { ex: [["I <mark>have lived</mark> in Kazan <mark>for</mark> ten years.", "Я живу в Казани десять лет."], ["We <mark>have known</mark> each other <mark>since</mark> school.", "Мы знакомы со школы."], ["<mark>How long have</mark> you <mark>had</mark> this car?", "Сколько у тебя эта машина?"]],
+      q: "По-русски во всех трёх фразах настоящее время. А что стоит в английских? Чем отличаются for и since?",
+      a: "Везде <b>have + 3-я форма</b>: have lived, have known, have had. Так англичанин показывает нитку из прошлого в сегодня. <b>for</b> отвечает на вопрос «сколько?» (десять лет), <b>since</b> — «с какого момента?» (со школы)." },
+    rule: "Если что-то началось в прошлом и продолжается сейчас, берём <b>have / has + 3-я форма</b>. Длину отрезка вводим через <b>for</b> (for ten years), его начало — через <b>since</b> (since 2015). Вопрос о длине: <b>How long have you…?</b>",
+    formula: [["have / has + 3-я форма", "I've lived, she's worked"], ["for + длина", "for two years, for ages"], ["since + начало", "since May, since I was ten"]],
+    think: "Русский смотрит только на сегодня: «живу» — значит, настоящее. Англичанин смотрит на весь отрезок: начался давно и тянется до сейчас. <b>I live</b> — это 1-я форма, «как обычно», у неё нет длины. Чтобы измерить длину, нужна 3-я форма — «фото результата»: снимок, на котором видно, сколько уже набралось.<br><br><b>Разберём по кусочкам: I've lived in Kazan for ten years.</b><br>• <b>I</b> — кто. Как всегда, первым.<br>• <b>'ve</b> = have, «имею». У меня есть набранный результат.<br>• <b>lived</b> — 3-я форма live, «фото результата»: прожитое время.<br>• <b>in Kazan</b> — где.<br>• <b>for ten years</b> — сколько набралось. For значит «в течение».<br>Дословно: «я имею прожитыми в Казани десять лет». Поэтому и Present Perfect, а не Present Simple.<br><br>Проверка: если по-русски можно вставить «уже … и до сих пор», это Present Perfect. «Я (уже десять лет и до сих пор) живу в Казани».",
+    table: { head: ["Вопрос", "Слово", "Примеры"], rows: [["Сколько длится?", "for", "for ten minutes, for three weeks, for ages, for a long time"], ["С какого момента?", "since", "since Monday, since 2019, since June, since I was a child"], ["Спрашиваем о длине", "How long have / has…?", "How long have you lived here? — For six years."]],
+      note: "После <b>since</b> — точка на календаре или событие: since Monday, since I moved here. Если после since целая фраза, она в Past Simple: since I <b>left</b> school. После <b>for</b> — длина: for two days." },
+    traps: [["I live here for five years.", "I've lived here for five years.", "Русское «живу пять лет» — нитка до сегодня. Present Simple её не показывает, нужен have lived."],
+      ["I've worked here since three years.", "I've worked here for three years.", "Три года — это длина отрезка, а не его начало. Длина — for."],
+      ["How long do you know him?", "How long have you known him?", "Спрашиваем о длине до сейчас — значит, вопрос тоже в Present Perfect: have you known."],
+      ["I've lived in Paris for two years, then I moved.", "I lived in Paris for two years, then I moved.", "Нитка оборвалась: там уже не живут. Законченное прошлое — Past Simple lived."]],
+    check: { q: "We ___ each other since 2018.", ru: "Мы знакомы с 2018 года.", opts: ["know", "have known", "knew"], a: "have known", why: "С 2018 года и до сих пор — нитка в сегодня. Нужен <b>have + 3-я форма</b>: have known. Since показывает начало отрезка." },
+    dialog: [["them", "Your English is great! How long have you lived in London?", "Ты отлично говоришь по-английски! Сколько ты уже живёшь в Лондоне?"],
+      ["me", "Thanks! I've lived here for three years, since I got this job.", "Спасибо! Я живу здесь три года, с тех пор как получил эту работу."],
+      ["them", "And have you always worked in IT?", "А ты всегда работал в IT?"],
+      ["me", "No, I worked as a teacher for five years before that.", "Нет, до этого я пять лет работал учителем."],
+      ["them", "Wow. And how long have you known Anna?", "Ого. А сколько ты знаешь Анну?"],
+      ["me", "For ages! We've been friends since university.", "Сто лет! Мы дружим с университета."]],
+    words: [["for a long time", "долго, давно"], ["since then", "с тех пор"], ["ever since", "с тех самых пор"], ["all my life", "всю жизнь"], ["the whole time", "всё это время"],
+      ["recently", "недавно"], ["a decade", "десятилетие"], ["at the moment", "в данный момент"], ["currently", "в настоящее время"], ["move to", "переехать в"],
+      ["neighbourhood", "район, окрестности"], ["hometown", "родной город"], ["abroad", "за границей"], ["rent", "снимать (жильё)"], ["own", "владеть; собственный"],
+      ["belong to", "принадлежать"], ["get married", "пожениться"], ["be married", "быть женатым, замужем"], ["anniversary", "годовщина"], ["graduate", "окончить вуз"],
+      ["retire", "выйти на пенсию"], ["colleague", "коллега"], ["classmate", "одноклассник"], ["permanent", "постоянный"], ["temporary", "временный"],
+      ["experience", "опыт"], ["work as", "работать кем-то"], ["each other", "друг друга"], ["get to know", "познакомиться поближе"], ["meet up", "встретиться"]],
+    items: [
+      { type: "choose", q: "I ___ in this flat for six years.", ru: "Я живу в этой квартире шесть лет.", opts: ["live", "have lived", "am living"], a: "have lived", full: "I have lived in this flat for six years.",
+        steps: ["Шесть лет и до сих пор — нитка из прошлого в сегодня.", "Нитка → <b>have + 3-я форма</b>.", "live → lived: <b>have lived</b>. Present Simple длину не показывает."] },
+      { type: "choose", q: "She has worked here ___ 2020.", ru: "Она работает здесь с 2020 года.", opts: ["for", "since", "from"], a: "since", full: "She has worked here since 2020.",
+        steps: ["2020 — это точка, начало отрезка.", "Начало → <b>since</b>.", "from без to в такой фразе не ставят: from 2020 to 2023."] },
+      { type: "choose", q: "They've been married ___ a long time.", ru: "Они давно женаты.", opts: ["since", "for", "during"], a: "for", full: "They've been married for a long time.",
+        steps: ["a long time — длина, а не начало.", "Длина → <b>for</b>.", "during идёт с событием: during the war, during lunch."] },
+      { type: "choose", q: "How long ___ you known Max?", ru: "Сколько ты знаешь Макса?", opts: ["do", "have", "did"], a: "have", full: "How long have you known Max?",
+        steps: ["Знаком до сих пор → Present Perfect.", "В вопросе помощник <b>have</b> встаёт перед you.", "known — 3-я форма know. Do и did с ней не работают."] },
+      { type: "choose", rev: "Present Perfect или Past Simple", q: "I ___ my keys yesterday, but then I found them.", ru: "Вчера я потерял ключи, но потом нашёл.", opts: ["lost", "have lost", "have been losing"], a: "lost", full: "I lost my keys yesterday, but then I found them.",
+        steps: ["Yesterday — законченное прошлое, нитки до сегодня нет.", "Законченное прошлое → Past Simple.", "lose → <b>lost</b>."] },
+      { type: "choose", rev: "Past Simple или Past Continuous", q: "I ___ TV when you called.", ru: "Я смотрел телевизор, когда ты позвонил.", opts: ["watched", "was watching", "have watched"], a: "was watching", full: "I was watching TV when you called.",
+        steps: ["Телевизор — длинный фон, звонок — короткое событие.", "Фон → <b>was / were + -ing</b>.", "С I — <b>was watching</b>."] },
+      { type: "build", ru: "Я знаю его со школы.", a: "I've known him since school.",
+        steps: ["Знаю до сих пор → <b>I've known</b>.", "Кого → him.", "Начало отрезка → <b>since school</b>."] },
+      { type: "build", ru: "Сколько ты здесь живёшь?", a: "How long have you lived here?",
+        steps: ["Вопрос о длине → <b>How long</b>.", "Помощник и кто: <b>have you</b>.", "3-я форма: <b>lived</b>, потом here."] },
+      { type: "build", ru: "Она в Лондоне с понедельника.", a: "She has been in London since Monday.",
+        steps: ["«Быть где-то до сих пор» → <b>has been</b>, been — 3-я форма be.", "Где → in London.", "С какого дня → <b>since Monday</b>."] },
+      { type: "type", ru: "Мы знакомы десять лет.", a: "We've known each other for ten years.", alt: ["We have known each other for ten years.", "We've known each other for 10 years.", "We have known each other for 10 years."],
+        steps: ["Знакомы до сих пор → <b>have known</b>.", "Друг друга → each other.", "Десять лет — длина → <b>for ten years</b>."] },
+      { type: "type", ru: "У меня эта машина с 2019 года.", a: "I've had this car since 2019.", alt: ["I have had this car since 2019."],
+        steps: ["«У меня есть» до сих пор → have + had: <b>I've had</b>.", "had — 3-я форма have.", "С 2019 года → <b>since 2019</b>."] },
+      { type: "choose", kind: "Найдите правильный вариант", q: "Я работаю здесь два года.", opts: ["I work here for two years.", "I've worked here for two years.", "I've worked here since two years."], a: "I've worked here for two years.", full: "I've worked here for two years.",
+        steps: ["«I work» не показывает длину до сегодня.", "«since two years» — два года это длина, а не начало.", "Правильно: <b>I've worked here for two years.</b>"] }
+    ]
+  },
+
+  "b1-02": {
+    n: 2, t: "Present Perfect Continuous", min: 20,
+    why: "«Я жду тебя уже час!», «Ты весь мокрый — бегал?». Здесь важен сам процесс: он шёл до этой минуты и, может быть, ещё идёт. А его следы видны прямо сейчас. Для этого есть Present Perfect Continuous: <b>I've been waiting for an hour.</b>",
+    goals: ["Говорить, сколько уже идёт дело: <b>I've been learning English for two years.</b>", "Объяснять следы недавнего процесса: <b>I'm tired because I've been working all day.</b>", "Выбирать между <b>I've read</b> (результат, сколько сделано) и <b>I've been reading</b> (процесс)"],
+    look: { ex: [["I<mark>'ve been waiting</mark> for you for an hour!", "Я жду тебя уже час!"], ["It<mark>'s been raining</mark> since the morning.", "Дождь идёт с утра."], ["Your eyes are red. <mark>Have</mark> you <mark>been crying</mark>?", "У тебя красные глаза. Ты плакала?"]],
+      q: "Из каких трёх кусочков собраны выделенные формы? Закончилось ли дело в каждой фразе?",
+      a: "<b>have / has + been + глагол с -ing</b>. В первых двух фразах дело всё ещё идёт. В третьей уже закончилось, но видны следы: красные глаза. Во всех трёх важен процесс, а не итог." },
+    rule: "Процесс начался в прошлом и шёл до сих пор (или только что закончился и оставил следы) → <b>have / has been + глагол с -ing</b>. С ним часто стоят for, since, How long, all day, lately.",
+    formula: [["have / has", "I have, she has"], ["been", "3-я форма be"], ["глагол + -ing", "waiting, working"]],
+    think: "Соберём форму из того, что вы уже знаете.<br>• <b>have + 3-я форма</b> — «фото результата» из урока 1: нитка до сегодня.<br>• <b>be + -ing</b> — процесс, как в I am working.<br>Склеиваем: <b>have + been + working</b>. Been — 3-я форма be. Получается «фото результата, на котором процесс ещё в движении».<br><br><b>Разберём по кусочкам: I've been waiting for you for an hour.</b><br>• <b>I</b> — кто ждёт.<br>• <b>'ve been</b> — have + been: нитка от прошлого до сейчас.<br>• <b>waiting</b> — с -ing: ожидание длится, это процесс.<br>• <b>for you</b> — кого ждём. Wait for — «ждать кого-то», for здесь обязателен.<br>• <b>for an hour</b> — сколько уже. Второе for — длина отрезка, как в уроке 1.<br>По-русски «жду час» — настоящее время. Англичанин видит за спиной час ожидания, поэтому Perfect. И видит процесс, поэтому -ing.<br><br>Проверка: спросите себя «как долго шёл процесс?» или «откуда эти следы?». Если ответ про процесс — Continuous. Если про результат или количество (прочитал три книги) — простой Present Perfect.",
+    table: { head: ["Что важно", "Форма", "Пример"], rows: [["процесс и его длина", "have been + -ing", "I've been reading this book for a week."], ["результат, сколько сделано", "have + 3-я форма", "I've read 100 pages."], ["следы недавнего процесса", "have been + -ing", "You're out of breath. Have you been running?"], ["состояние: know, like, have", "have + 3-я форма", "I've known her for years."]],
+      note: "Глаголы-состояния (know, believe, like, want, own) не любят -ing. С ними даже о длине говорим простым Present Perfect: <b>I've known him since 2010</b>. А live и work подходят к обеим формам почти без разницы: I've lived / I've been living here for five years." },
+    traps: [["I wait for you for an hour.", "I've been waiting for you for an hour.", "Ожидание тянется из прошлого до этой минуты. Present Simple так не умеет."],
+      ["I've been knowing her for years.", "I've known her for years.", "know — состояние, а не процесс. Состояния не берут -ing."],
+      ["I've been reading three books this month.", "I've read three books this month.", "Когда считаем результат (три книги), нужна обычная 3-я форма."],
+      ["She has been work all day.", "She has been working all day.", "После been нужен глагол с -ing. Без него форма разваливается."]],
+    check: { q: "I'm so tired. I ___ all day.", ru: "Я так устал. Я весь день работаю.", opts: ["have worked", "have been working", "am working"], a: "have been working", why: "Усталость — след процесса, который шёл весь день до этой минуты. Процесс до сейчас → <b>have been + -ing</b>." },
+    dialog: [["them", "Sorry I'm late! Have you been waiting long?", "Прости, что опоздал! Долго ждёшь?"],
+      ["me", "About twenty minutes. I've been reading the menu.", "Минут двадцать. Я изучаю меню."],
+      ["them", "Your hands are covered in paint. What have you been doing?", "У тебя руки в краске. Чем ты занимался?"],
+      ["me", "I've been painting my kitchen since Saturday. I've done two walls so far.", "Крашу кухню с субботы. Пока покрасил две стены."],
+      ["them", "Impressive! How long have you been planning that?", "Впечатляет! И давно ты это задумал?"],
+      ["me", "For months! I've finally found the time.", "Несколько месяцев! Наконец нашёл время."]],
+    words: [["out of breath", "запыхавшийся"], ["covered in", "весь в (чём-то)"], ["exhausted", "без сил"], ["sweaty", "потный"], ["soaked", "промокший насквозь"],
+      ["paint", "красить; краска"], ["decorate", "делать ремонт (красить, клеить обои)"], ["tidy up", "наводить порядок"], ["queue", "очередь; стоять в очереди"], ["practise", "тренироваться, упражняться"],
+      ["revise", "повторять (к экзамену)"], ["train", "тренироваться"], ["get fit", "прийти в форму"], ["lately", "в последнее время"], ["non-stop", "без остановки"],
+      ["all morning", "всё утро"], ["so far", "пока что, на данный момент"], ["at last", "наконец-то"], ["nearly", "почти"], ["make progress", "делать успехи"],
+      ["keep doing", "продолжать делать"], ["rehearse", "репетировать"], ["bake", "печь"], ["smell", "пахнуть; запах"], ["be fed up with", "надоело (что-то)"],
+      ["complain", "жаловаться"], ["argue", "спорить, ссориться"], ["look for", "искать"], ["try to", "пытаться"], ["impressive", "впечатляющий"]],
+    items: [
+      { type: "choose", q: "I ___ for the bus for twenty minutes.", ru: "Я жду автобус уже двадцать минут.", opts: ["am waiting", "have been waiting", "have waited"], a: "have been waiting", full: "I have been waiting for the bus for twenty minutes.",
+        steps: ["Ожидание началось 20 минут назад и идёт до сих пор.", "Процесс + длина до сейчас → <b>have been + -ing</b>.", "am waiting не показывает, сколько уже прошло."] },
+      { type: "choose", q: "It ___ raining since six o'clock.", ru: "Дождь идёт с шести часов.", opts: ["is been", "has been", "have been"], a: "has been", full: "It has been raining since six o'clock.",
+        steps: ["Нужна связка have / has + been.", "it — «оно», одна вещь → <b>has</b>.", "is been — такой формы нет."] },
+      { type: "choose", q: "You're out of breath! Have you been ___?", ru: "Ты запыхался! Бегал?", opts: ["run", "running", "ran"], a: "running", full: "You're out of breath! Have you been running?",
+        steps: ["Запыхался — след недавнего процесса.", "После been нужен глагол с <b>-ing</b>.", "Итог: <b>running</b> (n удваивается)."] },
+      { type: "choose", q: "I ___ her since we were kids.", ru: "Я знаю её с детства.", opts: ["have been knowing", "have known", "know"], a: "have known", full: "I have known her since we were kids.",
+        steps: ["Нитка до сегодня → Present Perfect.", "Но know — состояние, оно не берёт -ing.", "Значит, простой: <b>have known</b>."] },
+      { type: "choose", q: "I ___ four emails this morning.", ru: "Сегодня утром я написал четыре письма.", opts: ["have been writing", "have written", "am writing"], a: "have written", full: "I have written four emails this morning.",
+        steps: ["Четыре письма — мы считаем результат.", "Результат, количество → <b>have + 3-я форма</b>.", "write → written: <b>have written</b>."] },
+      { type: "choose", rev: "Будущее: going to по признакам", q: "Look at those black clouds! It ___ rain.", ru: "Посмотри на эти тучи! Сейчас пойдёт дождь.", opts: ["is going to", "will", "is raining"], a: "is going to", full: "Look at those black clouds! It is going to rain.",
+        steps: ["Мы видим признаки прямо сейчас — тучи.", "Прогноз по признакам → <b>going to</b>.", "will — скорее мнение или решение в моменте."] },
+      { type: "build", ru: "Я учу английский два года.", a: "I've been learning English for two years.",
+        steps: ["Учу до сих пор, это процесс → <b>I've been learning</b>.", "Что → English.", "Сколько → <b>for two years</b>."] },
+      { type: "build", ru: "Что ты делал весь день?", a: "What have you been doing all day?",
+        steps: ["Вопрос начинаем с <b>What</b>.", "Помощник и кто: <b>have you</b>.", "Процесс: <b>been doing</b>, потом all day."] },
+      { type: "build", ru: "Она работает здесь с мая.", a: "She has been working here since May.",
+        steps: ["she → <b>has</b>.", "Процесс до сейчас → <b>been working</b>.", "С мая → <b>since May</b>."] },
+      { type: "type", ru: "Дождь идёт с утра.", a: "It's been raining since the morning.", alt: ["It has been raining since the morning.", "It's been raining since morning.", "It has been raining since morning."],
+        steps: ["Погода → начинаем с <b>It</b>.", "Идёт до сих пор → <b>has been raining</b>.", "С утра → since the morning."] },
+      { type: "type", ru: "Мы ждём тебя уже час!", a: "We've been waiting for you for an hour!", alt: ["We have been waiting for you for an hour!", "We've been waiting for you for one hour!"],
+        steps: ["Мы → <b>We've</b> (we have).", "Ждём до сих пор → <b>been waiting for you</b>.", "Сколько → <b>for an hour</b>."] },
+      { type: "choose", kind: "Найдите правильный вариант", rev: "урок 1: for и since", q: "Я знаю Тома с 2015 года.", opts: ["I've been knowing Tom since 2015.", "I know Tom since 2015.", "I've known Tom since 2015."], a: "I've known Tom since 2015.", full: "I've known Tom since 2015.",
+        steps: ["know — состояние, -ing не берёт.", "«I know» не показывает нитку до сегодня.", "Правильно: <b>I've known Tom since 2015.</b>"] }
+    ]
+  },
+
+  "b1-03": {
+    n: 3, t: "used to и would", min: 20,
+    why: "«Раньше я курил», «В детстве мы каждое лето ездили к бабушке». По-русски хватает слова «раньше» и прошедшего времени. В английском для старых привычек, которых больше нет, есть специальная пара: <b>used to</b> и <b>would</b>.",
+    goals: ["Рассказывать о том, что было раньше и прошло: <b>I used to live in Omsk.</b>", "Спрашивать и отрицать: <b>Did you use to…? I didn't use to…</b>", "Рисовать картинки детства через <b>would</b>: <b>Every summer we would go to the lake.</b>"],
+    look: { ex: [["I <mark>used to</mark> smoke, but I gave up.", "Раньше я курил, но бросил."], ["She <mark>didn't use to</mark> like coffee.", "Раньше она не любила кофе."], ["Every Sunday my grandad <mark>would</mark> make pancakes.", "Каждое воскресенье дедушка пёк блины."]],
+      q: "Курит ли человек в первой фразе сейчас? Любит ли она кофе сейчас? Что общего у трёх фраз?",
+      a: "Нет и да: <b>used to</b> значит «раньше было, а теперь нет». Он больше не курит, а она теперь кофе любит. Во всех трёх фразах — привычка или состояние из прошлого, которых больше нет." },
+    rule: "Привычка или состояние в прошлом, которых теперь нет → <b>used to + 1-я форма</b>. Для повторяющихся действий в воспоминаниях можно <b>would + 1-я форма</b>. Для состояний would не берут.",
+    formula: [["used to", "раньше (а теперь нет)"], ["1-я форма", "live, smoke, have"], ["вопрос и отрицание: did … use to", "Did you use to…? I didn't use to…"]],
+    think: "Вспомним три картинки. <b>used</b> — 2-я форма, «кадр из прошлого». <b>to live</b> — 1-я форма, «как обычно». Вместе: кадр из прошлого, на котором было «как обычно». А раз это только кадр, сегодня всё иначе.<br><br><b>Разберём по кусочкам: I used to live in Omsk.</b><br>• <b>I</b> — кто.<br>• <b>used</b> — кадр из прошлого, поэтому 2-я форма.<br>• <b>to live</b> — «как обычно»: тогда я жил там постоянно.<br>• <b>in Omsk</b> — где.<br>Подтекст «а сейчас не живу» договаривать не нужно, он уже внутри used to.<br><br>Почему в вопросе <b>use</b> без -d? Did уже несёт прошлое, а прошлое показывают один раз: <b>Did you use to…?</b> Так же, как Did you go…? (а не Did you went).<br><br><b>would</b> — как кино-воспоминание: «бывало, дедушка пёк блины». Его берут только для действий. Для состояний (live, have, be, like) — только used to: I used to have long hair, а не I would have long hair.<br><br>Проверка: если по-русски можно сказать «раньше…, а теперь нет», это used to.",
+    table: { head: ["", "used to", "would"], rows: [["повторяющиеся действия", "✅ We used to play football.", "✅ We would play football."], ["состояния: be, have, live, like", "✅ I used to have a dog.", "❌ не подходит"], ["одно событие", "❌ просто Past Simple: I went to Paris in 2019.", "❌"], ["вопрос", "Did you use to…?", "почти не бывает"]],
+      note: "Не путайте с <b>be used to</b> — «привык к»: I'm used to the cold. Это другая конструкция, её разберём в курсе B2." },
+    traps: [["I use to live in Omsk.", "I used to live in Omsk.", "Про прошлое — used, с -d. Без -d получается «я использую, чтобы жить»."],
+      ["Did you used to play tennis?", "Did you use to play tennis?", "Did уже несёт прошлое. Второй раз его не показывают: use без -d."],
+      ["I used to go to Paris in 2019.", "I went to Paris in 2019.", "Одна поездка — это событие, а не привычка. Для событий — Past Simple."],
+      ["When I was a kid, I would have a cat.", "When I was a kid, I used to have a cat.", "have здесь — состояние «иметь». Would подходит только для повторяющихся действий."]],
+    check: { q: "I ___ coffee, but now I drink it every day.", ru: "Раньше я не пил кофе, а теперь пью каждый день.", opts: ["didn't use to drink", "didn't used to drink", "wouldn't drink"], a: "didn't use to drink", why: "Отрицание через didn't, а прошлое уже в did, значит <b>use</b> без -d. Would в отрицании звучит как «отказывался пить», это другой смысл." },
+    dialog: [["them", "Is this you in the photo? You look so different!", "Это ты на фото? Совсем другой!"],
+      ["me", "Yes! I used to have long hair, and I used to wear glasses.", "Да! Раньше у меня были длинные волосы, и я носил очки."],
+      ["them", "Where were you?", "А где это ты?"],
+      ["me", "At my gran's village. Every summer we would go there and swim in the river.", "В деревне у бабушки. Каждое лето мы ездили туда и купались в реке."],
+      ["them", "Did you use to go fishing too?", "А рыбачить тоже ходили?"],
+      ["me", "Yes, but I didn't use to catch anything!", "Да, только я никогда ничего не ловил!"],
+      ["them", "Ha! Have you been back since then?", "Ха! А ты с тех пор там бывал?"],
+      ["me", "No, not for ten years. I really miss it.", "Нет, уже лет десять. Очень скучаю."]],
+    words: [["gran", "бабушка (разг.)"], ["village", "деревня"], ["childhood", "детство"], ["as a kid", "в детстве"], ["teenager", "подросток"],
+      ["habit", "привычка"], ["wear glasses", "носить очки"], ["beard", "борода"], ["go fishing", "ходить на рыбалку"], ["pick mushrooms", "собирать грибы"],
+      ["climb trees", "лазить по деревьям"], ["hang out", "тусоваться, проводить время"], ["in those days", "в те времена"], ["these days", "сейчас, в наше время"], ["no longer", "больше не"],
+      ["not any more", "больше не"], ["miss", "скучать по"], ["memory", "воспоминание"], ["remind", "напоминать"], ["strict", "строгий"],
+      ["spoil", "баловать"], ["naughty", "непослушный"], ["shy", "застенчивый"], ["be into", "увлекаться"], ["collect", "коллекционировать"],
+      ["summer camp", "летний лагерь"], ["school uniform", "школьная форма"], ["pocket money", "карманные деньги"], ["cartoon", "мультфильм"], ["hide and seek", "прятки"]],
+    items: [
+      { type: "choose", q: "When I was a child, I ___ in a small village.", ru: "В детстве я жил в маленькой деревне.", opts: ["used to live", "use to live", "was used to live"], a: "used to live", full: "When I was a child, I used to live in a small village.",
+        steps: ["Раньше жил, теперь нет → <b>used to</b>.", "Прошлое → used с -d.", "Дальше 1-я форма: <b>live</b>."] },
+      { type: "choose", q: "___ you use to play computer games?", ru: "Ты раньше играл в компьютерные игры?", opts: ["Did", "Were", "Do"], a: "Did", full: "Did you use to play computer games?",
+        steps: ["Вопрос о прошлом с used to строим через <b>did</b>.", "Поэтому дальше use без -d.", "Were и Do здесь не работают."] },
+      { type: "choose", q: "Every summer we ___ swim in the lake.", ru: "Каждое лето мы купались в озере.", opts: ["would", "used", "were"], a: "would", full: "Every summer we would swim in the lake.",
+        steps: ["Повторяющееся действие в воспоминании.", "Для действий подходит <b>would + 1-я форма</b>.", "used без to не работает: нужно used to swim."] },
+      { type: "choose", q: "My dad ___ a beard, but he shaved it off.", ru: "У папы раньше была борода, но он её сбрил.", opts: ["used to have", "would have", "use to have"], a: "used to have", full: "My dad used to have a beard, but he shaved it off.",
+        steps: ["Иметь бороду — состояние, а не действие.", "Для состояний would не берут.", "Итог: <b>used to have</b>, с -d."] },
+      { type: "choose", rev: "урок 2: Present Perfect Continuous", q: "I'm tired. I ___ the flat all morning.", ru: "Я устал. Всё утро убирал квартиру.", opts: ["have cleaned", "have been cleaning", "used to clean"], a: "have been cleaning", full: "I'm tired. I have been cleaning the flat all morning.",
+        steps: ["Усталость — след процесса до сейчас.", "Процесс + all morning → <b>have been + -ing</b>.", "used to — о старых привычках, а здесь сегодняшнее утро."] },
+      { type: "choose", rev: "Present Perfect: yet и already", q: "Have you finished your homework ___?", ru: "Ты уже сделал домашнее задание?", opts: ["yet", "already", "since"], a: "yet", full: "Have you finished your homework yet?",
+        steps: ["Вопрос «уже?» в конце фразы → <b>yet</b>.", "already обычно в утверждениях: I've already finished.", "since — начало отрезка, здесь не подходит."] },
+      { type: "build", ru: "Раньше я курил.", a: "I used to smoke.",
+        steps: ["Раньше, а теперь нет → <b>used to</b>.", "Дальше 1-я форма: <b>smoke</b>.", "Слово «раньше» отдельно не нужно, оно внутри used to."] },
+      { type: "build", ru: "Раньше она не любила рыбу.", a: "She didn't use to like fish.",
+        steps: ["Отрицание о прошлом → <b>didn't</b>.", "После didn't — <b>use</b> без -d.", "to like fish."] },
+      { type: "build", ru: "Каждое лето мы ездили к бабушке.", a: "Every summer we would visit our grandmother.",
+        steps: ["Когда → <b>Every summer</b>, в начале.", "Повторяющееся действие в воспоминании → <b>we would visit</b>.", "К кому → our grandmother."] },
+      { type: "type", ru: "Раньше я жил в Москве.", a: "I used to live in Moscow.", alt: ["I used to live in Moscow before."],
+        steps: ["Жил, теперь нет → <b>used to</b>.", "1-я форма → <b>live</b>.", "Где → in Moscow."] },
+      { type: "type", ru: "Ты раньше играл в футбол?", a: "Did you use to play football?",
+        steps: ["Вопрос о прошлом → <b>Did you</b>.", "После did — <b>use to</b>, без -d.", "play football."] },
+      { type: "choose", kind: "Найдите правильный вариант", q: "В детстве у меня была собака.", opts: ["When I was a kid, I would have a dog.", "When I was a kid, I used to have a dog.", "When I was a kid, I use to have a dog."], a: "When I was a kid, I used to have a dog.", full: "When I was a kid, I used to have a dog.",
+        steps: ["have a dog — состояние, а не действие. Would не подходит.", "Про прошлое — used с -d.", "Правильно: <b>I used to have a dog.</b>"] }
+    ]
+  }
+});
+
+// ================== Курс B1 → B2, модуль 1: ситуация, аудирование, чтение, письмо, словарь, тест ==================
+SITS.push({
+  id: "b1reunion", emoji: "🤝", title: "Встреча через десять лет", place: "Кафе на вокзале", city: "Манчестер", level: "B1",
+  goal: "Рассказать, что изменилось за много лет: как давно, чем занят последнее время и каким был раньше",
+  partner: { name: "Том", role: "школьный друг", hue: 150 },
+  lines: [
+    L("them", "No way! Is that really you? I haven't seen you for ages!", "Не может быть! Это правда ты? Сто лет тебя не видел!",
+      "haven't seen … for ages", [["No way!", "не может быть!"], ["Is that really you?", "это правда ты?"], ["I haven't seen you", "я не видел тебя"], ["for ages", "сто лет"]],
+      "По-русски «не видел» — прошедшее время. Но отрезок не закончился: Том не видел вас до этой самой минуты. Это нитка до сегодня, поэтому Present Perfect: haven't seen. For ages — длина этой нитки.",
+      ["I haven't eaten for hours.", "Я уже несколько часов не ел."],
+      [["no way", "/nəʊ weɪ/", "не может быть"], ["really", "/ˈrɪəli/", "правда, действительно"], ["for ages", "/fər ˈeɪdʒɪz/", "сто лет, очень давно"]],
+      "No way! — живое радостное удивление. Ещё говорят: It's been ages! — «Сколько лет, сколько зим!»"),
+    L("me", "Tom! It's been ten years since we left school. You look great!", "Том! Прошло десять лет с тех пор, как мы окончили школу. Отлично выглядишь!",
+      "It's been … since + Past Simple", [["It's been", "прошло"], ["ten years", "десять лет"], ["since we left school", "с тех пор, как мы окончили школу"], ["You look great!", "отлично выглядишь!"]],
+      "It's been = It has been: «набралось» десять лет до сегодня, поэтому Perfect. После since стоит событие, с которого начался отсчёт. Окончили школу один раз, это кадр из прошлого, поэтому Past Simple: left.",
+      ["It's been two years since I moved here.", "Прошло два года с тех пор, как я сюда переехал."],
+      [["leave school", "/liːv skuːl/", "окончить школу"], ["since", "/sɪns/", "с тех пор как"], ["look great", "/lʊk ɡreɪt/", "отлично выглядеть"]],
+      "Leave school — окончить школу. Graduate обычно говорят про университет."),
+    L("them", "Thanks! So what have you been doing all this time? Do you still live here?", "Спасибо! Ну, чем ты занимался всё это время? Ты всё ещё живёшь здесь?",
+      "What have you been doing? — вопрос о процессе", [["So", "ну, итак"], ["what have you been doing", "чем ты занимался"], ["all this time", "всё это время"], ["Do you still live here?", "ты всё ещё живёшь здесь?"]],
+      "Том спрашивает о целом отрезке — десяти годах до сегодня. Его интересует процесс, а не один результат, поэтому Present Perfect Continuous: have been doing. Второй вопрос — о сегодняшнем дне, поэтому Present Simple: Do you still live…?",
+      ["What have you been doing lately?", "Чем ты занимаешься в последнее время?"],
+      [["all this time", "/ɔːl ðɪs taɪm/", "всё это время"], ["still", "/stɪl/", "всё ещё"]],
+      "Still стоит перед основным глаголом: I still live here. Но после be: I'm still here."),
+    L("me", "No, I moved to Leeds in 2018. I've been working as a nurse there since then.", "Нет, я переехал в Лидс в 2018-м. С тех пор работаю там медбратом.",
+      "moved + have been working", [["I moved to Leeds", "я переехал в Лидс"], ["in 2018", "в 2018 году"], ["I've been working", "я работаю"], ["as a nurse", "медбратом"], ["since then", "с тех пор"]],
+      "Переезд — одно событие с датой (in 2018), это кадр из прошлого: moved. Работа началась тогда же и идёт до сегодня — это процесс до сейчас: have been working. Since then — «с тех пор».",
+      ["I moved here in May. I've been looking for a job since then.", "Я переехал сюда в мае. С тех пор ищу работу."],
+      [["move to", "/muːv tə/", "переехать в"], ["nurse", "/nɜːs/", "медсестра, медбрат"], ["since then", "/sɪns ðen/", "с тех пор"]],
+      "Nurse — и медсестра, и медбрат. Профессия идёт после as: work as a nurse."),
+    L("them", "A nurse? But you used to faint at the sight of blood!", "Медбратом? Ты же раньше падал в обморок при виде крови!",
+      "used to — раньше так было", [["A nurse?", "медбратом?"], ["But you used to", "но ты же раньше"], ["faint", "падать в обморок"], ["at the sight of blood", "при виде крови"]],
+      "Used to + 1-я форма — кадр из прошлого, на котором так было обычно. Том подчёркивает контраст: раньше — да, а теперь вы работаете в больнице.",
+      ["But you used to hate coffee!", "Ты же раньше терпеть не мог кофе!"],
+      [["faint", "/feɪnt/", "падать в обморок"], ["at the sight of", "/ət ðə saɪt əv/", "при виде"], ["blood", "/blʌd/", "кровь"]],
+      "But you used to…! — так удивляются тому, как изменился человек."),
+    L("me", "I know! I used to be scared of everything. But people change, don't they?", "Знаю! Раньше я всего боялся. Но люди меняются, правда?",
+      "used to be + хвостик don't they?", [["I know!", "знаю!"], ["I used to be scared", "раньше я боялся"], ["of everything", "всего"], ["people change", "люди меняются"], ["don't they?", "правда?"]],
+      "Used to be — состояние в прошлом, которого больше нет. Would здесь нельзя: это состояние, а не действие. Don't they? в конце — просьба согласиться, как русское «правда?». Подробно такие хвостики будут в модуле 3.",
+      ["I used to be shy. Now I love parties!", "Раньше я был застенчивым. Теперь обожаю вечеринки!"],
+      [["scared of", "/skeəd əv/", "боящийся (чего-то)"], ["everything", "/ˈevriθɪŋ/", "всё"], ["change", "/tʃeɪndʒ/", "меняться"]],
+      "Scared of, afraid of — после них всегда of."),
+    L("them", "They do. I've given up smoking, for example. I haven't had a cigarette for five years.", "Это точно. Я вот, например, бросил курить. Не курю уже пять лет.",
+      "have given up + haven't had … for", [["They do", "это точно"], ["I've given up smoking", "я бросил курить"], ["for example", "например"], ["I haven't had a cigarette", "я не выкурил ни одной сигареты"], ["for five years", "уже пять лет"]],
+      "I've given up — результат виден сейчас: Том некурящий. После give up глагол с -ing: give up smoking. I haven't had … for five years — нитка: пять лет до сегодня без сигарет.",
+      ["I've given up sugar. I haven't had a cake for a month!", "Я отказался от сахара. Уже месяц не ел торта!"],
+      [["give up", "/ɡɪv ʌp/", "бросить, отказаться"], ["for example", "/fər ɪɡˈzɑːmpl/", "например"], ["cigarette", "/ˌsɪɡəˈret/", "сигарета"]],
+      "They do. — короткий ответ-согласие на don't they? Повторяем помощника, без глагола."),
+    L("me", "Good for you! Listen, let's keep in touch this time. What's your number?", "Молодец! Слушай, давай в этот раз не теряться. Какой у тебя номер?",
+      "keep in touch — оставаться на связи", [["Good for you!", "молодец!"], ["Listen", "слушай"], ["let's keep in touch", "давай будем на связи"], ["this time", "в этот раз"], ["What's your number?", "какой у тебя номер?"]],
+      "Let's + 1-я форма — предложение «давай». Keep in touch — устойчивое сочетание: «поддерживать связь». This time — «в этот раз», намёк на то, что десять лет назад вы потерялись.",
+      ["Let's keep in touch after the course.", "Давай будем на связи после курса."],
+      [["good for you", "/ɡʊd fə juː/", "молодец, рад за тебя"], ["keep in touch", "/kiːp ɪn tʌtʃ/", "оставаться на связи"], ["this time", "/ðɪs taɪm/", "в этот раз"]],
+      "Противоположное — lose touch: We lost touch after school. — После школы мы потерялись.")
+  ]
+});
+
+Object.assign(MOD, {
+  "b1-m1-sit": { sit: "b1reunion" },
+  "b1-m1-listen": { t: "Как изменился мой город", rate: 0.9,
+    text: "I was born in Kazan, and I've lived here for almost forty years. The city has changed a lot since I was a child. When I was young, there used to be a big market near our house. Every Saturday my mother would take me there, and I would carry the bags. The market closed in 2005, and now there's a shopping centre in its place. The streets used to be quiet, but these days there's always traffic. Some changes are good, though. For the last two years the city has been building new parks, and volunteers have been planting trees along the river. Last week I was walking along the river when I met my old teacher. She smiled and said, \"I've never seen the city so green!\" I think she's right.",
+    ru: "Я родилась в Казани и живу здесь почти сорок лет. Город сильно изменился с тех пор, как я была ребёнком. Когда я была маленькой, рядом с нашим домом был большой рынок. Каждую субботу мама брала меня туда, и я носила сумки. Рынок закрылся в 2005 году, и теперь на его месте торговый центр. Раньше улицы были тихими, а сейчас везде пробки. Но есть и хорошие перемены. Последние два года город строит новые парки, а волонтёры сажают деревья вдоль реки. На прошлой неделе я гуляла вдоль реки и встретила свою старую учительницу. Она улыбнулась и сказала: «Я никогда не видела город таким зелёным!» Думаю, она права.",
+    qs: [{ q: "Сколько лет рассказчица живёт в Казани?", opts: ["almost forty years", "since 2005", "for two years"], a: "almost forty years", steps: ["Ищем for + длину: «I've lived here <b>for almost forty years</b>».", "Have lived + for — нитка до сегодня: она и сейчас там живёт."] },
+      { q: "Что раньше было рядом с её домом?", opts: ["a big market", "a shopping centre", "a park"], a: "a big market", steps: ["«There <b>used to be</b> a big market near our house».", "Used to — раньше был, а теперь нет: на его месте торговый центр."] },
+      { q: "Что они делали каждую субботу?", opts: ["Her mother took her to the market.", "They planted trees.", "They went to the shopping centre."], a: "Her mother took her to the market.", steps: ["«Every Saturday my mother <b>would take</b> me there».", "Would — повторяющееся действие в воспоминании, как «бывало, мама брала меня»."] },
+      { q: "Что город делает последние два года?", opts: ["It has been building new parks.", "It has closed the market.", "It has built a new road."], a: "It has been building new parks.", steps: ["«For the last two years the city <b>has been building</b> new parks».", "Has been + -ing — процесс идёт до сих пор."] },
+      { q: "Где она встретила учительницу?", opts: ["along the river", "at the market", "at school"], a: "along the river", steps: ["«I was walking <b>along the river</b> when I met my old teacher».", "Was walking — фон, met — короткое событие, как в курсе A2."] }] },
+  "b1-m1-read": { t: "Жизнь до смартфонов", title: "Life before smartphones",
+    text: "My grandparents have been married for fifty years, and last Sunday I asked them about life before smartphones.\n\"We used to write letters,\" my grandmother said. \"Your grandad was in the army for two years, and he would write to me every week. I still have all his letters.\"\nThey didn't use to have a phone at home. If they wanted to call someone, they would go to the post office and wait in a queue. \"People used to plan everything in advance,\" my grandad added. \"If you said 'Meet me at the cinema at six', you were there at six. Nobody sent messages like 'running ten minutes late'!\"\nI've been thinking about their stories since that day. I've had a smartphone since I was twelve, and I check it about a hundred times a day. This week I've been trying an experiment: no phone after 8 pm. So far I've read two books, and I've slept much better. Maybe life before smartphones wasn't so bad.",
+    qs: [{ q: "How long have the grandparents been married?", opts: ["for fifty years", "since fifty years", "for two years"], a: "for fifty years", steps: ["Первая фраза: «have been married <b>for fifty years</b>».", "Пятьдесят лет — длина, поэтому for. Since fifty years — ошибка."] },
+      { q: "How often did the grandad write letters from the army?", opts: ["every week", "every day", "once a year"], a: "every week", steps: ["«he <b>would write</b> to me <b>every week</b>».", "Would — повторяющееся действие в прошлом."] },
+      { q: "Where did people go to make a phone call?", opts: ["to the post office", "to the cinema", "to a neighbour"], a: "to the post office", steps: ["«they would go to <b>the post office</b> and wait in a queue».", "Дома телефона не было: «They <b>didn't use to</b> have a phone at home»."] },
+      { q: "What has the writer been trying this week?", opts: ["no phone after 8 pm", "writing letters", "going to the cinema"], a: "no phone after 8 pm", steps: ["«This week I've been trying an experiment: <b>no phone after 8 pm</b>».", "Have been trying — процесс идёт всю неделю до сегодня."] },
+      { q: "What has happened so far?", opts: ["She has read two books.", "She has bought a new phone.", "She has written a letter."], a: "She has read two books.", steps: ["«So far I've <b>read two books</b>».", "Считаем результат (две книги), поэтому простой Present Perfect, без -ing."] }] },
+  "b1-m1-mail": { t: "Письмо старому другу", minSent: 8,
+    task: "Вы нашли в соцсети школьного друга, с которым не общались много лет. Напишите ему письмо, 8–12 предложений. Скажите, как вы рады его найти. Расскажите, где вы живёте и работаете и как давно (for или since). Расскажите, чем занимаетесь в последнее время (have been + -ing). Вспомните, что вы раньше делали вместе (used to или would). Задайте два вопроса о его жизни и предложите созвониться или встретиться.",
+    model: "Hi Max,\n\nI can't believe I've found you after all these years! How are you?\n\nSo much has changed since we left school. I've lived in Saint Petersburg for six years now, and I've been working as a designer since 2020. Lately I've been learning to play the guitar, and I've also been training for my first half marathon.\n\nDo you remember our summers at the lake? We used to swim every day, and in the evenings we would sit by the fire and play cards. I didn't use to like sport at all, but now I run three times a week!\n\nWhat about you? Where do you live now? Have you been travelling a lot?\n\nLet's have a video call soon and catch up properly.\n\nBest wishes,\nAnna",
+    note: "Посмотрите, как построено письмо: радость от встречи → что изменилось и как давно (for / since) → чем занята в последнее время (have been + -ing) → общее прошлое (used to, would) → вопросы → предложение созвониться → подпись. Не копируйте — пишите о своём.",
+    checks: [["Приветствие", "\\b(hi|hello|hey|dear)\\b"],
+      ["Как давно: for или since", "\\b(for|since) \\w+"],
+      ["Present Perfect: have + 3-я форма", "(\\b(have|has)|'ve|'s) (\\w+ed|been|known|had|done|made|got|become|begun|grown|seen|met|taken|written|found|left|bought|taught|built|spent|won|read|given)\\b"],
+      ["Процесс до сейчас: have been + -ing", "(\\b(have|has)|'ve|'s) been \\w+ing\\b"],
+      ["Раньше: used to или would", "\\bused to \\w+|\\bwould (?!like\\b)\\w+"],
+      ["Два вопроса", "\\?[\\s\\S]*\\?"],
+      ["Предложение встретиться или созвониться", "\\b(let's|let us|why don't we|shall we|meet|call|catch up|video call)\\b"],
+      ["Подпись", "\\b(best|bye|see you|regards|wishes|cheers|love|take care|yours|all the best)\\b"]] },
+  "b1-m1-vocab": { t: "Перемены, привычки и жизненный путь",
+    intro: "На уровне B1–B2 мешает уже не грамматика, а запас слов. Поэтому здесь не просто слова, а готовые сочетания (make a fresh start), фразовые глаголы (settle down) и семьи слов (improve → improvement). Учите их кусками, целиком — так их и говорят.",
+    groups: [
+      { t: "Сочетания: перемены в жизни", e: "🔄", words: [
+        ["make a change", "что-то изменить", "I wanted to make a change, so I quit my job."],
+        ["make a fresh start", "начать с чистого листа", "They moved abroad to make a fresh start."],
+        ["change your mind", "передумать", "I was going to sell my car, but I changed my mind."],
+        ["change jobs", "сменить работу", "She has changed jobs three times since 2019."],
+        ["break a habit", "избавиться от привычки", "It's hard to break a bad habit."],
+        ["get into the habit of", "завести привычку", "I've got into the habit of walking to work."],
+        ["take a big step", "сделать важный шаг", "Moving in together is a big step."],
+        ["start a family", "завести семью", "They want to start a family soon."],
+        ["reach a goal", "достичь цели", "It took me five years to reach my goal."],
+        ["turn thirty", "исполниться тридцать", "He turned thirty last month."],
+        ["lead a healthy life", "вести здоровый образ жизни", "Since I gave up smoking, I've led a healthier life."],
+        ["have second thoughts", "засомневаться", "I'm having second thoughts about the move."]] },
+      { t: "Фразовые глаголы: жизнь меняется", e: "🧩", words: [
+        ["give up", "бросить (привычку)", "He gave up smoking five years ago."],
+        ["turn into", "превратиться в", "The small café has turned into a popular restaurant."],
+        ["grow up", "расти, взрослеть", "I grew up in a small town."],
+        ["start over", "начать заново", "After the divorce, she started over in a new city."],
+        ["leave home", "уехать из родительского дома", "I left home when I was eighteen."],
+        ["put on weight", "поправиться, набрать вес", "I've put on weight since I stopped running."],
+        ["settle in", "обжиться, освоиться", "Have you settled in at your new job?"],
+        ["slow down", "сбавить темп", "After fifty, he decided to slow down."],
+        ["get over", "пережить, оправиться", "It took her a year to get over the break-up."],
+        ["fit in", "вписаться, стать своим", "It took me a year to fit in at my new school."],
+        ["pass away", "скончаться (вежливо)", "My grandfather passed away last year."],
+        ["drift apart", "отдалиться друг от друга", "We drifted apart after university."],
+        ["turn your life around", "круто изменить жизнь к лучшему", "He turned his life around when he found a new job."],
+        ["break up", "расстаться", "They broke up after five years together."]] },
+      { t: "Словообразование: глагол → существительное", e: "🧱", words: [
+        ["improvement", "улучшение (improve → improvement)", "There's been a big improvement in your English."],
+        ["development", "развитие (develop → development)", "The development of the city has been very fast."],
+        ["achievement", "достижение (achieve → achievement)", "Finishing a marathon is a real achievement."],
+        ["retirement", "пенсия, выход на пенсию (retire → retirement)", "My dad is enjoying his retirement."],
+        ["decision", "решение (decide → decision)", "Moving abroad was the best decision of my life."],
+        ["graduation", "выпускной, окончание вуза (graduate → graduation)", "I've known her since our graduation."],
+        ["celebration", "празднование (celebrate → celebration)", "We had a big celebration for their anniversary."],
+        ["arrival", "прибытие, появление (arrive → arrival)", "Life changed after the arrival of our baby."],
+        ["growth", "рост (grow → growth)", "The city's growth has been amazing."],
+        ["choice", "выбор (choose → choice)", "It was a difficult choice."],
+        ["loss", "потеря (lose → loss)", "The loss of his job was a shock."],
+        ["behaviour", "поведение (behave → behaviour)", "His behaviour has changed since he started school."]] },
+      { t: "Этапы жизни", e: "🌱", words: [
+        ["teenage years", "подростковые годы", "I was very shy in my teenage years."],
+        ["adulthood", "взрослая жизнь", "Moving out is the first step into adulthood."],
+        ["in my late thirties", "мне под сорок", "I'm in my late thirties now."],
+        ["newborn", "новорождённый", "They haven't slept much since their newborn arrived."],
+        ["generation", "поколение", "My parents' generation didn't use to travel much."],
+        ["upbringing", "воспитание", "She had a very strict upbringing."],
+        ["milestone", "важный этап, веха", "Turning eighteen is a big milestone."],
+        ["turning point", "поворотный момент", "That trip was a turning point in my life."],
+        ["in my twenties", "когда мне было за двадцать", "I lived in five countries in my twenties."],
+        ["pensioner", "пенсионер", "Pensioners travel for free on city buses."],
+        ["single", "не в браке", "He's been single since last year."],
+        ["divorced", "разведённый", "My parents have been divorced for ten years."]] },
+      { t: "Как говорить о времени", e: "⏳", words: [
+        ["for ages", "сто лет, очень давно", "I haven't seen him for ages."],
+        ["so far", "пока что, до сих пор", "So far I've visited twelve countries."],
+        ["over the years", "за эти годы", "Over the years we've become best friends."],
+        ["back then", "тогда, в то время", "Back then we didn't use to have mobile phones."],
+        ["at the time", "в то время", "At the time I was living with my parents."],
+        ["nowadays", "в наши дни", "Nowadays everyone works from home."],
+        ["gradually", "постепенно", "My English has gradually improved."],
+        ["from time to time", "время от времени", "We still meet from time to time."],
+        ["once in a while", "изредка", "Once in a while I eat fast food."],
+        ["for good", "навсегда", "She's left the country for good."]] }
+    ],
+    wf: [
+      { base: "IMPROVE", q: "There has been a big ___ in your pronunciation.", opts: ["improvement", "improving", "improve"], a: "improvement", steps: ["После a big нужно существительное — «что именно».", "improve + <b>-ment</b> → improvement."] },
+      { base: "DECIDE", q: "Moving here was the best ___ of my life.", opts: ["decision", "deciding", "decided"], a: "decision", steps: ["После the best нужно существительное.", "decide → <b>decision</b>: -de меняется на -sion."] },
+      { base: "ACHIEVE", q: "Learning to swim at sixty is a real ___.", opts: ["achievement", "achieving", "achieve"], a: "achievement", steps: ["После a real — существительное.", "achieve + <b>-ment</b> → achievement."] },
+      { base: "CHOOSE", q: "It was a difficult ___, but I'm happy now.", opts: ["choice", "chose", "choosing"], a: "choice", steps: ["a difficult ___ — нужно существительное.", "choose → <b>choice</b>, существительное без -ing."] },
+      { base: "RETIRE", q: "My grandparents have travelled a lot since their ___.", opts: ["retirement", "retired", "retiring"], a: "retirement", steps: ["После their — существительное: «их что?»", "retire + <b>-ment</b> → retirement."] },
+      { base: "GROW", q: "The ___ of the city has been very fast.", opts: ["growth", "growing", "grown"], a: "growth", steps: ["The ___ of the city — нужно существительное.", "grow → <b>growth</b>: суффикс -th, как true → truth."] },
+      { base: "BEHAVE", q: "His ___ has changed since he started school.", opts: ["behaviour", "behaving", "behaved"], a: "behaviour", steps: ["После his — существительное.", "behave → <b>behaviour</b> (в американском — behavior)."] },
+      { base: "LOSE", q: "The ___ of her job was a real shock.", opts: ["loss", "lost", "losing"], a: "loss", steps: ["The ___ of… — существительное.", "lose → <b>loss</b>."] }
+    ] },
+  "b1-m1-test": { from: ["b1-01", "b1-02", "b1-03"], rev: ["a2-01", "a2-02", "a2-04", "a2-05"], nrev: 4, n: 15 }
+});
+
+// одно слово — в одном словаре: повторы слов B1 с прошлыми модулями убираем
+(() => {
+  const seen = new Set();
+  ["a2-m1-vocab", "a2-m2-vocab", "a2-m3-vocab", "a2-m4-vocab", "a2-m5-vocab"].forEach(k => { const M = MOD[k]; if (M) M.groups.flatMap(g => g.words).forEach(w => seen.add(w[0].toLowerCase().trim())); });
+  ["b1-m1-vocab", "b1-m2-vocab", "b1-m3-vocab", "b1-m4-vocab", "b1-m5-vocab", "b1-m6-vocab", "b1-m7-vocab", "b1-m8-vocab"].forEach(k => {
+    const M = MOD[k]; if (!M) return;
+    M.groups.forEach(g => { g.words = g.words.filter(w => { const x = w[0].toLowerCase().trim(); if (seen.has(x)) return false; seen.add(x); return true; }); });
+  });
+})();
+
 // ================== СЛОВАРЬ МОДУЛЯ: группы слов, «в мой словарь», проверка себя ==================
 const vocabWords = M => M.groups.flatMap(g => g.words);
 function openVocab(id) {
@@ -11690,7 +12134,7 @@ function vocabToDict(M, words, src) {
   const st = $("#vcStat"); if (st) st.innerHTML = `В вашем словаре: <b>${vocabWords(M).filter(w => inDict(w[0])).length}</b> из ${vocabWords(M).length}`;
 }
 function startVocabQuiz(id) {
-  const M = MOD[id], all = vocabWords(M), pick = pickN(all, 15);
+  const M = MOD[id], all = vocabWords(M), pick = pickN(all, M.wf ? 10 : 15);
   const qs = pick.map((w, i) => {
     const toRu = i % 2 === 0, others = pickN(all.filter(x => x !== w), 12);
     const opts = [];
@@ -11699,6 +12143,8 @@ function startVocabQuiz(id) {
     return { type: "choose", kind: toRu ? "Что это значит?" : "Как это по-английски?", q: toRu ? w[0] : w[1], opts: shuffle(opts.concat([a])), a, full: w[0] + " — " + w[1], en: !toRu, sayAnswer: !toRu,
       steps: [`<b>${esc(w[0])}</b> — ${esc(w[1])}.`, `Пример: ${esc(w[2])}`] };
   });
+  // словообразование, как в Cambridge B2 First: 5 заданий «образуйте слово»
+  if (M.wf) qs.push(...pickN(M.wf, 15 - qs.length).map(w => ({ type: "choose", kind: "Образуйте слово из " + w.base, q: w.q, opts: shuffle(w.opts.slice()), a: w.a, full: w.q.replace("___", w.a), en: true, sayAnswer: true, steps: w.steps })));
   const it = courseItem(id);
   openQuiz({ title: it.t, qs, need: 12,
     finish: r => {
@@ -20658,9 +21104,11 @@ function lessonTheory(L) {
     ["Таблица", L.table.rows.map(r => `<b>${esc(r[0])}</b> → ${esc(r.slice(1).join(" · "))}`).join("<br>") + (L.table.note ? "<br>" + L.table.note : "")],
     ["Ловушки", L.traps.map(t => `❌ ${esc(t[0])} → ✅ <b>${esc(t[1])}</b>`).join("<br>")]] };
 }
-const courseQ = it => it.type === "build" ? { type: "build", kind: it.kind || "Соберите фразу", q: it.ru, a: it.a, full: it.a, steps: it.steps }
+const courseQ0 = it => it.type === "build" ? { type: "build", kind: it.kind || "Соберите фразу", q: it.ru, a: it.a, full: it.a, steps: it.steps }
   : it.type === "type" ? { type: "type", kind: it.kind || "Напишите по-английски", q: it.ru, a: it.a, alt: it.alt, full: it.a, steps: it.steps }
   : { type: "choose", kind: it.kind || "Выберите правильный вариант", q: it.q, sub: it.ru, opts: it.opts, a: it.a, full: it.full, steps: it.steps, en: !it.kind };
+// задание на повторение прошлой темы: метка «🔁 Повторение · тема»
+const courseQ = it => { const q = courseQ0(it); if (it.rev) q.kind = "🔁 Повторение · " + it.rev; return q; };
 function startLessonEx(id) {
   const L = LESSONS[id];
   openQuiz({ title: `Урок ${L.n}`, qs: L.items.map(courseQ), need: Math.ceil(L.items.length * 0.8), theory: lessonTheory(L),
@@ -20917,9 +21365,14 @@ async function checkMail(btn) {
 function startModTest(id) {
   const M = MOD[id], it = courseItem(id), ls = M.from.filter(l => LESSONS[l]);
   [$("#lessonPage"), $("#modPage")].forEach(x => { if (x && x.classList.contains("open")) closePageEl(x); });
-  let qs = ls.flatMap(l => pickN(LESSONS[l].items, 2).map(x => Object.assign(courseQ(x), { lesson: l })));
-  const rest = shuffle(ls.flatMap(l => LESSONS[l].items.map(x => ({ x, l })))).filter(o => !qs.some(q => q.a === o.x.a && q.lesson === o.l));
-  qs = shuffle(qs.concat(rest.slice(0, Math.max(0, M.n - qs.length)).map(o => Object.assign(courseQ(o.x), { lesson: o.l }))));
+  const pool = l => M.rev ? LESSONS[l].items.filter(x => !x.rev) : LESSONS[l].items;
+  let qs = ls.flatMap(l => pickN(pool(l), 2).map(x => Object.assign(courseQ(x), { lesson: l })));
+  const rest = shuffle(ls.flatMap(l => pool(l).map(x => ({ x, l })))).filter(o => !qs.some(q => q.a === o.x.a && q.lesson === o.l));
+  const nrev = M.rev ? (M.nrev || 4) : 0;
+  qs = qs.concat(rest.slice(0, Math.max(0, M.n - nrev - qs.length)).map(o => Object.assign(courseQ(o.x), { lesson: o.l })));
+  if (nrev) qs = qs.concat(pickN(M.rev.filter(l => LESSONS[l]).flatMap(l => LESSONS[l].items.filter(x => !x.rev).map(x => ({ x, l }))), nrev)
+    .map(o => { const q = Object.assign(courseQ(o.x), { lesson: o.l }); q.kind = "🔁 Повторение · " + q.kind; return q; }));
+  qs = shuffle(qs);
   openQuiz({ title: `Тест модуля ${it.mi + 1}`, qs, miss: [],
     finish: r => {
       const need = Math.ceil(r.total * 0.8);
