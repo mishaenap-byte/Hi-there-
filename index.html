@@ -30,7 +30,8 @@ html.kb .app{height:var(--kbh,100%)!important;max-height:none!important;top:var(
     var kb = !!typing && window.innerHeight - vv.height > 120;
     if (kb) {
       de.style.setProperty("--kbh", vv.height + "px");
-      de.style.setProperty("--kbt", vv.offsetTop + "px");
+      // pageTop — где видимая часть экрана в документе: iOS может прокрутить и сам документ, не только видимую область
+      de.style.setProperty("--kbt", (vv.pageTop != null ? vv.pageTop : vv.offsetTop + window.scrollY) + "px");
       if (!on) {
         on = true; de.classList.add("kb");
         var list = a.closest(".gchat") && a.closest(".gchat").querySelector(".gchat-list");
@@ -43,7 +44,8 @@ html.kb .app{height:var(--kbh,100%)!important;max-height:none!important;top:var(
     }
   }
   function q() { if (!raf) raf = requestAnimationFrame(fit); }
-  vv.addEventListener("resize", q); vv.addEventListener("scroll", q);
+  vv.addEventListener("resize", q); vv.addEventListener("scroll", q); window.addEventListener("scroll", q);
+  document.addEventListener("input", function () { setTimeout(q, 30); });
   document.addEventListener("focusin", function () { q(); setTimeout(q, 300); setTimeout(q, 700); });
   document.addEventListener("focusout", function () { setTimeout(q, 80); });
 })();
@@ -3483,10 +3485,10 @@ html.night .ir-warn,.night .ir-warn{background:#4A2222;color:#FFD6D6}
 /*NIGHT-AUTO*/
 html.night .ph-streak{background:linear-gradient(145deg,hsl(164 42% 17%),hsl(166 38% 10%) 75%)}
 html.night .phs-grid i{background:rgba(22,29,40,.12)}
-html.night .phs-grid i.l3{background:hsl(44 38% 15%)}
+html.night .phs-grid i.l3{background:hsl(249 35% 17%)}
 html.night .phs-grid i.today{box-shadow:0 0 0 2px var(--line)}
 html.night .ph-notes{background:hsl(41 16% 17%)}
-html.night .pn-page{background-color:hsl(44 38% 15%);background-image:repeating-linear-gradient(to bottom,transparent 0 27px,hsl(209 26% 17%) 27px 28px);color:hsl(222 31% 74%)}
+html.night .pn-page{background-color:hsl(249 35% 17%);background-image:repeating-linear-gradient(to bottom,transparent 0 27px,hsl(209 26% 17%) 27px 28px);color:hsl(222 31% 74%)}
 html.night .pn-page::before{background:hsl(0 33% 36%)}
 html.night .pn-score{border:2.5px solid hsl(4 31% 32%)}
 html.night .ph-latte{background:linear-gradient(rgba(0,0,0,.04),rgba(0,0,0,.22)),repeating-linear-gradient(90deg,hsl(26 21% 33%) 0 52px,hsl(26 22% 28%) 52px 54px,hsl(26 20% 36%) 54px 110px,hsl(26 22% 28%) 110px 112px)}
@@ -3496,13 +3498,13 @@ html.night .pl-cup::after{background:var(--surface)}
 html.night .pl-coffee{background:radial-gradient(circle at 50% 42%,hsl(29 27% 36%),hsl(24 26% 28%) 62%,hsl(24 29% 20%))}
 html.night .pl-heart{background:hsl(36 32% 17%)}
 html.night .pl-heart::before,html.night .pl-heart::after{background:hsl(36 32% 17%)}
-html.night .pl-sticker{background:hsl(44 38% 15%);color:hsl(47 50% 74%)}
+html.night .pl-sticker{background:hsl(249 35% 17%);color:hsl(249 70% 86%)}
 html.night .fc-back .round{background:rgba(22,29,40,.18)}
 html.night .fc-note{background:rgba(22,29,40,.14)}
 html.night .goal-card{background:linear-gradient(140deg,hsl(164 42% 17%),hsl(166 38% 10%))}
 html.night .goal-bar{background:rgba(22,29,40,.16)}
-html.night .goal-bar i{background:hsl(44 38% 15%)}
-html.night .goal-prize{background:hsl(44 38% 15%);color:hsl(47 50% 74%)}
+html.night .goal-bar i{background:hsl(249 35% 17%)}
+html.night .goal-prize{background:hsl(249 35% 17%);color:hsl(249 70% 86%)}
 html.night .wd.on i{background:hsl(26 35% 17%)}
 html.night .abadge .hex{background:linear-gradient(160deg,color-mix(in srgb,var(--bc) 70%,var(--surface)),var(--bc) 55%,color-mix(in srgb,var(--bc) 80%,var(--surface-2)))}
 html.night .rw-streak{background:hsl(26 35% 17%);color:hsl(25 50% 74%)}
@@ -3512,7 +3514,7 @@ html.night .t-bank{background:linear-gradient(145deg,hsl(349 38% 36%),hsl(347 31
 html.night .t-cap{background:linear-gradient(145deg,hsl(255 37% 36%),hsl(253 30% 32%))}
 html.night .ms-hero{background:linear-gradient(150deg,hsl(164 42% 20%),hsl(166 40% 11%))}
 html.night .ms-bar{background:rgba(22,29,40,.18)}
-html.night .ms-bar i{background:hsl(44 38% 15%)}
+html.night .ms-bar i{background:hsl(249 35% 17%)}
 html.night .cap-cmp{background:linear-gradient(145deg,hsl(255 37% 36%),hsl(253 30% 32%))}
 html.night .cap-cmp .btn.primary{background:var(--surface);color:hsl(253 32% 74%)}
 html.night .mw:has(.mw-hl){color:var(--ink)}
@@ -3529,11 +3531,11 @@ html.night .wk-panel{background:var(--surface);color:var(--ink);box-shadow:0 0 0
 html.night .wk-walking.save{color:var(--ink)}
 html.night .wk-steps i{background:hsl(240 8% 8%)}
 html.night .wk-mode{background:var(--surface);box-shadow:inset 0 0 0 2.5px var(--line)}
-html.night .wk-mode.on{background:hsl(44 38% 15%);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
+html.night .wk-mode.on{background:hsl(249 35% 17%);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
 html.night .wk-mode.hard.on{background:hsl(240 8% 8%)}
 html.night .wk-ava{color:var(--ink);box-shadow:0 0 0 2.5px var(--edge,rgba(0,0,0,.28)),0 0 0 5px var(--line)}
 html.night .wk-w{background:var(--surface);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
-html.night .wk-w.hit{background:hsl(44 38% 15%)}
+html.night .wk-w.hit{background:hsl(249 35% 17%)}
 html.night .wk-w.miss{background:hsl(21 35% 17%)}
 html.night .wk-w.in{background:hsl(205 35% 17%)}
 html.night .wk-line{border:2.5px dashed var(--line)}
@@ -3549,13 +3551,13 @@ html.night .wk-fin-stats b{color:var(--ink)}
 html.night .t-walk{background:var(--grass,hsl(150 34% 36%))}
 html.night .ch-new{background:hsl(240 8% 8%)!important}
 html.night .ch-new .ch-emoji{background:var(--sign)!important;color:var(--sign-ink)!important;}
-html.night .ch-note-ic{background:var(--marker,hsl(44 38% 15%))}
+html.night .ch-note-ic{background:var(--marker,hsl(249 35% 17%))}
 html.night .ch-sw{background:hsl(220 9% 17%)}
 html.night .ch-sw::after{background:var(--surface)}
 html.night .ch-sw.on{background:hsl(110 42% 36%)}
-html.night .ch-bud.on{background:var(--marker,hsl(44 38% 15%))}
+html.night .ch-bud.on{background:var(--marker,hsl(249 35% 17%))}
 html.night .help-btn{background:var(--surface);color:var(--ink);box-shadow:inset 0 0 0 2px var(--edge,rgba(0,0,0,.28))}
-html.night .gd-emoji{background:hsl(44 38% 15%);box-shadow:0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
+html.night .gd-emoji{background:hsl(249 35% 17%);box-shadow:0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
 html.night .gd-steps li{background:hsl(216 11% 17%)}
 html.night .gd-ic{background:var(--surface);box-shadow:inset 0 0 0 2px var(--edge,rgba(0,0,0,.28))}
 html.night .gd-hole::after{border:3px solid var(--sign,#C49A1C)}
@@ -3568,10 +3570,10 @@ html.night .talk{background:var(--surface);color:var(--ink);box-shadow:0 0 0 2.5
 html.night .tk-modes{background:hsl(216 11% 17%)}
 html.night .tk-modes button.on{background:hsl(240 8% 8%)}
 html.night .wk-w.ghost{box-shadow:inset 0 0 0 2px var(--line)}
-html.night .wk-w.hint{background:hsl(44 38% 15%)}
+html.night .wk-w.hint{background:hsl(249 35% 17%)}
 html.night .tk-fb.ok{background:hsl(141 31% 17%)}
 html.night .tk-fb.bad{background:hsl(20 35% 17%)}
-html.night .tk-fb.hint{background:hsl(44 38% 15%)}
+html.night .tk-fb.hint{background:hsl(249 35% 17%)}
 html.night .tk-diff ins{background:hsl(110 42% 36%)}
 html.night .tk-model.big{color:var(--ink)}
 html.night .sc-unit{background:hsl(240 8% 8%)}
@@ -3580,7 +3582,7 @@ html.night .path-btn i{color:var(--ink)!important}
 html.night .pt-lvl{background:var(--surface);box-shadow:inset 0 0 0 2px var(--line)}
 html.night .pt-lvl.cur{color:var(--ink);box-shadow:inset 0 0 0 2px var(--edge,rgba(0,0,0,.28))}
 html.night .pt-lvl.on{background:hsl(240 8% 8%)}
-html.night .pt-hero{background:hsl(44 38% 15%);box-shadow:0 0 0 2.5px var(--edge,rgba(0,0,0,.28)),0 0 0 7px var(--line),0 10px 24px rgba(23,23,31,.12)}
+html.night .pt-hero{background:hsl(249 35% 17%);box-shadow:0 0 0 2.5px var(--edge,rgba(0,0,0,.28)),0 0 0 7px var(--line),0 10px 24px rgba(23,23,31,.12)}
 html.night .pt-hero.lock{background:hsl(220 10% 17%)}
 html.night .pt-hero.done{background:hsl(141 31% 17%)}
 html.night .pt-bar i{background:hsl(240 8% 8%)}
@@ -3598,7 +3600,7 @@ html.night .pt-go{background:hsl(240 8% 8%)}
 html.night .pt-node.exam .pt-dot{background:var(--surface)}
 html.night .pt-node.exam.cur .pt-dot{background:hsl(325 42% 36%)}
 html.night .pt-node.exam.done .pt-dot{background:hsl(110 42% 36%)}
-html.night .un-e{background:hsl(44 38% 15%);box-shadow:0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
+html.night .un-e{background:hsl(249 35% 17%);box-shadow:0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
 html.night .un-can,html.night .un-g{background:hsl(216 11% 17%)}
 html.night .un-step{background:var(--surface);box-shadow:inset 0 0 0 2px var(--line)}
 html.night .un-step.cur{box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
@@ -3613,9 +3615,9 @@ html.night .qz-opt.hit{background:hsl(110 42% 36%)}
 html.night .qz-opt.miss{background:hsl(21 35% 17%)}
 html.night .qz-fb.ok{background:hsl(141 31% 17%)}
 html.night .qz-fb.bad{background:hsl(20 35% 17%)}
-html.night .qz-fb.soft{background:hsl(44 38% 15%)}
+html.night .qz-fb.soft{background:hsl(249 35% 17%)}
 html.night .qz-score.lvl{background:var(--sign);color:var(--sign-ink);box-shadow:0 0 0 3px var(--edge,rgba(0,0,0,.28)),0 0 0 10px var(--line),0 0 0 13px var(--edge,rgba(0,0,0,.28))}
-html.night .tk-note{background:hsl(44 38% 15%)}
+html.night .tk-note{background:hsl(249 35% 17%)}
 html.night .ex-path{background:hsl(249 35% 17%);box-shadow:0 0 0 2.5px var(--edge,rgba(0,0,0,.28)),0 0 0 7px var(--line),0 10px 24px rgba(23,23,31,.12)}
 html.night .ex-path .eyebrow{color:var(--ink)}
 html.night .ex-path-g{color:var(--ink)}
@@ -3647,16 +3649,16 @@ html.night .pp-why{color:var(--ink)}
 html.night .pp-why b{background:var(--sign);color:var(--sign-ink)}
 html.night .cs-goal{color:var(--ink)}
 html.night .cs-mod{background:var(--surface);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
-html.night .cs-mod-e{background:hsl(44 38% 15%);box-shadow:inset 0 0 0 2px var(--edge,rgba(0,0,0,.28))}
+html.night .cs-mod-e{background:hsl(249 35% 17%);box-shadow:inset 0 0 0 2px var(--edge,rgba(0,0,0,.28))}
 html.night .cs-item{background:hsl(216 11% 17%)}
 html.night .cs-dot{background:var(--surface);box-shadow:inset 0 0 0 2px var(--edge,rgba(0,0,0,.28))}
 html.night .cs-item.done{background:hsl(135 30% 17%)}
 html.night .cs-item.done .cs-dot{background:hsl(110 42% 36%)}
-html.night .cs-item.cur{background:hsl(44 38% 15%);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
+html.night .cs-item.cur{background:hsl(249 35% 17%);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
 html.night .cs-item.cur .cs-dot{background:var(--sign);color:var(--sign-ink)}
 html.night .cs-item.open .cs-dot{background:hsl(205 35% 17%)}
 html.night .cs-exam{background:hsl(240 8% 8%)}
-html.night .ln-why{background:hsl(44 38% 15%);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
+html.night .ln-why{background:hsl(249 35% 17%);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
 html.night .ln-n{background:hsl(240 8% 8%)}
 html.night .ln-goals li::before{background:hsl(110 42% 36%)}
 html.night .ln-ex-row{background:var(--surface);box-shadow:inset 0 0 0 2px var(--line)}
@@ -3679,12 +3681,12 @@ html.night .md-doc{background:var(--surface);box-shadow:inset 0 0 0 2.5px var(--
 html.night .md-mail{background:var(--surface);box-shadow:inset 0 0 0 2px var(--line)}
 html.night .md-list li{background:hsl(216 11% 17%)}
 html.night .md-list li.ok{background:hsl(103 35% 17%)}
-html.night .md-res{background:hsl(44 38% 15%);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
+html.night .md-res{background:hsl(249 35% 17%);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
 html.night .md-res.ok{background:hsl(104 34% 17%)}
 html.night #scr-ex .ex-path.stk{box-shadow:0 0 0 2.5px var(--edge,rgba(0,0,0,.28)),0 0 0 7px var(--line)}
 html.night #scr-ex .ex-tile.stk,html.night #scr-ex .ex-tile.stk:active{box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28)),0 0 0 5px var(--line)}
 html.night .ex-tag{background:hsl(325 42% 36%);box-shadow:inset 0 0 0 2px var(--edge,rgba(0,0,0,.28));color:var(--ink)}
-html.night .irr-how{background:hsl(44 38% 15%);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
+html.night .irr-how{background:hsl(249 35% 17%);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
 html.night .irr-how b.f1{background:var(--surface)}
 html.night .irr-how b.f2{background:hsl(240 8% 8%)}
 html.night .irr-how b.f3{background:hsl(254 35% 17%)}
@@ -3697,7 +3699,7 @@ html.night .irr-h .f3{color:hsl(249 29% 74%)}
 html.night .irr-hook{background:hsl(216 11% 17%)}
 html.night .irr-card{box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
 html.night .irr-card.c1{background:var(--surface)}
-html.night .irr-card.c2{background:hsl(44 38% 15%)}
+html.night .irr-card.c2{background:hsl(249 35% 17%)}
 html.night .irr-card.c3{background:hsl(256 35% 17%)}
 html.night .irr-num{background:hsl(240 8% 8%)}
 html.night .irr-when{color:var(--ink)}
@@ -3708,15 +3710,15 @@ html.night .irr-blk{background:rgba(22,29,40,.8)}
 html.night .bk-add{background:var(--sign);color:var(--sign-ink);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
 html.night .bk-btn{background:var(--surface);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28));color:var(--ink)}
 html.night .fr-card{background:var(--surface);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
-html.night .fr-card.me{background:hsl(44 38% 15%)}
+html.night .fr-card.me{background:hsl(249 35% 17%)}
 html.night .fr-step i{box-shadow:inset 0 0 0 1.5px var(--edge,rgba(0,0,0,.28))}
 html.night .fr-step{color:var(--ink-2,var(--ink))}
 html.night .fr-step i{color:var(--ink)}
 html.night .fr-bar{background:hsl(220 11% 17%);box-shadow:inset 0 0 0 1.5px var(--edge,rgba(0,0,0,.28))}
 html.night .fr-bar i{background:hsl(150 34% 36%)}
-html.night .fr-nudge{background:hsl(44 38% 15%);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
+html.night .fr-nudge{background:hsl(249 35% 17%);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
 html.night .fr-nudge.done{background:hsl(103 35% 17%)}
-html.night .fr-req{background:hsl(44 38% 15%);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
+html.night .fr-req{background:hsl(249 35% 17%);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
 html.night .fr-now{background:hsl(216 11% 17%)}
 html.night .fr-here .ava.sm{border:2px solid var(--line);box-shadow:0 0 0 1.5px var(--edge,rgba(0,0,0,.28))}
 html.night .fr-here small{color:var(--ink)}
@@ -3727,22 +3729,22 @@ html.night .vc-stat b{color:var(--ink)}
 html.night .vc-grp{background:var(--surface);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
 html.night .vc-grp summary small{background:hsl(216 11% 17%)}
 html.night .vc-w{background:hsl(220 10% 17%);box-shadow:inset 0 0 0 1.5px var(--line);color:var(--ink)}
-html.night .vc-w.on{background:hsl(44 38% 15%);box-shadow:inset 0 0 0 2px var(--edge,rgba(0,0,0,.28))}
-html.night .tts-bar i{background:var(--sign,hsl(44 38% 15%))}
+html.night .vc-w.on{background:hsl(249 35% 17%);box-shadow:inset 0 0 0 2px var(--edge,rgba(0,0,0,.28))}
+html.night .tts-bar i{background:var(--sign,hsl(249 35% 17%))}
 html.night .gm-walk{background:hsl(91 21% 17%);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
 html.night .gm-card-e{background:var(--surface-2,hsl(216 11% 17%))}
 html.night .gm-best,html.night .gm-new{background:hsl(91 21% 17%)}
 html.night .gm-new{background:var(--sign);color:var(--sign-ink)}
 html.night .gm-mini{color:var(--ink)}
 html.night .gm-bar{background:var(--line,hsl(220 10% 17%))}
-html.night .gm-bar i{background:hsl(44 38% 15%)}
+html.night .gm-bar i{background:hsl(249 35% 17%)}
 html.night .gm-chip{box-shadow:inset 0 0 0 2px var(--edge,rgba(0,0,0,.28));color:var(--ink)}
 html.night .gm-chip.role{background:color-mix(in srgb,var(--c) 32%,var(--surface))}
 html.night .gm-chip.bad{box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28));background:hsl(0 35% 17%)}
 html.night .gm-chip.good{box-shadow:inset 0 0 0 2.5px var(--line)}
 html.night .gm-fb.ok{background:hsl(148 26% 17%);box-shadow:inset 0 0 0 2px var(--line)}
 html.night .gm-fb.no{background:hsl(39 35% 17%);box-shadow:inset 0 0 0 2px var(--line)}
-html.night .gm-fb.warn{background:hsl(44 38% 15%)}
+html.night .gm-fb.warn{background:hsl(249 35% 17%)}
 html.night .gm-col{background:color-mix(in srgb,var(--c) 18%,var(--surface))}
 html.night .gm-col button{color:var(--ink)}
 html.night .gm-col b{background:var(--surface)}
@@ -3776,7 +3778,7 @@ html.night .ck-card{box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28)),0 5
 html.night .ck-en b{color:var(--ink)}
 html.night .ck-ru{color:var(--ink)}
 html.night .ck-when{background:rgba(22,29,40,.75)}
-html.night .ck-note{background:hsl(44 38% 15%);box-shadow:inset 0 0 0 2px var(--edge,rgba(0,0,0,.28))}
+html.night .ck-note{background:hsl(249 35% 17%);box-shadow:inset 0 0 0 2px var(--edge,rgba(0,0,0,.28))}
 html.night .ck-b{box-shadow:inset 0 0 0 2px var(--edge,rgba(0,0,0,.28))}
 html.night .ck-b span{color:var(--ink)}
 html.night .ck-b.them{background:var(--surface)}
@@ -3787,7 +3789,7 @@ html.night .ck-dfoot{border-top:2px solid var(--line);background:var(--surface)}
 html.night .ck-opt{background:var(--surface);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28)),0 4px 0 var(--edge,rgba(0,0,0,.28));color:var(--ink)}
 html.night .ck-opt:active{box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28)),0 1px 0 var(--edge,rgba(0,0,0,.28))}
 html.night .ck-opt.miss{background:hsl(0 35% 17%);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28));color:hsl(0 32% 74%)}
-html.night .ck-why{background:hsl(44 38% 15%)}
+html.night .ck-why{background:hsl(249 35% 17%)}
 html.night .ck-typing i{background:hsl(219 9% 22%)}
 html.night .bk-cover{background:hsl(30 38% 16%);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
 html.night .bk-book{box-shadow:inset 0 0 0 2.5px rgba(0,0,0,.35),4px 5px 0 rgba(0,0,0,.35)}
@@ -3837,7 +3839,7 @@ html.night :is(.bka-core p,.bka-step>p,.bka-sw b,.bka-exr b){color:var(--ink)}
 html.night .bka-exr span{color:var(--ink-2,var(--ink))}
 html.night .bka-ex{border-top-color:rgba(255,255,255,.14)}
 .night[data-look="route"] .bka-say{background:hsl(216 11% 22%);box-shadow:none}
-html.night .bka-mis{background:hsl(44 38% 15%);box-shadow:inset 0 0 0 2px var(--edge,rgba(0,0,0,.28))}
+html.night .bka-mis{background:hsl(249 35% 17%);box-shadow:inset 0 0 0 2px var(--edge,rgba(0,0,0,.28))}
 html.night .bka-mis small{color:hsl(44 60% 65%)}
 html.night .w4-page{background:hsl(249 22% 17%)}
 html.night .w4{color:hsl(249 23% 74%)}
@@ -3859,18 +3861,18 @@ html.night .w4-dslots>.bad::before{background:hsl(354 42% 36%);box-shadow:0 0 0 
 html.night .w4-dslots>.good{box-shadow:0 4px 0 color-mix(in srgb,var(--dc) 70%,var(--edge,rgba(0,0,0,.28))),0 0 0 4px var(--line),0 8px 18px rgba(40,160,90,.35)}
 html.night .w4-dlive{color:hsl(257 19% 74%)}
 html.night .w4-dghost{border:2.5px dashed var(--line)}
-html.night .w4-warn{background:hsl(44 38% 15%)}
+html.night .w4-warn{background:hsl(249 35% 17%)}
 html.night .w4-badge{background:linear-gradient(hsl(143 40% 36%),hsl(147 38% 33%));box-shadow:0 3px 0 var(--edge,rgba(0,0,0,.28))}
 html.night .no .w4-badge{background:linear-gradient(hsl(14 42% 36%),hsl(12 42% 36%));box-shadow:0 3px 0 var(--edge,rgba(0,0,0,.28))}
 html.night .w4-cpill{background:linear-gradient(hsl(29 42% 36%),hsl(19 42% 36%))}
 html.night .w4 .pp-say,html.night .w4 .slow-tw{background:linear-gradient(var(--surface),hsl(252 33% 17%));box-shadow:0 4px 0 var(--line);color:hsl(249 23% 74%)}
 html.night .w4-why{background:rgba(22,29,40,.85)}
 html.night .w4-res .w4-why p{color:hsl(248 17% 74%)}
-html.night .w4-res .w4-why p.w4-chk{background:hsl(44 38% 15%);box-shadow:inset 3px 0 0 var(--line);color:hsl(44 50% 74%)}
+html.night .w4-res .w4-why p.w4-chk{background:hsl(249 35% 17%);box-shadow:inset 3px 0 0 var(--line);color:hsl(44 50% 74%)}
 html.night .w4-lsn{background:hsl(249 35% 17%);color:hsl(246 29% 74%)}
 html.night .w4-res p b{color:hsl(249 23% 74%)}
 html.night .w4-key{background:hsl(333 42% 36%)}
-html.night .w4-jelly{color:hsl(39 50% 74%);background:linear-gradient(hsl(44 38% 15%),hsl(44 38% 15%));box-shadow:0 6px 0 var(--line),0 12px 22px rgba(224,160,0,.3),inset 0 2px 0 rgba(255,255,255,.04)}
+html.night .w4-jelly{color:hsl(39 50% 74%);background:linear-gradient(hsl(249 35% 17%),hsl(249 35% 17%));box-shadow:0 6px 0 var(--line),0 12px 22px rgba(224,160,0,.3),inset 0 2px 0 rgba(255,255,255,.04)}
 html.night .w4-jelly:active:not(:disabled){box-shadow:0 2px 0 var(--line)}
 html.night .w4-jelly:disabled{background:linear-gradient(hsl(253 26% 17%),hsl(252 20% 17%));box-shadow:0 6px 0 var(--line),inset 0 2px 0 var(--line)}
 html.night .w4-jelly.go{background:linear-gradient(hsl(143 39% 36%),hsl(146 39% 33%));box-shadow:0 6px 0 var(--edge,rgba(0,0,0,.28)),0 12px 22px rgba(19,154,79,.3),inset 0 2px 0 rgba(255,255,255,.04)}
@@ -3887,7 +3889,7 @@ html.night .w4-brick{background:linear-gradient(hsl(17 42% 36%),hsl(14 40% 36%))
 html.night .w4-brick:active{box-shadow:0 2px 0 var(--edge,rgba(0,0,0,.28))}
 html.night .w4-crate{box-shadow:0 6px 0 var(--c3),0 10px 18px rgba(0,0,0,.14),inset 0 2px 0 rgba(255,255,255,.04)}
 html.night .w4-track>.bad::after{background:hsl(354 42% 36%);box-shadow:0 0 0 2.5px var(--line),0 3px 6px rgba(0,0,0,.25)}
-html.night .w4-jack{color:hsl(345 47% 74%);background:linear-gradient(hsl(44 38% 15%),hsl(44 38% 15%));box-shadow:0 5px 0 var(--line),0 0 34px rgba(255,210,90,.75),inset 0 2px 0 rgba(255,255,255,.04)}
+html.night .w4-jack{color:hsl(345 47% 74%);background:linear-gradient(hsl(249 35% 17%),hsl(249 35% 17%));box-shadow:0 5px 0 var(--line),0 0 34px rgba(255,210,90,.75),inset 0 2px 0 rgba(255,255,255,.04)}
 html.night .w4-cab{background:linear-gradient(100deg,hsl(346 42% 36%) 0%,hsl(344 42% 36%) 42%,hsl(336 42% 32%) 100%);box-shadow:0 10px 0 var(--edge,rgba(0,0,0,.28)),0 26px 44px rgba(20,8,50,.5),inset 0 2px 0 rgba(255,255,255,.04)}
 html.night .w4-gloss{background:linear-gradient(rgba(22,29,40,.6),rgba(22,29,40,0))}
 html.night .w4-reels{background:hsl(271 31% 12%)}
@@ -3903,7 +3905,7 @@ html.night .w4-lbase{background:linear-gradient(90deg,hsl(248 7% 36%),hsl(249 24
 html.night .w4-cabfoot{background:linear-gradient(hsl(335 42% 20%),hsl(333 42% 12%))}
 html.night .w4-wagon{box-shadow:inset 0 3px 0 rgba(255,255,255,.04),inset 0 -8px 0 rgba(0,0,0,.12),0 8px 14px rgba(40,80,40,.22)}
 html.night .w4-wagon::before{background:hsl(252 14% 20%)}
-html.night .w4-whl{background:radial-gradient(circle,hsl(44 38% 15%) 0 4px,hsl(252 14% 20%) 4.5px 8px,hsl(250 11% 31%) 8.5px 10px,hsl(253 15% 15%) 10.5px)}
+html.night .w4-whl{background:radial-gradient(circle,hsl(249 35% 17%) 0 4px,hsl(252 14% 20%) 4.5px 8px,hsl(250 11% 31%) 8.5px 10px,hsl(253 15% 15%) 10.5px)}
 html.night .w4-rails{background:linear-gradient(hsl(222 22% 17%),hsl(222 22% 17%)) 0 0/100% 2px no-repeat,linear-gradient(hsl(223 9% 36%),hsl(223 9% 36%)) 0 2px/100% 3px no-repeat,repeating-linear-gradient(90deg,hsl(26 23% 33%) 0 12px,transparent 12px 26px) 0 5px/100% 9px no-repeat}
 html.night .w4-ice{background:rgba(22,29,40,.84)}
 html.night .w4-snowtrack .w4-snowt{box-shadow:0 4px 0 var(--line),0 6px 12px rgba(80,70,170,.14)}
@@ -3913,7 +3915,7 @@ html.night .w4-sign::after{background:linear-gradient(90deg,hsl(29 23% 36%),hsl(
 html.night .w4-bridge i{background:linear-gradient(hsl(32 42% 36%),hsl(30 29% 36%));box-shadow:0 2px 0 var(--edge,rgba(0,0,0,.28))}
 html.night .w4-floatp{background:repeating-linear-gradient(0deg,rgba(120,60,10,0) 0 9px,rgba(120,60,10,.12) 9px 11px),linear-gradient(hsl(32 42% 36%),hsl(29 38% 36%));box-shadow:0 4px 0 var(--edge,rgba(0,0,0,.28)),0 10px 16px rgba(0,60,90,.3)}
 html.night .w4-floatp.gap{background:var(--surface)}
-html.night .win .w4-floatp{border-color:var(--line);background:linear-gradient(hsl(44 38% 15%),hsl(44 38% 15%));color:hsl(39 50% 74%)}
+html.night .win .w4-floatp{border-color:var(--line);background:linear-gradient(hsl(249 35% 17%),hsl(249 35% 17%));color:hsl(39 50% 74%)}
 html.night .w4-glue b{background:var(--sign);color:var(--sign-ink)}
 html.night .w4-plank{color:hsl(30 50% 74%);background:repeating-linear-gradient(0deg,rgba(120,60,10,0) 0 9px,rgba(120,60,10,.12) 9px 11px),linear-gradient(hsl(32 42% 36%),hsl(29 38% 36%));box-shadow:0 6px 0 var(--edge,rgba(0,0,0,.28)),0 11px 18px rgba(120,60,10,.22),inset 0 2px 0 rgba(255,240,210,.7)}
 html.night .w4-plank:active{box-shadow:0 2px 0 var(--edge,rgba(0,0,0,.28))}
@@ -3926,12 +3928,12 @@ html.night .w4-gsign{background:linear-gradient(hsl(149 35% 30%),hsl(149 40% 24%
 html.night .w4-chip{background:var(--surface)}
 html.night .w4-chip.drv{background:linear-gradient(hsl(330 35% 17%),hsl(333 42% 36%))}
 html.night .w4-rround{background:radial-gradient(circle at 35% 30%,hsl(203 42% 36%),hsl(209 42% 36%));box-shadow:0 0 0 4px var(--line),0 6px 12px rgba(0,40,90,.3)}
-html.night .w4-rdia{background:linear-gradient(135deg,hsl(44 38% 15%),hsl(44 38% 15%));box-shadow:0 0 0 4px var(--line),0 6px 12px rgba(120,80,0,.3)}
+html.night .w4-rdia{background:linear-gradient(135deg,hsl(249 35% 17%),hsl(249 35% 17%));box-shadow:0 0 0 4px var(--line),0 6px 12px rgba(120,80,0,.3)}
 html.night .w4-rdia b{color:hsl(39 50% 74%)}
 html.night .w4-rsign i{background:linear-gradient(90deg,hsl(224 7% 36%),hsl(222 15% 17%))}
 html.night .w4-endcard{background:var(--surface);color:hsl(249 23% 74%)}
 html.night .w4-stpill{background:var(--sign);color:var(--sign-ink)}
-html.night .w4-done{background:radial-gradient(circle at 35% 28%,hsl(44 38% 15%),hsl(44 38% 15%) 45%,hsl(44 38% 15%));box-shadow:0 6px 0 var(--line),0 12px 20px rgba(20,10,50,.35),inset 0 -4px 0 rgba(0,0,0,.08)}
+html.night .w4-done{background:radial-gradient(circle at 35% 28%,hsl(249 35% 17%),hsl(249 35% 17%) 45%,hsl(249 35% 17%));box-shadow:0 6px 0 var(--line),0 12px 20px rgba(20,10,50,.35),inset 0 -4px 0 rgba(0,0,0,.08)}
 html.night .w4-lock{background:rgba(22,29,40,.3);box-shadow:inset 0 0 0 2px rgba(255,255,255,.04),0 6px 14px rgba(20,10,50,.22)}
 html.night .w4-cur{background:radial-gradient(circle at 35% 28%,hsl(340 35% 17%),hsl(342 42% 36%) 45%,hsl(340 42% 36%));box-shadow:0 7px 0 var(--edge,rgba(0,0,0,.28)),0 0 0 8px rgba(255,140,180,.3),0 16px 26px rgba(20,10,50,.4)}
 html.night .w4-flag{color:hsl(340 45% 74%)}
@@ -3939,8 +3941,8 @@ html.night .w4-wbtn{background:hsl(253 24% 17%)}
 html.night .w4-wbtn.on{box-shadow:0 0 0 3px var(--line),0 0 0 5px var(--edge,rgba(0,0,0,.28))}
 html.night .w4-listpage{background:linear-gradient(hsl(254 35% 17%),hsl(252 35% 17%) 40%)}
 html.night .w4-walk{color:hsl(249 23% 74%)}
-html.night .w4-walk-e{background:hsl(44 38% 15%)}
-html.night .w4-walk i{background:linear-gradient(hsl(44 38% 15%),hsl(44 38% 15%));color:hsl(39 50% 74%);box-shadow:0 3px 0 var(--line)}
+html.night .w4-walk-e{background:hsl(249 35% 17%)}
+html.night .w4-walk i{background:linear-gradient(hsl(249 35% 17%),hsl(249 35% 17%));color:hsl(39 50% 74%);box-shadow:0 3px 0 var(--line)}
 html.night .w4-wcard::after{background:rgba(22,29,40,.12)}
 html.night .w4-wicon{background:rgba(22,29,40,.94)}
 html.night .w4-wbar{background:rgba(22,29,40,.3)}
@@ -3953,7 +3955,7 @@ html.night .w4-sw.on{background:hsl(147 38% 33%)}
 html.night .wg-chip{border:2px solid var(--line,var(--line));background:var(--surface);color:hsl(249 17% 74%)}
 html.night .wg-chip.on{border-color:var(--d,var(--line));background:var(--sign);color:var(--sign-ink);box-shadow:0 2px 0 var(--d,var(--edge,rgba(0,0,0,.28)))}
 html.night .wg-emo{border:2px solid var(--line,var(--line));background:var(--surface)}
-html.night .wg-emo.on{border-color:var(--line);background:hsl(44 38% 15%)}
+html.night .wg-emo.on{border-color:var(--line);background:hsl(249 35% 17%)}
 html.night .vb-dots i.on{background:hsl(252 42% 36%)}
 html.night .vb-dots.leech i.on{background:hsl(3 42% 36%)}
 html.night .vb-panel{background:var(--surface,var(--surface));box-shadow:inset 0 0 0 2px var(--ink,var(--edge,rgba(0,0,0,.28))),0 3px 0 var(--ink,var(--edge,rgba(0,0,0,.28)))}
@@ -3971,7 +3973,7 @@ html.night .vb-stat{background:hsl(249 35% 17%);color:hsl(252 34% 74%)}
 html.night .vb-stat.leech{background:hsl(6 35% 17%);color:hsl(5 40% 74%)}
 html.night .vb-g{background:hsl(253 20% 17%);color:hsl(249 17% 74%)}
 html.night .vb-g.g1{background:hsl(6 35% 17%);color:hsl(3 41% 74%)}
-html.night .vb-g.g2{background:hsl(44 38% 15%)}
+html.night .vb-g.g2{background:hsl(249 35% 17%)}
 html.night .vb-g.g3{background:hsl(141 31% 17%)}
 html.night .vb-g.g4{background:hsl(215 35% 17%)}
 html.night .vb-intro .qz-foot{background:linear-gradient(transparent,var(--bg,hsl(252 13% 17%)) 30%)}
