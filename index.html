@@ -3084,6 +3084,23 @@ html.native .w4-worlds{bottom:calc(10px + var(--sab))}
 .hc-shead{display:flex;align-items:center;gap:10px}
 .hc-backb{flex:none;width:40px;height:40px;border-radius:50%;border:2px solid var(--ink,#17171F);background:#fff;font:900 24px/1 var(--f-body,inherit);color:var(--ink,#17171F);box-shadow:0 2px 0 var(--ink,#17171F);cursor:pointer;padding-bottom:3px}
 .hc-shead b{font:900 18px/1.2 var(--f-body,inherit);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hc-del{flex:none;margin-left:auto;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;border:2px solid var(--ink,#17171F);background:#fff;color:var(--ink,#17171F);box-shadow:0 2px 0 var(--ink,#17171F);cursor:pointer}
+.hc-del svg{width:19px;height:19px}
+.hc-del:active{transform:translateY(2px);box-shadow:none}
+#scr-cards:not(.hc-home) .hc-del{display:grid}
+/* колоды — компактные плитки: картинка слева, название и число карт справа */
+.hc-grid{gap:14px 12px}
+.hc-cover{aspect-ratio:auto;height:70px}
+.hc-cback{inset:5px 3px -5px 3px;border-radius:18px;transform:rotate(2deg)}
+.hc-cback.b2{inset:2px 1px -2px 1px;transform:rotate(-1.5deg)}
+.hc-cface{display:grid;grid-template-columns:52px minmax(0,1fr);grid-template-rows:auto auto;align-content:center;column-gap:10px;row-gap:2px;padding:8px;border-radius:18px}
+.hc-cart{grid-row:1 / 3;width:52px;height:52px;border-radius:13px;box-shadow:inset 0 0 0 2.5px var(--d)}
+.hc-cemo{font-size:26px;filter:drop-shadow(0 2px 0 rgba(0,0,0,.15))}
+.hc-cface b{margin:0;font-size:13.5px;line-height:1.15;white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.hc-cface small{margin:0;font-size:12px}
+.hc-cover:active .hc-cface{transform:scale(.97)}
+.hc-cedit{top:-9px;right:-7px;width:26px;height:26px;font-size:12px}
+.hc-h2{margin:20px 0 12px}
 /* сцена и карточка */
 .card-stage.hc-stage{--hcw:min(292px,78vw,calc((100dvh - 372px) * .72));height:auto;min-height:calc(var(--hcw) * 1.4 + 18px);display:grid;place-items:center;perspective:1200px;margin-top:0}
 .hc,.hc-ghost,.hc-bend{grid-area:1/1;width:var(--hcw);aspect-ratio:5/7}
@@ -3488,7 +3505,7 @@ html.night .wk-fin-stats span{background:hsl(216 11% 17%)}
 html.night .wk-fin-stats b{color:var(--ink)}
 html.night .t-walk{background:var(--grass,hsl(150 34% 36%))}
 html.night .ch-new{background:hsl(240 8% 8%)!important}
-html.night .ch-new .ch-emoji{background:var(--sign)!important;color:var(--sign-ink);color:var(--ink)!important}
+html.night .ch-new .ch-emoji{background:var(--sign)!important;color:var(--sign-ink)!important;}
 html.night .ch-note-ic{background:var(--marker,hsl(44 38% 15%))}
 html.night .ch-sw{background:hsl(220 9% 17%)}
 html.night .ch-sw::after{background:var(--surface)}
@@ -3515,7 +3532,7 @@ html.night .tk-fb.hint{background:hsl(44 38% 15%)}
 html.night .tk-diff ins{background:hsl(110 42% 36%)}
 html.night .tk-model.big{color:var(--ink)}
 html.night .sc-unit{background:hsl(240 8% 8%)}
-html.night .path-btn{background:var(--sign)!important;color:var(--sign-ink);box-shadow:inset 0 0 0 2px var(--edge,rgba(0,0,0,.28));color:var(--ink)!important}
+html.night .path-btn{background:var(--sign)!important;color:var(--sign-ink)!important;box-shadow:inset 0 0 0 2px var(--edge,rgba(0,0,0,.28));}
 html.night .path-btn i{color:var(--ink)!important}
 html.night .pt-lvl{background:var(--surface);box-shadow:inset 0 0 0 2px var(--line)}
 html.night .pt-lvl.cur{color:var(--ink);box-shadow:inset 0 0 0 2px var(--edge,rgba(0,0,0,.28))}
@@ -3575,12 +3592,12 @@ html.night .qz-why{background:rgba(22,29,40,.75)}
 html.night .qz-steps li::before{background:hsl(240 8% 8%)}
 html.night .qz-steps b{background:var(--sign);color:var(--sign-ink)}
 html.night .qz-final{background:hsl(240 8% 8%)}
-html.night .qz-rule-btn{background:var(--sign);color:var(--sign-ink);box-shadow:inset 0 0 0 2px var(--edge,rgba(0,0,0,.28));color:var(--ink)}
+html.night .qz-rule-btn{background:var(--sign);color:var(--sign-ink);box-shadow:inset 0 0 0 2px var(--edge,rgba(0,0,0,.28));}
 html.night .tk-go:disabled{background:hsl(220 10% 17%)!important}
 html.night .pp-item{background:var(--surface);box-shadow:inset 0 0 0 2px var(--line)}
 html.night .pp-w{color:var(--ink)}
 html.night .pp-ru{color:var(--ink)}
-html.night .pp-btn{background:var(--sign);color:var(--sign-ink);box-shadow:inset 0 0 0 2px var(--edge,rgba(0,0,0,.28));color:var(--ink)}
+html.night .pp-btn{background:var(--sign);color:var(--sign-ink);box-shadow:inset 0 0 0 2px var(--edge,rgba(0,0,0,.28));}
 html.night .pp-btn.on{background:hsl(240 8% 8%)}
 html.night .pp-en{background:hsl(240 8% 8%)}
 html.night .pp-why{color:var(--ink)}
@@ -3645,7 +3662,7 @@ html.night .irr-ex{background:rgba(22,29,40,.75)}
 html.night .irr-why{color:var(--ink)}
 html.night .irr-sit{background:hsl(240 8% 8%)}
 html.night .irr-blk{background:rgba(22,29,40,.8)}
-html.night .bk-add{background:var(--sign);color:var(--sign-ink);color:var(--ink);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
+html.night .bk-add{background:var(--sign);color:var(--sign-ink);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
 html.night .bk-btn{background:var(--surface);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28));color:var(--ink)}
 html.night .fr-card{background:var(--surface);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
 html.night .fr-card.me{background:hsl(44 38% 15%)}
@@ -3661,7 +3678,7 @@ html.night .fr-now{background:hsl(216 11% 17%)}
 html.night .fr-here .ava.sm{border:2px solid var(--line);box-shadow:0 0 0 1.5px var(--edge,rgba(0,0,0,.28))}
 html.night .fr-here small{color:var(--ink)}
 html.night .fr-line{color:var(--ink)}
-html.night .cs-exam-btn{background:var(--sign)!important;color:var(--sign-ink);color:var(--ink)!important;box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
+html.night .cs-exam-btn{background:var(--sign)!important;color:var(--sign-ink)!important;box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
 html.night .vc-stat{background:hsl(216 11% 17%)}
 html.night .vc-stat b{color:var(--ink)}
 html.night .vc-grp{background:var(--surface);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
@@ -3708,7 +3725,7 @@ html.night .ck-chips i{box-shadow:inset 0 0 0 1.5px var(--edge,rgba(0,0,0,.28));
 html.night .ck-chips i.more{background:var(--surface)}
 html.night .ck-steps em{background:hsl(216 11% 17%)}
 html.night .ck-steps em.on{background:hsl(110 42% 36%);color:var(--ink)}
-html.night .ck-go{background:var(--sign);color:var(--sign-ink);box-shadow:inset 0 0 0 2px var(--edge,rgba(0,0,0,.28));color:var(--ink)}
+html.night .ck-go{background:var(--sign);color:var(--sign-ink);box-shadow:inset 0 0 0 2px var(--edge,rgba(0,0,0,.28));}
 html.night .ck-topic.done .ck-go{background:var(--surface)}
 html.night .ck-them{background:hsl(216 11% 17%)}
 html.night .ck-them span{color:var(--ink)}
@@ -3740,7 +3757,7 @@ html.night .bk-no{background:hsl(30 38% 22%);box-shadow:inset 0 0 0 2px var(--ed
 html.night .bk-item.done .bk-no{background:hsl(110 42% 36%)}
 html.night :is(.bk-it b,.bk-h,.bk-p,.bk-moral p,.bk-end b){color:var(--ink)}
 html.night .bk-s.cur{background:hsl(50 45% 22%);box-shadow:0 0 0 1.5px rgba(255,255,255,.12)}
-html.night .bk-s.now{background:hsl(50 70% 34%);color:#fff}
+html.night .bk-s.now{background:var(--sign);color:var(--sign-ink)}
 html.night .bk-moral{background:hsl(257 35% 17%);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
 html.night .bk-moral small{color:hsl(257 50% 78%)}
 html.night .bk-read.hide .bk-s:not(.open){background:hsl(216 11% 20%)}
@@ -3751,7 +3768,7 @@ html.night .bk-foot{border-top:2px solid var(--line);background:var(--surface)}
 html.night :is(.bk-mode,.bk-chip,.bk-b){background:hsl(216 11% 17%);color:var(--ink)}
 html.night .bk-mode button{color:var(--muted)}
 html.night .bk-mode button.on{background:var(--ink);color:var(--bg)}
-.night[data-look="route"] .bk-chip.on{background:hsl(50 70% 34%);color:#fff;box-shadow:none}
+.night[data-look="route"] .bk-chip.on{background:var(--sign);color:var(--sign-ink);box-shadow:none}
 html.night .bk-play{background:var(--sign);color:var(--sign-ink);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28)),0 4px 0 var(--edge,rgba(0,0,0,.28))}
 html.night .bk-read.mk .bk-s .mw{text-decoration-color:rgba(255,255,255,.35)}
 html.night .bka-card{background:var(--surface);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28)),0 4px 0 var(--edge,rgba(0,0,0,.28))}
@@ -3962,11 +3979,12 @@ html.night .dx-bars i{background:hsl(252 42% 36%)}
 /* общие ночные токены для контуров и «бумаги» (их используют и стикерные правила ниже) */
 html.night{--edge:#5A667C;--edge-soft:#3A4456;--rim:var(--surface);--paper:var(--surface);--inv:var(--ink);--on-ink:var(--bg);--warm-ink:#F0A365}
 /* ночью у кнопок и плашек та же форма и тот же контур, что днём */
-html.night .bk-chip.on{background:hsl(50 70% 34%);color:#fff;box-shadow:inset 0 0 0 1.5px var(--edge)}
+html.night .bk-chip.on{background:var(--sign);color:var(--sign-ink);box-shadow:inset 0 0 0 1.5px var(--edge)}
 html.night .bka-play{background:var(--sign);color:var(--sign-ink);box-shadow:inset 0 0 0 2px var(--edge)}
 html.night .bka-say{background:hsl(216 11% 22%);box-shadow:inset 0 0 0 1.5px var(--edge)}
 html.night .hc-newg{background:var(--sign);border-color:var(--edge);color:var(--sign-ink);box-shadow:0 3px 0 var(--edge)}
 html.night .hc-backb{background:var(--surface-2);border-color:var(--edge);color:var(--ink);box-shadow:0 2px 0 var(--edge)}
+html.night .hc-del{background:var(--surface-2);border-color:var(--edge);color:var(--ink);box-shadow:0 2px 0 var(--edge)}
 html.night .dx-hero,html.night .dx-list{background:var(--surface);border-color:var(--edge);box-shadow:0 4px 0 var(--edge)}
 html.night .dx-add{background:var(--sign);border-color:var(--edge);color:var(--sign-ink);box-shadow:0 2px 0 var(--edge)}
 html.night .dx-round{background:var(--y);border-color:var(--edge);color:var(--ink);box-shadow:0 3px 0 var(--edge)}
@@ -3980,6 +3998,76 @@ html.night[data-look="sticker"] :is(.goal-bar,.ms-bar){background:rgba(255,255,2
 /* иконка «Учёба» ночью — только линии, как остальные иконки панели */
 html.night .tab-path svg.lad *{fill:none!important;stroke:currentColor!important}
 html.night .tab-path svg.lad > circle:last-child{fill:currentColor!important;stroke:none!important}
+/* серый текст, заданный готовым цветом, ночью — светло-серый, чтобы читался */
+html.night .pn-date{color:var(--ink-2)}
+html.night .gd-n{color:var(--ink-2)}
+html.night .gd-btns .link-btn{color:var(--ink-2)}
+html.night .tk-modes button{color:var(--ink-2)}
+html.night .tk-link{color:var(--ink-2)}
+html.night .tk-model{color:var(--ink-2)}
+html.night .pt-lvl{color:var(--ink-2)}
+html.night .pt-lbl small{color:var(--ink-2)}
+html.night .un-can b,html.night .un-g b{color:var(--ink-2)}
+html.night .un-step span{color:var(--ink-2)}
+html.night .qz-sub{color:var(--ink-2)}
+html.night .qz-rule{color:var(--ink-2)}
+html.night .ls-title > span{color:var(--ink-2)}
+html.night .ls-block > b{color:var(--ink-2)}
+html.night .qz-why-h{color:var(--ink-2)}
+html.night .pp-h{color:var(--ink-2)}
+html.night .pp-ex{color:var(--ink-2)}
+html.night .pp-tr{color:var(--ink-2)}
+html.night .cs-mod-n{color:var(--ink-2)}
+html.night .cs-t small{color:var(--ink-2)}
+html.night .ln-ru{color:var(--ink-2)}
+html.night .ln-plus{color:var(--ink-2)}
+html.night .ln-trap .why{color:var(--ink-2)}
+html.night .ln-w span{color:var(--ink-2)}
+html.night .ln-go p{color:var(--ink-2)}
+html.night .md-cnt{color:var(--ink-2)}
+html.night .md-text .ru{color:var(--ink-2)}
+html.night .md-list li{color:var(--ink-2)}
+html.night .irr-ru{color:var(--ink-2)}
+html.night .irr-none,html.night .irr-sub{color:var(--ink-2)}
+html.night .irr-card-h div span{color:var(--ink-2)}
+html.night .irr-tr{color:var(--ink-2)}
+html.night .irr-lbl{color:var(--ink-2)}
+html.night .fr-pos{color:var(--ink-2)}
+html.night .fr-rel{color:var(--ink-2)}
+html.night .fr-wait{color:var(--ink-2)}
+html.night .fr-now-meta{color:var(--ink-2)}
+html.night .vc-stat{color:var(--ink-2)}
+html.night .vc-grp summary small{color:var(--ink-2)}
+html.night .vc-w span{color:var(--ink-2)}
+html.night .gm-walk small{color:var(--ink-2)}
+html.night .ck-meter-t{color:var(--ink-2)}
+html.night .ck-tt small{color:var(--ink-2)}
+html.night .ck-tt>span{color:var(--ink-2)}
+html.night .ck-sub{color:var(--ink-2)}
+html.night .ck-them small{color:var(--ink-2)}
+html.night .ck-when span{color:var(--ink-2)}
+html.night .ck-b small{color:var(--ink-2)}
+html.night .ck-setup{color:var(--ink-2)}
+html.night .bk-ci>span{color:var(--ink-2)}
+html.night .bk-it span{color:var(--ink-2)}
+html.night .bk-dur{color:var(--ink-2)}
+html.night .bk-ru{color:var(--ink-2)}
+html.night .bk-end span{color:var(--ink-2)}
+html.night .bka-w small{color:var(--ink-2)}
+html.night .bka-ru{color:var(--ink-2)}
+html.night .bka-build small{color:var(--ink-2)}
+html.night .ck-your{color:var(--ink-2)}
+html.night .ck-end span{color:var(--ink-2)}
+html.night .w4-res p{color:var(--ink-2)}
+html.night .w4-round{color:var(--ink-2)}
+html.night .w4-legend{color:var(--ink-2)}
+html.night .w4-endcard p{color:var(--ink-2)}
+html.night .w4-lead{color:var(--ink-2)}
+html.night .hc-mean span{color:var(--ink-2)}
+html.night .wg-chip.add{color:var(--ink-2)}
+html.night .vb-today span{color:var(--ink-2)}
+html.night .dx-kpi span{color:var(--ink-2)}
+html.night .path-btn i{color:var(--sign-ink)!important}
 /* «Стикербук» ночью: тот же дизайн, что днём (контуры, кайма, наклейки, панель), только тёмная палитра */
 :root.night[data-palette="focus"][data-look="sticker"][data-theme="dark"]{color-scheme:dark;
   --stage:#06090D;--bg:#0E131B;--surface:#171E29;--surface-2:#1F2734;--line:#2B3443;
@@ -20983,7 +21071,7 @@ function hcSetView(v) {
 }
 (() => {
   const scr = $("#scr-cards"), sc = $(".cards-scroll", scr);
-  sc.insertAdjacentHTML("afterbegin", `<div id="hcHome"></div><div class="hc-shead" id="hcHead"><button class="hc-backb" data-hc="home" aria-label="К колодам">‹</button><b id="hcDeckName"></b></div>`);
+  sc.insertAdjacentHTML("afterbegin", `<div id="hcHome"></div><div class="hc-shead" id="hcHead"><button class="hc-backb" data-hc="home" aria-label="К колодам">‹</button><b id="hcDeckName"></b><button class="hc-del" data-hc="del" aria-label="Удалить эту карточку">${DXI.del}</button></div>`);
   $("#cardStage").classList.add("hc-stage");
   scr.classList.add("hc-home");
   scr.addEventListener("click", e => {
@@ -20993,8 +21081,31 @@ function hcSetView(v) {
     if (k === "open") { const id = a.dataset.id; if (!itemsFor(id).length) { toast(id.startsWith("g:") ? "В этой группе пока нет слов — добавьте их в Book" : "Здесь пока пусто"); return; } startDeck(id); return; }
     if (k === "home") { hcSetView("home"); return; }
     if (k === "newGroup") { openGroupNew(); return; }
+    if (k === "del") { hcDelCard(); return; }
   });
 })();
+// ---------- удалить карточку из колоды ----------
+// слово из словаря удаляется из словаря (как в Book, с «Вернуть»); карточка из готовой колоды просто скрывается в этой колоде
+const K_HCHIDE = "hithere.hchide.v1";
+const hcHidden = () => store.get(K_HCHIDE, {});
+const hcHideKey = (deck, it) => deck + "|" + it.en;
+const hcItemsBase = itemsFor;
+itemsFor = function (id) { const h = hcHidden(), r = hcItemsBase(id); return r.filter(it => it.did || !h[hcHideKey(id, it)]); };
+function hcDelCard() {
+  const it = cards.items[cards.pos]; if (!it || cards.busy) return;
+  const deck = cards.deck, pos = cards.pos;
+  const drop = () => { cards.items.splice(pos, 1); cards.flipped = false; renderCard(false); };
+  const back = () => { cards.items.splice(Math.min(pos, cards.items.length), 0, it); cards.pos = Math.min(pos, cards.pos); renderCard(false); };
+  if (it.did) {
+    const d = S.dict.find(x => x.id === it.did); if (!d) { drop(); return; }
+    const idx = S.dict.indexOf(d);
+    S.dict.splice(idx, 1); saveDict(); renderDict(); renderDaily(); drop();
+    toast("Удалено из словаря: " + d.en, { action: "Вернуть", onAction: () => { S.dict.splice(Math.min(idx, S.dict.length), 0, d); saveDict(); renderDict(); renderDaily(); back(); } });
+  } else {
+    const h = hcHidden(), k = hcHideKey(deck, it); h[k] = 1; store.set(K_HCHIDE, h); drop();
+    toast("Карточка убрана из колоды", { action: "Вернуть", onAction: () => { const h2 = hcHidden(); delete h2[k]; store.set(K_HCHIDE, h2); back(); } });
+  }
+}
 const hcBaseStart = startDeck;
 startDeck = function (id, items) {
   // сначала показываем экран учёбы — иначе карточка строится невидимой (нулевого размера) и анимация появления теряется
