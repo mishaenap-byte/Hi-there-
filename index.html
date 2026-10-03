@@ -3969,29 +3969,32 @@ html.night .hc-newg{background:var(--sign);border-color:var(--edge);color:var(--
 html.night .hc-backb{background:var(--surface-2);border-color:var(--edge);color:var(--ink);box-shadow:0 2px 0 var(--edge)}
 html.night .dx-hero,html.night .dx-list{background:var(--surface);border-color:var(--edge);box-shadow:0 4px 0 var(--edge)}
 html.night .dx-add{background:var(--sign);border-color:var(--edge);color:var(--sign-ink);box-shadow:0 2px 0 var(--edge)}
-html.night .dx-round{background:var(--y);border-color:var(--edge);color:#DCE2EC;box-shadow:0 3px 0 var(--edge)}
-html.night .wg-chip.on{background:var(--y,var(--lemon,#5C5218));border-color:var(--edge);color:#DCE2EC;box-shadow:0 2px 0 var(--edge)}
+html.night .dx-round{background:var(--y);border-color:var(--edge);color:var(--ink);box-shadow:0 3px 0 var(--edge)}
+html.night .wg-chip.on{background:var(--y,var(--lemon,#5C5218));border-color:var(--edge);color:var(--ink);box-shadow:0 2px 0 var(--edge)}
 /* чёрные «геройские» карточки (серия, цель недели) ночью остаются чёрными, как днём */
 html.night[data-look="sticker"] :is(.ph-streak,.goal-card,.ms-hero){background:var(--hero);color:var(--hero-ink)}
 html.night[data-look="sticker"] .phs-grid i{background:rgba(255,255,255,.1)}
 html.night[data-look="sticker"] .phs-grid i.l1{background:rgba(227,198,46,.38)}html.night[data-look="sticker"] .phs-grid i.l2{background:rgba(227,198,46,.68)}
 html.night[data-look="sticker"] .phs-grid i.l3{background:#E3C62E}html.night[data-look="sticker"] .phs-grid i.today{box-shadow:0 0 0 2px var(--hero-ink)}
 html.night[data-look="sticker"] :is(.goal-bar,.ms-bar){background:rgba(255,255,255,.16)}html.night[data-look="sticker"] :is(.goal-bar,.ms-bar) i{background:#E3C62E}
+/* иконка «Учёба» ночью — только линии, как остальные иконки панели */
+html.night .tab-path svg.lad *{fill:none!important;stroke:currentColor!important}
+html.night .tab-path svg.lad > circle:last-child{fill:currentColor!important;stroke:none!important}
 /* «Стикербук» ночью: тот же дизайн, что днём (контуры, кайма, наклейки, панель), только тёмная палитра */
 :root.night[data-palette="focus"][data-look="sticker"][data-theme="dark"]{color-scheme:dark;
   --stage:#06090D;--bg:#0E131B;--surface:#171E29;--surface-2:#1F2734;--line:#2B3443;
-  --ink:#E4E8EF;--ink-2:#B0B9C8;--muted:#8A94A7;
-  --accent:#E4E8EF;--accent-2:#7DB6EC;--accent-ink:#0E131B;--accent-soft:#3A3414;
+  --ink:#C5CCD7;--ink-2:#9DA6B5;--muted:#7E889B;
+  --accent:#C5CCD7;--accent-2:#7DB6EC;--accent-ink:#0E131B;--accent-soft:#3A3414;
   --sign:#D9BE2C;--sign-2:#B09A1C;--sign-ink:#17171F;
   --marker:#D9BE2C;--marker-hl:#D9BE2C;--marker-soft:#332E14;--marker-ink:#17171F;
-  --in:#171E29;--in-ink:#E4E8EF;--out:#1B3550;--out-ink:#E4EDF8;
+  --in:#171E29;--in-ink:#C5CCD7;--out:#1B3550;--out-ink:#C9D3E0;
   --chat-bg:#0E131B;--chat-dot:#1D2532;
   --danger:#EE8A5C;--danger-soft:#3A2419;--ok:#4BB97C;--ok-soft:#163023;
-  --en-ink:#E4E8EF;--en-bg:#172A40;--en-line:#E4E8EF;
-  --grad:#E4E8EF;--grad-bank:#6A3A1C;
+  --en-ink:#C5CCD7;--en-bg:#172A40;--en-line:#C5CCD7;
+  --grad:#2C3546;--grad-bank:#6A3A1C;
   --lemon:#5C5218;--tangerine:#6A3A1C;--bubblegum:#5E2747;--sky:#17496E;--grass:#1C5C3B;
-  --edge:#5A667C;--edge-soft:#3A4456;--rim:#171E29;--paper:#171E29;--inv:#E4E8EF;--on-ink:#0E131B;--warm-ink:#F0A365;
-  --hero:#05080C;--hero-ink:#E4E8EF;--hero-hl:#E3C62E;
+  --edge:#5A667C;--edge-soft:#3A4456;--rim:#171E29;--paper:#171E29;--inv:#2C3546;--on-ink:#C5CCD7;--warm-ink:#F0A365;
+  --hero:#05080C;--hero-ink:#C5CCD7;--hero-hl:#E3C62E;
   --shadow-sm:0 0 0 2.5px var(--edge),0 0 0 6px var(--rim),0 8px 18px rgba(0,0,0,.35);
   --shadow:0 0 0 2.5px var(--edge),0 0 0 7px var(--rim),0 12px 24px rgba(0,0,0,.4);
   --shadow-lg:0 30px 80px rgba(0,0,0,.6)}
@@ -4040,7 +4043,7 @@ html.night .ex-tile span{color:var(--ink-2)}
 /* мятые стикеры: ночью без бумажной текстуры и бликов */
 .night .stk-fx{display:none!important}.night .stk{filter:none!important}
 /* словарь */
-.night .dx{--dxi:#DCE2EC;--dxv:#8FA6E6;--dxy:#C49A1C;--dxm:#8691A6}
+.night .dx{--dxi:var(--ink);--dxv:#8FA6E6;--dxy:#C49A1C;--dxm:#8691A6}
 .night[data-look="route"] .dx-hero,.night[data-look="route"] .dx-list{background:var(--surface);border:1px solid var(--line);box-shadow:none}
 .night .dx-meta{border-top-color:var(--line)}
 .night .dx-go{background:var(--inv);border-color:var(--inv);color:var(--on-ink)}
@@ -4055,10 +4058,10 @@ html.night .ex-tile span{color:var(--ink-2)}
 .night .dx-ib.del{color:#5D6678}
 .night .dx-n{background:var(--sign);border-color:var(--bg);color:var(--sign-ink)}
 .night .dx-sc{border-color:var(--rim);box-shadow:0 0 0 2px var(--edge)}
-.night .dx-sc em{color:#DCE2EC}
+.night .dx-sc em{color:var(--ink)}
 .night .dx-empty{background:var(--surface);border-color:var(--line)}
-.night .dx-whead{border-color:var(--rim);box-shadow:0 0 0 2.5px var(--edge);color:#DCE2EC}
-.night[data-look="route"] .dx-round{background:var(--y);border-color:var(--d);color:#DCE2EC;box-shadow:none}
+.night .dx-whead{border-color:var(--rim);box-shadow:0 0 0 2.5px var(--edge);color:var(--ink)}
+.night[data-look="route"] .dx-round{background:var(--y);border-color:var(--d);color:var(--ink);box-shadow:none}
 .night .dx-prog,.night .dx-col li,.night .dx-kpi div{background:var(--surface-2)}
 .night .dx-prog p,.night .dx-col span,.night .dx-warn{color:var(--ink-2)}
 .night .dx-steps li{color:var(--muted)}.night .dx-steps li.on{color:var(--ink)}.night .dx-steps i{background:#2C3547}
@@ -4074,13 +4077,13 @@ html.night .ex-tile span{color:var(--ink-2)}
 .night .hc-art{background:repeating-conic-gradient(from 0deg at 50% 64%,rgba(255,255,255,.05) 0 9deg,transparent 9deg 18deg),var(--a)}
 .night .hc-back .hc-art{background:radial-gradient(rgba(255,255,255,.03) 1.3px,transparent 1.4px) 0 0/12px 12px,var(--y)}
 .night .hc-hill{background:color-mix(in srgb,var(--m) 80%,#000);box-shadow:inset 0 2px 0 rgba(255,255,255,.06)}
-.night .hc-cl,.night .hc-cl::before{background:#DCE2EC;opacity:.1}
-.night .hc-t{color:#DCE2EC}.night .hc-back .hc-t{color:#DCE2EC}
+.night .hc-cl,.night .hc-cl::before{background:var(--ink);opacity:.1}
+.night .hc-t{color:var(--ink)}.night .hc-back .hc-t{color:var(--ink)}
 .night .hc-rib{color:#C9D2E1}.night .hc-rib,.night .hc-rib::before,.night .hc-rib::after{background:var(--y)}
 .night .hc-no{background:var(--y);color:#C9D2E1}
 .night .hc-name{background:#141A24;color:var(--ink)}
 .night .hc-ipa,.night .hc-note{color:var(--ink-2)}.night .hc-hint,.night .hc-note.sm{color:var(--muted)}
-.night .hc-mean li{color:var(--ink-2)}.night .hc-mean b{color:var(--ink)}.night .hc-mean i{color:#9DB2EA}.night .hc-mean li::before{color:#DCE2EC}
+.night .hc-mean li{color:var(--ink-2)}.night .hc-mean b{color:var(--ink)}.night .hc-mean i{color:#9DB2EA}.night .hc-mean li::before{color:var(--ink)}
 .night .hc-vs{color:var(--ink-2)}
 .night .hc-b{background:var(--y);color:#C9D2E1}
 .night .hc-tag{background:var(--surface)}
@@ -4117,6 +4120,7 @@ html.night .ex-tile span{color:var(--ink-2)}
 .au-links .link-btn{font-size:13.5px}
 .au-note{margin:12px 0 0;font-size:12px;color:#6B7080;font-weight:600;text-align:center}
 .demo-chip{display:inline-block;vertical-align:middle;margin-left:6px;padding:2px 7px;border-radius:8px;background:#E3E6EC;color:#4A4E5A;font:800 10.5px var(--f-body,system-ui);letter-spacing:.03em;text-transform:uppercase}
+html.night .demo-chip{background:var(--surface-2);color:var(--ink-2)}
 .p-del{margin-left:auto;align-self:flex-start;font-size:12.5px;font-weight:700;color:#6B7080;padding:4px 8px;border-radius:10px;background:none;cursor:pointer}
 .p-del:active{background:#F1F3F6}
 
