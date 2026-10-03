@@ -5,7 +5,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Hi There"><meta name="theme-color" content="#FFEC3D">
 <link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="Hi There — учите английский на живых ситуациях">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<style>html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+<style>html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html.kb .stage{align-items:flex-start}
+html.kb .app{height:var(--kbh,100%)!important;max-height:none!important;top:var(--kbt,0px)}</style>
 <script>
 /* приложение не зумится: двумя пальцами и Ctrl+колёсиком нельзя, двойной тап выключен через touch-action */
 (function () {
@@ -16,6 +18,34 @@
   document.addEventListener("touchmove", function (e) { if (e.touches.length > 1 || (e.scale && e.scale !== 1)) e.preventDefault(); }, { passive: false });
   document.addEventListener("wheel", function (e) { if (e.ctrlKey) e.preventDefault(); }, { passive: false });
   document.addEventListener("keydown", function (e) { if ((e.ctrlKey || e.metaKey) && /^[=+\-0]$/.test(e.key)) e.preventDefault(); });
+})();
+/* клавиатура на телефоне: приложение ужимается до видимой части экрана, а не уезжает вверх.
+   Шапка чата с именем остаётся на месте, поднимается только переписка и поле ввода */
+(function () {
+  var vv = window.visualViewport; if (!vv) return;
+  var de = document.documentElement, raf = 0, on = false;
+  function fit() {
+    raf = 0;
+    var a = document.activeElement, typing = a && (a.tagName === "INPUT" || a.tagName === "TEXTAREA" || a.isContentEditable);
+    var kb = !!typing && window.innerHeight - vv.height > 120;
+    if (kb) {
+      de.style.setProperty("--kbh", vv.height + "px");
+      de.style.setProperty("--kbt", vv.offsetTop + "px");
+      if (!on) {
+        on = true; de.classList.add("kb");
+        var list = a.closest(".gchat") && a.closest(".gchat").querySelector(".gchat-list");
+        if (list) setTimeout(function () { list.scrollTop = list.scrollHeight; }, 60);
+      }
+    } else if (on) {
+      on = false; de.classList.remove("kb");
+      de.style.removeProperty("--kbh"); de.style.removeProperty("--kbt");
+      window.scrollTo(0, 0);
+    }
+  }
+  function q() { if (!raf) raf = requestAnimationFrame(fit); }
+  vv.addEventListener("resize", q); vv.addEventListener("scroll", q);
+  document.addEventListener("focusin", function () { q(); setTimeout(q, 300); setTimeout(q, 700); });
+  document.addEventListener("focusout", function () { setTimeout(q, 80); });
 })();
 </script>
 <title>Hi There</title>
@@ -3586,7 +3616,7 @@ html.night .qz-fb.bad{background:hsl(20 35% 17%)}
 html.night .qz-fb.soft{background:hsl(44 38% 15%)}
 html.night .qz-score.lvl{background:var(--sign);color:var(--sign-ink);box-shadow:0 0 0 3px var(--edge,rgba(0,0,0,.28)),0 0 0 10px var(--line),0 0 0 13px var(--edge,rgba(0,0,0,.28))}
 html.night .tk-note{background:hsl(44 38% 15%)}
-html.night .ex-path{background:hsl(44 38% 15%);box-shadow:0 0 0 2.5px var(--edge,rgba(0,0,0,.28)),0 0 0 7px var(--line),0 10px 24px rgba(23,23,31,.12)}
+html.night .ex-path{background:hsl(249 35% 17%);box-shadow:0 0 0 2.5px var(--edge,rgba(0,0,0,.28)),0 0 0 7px var(--line),0 10px 24px rgba(23,23,31,.12)}
 html.night .ex-path .eyebrow{color:var(--ink)}
 html.night .ex-path-g{color:var(--ink)}
 html.night .ex-tile{background:var(--surface);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28)),0 5px 0 var(--edge,rgba(0,0,0,.28))}
@@ -12643,9 +12673,12 @@ function renderHwList() {
   const rest = HW.slice(1);
   box.innerHTML = rest.length ? `<h3 class="sh-sub" style="margin:22px 2px 10px">Другие задания</h3>${rest.map(h => `<div class="hw-item">${hwCardHTML(h)}<div class="hwf-btns" style="margin-top:10px">${myHwBtn(h, "")}</div></div>`).join("")}` : "";
 }
+POSTS.length = 0;                                          // посты ботов убраны, в ленте только настоящие люди
+// ДЗ недели — от приложения, без работ и проверок ботов
+HW.forEach(h => { h.author = "Hi There"; h.done = 0; h.subs = {}; if (/сдано/.test(h.due)) h.due = "без срока"; });
 function renderFeed() {
   renderFeatured(); renderHwList();
-  $("#feedList").innerHTML = POSTS.map(postHTML).join("") + `<p class="feed-note">${CLOUD && CLOUD.uid ? "Посты с пометкой «пример» — демо, остальные пишут настоящие люди." : "Посты сообщества в прототипе — примеры."}</p>`;
+  $("#feedList").innerHTML = POSTS.map(postHTML).join("") + (POSTS.length ? "" : `<div class="empty" style="margin-top:4px"><b>Пока здесь тихо</b>${CLOUD && CLOUD.uid ? "Напишите первый пост — его увидят все ученики." : "Войдите в аккаунт, чтобы видеть посты других учеников."}</div>`);
   POSTS.forEach(p => { p.fresh = false; });
 }
 function addPost(p) {
@@ -13395,7 +13428,9 @@ async function aiCheck(h, ta, box, btn) {
 // ================== СОСТОЯНИЕ: ГРУППЫ, ПАКЕТЫ, НАГРАДЫ ==================
 const K_GROUPS = "vzhivuyu.groups.v4", K_PACKS = "vzhivuyu.packs.v1", K_R = "vzhivuyu.rewards.v2";
 const clone = o => JSON.parse(JSON.stringify(o));
-S.groups = store.get(K_GROUPS, null) || clone(SEED_GROUPS);
+// ботов нет: группы-примеры убраны и у тех, у кого они уже сохранены
+const SEED_GIDS = SEED_GROUPS.map(g => g.id);
+S.groups = (store.get(K_GROUPS, null) || []).filter(g => g.cloud || !SEED_GIDS.includes(g.id));
 S.packs = store.get(K_PACKS, null) || clone(SEED_PACKS);
 const R_FRESH = store.get(K_R, null) == null;   // на этом устройстве ещё нет своей статистики
 const R = Object.assign(clone(SEED_R), store.get(K_R, {}) || {});
@@ -13952,7 +13987,7 @@ const LEAGUES_ACC = ["Бронзовую", "Серебряную", "Золоту
 const LEAGUE_C = ["#C07A3A", "#9AA6B2", "#E8A800", "#2563EB", "#DC2626", "#10B981", "#8B5CF6", "#C9B79C", "#374151", "#38BDF8"];
 const RIVALS = [["Кейт М.", 212], ["Лука Б.", 176], ["Ева Ш.", 150], ["Тимур Б.", 131], ["Нина Ж.", 97], ["Ян К.", 72], ["Полина С.", 58], ["Марк Д.", 41], ["Аля Р.", 20]];
 if (R.league == null) R.league = 1;
-const leagueBoard = () => RIVALS.map(([n, x]) => ({ n, x })).concat([{ n: "Вы", x: R.week }]).sort((a, b) => b.x - a.x);
+const leagueBoard = () => [].map(([n, x]) => ({ n, x })).concat([{ n: "Вы", x: R.week }]).sort((a, b) => b.x - a.x);
 
 function countUp(el, from, to, dur, prefix, suffix) {
   if (!el) return;
@@ -14310,7 +14345,9 @@ $("#onboard").addEventListener("click", e => {
 
 // ================== ЧАТ ГРУППЫ И ЛИЧНЫЕ СООБЩЕНИЯ ==================
 const K_DMS = "vzhivuyu.dms.v2";
-S.dms = store.get(K_DMS, null) || clone(SEED_DMS);
+S.dms = store.get(K_DMS, null) || {};
+// чаты с ботами удаляем: остаются «Hi There» и переписки с настоящими людьми
+{ const real = store.get("vz.dmu", null) || {}; Object.keys(S.dms).forEach(n => { if (n !== "Hi There" && !real[n]) delete S.dms[n]; }); }
 const saveDms = () => store.set(K_DMS, S.dms);
 S.groups.forEach(g => { if (!Array.isArray(g.chat)) g.chat = []; });
 const REPLIES = ["👍", "Отлично!", "Согласна 😊", "Супер, спасибо!", "Nice one! 😄", "Давай сегодня вечером потренируемся?", "Ахаха, точно", "Я тоже так думаю", "Great idea!", "Спасибо, что напомнил(а) 🙏"];
@@ -15536,6 +15573,9 @@ function openCapsule() {
 const CH_TYPES = { voice: ["🎙️", "Голосом"], text: ["✍️", "Текстом"], photo: ["📸", "Фото из жизни"] };
 const chDay = c => Math.floor((dayStart() - dayStart(c.start)) / DAY);
 const chToday = c => { const d = chDay(c); return d >= 0 && d < c.days ? d : -1; };
+// челленджи без ботов: остаются только вы и настоящие люди
+S.ch = S.ch.filter(c => c.id !== "ch-ldn");
+S.ch.forEach(c => { if (c.id === "ch-voice7" || c.id === "ch-real") { c.author = "Hi There"; c.people = 0; c.participants = c.participants.filter(n => n === "Вы"); c.entries = c.entries.filter(e => e.a === "Вы"); } });
 const chCount = c => c.people + c.participants.length;
 function chCardHTML(c, i) {
   const d = chDay(c), td = chToday(c), done = c.my.includes(td);
@@ -22756,7 +22796,8 @@ const SEED_FRIENDS = [
   { id: "f-lena", n: "Лена", u: "lena_talks", av: { e: "🐙", c: "#FF6FB5" }, st: { lv: "A1", cur: "a1-02", done: 1, total: 38, streak: 2 }, demo: true }
 ];
 const FR = Object.assign({ list: null, inReq: [], outReq: [], nudged: {}, peers: {} }, store.get(K_FRIENDS, {}) || {});
-if (!Array.isArray(FR.list)) FR.list = clone(SEED_FRIENDS);
+if (!Array.isArray(FR.list)) FR.list = [];
+FR.list = FR.list.filter(f => !f.demo);                    // друзей-ботов больше нет
 FR.list.forEach(f => { if (f.demo && f.st && COURSE[f.st.lv]) f.st.total = courseItems(f.st.lv).length; });
 const saveFriends = () => store.set(K_FRIENDS, { list: FR.list.filter(f => f.demo), nudged: FR.nudged });
 
