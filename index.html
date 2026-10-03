@@ -2628,6 +2628,31 @@ html.native #sheet{padding-bottom:var(--sab)}
 .bka-verb p{margin:6px 0 0;font-size:14.5px;line-height:1.45;font-weight:600;color:#2A2D36}
 .bka-why{margin:0;padding:0 4px 0 22px}
 .bka-why li{margin:0 0 9px;font-size:14.5px;line-height:1.5;font-weight:600;color:#2A2D36}
+.bka-nav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:2px 0 10px}
+.bka-nav span{font-size:13.5px;font-weight:800;color:#4A4E5A}
+.bka-nb{width:44px;height:38px;border-radius:13px;display:grid;place-items:center;background:#F1F3F6;font-size:26px;line-height:1;font-weight:700;color:#17171F}
+.bka-nb:disabled{opacity:.3}
+.bka-w b i{transition:box-shadow .2s}
+.bka-w.hl b i{box-shadow:0 0 0 2.5px #17171F}
+.bka-core{padding:12px 14px;border-radius:18px;background:#EAF7FF;box-shadow:inset 0 0 0 2px #17171F}
+.bka-core p{margin:8px 0 0;font-size:14.5px;line-height:1.5;font-weight:600;color:#2A2D36}
+.bka-exr{display:flex;align-items:center;gap:10px}
+.bka-exr>div{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.bka-exr b{font-size:15.5px;line-height:1.35;font-weight:800;color:#17171F}
+.bka-exr span{font-size:13px;line-height:1.35;font-weight:600;color:#6B7080}
+.bka-say{flex:none;width:36px;height:36px;border-radius:12px;display:grid;place-items:center;background:#fff;box-shadow:inset 0 0 0 1.5px #17171F;font-size:16px}
+.bka-say.speaking{background:#FFE14D}
+.bka-tip{margin:-4px 4px 10px;font-size:12.5px;font-weight:700;color:#8A8F9C}
+.bka-steps{list-style:none;margin:0;padding:0}
+.bka-step{margin:0 0 10px;padding:12px 14px;border-radius:18px;background:#F1F3F6;cursor:pointer;transition:box-shadow .2s}
+.bka-step.on{box-shadow:inset 0 0 0 2.5px #17171F}
+.bka-sw{display:flex;align-items:flex-start;gap:9px}
+.bka-sw i{flex:none;width:24px;height:24px;margin-top:1px;border-radius:8px;display:grid;place-items:center;background:#17171F;color:#fff;font-style:normal;font-size:12px;font-weight:800}
+.bka-sw b{font-size:17px;line-height:1.35;font-weight:800;color:#17171F}
+.bka-step>p{margin:8px 0 0;font-size:14.5px;line-height:1.55;font-weight:600;color:#2A2D36}
+.bka-ex{margin-top:10px;padding-top:8px;border-top:1.5px dashed #CDD1DA;display:flex;flex-direction:column;gap:8px}
+.bka-ex .bka-exr b{font-size:14.5px}
+.bka-next{display:flex;width:100%;margin:16px 0 8px}
 .bka-mis{margin:14px 0 0;padding:12px 14px;border-radius:18px;background:#FFF6D6;box-shadow:inset 0 0 0 2px #17171F}
 .bka-mis small{display:block;font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:#8A6A10;margin-bottom:4px}
 .bka-mis p{margin:0;font-size:14.5px;line-height:1.45;font-weight:700;color:#17171F}
@@ -3736,6 +3761,17 @@ html.night .bka-build span{color:hsl(257 50% 78%)}
 html.night .bka-verb{background:hsl(325 30% 15%);box-shadow:inset 0 0 0 2px rgba(0,0,0,.28)}
 html.night .bka-vt b,html.night .bka-form i,html.night .bka-verb p,html.night .bka-why li,html.night .bka-mis p{color:var(--ink)}
 html.night .bka-form{color:hsl(325 30% 75%)}
+html.night .bka-nb{background:hsl(216 11% 20%);color:var(--ink)}
+html.night .bka-nav span,html.night .bka-tip{color:var(--ink-2,var(--ink))}
+html.night .bka-w.hl b i{box-shadow:0 0 0 2.5px var(--ink)}
+html.night .bka-core{background:hsl(205 35% 16%);box-shadow:inset 0 0 0 2px rgba(0,0,0,.28)}
+html.night .bka-step{background:hsl(216 11% 17%)}
+html.night .bka-step.on{box-shadow:inset 0 0 0 2.5px var(--ink)}
+html.night .bka-sw i{background:var(--ink);color:var(--bg)}
+html.night :is(.bka-core p,.bka-step>p,.bka-sw b,.bka-exr b){color:var(--ink)}
+html.night .bka-exr span{color:var(--ink-2,var(--ink))}
+html.night .bka-ex{border-top-color:rgba(255,255,255,.14)}
+html.night .bka-say{background:hsl(216 11% 22%);box-shadow:none}
 html.night .bka-mis{background:hsl(44 38% 15%);box-shadow:inset 0 0 0 2px rgba(0,0,0,.28)}
 html.night .bka-mis small{color:hsl(44 60% 65%)}
 html.night .w4-page{background:hsl(249 22% 17%)}
@@ -19888,7 +19924,7 @@ function renderBooks() {
 function openFable(n) {
   const it = BOOKS[0].items.find(x => x.n === +n); if (!it) return;
   bkUnlock(); bkStop();
-  bk.it = it; bk.i = 0; bk.last = -1; bk.rev = new Set();
+  bk.it = it; bk.i = 0; bk.last = -1; bk.rev = new Set(); bk.tapG = null;
   bk.segs = [[it.t + ".", it.tt[0], it.tt[1], 0]].concat(...it.p, it.m).map(s => ({ t: s[0], s: s[1], e: s[2], g: s[3] }));
   BKP.last = it.n; saveBk();
   renderFable();
@@ -19990,7 +20026,7 @@ function bkPlay(i, one, until) {
   const s = bk.segs[i]; if (!s) return;
   const it = bk.it;
   try { speechSynthesis.cancel(); } catch (e) {}
-  bkStop(); bk.i = i; bk.one = one; bk.last = -1; bk.until = until >= 0 ? until : -1; $(".bk-end", $("#bkrPage")).hidden = true;
+  bkStop(); bk.i = i; bk.one = one; bk.last = -1; bk.until = until >= 0 ? until : -1; bk.tapG = s.g; $(".bk-end", $("#bkrPage")).hidden = true;
   const go = () => {
     if (bk.it !== it) return;
     bkAu.playbackRate = BKP.rate; bkAu.defaultPlaybackRate = BKP.rate;
@@ -20009,7 +20045,7 @@ function bkCheck() {
   const t = bkAu.currentTime, s = bk.segs[bk.i];
   if (bk.one) { if (t >= s.e - 0.02 || bkAu.ended) bkDone(); return; }
   let j = bk.i; while (j + 1 < bk.segs.length && t >= bk.segs[j + 1].s - 0.02) j++;
-  if (j !== bk.i) { if (BKP.hide) bk.rev.add(bk.i); bk.i = j; bkMark(); }
+  if (j !== bk.i) { if (BKP.hide) bk.rev.add(bk.i); bk.i = j; bk.tapG = bk.segs[j].g; bkMark(); }
   const L = bk.until >= 0 ? bk.until : bk.segs.length - 1;
   if (t >= bk.segs[L].e - 0.02 || bkAu.ended) { if (L < bk.segs.length - 1) { bkStop(); bk.i = L; bk.until = -1; bkMark(false); } else bkDone(); }
 }
@@ -20039,7 +20075,8 @@ function bkFinish() {
 }
 
 window.addEventListener("click", e => {
-  const w = e.target.closest && e.target.closest("#bkrPage .bk-s .mw"); if (!w || BKP.mark) return;
+  const w = e.target.closest && e.target.closest("#bkrPage .bk-s .mw"); if (!w) return;
+  if (BKP.mark) { const sg = bk.segs[+w.closest(".bk-s").dataset.i]; if (sg) bk.tapG = sg.g; return; }   // маркер: запоминаем предложение для «Разбора»
   e.preventDefault(); e.stopPropagation();
   onBkClick({ target: w.closest(".bk-s") });
 }, true);
@@ -20051,6 +20088,11 @@ function onBkClick(e) {
   if (c === "open") openFable(a.dataset.n);
   if (c === "back") { bkStop(); closeMarker(); closePageEl(bkPage("bkrPage")); renderBooks(); }
   if (c === "anBack") { if (bk.until >= 0) { bkStop(); bkMark(false); } closePageEl(bkPage("bkaPage")); }
+  if (c === "anGo" && bk.it) { if (bk.until >= 0) { bkStop(); bkMark(false); } bk.tapG = +a.dataset.g; openBkAn(+a.dataset.g); }
+  if (c === "say") { if (bk.on) { bkStop(); bkMark(false); } speak(a.dataset.t, { el: a }); }
+  if (c === "anStep") { const p = $("#bkaPage"), on = !a.classList.contains("on");
+    $$(".bka-step.on", p).forEach(x => x.classList.remove("on")); $$(".bka-w.hl", p).forEach(x => x.classList.remove("hl"));
+    if (on) { a.classList.add("on"); const [f, t] = a.dataset.r.split("-").map(Number); for (let k = f; k < t; k++) { const w = $(`.bka-w[data-ti="${k}"]`, p); if (w) w.classList.add("hl"); } } }
   if (c === "anPlay" && bk.it) {
     if (bk.on && bk.until >= 0) { bkStop(); bkMark(false); }
     else { const ix = bk.segs.map((x, k) => x.g === +a.dataset.g ? k : -1).filter(k => k >= 0); bkPlay(ix[0], false, ix[ix.length - 1]); }
@@ -20077,7 +20119,8 @@ function onBkClick(e) {
       BKP.mark = !BKP.mark; saveBk(); closeMarker(); bkUI();
       toast(BKP.mark ? "Маркер включён: нажмите на слово. Чтобы выделить фразу, нажмите ещё на соседние слова" : "Маркер выключен: нажатие на фразу снова её озвучивает");
       break;
-    case "an": openBkAn(bk.segs[Math.min(bkRef(), n - 1)].g); break;
+    // разбор того предложения, которое звучит или которого только что касались; иначе первого
+    case "an": openBkAn(bk.on ? bk.segs[bk.i].g : bk.tapG != null ? bk.tapG : 1); break;
     case "hide": BKP.hide = !BKP.hide; saveBk(); $(".bk-read", $("#bkrPage")).classList.toggle("hide", BKP.hide); bkUI(); if (BKP.hide) toast("Текст скрыт: слушайте и записывайте, потом нажмите на фразу, чтобы проверить"); break;
   }
 }
@@ -20106,10 +20149,21 @@ function openBkAn(g) {
   if (!an) { toast("Для этого предложения разбора пока нет"); return; }
   const text = bk.segs.filter(x => x.g === g).map(x => x.t).join(" "), ws = bkWords(text);
   const used = Array.from(new Set(an.pos)).filter(k => BK_POS[k]);
+  const gs = Array.from(new Set(bk.segs.map(x => x.g))).filter(x => BK_AN[it.n + ":" + x]), at = gs.indexOf(g);
+  const pg = gs[at - 1], ng = gs[at + 1];
+  const say = t => `<button class="bka-say" data-b="say" data-t="${esc(t)}" aria-label="Озвучить">🔊</button>`;
+  const exs = ex => ex && ex.length ? `<div class="bka-ex">${ex.map(x => `<div class="bka-exr"><div><b>${esc(x[0])}</b><span>${esc(x[1] || "")}</span></div>${say(x[0])}</div>`).join("")}</div>` : "";
+  // какие слова предложения входят в каждый шаг — чтобы подсветить их сверху
+  let wi = 0;
+  const steps = (an.steps || []).map(st => { const k = bkWords(st.w).length, r = `${wi}-${wi + k}`; wi += k; return Object.assign({ r }, st); });
+  const nav = `<div class="bka-nav"><button class="bka-nb" data-b="anGo" data-g="${pg}" ${pg == null ? "disabled" : ""} aria-label="Предыдущее предложение">‹</button>
+      <span>${g === 0 ? "Название" : at >= 0 ? `Предложение ${gs.filter(x => x > 0).indexOf(g) + 1} из ${gs.filter(x => x > 0).length}` : ""}</span>
+      <button class="bka-nb" data-b="anGo" data-g="${ng}" ${ng == null ? "disabled" : ""} aria-label="Следующее предложение">›</button></div>`;
   const p = bkPage("bkaPage");
   p.innerHTML = `<div class="page-head"><button class="icon-btn" data-b="anBack" aria-label="Назад">${ICON.back}</button>
       <div class="ph-title"><span class="ph-emoji" aria-hidden="true">🔍</span><div style="min-width:0"><b>Разбор предложения</b><span>${esc(it.t)}</span></div></div></div>
     <div class="scroll page-body bka">
+      ${nav}
       <section class="bka-card">
         <div class="bka-words">${ws.map((w, i) => { const k = an.pos[i], P = BK_POS[k] || ["", "", "#eee"];
           return `<span class="bka-w" data-ti="${i}" style="--pc:${P[2]}"><b>${esc(w.pre)}<i>${esc(w.w)}</i>${esc(w.post)}</b><small>${P[0]}</small></span>`; }).join("")}</div>
@@ -20117,15 +20171,21 @@ function openBkAn(g) {
         <button class="bka-play" data-b="anPlay" data-g="${g}">${ICON.play}<span>Послушать</span></button>
       </section>
       <div class="bka-legend">${used.map(k => `<span style="--pc:${BK_POS[k][2]}"><i></i>${BK_POS[k][1]}</span>`).join("")}</div>
-      <h3 class="bka-h">Как построено</h3>
-      <ol class="bka-build">${an.build.map(x => `<li><small>${esc(x.q)}</small><b>${esc(x.w)}</b><span>${esc(x.r)}</span></li>`).join("")}</ol>
+      ${an.core ? `<h3 class="bka-h">Скелет предложения</h3>
+      <div class="bka-core"><div class="bka-exr"><div><b>${esc(an.core.en)}</b><span>${esc(an.core.ru)}</span></div>${say(an.core.en)}</div><p>${esc(an.core.say)}</p></div>` : ""}
+      ${steps.length ? `<h3 class="bka-h">Разбираем по шагам</h3>
+      <p class="bka-tip">Нажмите на шаг, чтобы увидеть его слова в предложении сверху.</p>
+      <ol class="bka-steps">${steps.map((st, i) => `<li class="bka-step" data-b="anStep" data-r="${st.r}"><div class="bka-sw"><i>${i + 1}</i><b>${esc(st.w)}</b></div><p>${esc(st.say)}</p>${exs(st.ex)}</li>`).join("")}</ol>`
+      : an.build ? `<h3 class="bka-h">Как построено</h3>
+      <ol class="bka-build">${an.build.map(x => `<li><small>${esc(x.q)}</small><b>${esc(x.w)}</b><span>${esc(x.r)}</span></li>`).join("")}</ol>` : ""}
       ${an.verbs && an.verbs.length ? `<h3 class="bka-h">Глаголы и время</h3>
       ${an.verbs.map(v => { const F = BK_FORM[v.f] || ["", ""];
         return `<div class="bka-verb"><div class="bka-vt"><b>${esc(v.w)}</b>${F[0] ? `<em class="f${v.f}">${F[0]} · ${F[1]}</em>` : ""}</div>
           <span class="bka-form">${esc(v.form)}${v.base ? ` · начальная форма <i>${esc(v.base)}</i>` : ""}</span><p>${esc(v.why)}</p></div>`; }).join("")}` : ""}
-      <h3 class="bka-h">Почему именно так</h3>
-      <ul class="bka-why">${an.why.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+      ${!steps.length && an.why && an.why.length ? `<h3 class="bka-h">Почему именно так</h3>
+      <ul class="bka-why">${an.why.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
       ${an.mistake ? `<div class="bka-mis"><small>Типичная ошибка</small><p>${esc(an.mistake)}</p></div>` : ""}
+      ${ng != null ? `<button class="btn primary bka-next" data-b="anGo" data-g="${ng}">Следующее предложение ›</button>` : ""}
     </div>`;
   bkUI();
   if (!p.classList.contains("open")) openPageEl(p);
