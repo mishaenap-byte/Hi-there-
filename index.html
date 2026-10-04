@@ -2625,6 +2625,121 @@ html.native #sheet{padding-bottom:var(--sab)}
 .ck-dbody{padding-bottom:20px}
 .ck-setup{margin:4px 0 14px;padding:10px 12px;border-radius:14px;background:#F1F3F6;font-size:14px;font-weight:700;color:#4A4E5A;line-height:1.4}
 .ck-dfoot{flex:none;padding:10px 16px calc(14px + env(safe-area-inset-bottom,0px));border-top:2px solid #E3E6EC;background:#fff;min-height:20px}
+/* собеседования: курс на 6 недель */
+.iv-cover{margin:4px 2px 12px;padding:16px;border-radius:24px;background:#CFE6FF;box-shadow:inset 0 0 0 2.5px #17171F;display:flex;flex-direction:column;gap:6px}
+.iv-cover small{font-size:11.5px;font-weight:800;color:#2D4E73;text-transform:uppercase;letter-spacing:.04em}
+.iv-cover>b{font:400 21px/1.15 "Dela Gothic One",var(--f-body,system-ui);color:#17171F;margin-bottom:6px}
+.iv-cover em{font-style:normal;font-size:12.5px;font-weight:800;color:#4A4E5A}
+.iv-go{margin-top:8px}
+.iv-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 2px 12px}
+.iv-tool{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:12px;border-radius:18px;background:#fff;box-shadow:inset 0 0 0 2.5px #17171F,0 4px 0 #17171F;text-align:left;color:#17171F}
+.iv-tool span{font-size:20px}.iv-tool b{font-size:14.5px;font-weight:800}.iv-tool small{font-size:12px;font-weight:600;color:#6B7080;line-height:1.3}
+.iv-how{margin:0 2px 14px;padding:12px 14px;border-radius:18px;background:#F1F3F6;font-size:14px;line-height:1.5;color:#2A2D36}
+.iv-how summary{font-weight:800;cursor:pointer}
+.iv-how ol{padding-left:20px;margin:6px 0}.iv-how li{margin:0 0 6px}.iv-how p{margin:8px 0}
+.iv-wh{margin:18px 4px 8px;display:flex;flex-direction:column;gap:1px}
+.iv-wh b{font:400 16px "Dela Gothic One",var(--f-body,system-ui);color:#17171F}.iv-wh span{font-size:13px;font-weight:700;color:#6B7080}
+.iv-day{width:100%;display:flex;align-items:center;gap:12px;margin:0 0 9px;padding:10px 14px 10px 10px;border-radius:18px;background:#fff;box-shadow:inset 0 0 0 2.5px #17171F,0 3px 0 #17171F;text-align:left}
+.iv-day.cur{background:#FFF3A6}
+.iv-dn{flex:none;width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:#CFE6FF;box-shadow:inset 0 0 0 2px #17171F;font:400 13.5px "Dela Gothic One",var(--f-body,system-ui);color:#17171F}
+.iv-day.done .iv-dn{background:#7BEA64}
+.iv-dt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.iv-dt b{font-size:14.5px;font-weight:800;line-height:1.25;color:#17171F}.iv-dt span{font-size:12.5px;font-weight:600;color:#6B7080}
+.iv-dbody{padding-bottom:40px}
+.iv-plan{margin:2px 4px 12px;font-size:13px;font-weight:800;color:#6B7080}
+.iv-blk{margin:0 0 14px;padding:14px;border-radius:22px;background:#fff;box-shadow:inset 0 0 0 2.5px #17171F,0 4px 0 #17171F;color:#2A2D36;font-size:14.5px;line-height:1.5}
+.iv-blk.done{background:#F2FFEE}
+.iv-bh{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.iv-be{flex:none;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:19px;background:#CFE6FF;box-shadow:inset 0 0 0 2px #17171F;color:#17171F;font-weight:800}
+.iv-blk.done .iv-be{background:#7BEA64}
+.iv-bh b{display:block;font-size:15.5px;font-weight:800;line-height:1.25;color:#17171F}.iv-bh small{font-size:12px;font-weight:700;color:#6B7080}
+.iv-bb p{margin:6px 0}
+.iv-ok{display:block;margin:12px 0 0 auto;padding:8px 16px;border-radius:14px;background:#F1F3F6;box-shadow:inset 0 0 0 2px #17171F;font-weight:800;font-size:14px;color:#17171F}
+.iv-ok.on{background:#7BEA64}
+.iv-mute{font-size:13.5px;color:#6B7080;font-weight:600}
+.iv-h4{margin:14px 0 6px;font-size:14px;font-weight:800;color:#17171F}
+.iv-pt{margin:0 0 12px}.iv-pt>b{font-size:15px;color:#17171F}.iv-pt p{margin:3px 0 6px}
+.iv-ex{display:flex;align-items:center;gap:8px;margin:0 0 6px;padding:8px 10px;border-radius:14px;background:#F1F3F6}
+.iv-ex>div{flex:1;min-width:0;display:flex;flex-direction:column}.iv-ex b{font-size:14.5px;color:#17171F}.iv-ex span{font-size:12.5px;color:#6B7080;font-weight:600}
+.iv-say{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#FFEC3D;box-shadow:inset 0 0 0 2px #17171F;color:#17171F}
+.iv-say svg{width:15px;height:15px}.iv-say.slow{background:#E3F1FF}.iv-say.speaking{background:#7BEA64}
+.iv-q{margin:0 0 10px;padding:10px 12px;border-radius:16px;background:#EDE6FF}
+.iv-q small{display:block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:#5B4A8A}
+.iv-sl{display:flex;align-items:center;gap:8px;justify-content:space-between}.iv-sl b,.iv-sl>span{flex:1;min-width:0}
+.iv-q .iv-sl b{font-size:16px;color:#17171F}
+.iv-ru{display:block;font-size:13px;color:#6B7080;font-weight:600}
+.iv-sent{padding:9px 0;border-bottom:1.5px dashed #E3E6EC}.iv-sent:last-of-type{border-bottom:0}
+.iv-sent .iv-sl b{font-size:16px;color:#17171F;line-height:1.4}
+.iv-slot{border-bottom:2.5px solid #4C8DFF;padding:0 1px}.iv-slot.ex{border-bottom-style:dashed;border-bottom-color:#A0A6B4}
+.iv-why{margin-top:6px}.iv-why summary,.iv-alt summary{font-size:13px;font-weight:800;color:#4C5CD6;cursor:pointer}
+.iv-w{margin:6px 0;padding:8px 10px;border-radius:12px;background:#FFF7CC}.iv-w b{font-size:14px;color:#17171F}.iv-w p{margin:2px 0 0;font-size:13.5px}
+.iv-alt{margin:4px 0 8px}.iv-alt .iv-sl{margin:6px 0}
+.iv-keys{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.iv-keys>span,.iv-kc{padding:5px 10px;border-radius:999px;background:#FFEC3D;box-shadow:inset 0 0 0 2px #17171F;font-size:13px;font-weight:800;color:#17171F}
+.iv-keys>span.hit,.iv-kc.hit{background:#7BEA64}.iv-keys>span.miss{background:#FFD0D0}.iv-kc{background:#fff}
+.iv-row2{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0 4px}
+.iv-chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.iv-chip{padding:7px 12px;border-radius:999px;background:#fff;box-shadow:inset 0 0 0 2px #17171F;font-size:13px;font-weight:800;color:#17171F}
+.iv-chip.on{background:#FFEC3D}.iv-chip.big{font-size:15px;padding:10px 16px;margin:6px 0}
+.iv-f{display:block;margin:0 0 12px}.iv-f>span{display:block;font-size:13px;font-weight:800;color:#17171F;margin-bottom:4px}
+.iv-recrow{display:flex;gap:8px;align-items:center}
+.iv-rec{padding:8px 14px;border-radius:999px;background:#FFD7E4;box-shadow:inset 0 0 0 2px #17171F;font-size:13.5px;font-weight:800;color:#17171F}
+.iv-rec.on{background:#FF5C7A;color:#fff;animation:ivPulse 1.2s infinite}
+@keyframes ivPulse{50%{opacity:.7}}
+.iv-steps{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.iv-st{padding:6px 10px;border-radius:12px;background:#F1F3F6;font-size:12.5px;font-weight:800;color:#6B7080;box-shadow:inset 0 0 0 2px transparent}
+.iv-st.ok{color:#17171F}.iv-st.on{background:#CFE6FF;box-shadow:inset 0 0 0 2px #17171F;color:#17171F}
+.iv-mtext{min-height:60px;padding:10px 12px;border-radius:14px;background:#F7F8FA;font-size:16px;font-weight:600;line-height:1.7;color:#17171F}
+.iv-mtext p{margin:0 0 4px}
+.iv-gap{display:inline;padding:0 3px;border-radius:6px;background:#DDE1E8;color:transparent;font:inherit;line-height:1.3}
+.iv-gap.open{background:#FFF3A6;color:#17171F}
+.iv-melt+.iv-melt{margin-top:18px;padding-top:12px;border-top:2px dashed #E3E6EC}
+.iv-melt .btn{margin-top:10px}
+.iv-okline{font-weight:800;color:#2E8B2E}
+.iv-heard{font-size:13px;font-style:italic;color:#6B7080}
+.iv-shl p{margin:4px 0;padding:6px 10px;border-radius:12px;font-size:16px;font-weight:600;color:#17171F;transition:background .2s}
+.iv-shl p.now{background:#FFF3A6}.iv-shl p.you{background:#C9F7BE}
+.iv-stat{margin:8px 0;font-weight:800;color:#17171F}
+.iv-bar{display:block;height:6px;border-radius:4px;background:#E3E6EC;overflow:hidden;margin-top:6px}.iv-bar i{display:block;height:100%;width:0;background:#4C8DFF;animation:ivBar linear forwards}
+@keyframes ivBar{to{width:100%}}
+.iv-res{margin:0 0 12px;padding:10px 12px;border-radius:16px;background:#F1F3F6}
+.iv-res small{font-size:11.5px;font-weight:800;text-transform:uppercase;color:#6B7080}.iv-res .iv-sl b{font-size:15.5px;color:#17171F}.iv-res p{font-size:13.5px}
+.iv-res .iv-say+.iv-say{margin-left:-2px}
+.iv-cnt{padding:6px 12px;border-radius:999px;background:#fff;box-shadow:inset 0 0 0 2px #17171F;font-size:13px;font-weight:800;color:#17171F}
+.iv-cnt.full{background:#7BEA64}
+.iv-qz{display:flex;flex-direction:column;gap:6px;margin-top:8px}.iv-qz>small{font-weight:800;color:#6B7080}
+.iv-qq{font-size:15.5px;font-weight:700;color:#17171F}
+.iv-opts{display:flex;flex-direction:column;gap:8px}
+.iv-opt{padding:10px 12px;border-radius:14px;background:#fff;box-shadow:inset 0 0 0 2px #17171F;text-align:left;font-size:14.5px;font-weight:700;color:#17171F}
+.iv-opt.y{background:#7BEA64}.iv-opt.n{background:#FFB8B8}
+.iv-qwhy{padding:10px 12px;border-radius:14px;background:#EDE6FF;font-size:13.5px}.iv-qwhy p{margin:2px 0 0}
+.iv-score{font:400 26px "Dela Gothic One",var(--f-body,system-ui);color:#17171F}
+.iv-wl{display:flex;flex-direction:column;gap:6px}
+.iv-wr{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:14px;background:#F1F3F6}
+.iv-wr>div{flex:1;min-width:0;display:flex;flex-direction:column}.iv-wr b{font-size:15px;color:#17171F}.iv-wr span{font-size:13px;font-weight:700;color:#4A4E5A}.iv-wr small{font-size:12px;color:#6B7080}
+.iv-sq{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+.iv-sqc{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 4px;border-radius:16px;background:#F1F3F6}
+.iv-sqc b{font:400 22px "Dela Gothic One",var(--f-body,system-ui);color:#17171F}.iv-sqc small{font-size:11.5px;font-weight:700;color:#6B7080}
+.iv-sqc.on{background:#FFF3A6;box-shadow:inset 0 0 0 2px #17171F}.iv-sqc.ok{background:#C9F7BE}
+.iv-clock{margin:6px 0 10px;text-align:center;font:400 54px/1 "Dela Gothic One",var(--f-body,system-ui);color:#17171F}
+.iv-clock.low{color:#E2334F}.iv-clock.small{font-size:30px}
+.iv-todo{display:flex;gap:10px;align-items:flex-start;margin:0 0 10px;font-size:14.5px;font-weight:600}
+.iv-todo input{flex:none;width:22px;height:22px;margin-top:1px;accent-color:#2E8B2E}
+.iv-ta{width:100%;min-height:160px;font-size:15px;line-height:1.5}
+.iv-checks{list-style:none;padding:0;margin:8px 0}.iv-checks li{margin:0 0 4px;font-weight:700;font-size:13.5px}.iv-checks .y{color:#2E8B2E}.iv-checks .n{color:#C42645}
+.iv-model{white-space:pre-wrap;font:600 14px/1.5 var(--f-body,system-ui);padding:12px;border-radius:14px;background:#F1F3F6;color:#17171F}
+.iv-mock{display:flex;flex-direction:column;gap:8px}.iv-mock>small{font-weight:800;color:#6B7080}
+.iv-who{display:flex;gap:10px;align-items:flex-start;padding:12px;border-radius:16px;background:#EDE6FF}
+.iv-who>span{font-size:30px}.iv-who b{display:block;font-size:16px;color:#17171F}.iv-hid{color:#6B7080!important;font-style:italic}
+.iv-link{padding:0;background:none;font-size:13px;font-weight:800;color:#4C5CD6;text-decoration:underline;align-self:flex-start}
+.iv-help{display:flex;flex-direction:column;gap:6px}
+.iv-hb{padding:9px 12px;border-radius:14px;background:#E3F1FF;box-shadow:inset 0 0 0 2px #17171F;font-size:13.5px;font-weight:800;text-align:left;color:#17171F}
+.iv-mr{margin:0 0 12px;padding:10px 12px;border-radius:16px;background:#F1F3F6}.iv-mr>b{font-size:15px;color:#17171F}
+.iv-wa{margin:0 0 12px}
+.iv-notes{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+.iv-note{padding:12px;border-radius:16px;background:#fff;box-shadow:inset 0 0 0 2px #17171F}
+.iv-note b{display:block;font-size:15px;color:#17171F}.iv-note small{display:block;font-size:12.5px;font-weight:700;color:#6B7080}.iv-note p{margin:6px 0 0;font-size:14.5px;line-height:1.5;color:#2A2D36}
+.iv-nk{font-weight:800}
+.iv-end{margin:6px 4px 20px;display:flex;flex-direction:column;gap:10px;font-size:13.5px;color:#6B7080;font-weight:600}.iv-end b{font-size:17px;color:#17171F}
 /* книги: обложка, список басен, чтение по фразам */
 .bk-cover{display:flex;gap:14px;align-items:center;margin:4px 2px 12px;padding:14px;border-radius:24px;background:#FFE1BE;box-shadow:inset 0 0 0 2.5px #17171F}
 .bk-book{position:relative;flex:none;width:84px;height:116px;border-radius:6px 12px 12px 6px;background:#7A2E1F;box-shadow:inset 0 0 0 2.5px #17171F,4px 5px 0 #17171F;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;color:#F8D9A0}
@@ -3873,6 +3988,33 @@ html.night .bka-w.hl b i{box-shadow:0 0 0 2.5px var(--ink)}
 html.night .bka-core{background:hsl(205 35% 16%);box-shadow:inset 0 0 0 2px var(--edge,rgba(0,0,0,.28))}
 html.night .bka-step{background:hsl(216 11% 17%)}
 html.night .bka-step.on{box-shadow:inset 0 0 0 2.5px var(--ink)}
+html.night .iv-cover{background:hsl(212 40% 18%);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28))}
+html.night .iv-cover small{color:hsl(212 50% 72%)}
+html.night :is(.iv-cover>b,.iv-wh b,.iv-tool,.iv-dt b,.iv-bh b,.iv-h4,.iv-pt>b,.iv-ex b,.iv-q .iv-sl b,.iv-sent .iv-sl b,.iv-w b,.iv-f>span,.iv-mtext,.iv-shl p,.iv-stat,.iv-res .iv-sl b,.iv-qq,.iv-wr b,.iv-sqc b,.iv-clock,.iv-who b,.iv-mr>b,.iv-note b,.iv-end b,.iv-score,.iv-model){color:var(--ink)}
+html.night :is(.iv-blk,.iv-how,.iv-note p){color:var(--ink-2,var(--ink))}
+html.night :is(.iv-cover em,.iv-tool small,.iv-wh span,.iv-dt span,.iv-plan,.iv-bh small,.iv-mute,.iv-ru,.iv-ex span,.iv-res small,.iv-wr span,.iv-wr small,.iv-sqc small,.iv-note small,.iv-end,.iv-heard,.iv-qz>small,.iv-mock>small){color:var(--ink-2,var(--ink))}
+html.night :is(.iv-tool,.iv-day,.iv-blk,.iv-note){background:var(--surface);box-shadow:inset 0 0 0 2.5px var(--edge,rgba(0,0,0,.28)),0 4px 0 var(--edge,rgba(0,0,0,.28))}
+html.night .iv-note{box-shadow:inset 0 0 0 2px var(--edge,rgba(0,0,0,.28))}
+html.night .iv-day.cur{background:hsl(262 30% 24%)}
+html.night .iv-blk.done{background:hsl(120 20% 15%)}
+html.night :is(.iv-how,.iv-ex,.iv-res,.iv-wr,.iv-sqc,.iv-mr,.iv-model,.iv-mtext,.iv-st){background:hsl(216 11% 17%)}
+html.night :is(.iv-dn,.iv-be){background:hsl(212 40% 24%);box-shadow:inset 0 0 0 2px var(--edge,rgba(0,0,0,.28));color:var(--ink)}
+html.night :is(.iv-day.done .iv-dn,.iv-blk.done .iv-be){background:hsl(110 42% 36%)}
+html.night :is(.iv-q,.iv-qwhy,.iv-who){background:hsl(249 30% 20%)}
+html.night .iv-q small{color:hsl(249 50% 78%)}
+html.night .iv-w{background:hsl(48 30% 17%)}
+html.night :is(.iv-chip,.iv-opt,.iv-cnt,.iv-ok,.iv-kc){background:var(--surface);box-shadow:inset 0 0 0 2px var(--edge,rgba(0,0,0,.28));color:var(--ink)}
+html.night :is(.iv-chip.on,.iv-keys>span){background:hsl(262 45% 42%);color:#fff;box-shadow:inset 0 0 0 2px var(--edge,rgba(0,0,0,.28))}
+html.night :is(.iv-ok.on,.iv-cnt.full,.iv-opt.y,.iv-keys>span.hit,.iv-kc.hit){background:hsl(110 42% 36%);color:#fff}
+html.night .iv-opt.n,html.night .iv-keys>span.miss{background:hsl(0 35% 30%);color:#fff}
+html.night :is(.iv-hb,.iv-say.slow){background:hsl(212 40% 24%);box-shadow:inset 0 0 0 2px var(--edge,rgba(0,0,0,.28));color:var(--ink)}
+html.night .iv-rec{background:hsl(340 40% 26%);box-shadow:inset 0 0 0 2px var(--edge,rgba(0,0,0,.28));color:var(--ink)}
+html.night .iv-st.on{background:hsl(212 40% 26%);color:var(--ink)}
+html.night .iv-shl p.now{background:hsl(48 40% 22%)}html.night .iv-shl p.you{background:hsl(110 30% 22%)}
+html.night .iv-sqc.on{background:hsl(48 40% 22%)}html.night .iv-sqc.ok{background:hsl(110 30% 22%)}
+html.night .iv-gap{background:hsl(216 11% 26%)}html.night .iv-gap.open{background:hsl(48 40% 24%);color:var(--ink)}
+html.night .iv-sent{border-bottom-color:hsl(216 11% 22%)}
+html.night :is(.iv-why summary,.iv-alt summary,.iv-link){color:hsl(240 70% 80%)}
 html.night .bka-sw i{background:var(--ink);color:var(--bg)}
 html.night :is(.bka-core p,.bka-step>p,.bka-sw b,.bka-exr b){color:var(--ink)}
 html.night .bka-exr span{color:var(--ink-2,var(--ink))}
@@ -25196,6 +25338,837 @@ renderEx = function () {
 };
 $("#scr-ex").addEventListener("click", e => { if (e.target.closest('[data-x="books"]')) openBooks(); });
 renderEx();
+// ================== СОБЕСЕДОВАНИЯ: данные курса (6 недель × 6 занятий) ==================
+// Метод «тающей шпаргалки»: 1) собрать СВОЙ ответ из своих данных, 2) понять каждый кусок, 3) растопить текст до ключевых слов,
+// 4) говорить без бумажки: тень, сжатие 90-60-40, интервьюер с перефразированными вопросами и переспросами.
+
+// мои данные: из них собираются все ответы. d — пример, пока поле не заполнено
+const IV_SLOTS = {
+  name: { l: "Как вас зовут", d: "Mihai", ph: "Mihai" },
+  role: { l: "Кем вы работаете", d: "3D artist", ch: ["3D artist", "3D motion designer", "3D generalist", "motion designer"] },
+  years: { l: "Сколько лет опыта (словом или цифрой)", d: "five", ch: ["two", "three", "four", "five", "six", "seven", "ten"] },
+  what: { l: "Что вы делаете", d: "3D product videos for advertising", ch: ["3D product videos for advertising", "3D animations for brands", "product visualizations for online shops", "motion graphics for social media"] },
+  soft: { l: "Главная программа", d: "Blender", ch: ["Blender", "Cinema 4D", "Houdini", "3ds Max", "Maya"] },
+  render: { l: "Где рендерите", d: "Cycles", ch: ["Cycles", "Redshift", "Octane", "Arnold", "V-Ray"] },
+  comp: { l: "Где делаете композитинг", d: "After Effects", ch: ["After Effects", "Nuke", "DaVinci Resolve", "Blender"] },
+  good: { l: "В чём вы особенно сильны", d: "lighting and realistic materials", ch: ["lighting and realistic materials", "animation", "simulations", "modeling", "camera work"] },
+  recent: { l: "Недавний проект (коротко)", d: "a launch video for a new perfume", ph: "a launch video for a new perfume" },
+  city: { l: "Где вы живёте", d: "Chișinău, Moldova", ph: "Chișinău, Moldova" },
+  salary: { l: "Желаемая зарплата", d: "2,500 euros per month", ph: "2,500 euros per month" },
+  p1brand: { l: "Проект 1: для кого видео", d: "a perfume brand", ph: "a perfume brand" },
+  p1want: { l: "Проект 1: что хотел клиент", d: "a premium look with gold and glass", ph: "a premium look with gold and glass" },
+  p1chal: { l: "Проект 1: главная сложность", d: "making the glass look realistic", ph: "making the glass look realistic" },
+  p1use: { l: "Проект 1: где использовали видео", d: "Instagram ads and the brand's website", ph: "Instagram ads and the brand's website" },
+  p2brand: { l: "Проект 2: для кого видео", d: "a running shoe", ph: "a running shoe" },
+  p2want: { l: "Проект 2: что хотел клиент", d: "a fast, energetic video for social media", ph: "a fast, energetic video for social media" },
+  p2chal: { l: "Проект 2: главная сложность", d: "a very short deadline, only five days", ph: "a very short deadline, only five days" },
+  p2use: { l: "Проект 2: где использовали видео", d: "the product launch on TikTok and YouTube", ph: "the product launch on TikTok and YouTube" },
+  q6did: { l: "Что вы сделали, когда клиент всё поменял", d: "I made a new plan and split the work into small steps", ph: "I made a new plan and split the work into small steps" },
+  company: { l: "Компания, куда идёте", d: "your studio", ph: "Pixel Lab" },
+  cwork: { l: "Что делает компания", d: "product animations for beauty brands", ph: "product animations for beauty brands" },
+  cwant: { l: "Над чем хотите работать у них", d: "big international campaigns", ph: "big international campaigns" },
+  cproj: { l: "Их проект, который понравился", d: "a skincare brand", ph: "a skincare brand" }
+};
+
+// банк ответов. {слот} подставляется из «Моих данных». why — разбор по кусочкам: почему слово стоит здесь и почему в такой форме
+const IV_ANS = {
+  about: { t: "Рассказ о себе", q: "Tell me about yourself.", ru: "Расскажите о себе.",
+    alt: ["Can you introduce yourself?", "Walk me through your background.", "Tell me a bit about your experience.", "So, who are you and what do you do?"],
+    keys: ["{role}", "{years} years", "{what}", "{soft}", "{good}", "grow"],
+    s: [
+      { en: "Hi, my name is {name}.", ru: "Привет, меня зовут {name}.", why: [["Hi,", "Приветствие. На собеседовании по видеосвязи Hi звучит нормально, Hello — чуть официальнее."], ["my name is {name}", "Дословно «моё имя есть». В английском у фразы всегда есть глагол, поэтому is не выбросить. «Меня зовут» по-английски — my name is."]] },
+      { en: "I'm a {role} with {years} years of experience.", ru: "Я {role} с опытом {years} лет.", why: [["I'm", "I am. Am — форма be «как обычно»: кто я вообще, по жизни."], ["a {role}", "Перед профессией всегда a: I'm a designer, I'm a doctor. Вы одна из многих людей этой профессии. Русская ошибка: I'm 3D artist."], ["with {years} years", "With — «с»: художник С опытом. Как по-русски: «человек с опытом»."], ["of experience", "Of связывает: years of experience = «годы опыта». Без of слова повиснут."]], ex: ["She's a designer with ten years of experience.", "Она дизайнер с десятилетним опытом."] },
+      { en: "I create {what}.", ru: "Я создаю {what}.", why: [["I create", "Present Simple, «как обычно»: это моя работа, я делаю это регулярно. Не I am creating: это значило бы «прямо сейчас»."], ["{what}", "Что именно. В английском слово «какой» стоит впереди: product videos = продуктовые видео. Product без -s: первое слово работает как прилагательное."]] },
+      { en: "I work in {soft}, and I render in {render}.", ru: "Я работаю в {soft} и рендерю в {render}.", why: [["I work in {soft}", "Программа — как место, где работаешь: in Blender, in Photoshop. Можно сказать и I use Blender."], ["and I render in {render}", "Render — глагол «рендерить». Снова Present Simple: обычный процесс."]] },
+      { en: "I'm especially good at {good}.", ru: "Особенно хорошо у меня получается {good}.", why: [["I'm good at", "Устойчивая рамка: good AT something. Не good in. Запомните её как одно слово: goodat."], ["especially", "«Особенно». Стоит перед тем, что усиливает: especially good."], ["{good}", "После at — существительное или -ing: good at lighting, good at animating."]], ex: ["I'm good at explaining things.", "Я хорошо объясняю."] },
+      { en: "Recently, I worked on {recent}.", ru: "Недавно я работал над: {recent}.", why: [["Recently,", "«Недавно». В начале фразы с запятой: сразу ясно, что дальше история."], ["I worked", "Past Simple, «кадр из прошлого»: проект закончен, это было тогда."], ["on {recent}", "Work ON — «работать НАД». По-русски «над», по-английски on."]] },
+      { en: "Now I'm looking for a team where I can work on interesting projects and grow.", ru: "Сейчас я ищу команду, где смогу работать над интересными проектами и расти.", why: [["Now I'm looking for", "Present Continuous: процесс сейчас и временно. Я ищу работу в этот период. Look FOR = «искать»."], ["a team", "a: одна какая-то команда, ещё не конкретная."], ["where I can work", "Where = «где, в которой». После can — 1-я форма без to: can work, не can to work."], ["and grow", "Grow — «расти» профессионально. Тоже после can, просто 1-я форма."]] }
+    ] },
+  proj1: { t: "Проект 1", q: "Can you tell me about one of your projects?", ru: "Расскажите об одном из ваших проектов.",
+    alt: ["Walk me through a project you're proud of.", "Which project in your portfolio do you like most?", "Tell me about your best work."],
+    keys: ["{p1brand}", "client wanted", "challenge", "modeling, lighting, animation", "rendered", "client was happy"],
+    s: [
+      { en: "This is a product video for {p1brand}.", ru: "Это продуктовое видео для: {p1brand}.", why: [["This is", "This — «это», когда показываешь на экране. Is — сейчас, вот оно."], ["a product video", "Снова «какое» впереди: product video. A — одно видео."], ["for {p1brand}", "For — «для, для кого»."]] },
+      { en: "The client wanted {p1want}.", ru: "Клиент хотел: {p1want}.", why: [["The client", "The: конкретный клиент этого проекта. Мы о нём уже говорим."], ["wanted", "Past Simple, «кадр из прошлого»: тогда, на старте проекта. Want + ed."]] },
+      { en: "The main challenge was {p1chal}.", ru: "Главной сложностью было: {p1chal}.", why: [["The main challenge", "Challenge — «сложная задача, вызов». Слово «проблема» (problem) звучит негативно, challenge — профессионально."], ["was", "Прошлое от is: история закончена."], ["{p1chal}", "Если дальше действие, ставим -ing: making the glass look real."]] },
+      { en: "I did the modeling, lighting and animation in {soft}.", ru: "Я сделал моделинг, свет и анимацию в {soft}.", why: [["I did", "Did — прошлое от do. «Я сделал». Это ваша роль: интервьюеру важно, что сделали именно вы."], ["the modeling, lighting and animation", "Этапы работы — существительные на -ing. Перед списком the: конкретные этапы этого проекта. And — только перед последним."]] },
+      { en: "I rendered it in {render} and did the compositing in {comp}.", ru: "Я отрендерил его в {render} и сделал композитинг в {comp}.", why: [["I rendered it", "Rendered — Past Simple. Окончание -ed здесь звучит как [д]: рендэд."], ["and did the compositing", "Did — снова «сделал». Одно подлежащее I на два действия."]] },
+      { en: "The client was happy, and the video was used for {p1use}.", ru: "Клиент был доволен, и видео использовали для: {p1use}.", why: [["The client was happy", "Результат. Was — прошлое от is."], ["the video was used", "Пассив: видео использовали (кто-то, клиент). Was + 3-я форма = «фото результата» в прошлом."], ["for {p1use}", "For — «для чего»."]] }
+    ] },
+  proj2: { t: "Проект 2", q: "Can you show me another project?", ru: "Покажете другой проект?",
+    alt: ["Do you have another example?", "Tell me about a different kind of project.", "What else would you like to show us?"],
+    keys: ["{p2brand}", "client wanted", "challenge", "modeling, lighting, animation", "rendered", "client was happy"],
+    s: [
+      { en: "This one is a video for {p2brand}.", ru: "Это видео для: {p2brand}.", why: [["This one", "One заменяет повтор: this one = «вот этот (проект)». Так не нужно второй раз говорить project."]] },
+      { en: "The client wanted {p2want}.", ru: "Клиент хотел: {p2want}.", why: [["wanted", "Past Simple: что хотели на старте."]] },
+      { en: "The biggest challenge was {p2chal}.", ru: "Самой большой сложностью было: {p2chal}.", why: [["The biggest", "Превосходная степень: big → bigger → the biggest. The обязателен: самая большая — одна."]] },
+      { en: "I planned every shot first, so I didn't lose any time.", ru: "Сначала я спланировал каждый кадр, поэтому не потерял ни минуты.", why: [["I planned", "Plan → planned: короткий глагол с одной гласной удваивает согласную."], ["every shot", "Every + единственное число: every shot, не every shots. Shot — кадр, план."], ["so I didn't lose", "So — «поэтому». Didn't + 1-я форма: didn't lose, не didn't lost. Did уже показал прошлое."]] },
+      { en: "I did the animation in {soft} and the final edit in {comp}.", ru: "Анимацию я сделал в {soft}, а финальный монтаж в {comp}.", why: [["the final edit", "Edit — монтаж. The final — финальный, единственный."]] },
+      { en: "We delivered on time, and it was used for {p2use}.", ru: "Мы сдали вовремя, и видео использовали для: {p2use}.", why: [["We delivered", "Deliver — «сдать работу клиенту». Ключевое слово профессии."], ["on time", "Вовремя. On time, не in time: in time — «успеть к моменту»."]] }
+    ] },
+  q1: { t: "Почему к нам", q: "Why do you want to work here?", ru: "Почему вы хотите работать у нас?",
+    alt: ["What attracted you to our company?", "Why are you interested in this role?", "Why did you apply to us?"],
+    keys: ["your projects", "{cwork}", "{cwant}", "grow"],
+    s: [
+      { en: "I really like your projects, especially {cwork}.", ru: "Мне очень нравятся ваши проекты, особенно {cwork}.", why: [["I really like", "Really перед глаголом усиливает: «очень нравится». Не I like very much your projects: very much ставят в конец."], ["your projects", "Your — их проекты. Похвала конкретная звучит честно."], ["especially {cwork}", "Especially — «особенно». Здесь одна деталь из их портфолио: она показывает, что вы готовились."]] },
+      { en: "I want to work on {cwant} and grow as a {role}.", ru: "Я хочу работать над {cwant} и расти как {role}.", why: [["I want to work", "Want + to + 1-я форма. To обязателен: want to work."], ["and grow", "Второе действие после того же to: to work and (to) grow. Второй to можно опустить."], ["as a {role}", "As — «в качестве». As a 3D artist = как 3D-художник. A снова перед профессией."]] }
+    ] },
+  q2: { t: "Почему ищете работу", q: "Why are you looking for a new job?", ru: "Почему вы ищете новую работу?",
+    alt: ["Why do you want to leave your current job?", "What are you looking for in your next role?", "Why are you changing jobs?"],
+    keys: ["learnt a lot", "bigger projects", "strong team", "grow"],
+    s: [
+      { en: "I've learnt a lot in my current job.", ru: "Я многому научился на нынешней работе.", why: [["I've learnt", "I have learnt — Present Perfect, «фото результата»: научился, и знания при мне сейчас. Время не важно, важен результат."], ["a lot", "«Многому». В конце фразы."], ["in my current job", "Current — «нынешний». Хороший ответ начинается с плюса прошлой работы: так вы не ругаете бывших."]] },
+      { en: "Now I want bigger projects and a strong team.", ru: "Сейчас я хочу больших проектов и сильную команду.", why: [["bigger projects", "Big → bigger: сравнение с тем, что есть сейчас."], ["a strong team", "A: какая-то сильная команда."]] },
+      { en: "I want to grow as an artist.", ru: "Я хочу расти как художник.", why: [["as an artist", "An, потому что artist начинается с гласного звука."]] }
+    ] },
+  q3: { t: "Сильные стороны", q: "What are your strengths?", ru: "Какие у вас сильные стороны?",
+    alt: ["What would you say you're best at?", "What do you bring to the team?", "What are you really good at?"],
+    keys: ["good at {good}", "details", "meet deadlines"],
+    s: [
+      { en: "I'm good at {good}.", ru: "У меня хорошо получается {good}.", why: [["I'm good at", "Рамка good AT. После at — существительное или -ing."]] },
+      { en: "I pay attention to details.", ru: "Я внимателен к деталям.", why: [["pay attention", "Дословно «платить внимание». Внимание по-английски «платят»: pay attention."], ["to details", "To — «к чему». Details во множественном: все мелочи."]] },
+      { en: "And I always meet deadlines.", ru: "И я всегда укладываюсь в сроки.", why: [["always", "Слово частоты стоит перед глаголом: I always meet."], ["meet deadlines", "Устойчивое сочетание: meet a deadline = уложиться в срок. Дедлайн «встречают»."]] }
+    ] },
+  q4: { t: "Слабая сторона", q: "What is your weakness?", ru: "Какая у вас слабая сторона?",
+    alt: ["What's an area you'd like to improve?", "What do you find difficult?", "Tell me about one of your weaknesses."],
+    keys: ["English", "study every day", "too much time on details", "plan my time"],
+    s: [
+      { en: "My English is not perfect yet, but I study every day.", ru: "Мой английский пока не идеален, но я занимаюсь каждый день.", why: [["is not perfect yet", "Yet в конце — «пока ещё». Звучит как «скоро будет»."], ["but I study every day", "Present Simple: регулярная привычка. Слабость + что вы с ней делаете — лучшая схема."]] },
+      { en: "Also, sometimes I spend too much time on details.", ru: "Ещё иногда я трачу слишком много времени на детали.", why: [["sometimes", "Иногда. Может стоять в начале после Also."], ["spend time on", "Spend time ON something — тратить время НА что-то."], ["too much time", "Too much — «слишком много» (неисчисляемое time)."]] },
+      { en: "So now I plan my time better.", ru: "Поэтому теперь я лучше планирую время.", why: [["So now", "So — «поэтому». Now — «теперь». Это и есть исправление слабости."], ["better", "Better — «лучше», в конце фразы."]] }
+    ] },
+  q5: { t: "Как вы принимаете правки", q: "How do you handle feedback?", ru: "Как вы относитесь к правкам и критике?",
+    alt: ["How do you deal with criticism?", "What do you do when a client asks for changes?", "How do you react to negative feedback?"],
+    keys: ["normal", "listen", "ask questions", "make the changes"],
+    s: [
+      { en: "Feedback is normal for me.", ru: "Правки для меня — это нормально.", why: [["Feedback", "Неисчисляемое: a feedback и feedbacks не говорят. Одна правка — a piece of feedback или a comment."]] },
+      { en: "I listen carefully and ask questions if something isn't clear.", ru: "Я внимательно слушаю и задаю вопросы, если что-то непонятно.", why: [["carefully", "Наречие на -ly отвечает «как?»: слушаю внимательно."], ["if something isn't clear", "If + Present Simple: обычное условие. Isn't = is not."]] },
+      { en: "Then I make the changes quickly.", ru: "Потом быстро вношу изменения.", why: [["make the changes", "Make changes — «вносить изменения». Глагол make, не do."]] }
+    ] },
+  q6: { t: "Сложный проект", q: "Tell me about a difficult project.", ru: "Расскажите о сложном проекте.",
+    alt: ["Tell me about a challenge you faced.", "Describe a time things went wrong.", "What was your most difficult project?"],
+    keys: ["changed the idea", "two days before the deadline", "new plan", "on time"],
+    s: [
+      { en: "Once, the client changed the idea two days before the deadline.", ru: "Однажды клиент поменял идею за два дня до дедлайна.", why: [["Once,", "«Однажды». В начале — сигнал истории."], ["changed", "Past Simple, кадр из прошлого."], ["two days before the deadline", "«За два дня до» по-английски two days BEFORE: сначала сколько, потом before."]] },
+      { en: "{q6did}.", ru: "Моё решение: {q6did}.", why: [["I made a new plan", "Make a plan — «составить план». Глагол make."]] },
+      { en: "We delivered on time, and the client was happy.", ru: "Мы сдали вовремя, и клиент был доволен.", why: [["We", "We, а не I: показывает, что вы командный игрок."], ["delivered on time", "Сдали вовремя. Хороший конец истории — результат."]] }
+    ] },
+  q7: { t: "Как вы укладываетесь в сроки", q: "How do you manage deadlines?", ru: "Как вы укладываетесь в сроки?",
+    alt: ["How do you organise your time?", "What do you do when you're behind schedule?", "How do you plan your work?"],
+    keys: ["split the work", "small steps", "show progress early", "feedback in time"],
+    s: [
+      { en: "I split the work into small steps.", ru: "Я делю работу на маленькие шаги.", why: [["split into", "Split something INTO parts — делить НА части. По-русски «на», по-английски into."]] },
+      { en: "I show progress early.", ru: "Я рано показываю промежуточный результат.", why: [["show progress", "Progress неисчисляемое: без a."], ["early", "Рано. Наречие без -ly, форма та же, что у прилагательного."]] },
+      { en: "So the client can give feedback in time.", ru: "Так клиент успевает дать правки вовремя.", why: [["So", "«Так что, чтобы»."], ["in time", "In time — «успеть вовремя, не поздно». Здесь нужен именно in time."]] }
+    ] },
+  q8: { t: "Один или в команде", q: "Do you work better alone or in a team?", ru: "Вам лучше работать одному или в команде?",
+    alt: ["Do you prefer working independently?", "How do you work with other people?", "Are you a team player?"],
+    keys: ["Both", "on my own", "working with a team", "sharing ideas"],
+    s: [
+      { en: "Both.", ru: "И так, и так.", why: [["Both", "«Оба варианта». Короткое слово снимает напряжение: вы не выбираете крайность."]] },
+      { en: "I can work on my own.", ru: "Я могу работать самостоятельно.", why: [["on my own", "Самостоятельно, сам. Можно и alone, но on my own звучит увереннее."]] },
+      { en: "But I really like working with a team and sharing ideas.", ru: "Но мне очень нравится работать в команде и делиться идеями.", why: [["like working", "Like + -ing: процесс, который нравится."], ["and sharing", "Второе действие в той же форме -ing."]] }
+    ] },
+  q9: { t: "Зарплата", q: "What are your salary expectations?", ru: "Какие у вас ожидания по зарплате?",
+    alt: ["What kind of salary are you looking for?", "What's your hourly rate?", "How much would you like to earn?"],
+    keys: ["looking for", "{salary}", "open to discussing"],
+    s: [
+      { en: "I'm looking for {salary}.", ru: "Я рассчитываю на {salary}.", why: [["I'm looking for", "Дословно «я ищу». Мягче, чем I want."], ["{salary}", "Сумма + валюта + период: per month (в месяц), per hour (в час), per year (в год). Euros и dollars во множественном."]] },
+      { en: "But I'm open to discussing it.", ru: "Но я открыт к обсуждению.", why: [["open to", "Здесь to — предлог «к», а не частица перед глаголом. После предлога — -ing: open to discussing. Частая ошибка: open to discuss."]] }
+    ] },
+  q10: { t: "Ваши вопросы к нам", q: "Do you have any questions for us?", ru: "У вас есть вопросы к нам?",
+    alt: ["Is there anything you'd like to ask us?", "Any questions on your side?", "What would you like to know about us?"],
+    keys: ["typical project", "work with", "tools"],
+    s: [
+      { en: "Yes, I have a few questions.", ru: "Да, у меня есть несколько вопросов.", why: [["a few", "A few — «несколько». Без a (few) значит «мало»."]] },
+      { en: "What does a typical project look like?", ru: "Как выглядит типичный проект?", why: [["What does … look like?", "«Как выглядит?» по-английски «на что похоже»: What does it look like? Does — потому что project одно (he/she/it)."]] },
+      { en: "Who will I work with?", ru: "С кем я буду работать?", why: [["Who will I work with?", "Will — будущее. Предлог with уходит в конец вопроса: так говорят в живой речи."]] },
+      { en: "And what tools does the team use?", ru: "И какими программами пользуется команда?", why: [["what tools", "Tools — инструменты, программы."], ["does the team use", "Team — одна команда, поэтому does. Use без -s: -s уже «ушло» в does."]] }
+    ] },
+  open: { t: "Начало звонка", q: "Hi! How are you today?", ru: "Привет! Как вы сегодня?",
+    alt: ["Can you hear me OK?", "Nice to meet you. How's your day going?", "Where are you based?"],
+    keys: ["fine, thanks", "nice to meet you", "based in {city}", "ask you to repeat"],
+    s: [
+      { en: "I'm fine, thanks. And you?", ru: "Хорошо, спасибо. А вы?", why: [["And you?", "Вежливо вернуть вопрос. Без этого звучит холодно."]] },
+      { en: "Nice to meet you, and thank you for inviting me.", ru: "Приятно познакомиться, и спасибо за приглашение.", why: [["thank you for inviting", "Thank you FOR + -ing: благодарят «за действие»."]] },
+      { en: "I'm based in {city}.", ru: "Я живу и работаю в {city}.", why: [["I'm based in", "«Я базируюсь в». Так говорят о городе, откуда работаете удалённо."]] },
+      { en: "My English is not perfect yet, so sometimes I may ask you to repeat.", ru: "Мой английский пока не идеален, поэтому иногда я могу попросить повторить.", why: [["may", "May — «могу, возможно». Мягче, чем will."], ["ask you to repeat", "Ask + кого + to + действие: ask you to repeat."]] },
+      { en: "Thank you for understanding.", ru: "Спасибо за понимание.", why: [["for understanding", "For + -ing, как thank you for inviting."]] }
+    ] },
+  close: { t: "Конец звонка", q: "Well, that's all from our side. Thank you for your time.", ru: "Что ж, с нашей стороны всё. Спасибо за ваше время.",
+    alt: ["We're almost out of time.", "Is there anything else you'd like to add?", "OK, I think that's it for today."],
+    keys: ["thank you for your time", "nice talking", "next steps"],
+    s: [
+      { en: "Thank you for your time. It was nice talking to you.", ru: "Спасибо за ваше время. Было приятно поговорить.", why: [["It was nice talking", "Nice + -ing: приятно делать. Was — разговор уже позади."]] },
+      { en: "What are the next steps?", ru: "Какие дальнейшие шаги?", why: [["the next steps", "Что будет дальше: тестовое, второй этап, решение. Нормальный вопрос, его задают все."]] },
+      { en: "I look forward to hearing from you.", ru: "Жду вашего ответа.", why: [["look forward to hearing", "To здесь предлог, поэтому -ing: hearing. Та же ловушка, что open to discussing."]] }
+    ] },
+  x1: { t: "Ваша ошибка", q: "Tell me about a mistake you made.", ru: "Расскажите о своей ошибке.",
+    alt: ["Have you ever made a big mistake at work?", "Tell me about a time you failed.", "What did you learn from a mistake?"],
+    keys: ["wrong version", "told the team", "fixed it", "always check"],
+    s: [
+      { en: "Once I sent the wrong version of a file to a client.", ru: "Однажды я отправил клиенту не ту версию файла.", why: [["sent", "Send → sent: неправильный глагол, кадр из прошлого."], ["the wrong version", "The wrong — «не та». The, потому что неправильная версия была одна конкретная."]] },
+      { en: "I told the team right away and fixed it in an hour.", ru: "Я сразу сказал команде и исправил за час.", why: [["right away", "Сразу же. Честность — главное в этом ответе."], ["in an hour", "In + срок = «за». In an hour = за час."]] },
+      { en: "Since then, I always check the file name before I send it.", ru: "С тех пор я всегда проверяю имя файла перед отправкой.", why: [["Since then,", "«С тех пор»."], ["I always check", "Present Simple: теперь это привычка. Это и есть вывод из ошибки."], ["before I send it", "Before + Present Simple, даже о будущем."]] }
+    ] },
+  x2: { t: "Через пять лет", q: "Where do you see yourself in five years?", ru: "Где вы видите себя через пять лет?",
+    alt: ["What are your career goals?", "What do you want to achieve in the next few years?", "How do you see your future?"],
+    keys: ["senior artist", "lead small projects", "help younger artists"],
+    s: [
+      { en: "In five years, I see myself as a senior 3D artist.", ru: "Через пять лет я вижу себя старшим 3D-художником.", why: [["In five years", "In + срок о будущем = «через». Не after five years."], ["as a senior", "Senior — опытный, старший по уровню."]] },
+      { en: "I'd like to lead small projects and help younger artists.", ru: "Я хотел бы вести небольшие проекты и помогать младшим художникам.", why: [["I'd like to", "I would like to — вежливое «хотел бы»."], ["younger", "Young → younger: сравнение."]] }
+    ] },
+  x3: { t: "Почему именно вы", q: "Why should we hire you?", ru: "Почему мы должны взять именно вас?",
+    alt: ["What makes you different from other candidates?", "Why are you the right person for this job?", "What can you offer us?"],
+    keys: ["from day one", "portfolio shows", "easy to work with"],
+    s: [
+      { en: "I can start working on real tasks from day one.", ru: "Я могу браться за реальные задачи с первого дня.", why: [["start working", "Start + -ing: начать процесс."], ["from day one", "С первого дня. Устойчивое выражение, без the."]] },
+      { en: "My portfolio shows the quality I deliver.", ru: "Моё портфолио показывает, какое качество я выдаю.", why: [["the quality I deliver", "Which/that опущено: the quality (that) I deliver. В разговоре так короче."]] },
+      { en: "And I'm easy to work with.", ru: "И со мной легко работать.", why: [["easy to work with", "Дословно «лёгкий, чтобы работать с». With в конце — так и должно быть."]] }
+    ] },
+  x4: { t: "Что вы о нас знаете", q: "What do you know about our company?", ru: "Что вы знаете о нашей компании?",
+    alt: ["Have you seen our work?", "What do you know about what we do?", "Did you look at our portfolio?"],
+    keys: ["you make {cwork}", "project for {cproj}", "loved the lighting"],
+    s: [
+      { en: "I know you make {cwork}.", ru: "Я знаю, что вы делаете {cwork}.", why: [["I know you make", "That после know можно опустить: I know (that) you make…"]] },
+      { en: "I saw your project for {cproj}, and I loved the lighting.", ru: "Я видел ваш проект для {cproj}, и мне очень понравился свет.", why: [["I saw", "See → saw: кадр из прошлого, когда готовились."], ["I loved", "Loved — сильнее, чем liked. Конкретная деталь показывает, что вы правда смотрели."]] }
+    ] }
+};
+
+// фразы-спасатели (неделя 1)
+const IV_RESCUE = [
+  ["Sorry, could you repeat that, please?", "Извините, повторите, пожалуйста.", "Не расслышал", "Could you — вежливое «не могли бы вы». После could — 1-я форма: repeat. That — «то, что вы сказали»."],
+  ["Could you speak a little slower, please?", "Можно чуть медленнее?", "Говорят быстро", "Slower — сравнение от slow: «помедленнее». A little — «чуть-чуть», смягчает просьбу."],
+  ["Sorry, what does … mean?", "Что значит …?", "Не понял слово", "Вопрос с does, потому что слово одно (it). В конце mean без -s: -s ушло в does."],
+  ["Just to make sure: you mean …?", "Уточню: вы имеете в виду …?", "Проверить понимание", "Just to make sure — «просто чтобы убедиться». You mean? — вопрос интонацией, без do."],
+  ["Let me think for a second.", "Дайте секунду подумать.", "Нужно время подумать", "Let me — «дайте мне». После let me — 1-я форма без to: let me think."],
+  ["Got it, thank you.", "Понял, спасибо.", "Хорошо, понял", "Got it — разговорное «понял». Дословно «получил это»."],
+  ["I don't know the word in English, but I can show you.", "Не знаю это слово по-английски, но могу показать.", "Забыл слово", "Для 3D-художника — суперсила: вместо слова покажите экран."],
+  ["My English is still improving, but I'm working on it every day.", "Мой английский ещё растёт, я занимаюсь каждый день.", "Про свой английский", "Is improving, am working — Present Continuous: процесс идёт сейчас."],
+  ["Can I share my screen and show you?", "Можно я покажу экран?", "Показать работу", "Share my screen — «поделиться экраном», так называется кнопка в Zoom и Meet."],
+  ["I haven't done that yet, but I'm ready to learn.", "Ещё не делал, но готов научиться.", "Не знаешь ответа", "Haven't done yet — Present Perfect: результата пока нет. Ready to + 1-я форма."],
+  ["Sorry, the connection is bad. Could you say that again?", "Плохая связь, повторите, пожалуйста.", "Связь плохая", "Say that again — «скажите ещё раз». Спасает и тогда, когда связь хорошая, а вы просто не поняли."],
+  ["That's it, I think. Does that answer your question?", "Вроде всё. Я ответил на вопрос?", "Закончить ответ", "That's it — «вот и всё». Вопрос в конце возвращает слово интервьюеру."],
+  ["Could you say it in other words?", "Можете сказать другими словами?", "Не понял второй раз", "In other words — «другими словами». Интервьюер перефразирует проще."]
+];
+
+// словарь профессии (неделя 2): [слово, перевод, пример]
+const IV_WORDS = [
+  { t: "Этапы работы", e: "🧩", w: [["modeling", "моделирование", "I did the modeling in Blender."], ["texturing", "текстурирование", "Texturing took two days."], ["shading", "настройка материалов", "The shading makes the metal look real."], ["lighting", "освещение, свет", "Lighting is my favourite part."], ["rigging", "риггинг", "The character needs rigging."], ["animation", "анимация", "The animation is ten seconds long."], ["simulation", "симуляция", "I used a liquid simulation."], ["rendering", "рендер", "Rendering took all night."], ["compositing", "композитинг", "I did the compositing in After Effects."], ["color grading", "цветокоррекция", "Color grading gives the video its mood."]] },
+  { t: "Материалы и свет", e: "💡", w: [["material", "материал", "The material looks like real gold."], ["texture", "текстура", "I painted the texture by hand."], ["reflection", "отражение", "The reflections on the glass are important."], ["glossy", "глянцевый", "The bottle has a glossy surface."], ["matte", "матовый", "The client wanted a matte finish."], ["transparent", "прозрачный", "Transparent materials take longer to render."], ["HDRI", "HDRI-карта окружения", "I lit the scene with an HDRI."], ["soft light", "мягкий свет", "Soft light works well for cosmetics."], ["studio lighting", "студийный свет", "It's classic studio lighting."], ["shadows", "тени", "The shadows were too hard."]] },
+  { t: "Камера и кадр", e: "🎥", w: [["camera move", "движение камеры", "The camera move is slow and smooth."], ["close-up", "крупный план", "The close-up shows the texture."], ["wide shot", "общий план", "We start with a wide shot."], ["frame", "кадр", "Look at this frame."], ["frame rate", "частота кадров", "The frame rate is 25 frames per second."], ["resolution", "разрешение", "The final resolution is 4K."], ["loop", "зацикленное видео", "The client needed a five-second loop."], ["transition", "переход", "I like this transition between shots."], ["depth of field", "глубина резкости", "Depth of field makes the shot cinematic."]] },
+  { t: "Работа с клиентом", e: "🤝", w: [["client", "клиент", "The client was very happy."], ["brief", "бриф, техзадание", "The brief was very clear."], ["reference", "референс", "The client sent some references."], ["mood board", "мудборд", "First, I made a mood board."], ["deadline", "срок, дедлайн", "The deadline was very tight."], ["feedback", "правки, отзыв", "I got feedback on Monday."], ["revision", "правка, версия с правками", "We did three revisions."], ["approval", "утверждение", "We're waiting for approval."], ["deliverables", "что сдаём по итогу", "The deliverables were three videos."], ["final version", "финальная версия", "I sent the final version yesterday."]] },
+  { t: "Процесс и команда", e: "⚙️", w: [["pipeline", "пайплайн, цепочка работы", "Our pipeline is simple."], ["workflow", "рабочий процесс", "I have a fast workflow."], ["art director", "арт-директор", "The art director approved the style."], ["team lead", "тимлид", "My team lead checks every shot."], ["task", "задача", "I got a new task today."], ["estimate", "оценка сроков", "Can you give me an estimate?"], ["turnaround time", "срок выполнения", "The turnaround time is one week."], ["render farm", "рендер-ферма", "We used a render farm."], ["file naming", "именование файлов", "Good file naming saves time."]] },
+  { t: "Глаголы", e: "🛠️", w: [["create", "создавать", "I create product videos."], ["design", "проектировать, придумывать", "I designed the whole scene."], ["adjust", "подстроить, подправить", "I adjusted the lighting."], ["fix", "исправить", "I fixed the problem quickly."], ["improve", "улучшить", "I want to improve my animation."], ["deliver", "сдать работу", "We delivered on time."], ["present", "показывать, презентовать", "I presented the first version."], ["collaborate", "работать вместе", "I collaborate with the art director."], ["meet the deadline", "уложиться в срок", "We met the deadline."], ["take feedback", "принимать правки", "I take feedback well."]] }
+];
+
+// показ экрана: что говорить, когда ведёте интервьюера по портфолио
+const IV_SCREEN = [
+  ["Let me share my screen.", "Сейчас покажу экран.", "Let me + 1-я форма: «давайте я»."],
+  ["Can you see my screen?", "Вы видите мой экран?", "Обязательно спросите: иногда показ не включается."],
+  ["Here you can see the final shot.", "Здесь вы видите финальный кадр.", "Here you can see — главная фраза для портфолио."],
+  ["This is the scene before rendering.", "Это сцена до рендера.", "Before + -ing: before rendering."],
+  ["On the left, there's the wireframe.", "Слева — сетка модели.", "On the left / on the right — слева / справа."],
+  ["Let me zoom in.", "Сейчас приближу.", "Zoom in — приблизить, zoom out — отдалить."],
+  ["As you can see, the glass looks realistic.", "Как видите, стекло выглядит реалистично.", "As you can see — «как видите»."],
+  ["Let me stop sharing.", "Остановлю показ экрана.", "Stop + -ing: stop sharing."]
+];
+
+// тесты: [озвучка или null, вопрос (html), варианты, ответ, почему]
+const IV_Q = {
+  rescue: [
+    ["Tell me about your experience with photogrammetry.", "Вы не знаете слово photogrammetry. Что скажете?", ["Sorry, what does photogrammetry mean?", "Sorry, what means photogrammetry?", "I don't understand you."], "Sorry, what does photogrammetry mean?", "Вопрос о слове: what does … mean? Вариант «what means» — ошибка: в вопросе нужен does."],
+    ["So basically, what we'd love to understand is how you usually structure your day when you're juggling several clients at the same time.", "Вопрос прозвучал очень быстро. Что скажете?", ["Could you speak a little slower, please?", "Speak slow!", "Repeat."], "Could you speak a little slower, please?", "Could you… please — вежливая просьба. Slower — «помедленнее».", 1.4],
+    ["Have you ever worked with Houdini for fluid simulations?", "Вы не работали в Houdini. Что скажете?", ["I haven't done that yet, but I'm ready to learn.", "No.", "I never did it and I don't want."], "I haven't done that yet, but I'm ready to learn.", "Честно и с плюсом: ещё не делал, но готов научиться. Голое «No» обрывает разговор."],
+    ["We'd need you to handle the look dev for the whole campaign.", "Вам кажется, что речь про внешний вид материалов, но вы не уверены. Что скажете?", ["Just to make sure: you mean the materials and lighting?", "Yes, of course.", "What?"], "Just to make sure: you mean the materials and lighting?", "Не угадывайте: уточните своими словами. Look dev и правда про материалы и свет."],
+    ["What would you do if... (the sound cuts out) ...the render... deadline?", "Связь прервалась. Что скажете?", ["Sorry, the connection is bad. Could you say that again?", "I would do it.", "Sorry, my English is bad."], "Sorry, the connection is bad. Could you say that again?", "Связь виновата, а не ваш английский. Просто попросите повторить."],
+    ["How would you approach a brief that is very open and has no references at all?", "Вопрос сложный, нужно подумать. Что скажете сначала?", ["Let me think for a second.", "Hmm… hmm… hmm…", "I don't know."], "Let me think for a second.", "Пауза с фразой звучит уверенно. Молчание и «хм» — нет."],
+    ["Could you describe the specific node setup you used for the glass shader?", "Сложно объяснить словами. Что скажете?", ["Can I share my screen and show you?", "It's a secret.", "I used nodes."], "Can I share my screen and show you?", "Для 3D-позиции показать экран — лучший ответ."],
+    ["I mean, the whole thing with the retainer and the rev share, how do you feel about it?", "Вы не поняли вопрос даже после повтора. Что скажете?", ["Could you say it in other words?", "Yes, I feel good.", "Repeat again, please, again."], "Could you say it in other words?", "In other words — интервьюер скажет проще. Это нормальная просьба."],
+    ["…and that's basically the whole story of the project.", "Вы закончили длинный ответ. Чем закончить?", ["That's it, I think. Does that answer your question?", "Finish.", "The end."], "That's it, I think. Does that answer your question?", "Закончите ответ и передайте слово: так интервьюер понимает, что можно спрашивать дальше."],
+    ["Sorry, could you say your last name again?", "Интервьюер переспрашивает вас. Как ответить, если вы поняли его?", ["Got it, thank you.", "Sure. It's spelled R-U-S-U.", "Repeat, please."], "Sure. It's spelled R-U-S-U.", "Спасатель Got it — когда вы поняли. Здесь просят вас: продиктуйте по буквам. Буквы алфавита пригодятся для имени и почты."]
+  ],
+  pron: [
+    [null, "Как звучит окончание в <b>worked</b>?", ["[т]: воркт", "[д]: воркд", "[ид]: воркид"], "[т]: воркт", "После глухого звука (k, p, s, f, sh, ch) -ed звучит как [т]: worked, fixed, helped."],
+    [null, "Как звучит окончание в <b>rendered</b>?", ["[д]: рэндэд", "[т]: рэндэт", "[ид]: рэндэрид"], "[д]: рэндэд", "После звонкого звука и гласных -ed звучит как [д]: rendered, delivered, used."],
+    [null, "Как звучит окончание в <b>created</b>?", ["[ид]: криэйтид", "[т]: криэйт", "[д]: криэйтд"], "[ид]: криэйтид", "После t и d появляется лишний слог [ид]: created, wanted, needed."],
+    [null, "Как звучит окончание в <b>delivered</b>?", ["[д]", "[т]", "[ид]"], "[д]", "Перед -ed стоит r (звонкий): [д]."],
+    [null, "Как звучит окончание в <b>wanted</b>?", ["[ид]", "[т]", "[д]"], "[ид]", "Want заканчивается на t → лишний слог [ид]."],
+    [null, "Где ударение в <b>animation</b>?", ["ani-MA-tion", "A-ni-ma-tion", "ani-ma-TION"], "ani-MA-tion", "Слова на -tion: ударение на слог прямо перед -tion. ani-MA-tion, compo-SI-tion, presen-TA-tion."],
+    [null, "Где ударение в <b>experience</b>?", ["ex-PE-rience", "EX-pe-rience", "expe-RI-ence"], "ex-PE-rience", "ex-PE-ri-ence. Русская ошибка: «экспириЕнс»."],
+    [null, "Где ударение в <b>development</b>?", ["de-VE-lop-ment", "DE-ve-lop-ment", "deve-LOP-ment"], "de-VE-lop-ment", "de-VE-lop-ment. Так же de-VE-lop."],
+    [null, "Где ударение в <b>advertising</b>?", ["AD-ver-tis-ing", "ad-VER-tis-ing", "adver-TIS-ing"], "AD-ver-tis-ing", "AD-ver-tis-ing, но ad-VER-tise-ment (в британском варианте)."],
+    ["work", "Что вы услышали?", ["work — работать", "walk — гулять"], "work — работать", "Work [уёк] — без «о», губы почти не округлены. Walk [уок] — круглое «о», l не читается."],
+    ["walk", "Что вы услышали?", ["walk — гулять", "work — работать"], "walk — гулять", "Walk — длинное круглое «о». Если скажете walk вместо work, получится «я гуляю в студии»."],
+    ["three", "Что вы услышали?", ["three — три", "tree — дерево", "free — свободный"], "three — три", "Th: кончик языка между зубами, выдох. Не «с» и не «ф»."],
+    ["I think the lighting is great.", "Какое слово начинается с th?", ["think", "lighting", "great"], "think", "Think — язык между зубами, глухо. Не «синк»: sink — раковина."]
+  ],
+  money: [
+    ["fifteen", "Какое число вы услышали?", ["15", "50"], "15", "Teen — ударение в конце и длинное «ии»: fif-TEEN."],
+    ["fifty", "Какое число вы услышали?", ["50", "15"], "50", "Ty — ударение в начале: FIF-ty."],
+    ["thirteen hundred euros per month", "Сколько?", ["1 300 € в месяц", "3 000 € в месяц", "30 000 € в год"], "1 300 € в месяц", "Thirteen hundred = 1300. Так часто называют суммы от 1100 до 1900."],
+    ["two thousand five hundred dollars a month", "Сколько?", ["2 500 $ в месяц", "25 000 $ в месяц", "2 050 $ в месяц"], "2 500 $ в месяц", "Two thousand five hundred. A month = per month."],
+    ["forty dollars an hour", "Сколько?", ["40 $ в час", "14 $ в час", "40 $ в день"], "40 $ в час", "An hour = per hour. Hour начинается с гласного звука, поэтому an."],
+    ["sixty thousand a year", "Сколько?", ["60 000 в год", "16 000 в год", "6 000 в месяц"], "60 000 в год", "A year — в год. Годовую сумму часто называют в Великобритании и США."],
+    [null, "Как сказать «2 500 евро в месяц»?", ["two thousand five hundred euros per month", "two thousands five hundreds euro on month", "two thousand and five hundred euro in month"], "two thousand five hundred euros per month", "Thousand и hundred без -s после числа. Euros во множественном. Per month — в месяц."],
+    [null, "Как сказать «от 2 000 до 2 500»?", ["between two thousand and two thousand five hundred", "from two thousand till two thousand five hundred", "two thousand or two thousand five hundred"], "between two thousand and two thousand five hundred", "Between … and … — «от … до» о вилке. Ещё говорят in the range of…"]
+  ],
+  // один вопрос — много лиц: какой из ваших ответов подходит?
+  para: null
+};
+
+// 36 занятий. Блоки: k — тип, m — минуты
+const IV_DAYS = [
+  // ---------- неделя 1 ----------
+  { t: "Рассказ о себе: соберите свой", b: [{ k: "intro", m: 5 }, { k: "profile", f: ["name", "role", "years", "what", "soft", "render", "good", "recent"], m: 10 }, { k: "build", a: "about", m: 20 }, { k: "shadow", a: "about", m: 10 }] },
+  { t: "Рассказ о себе: слова и произношение", b: [{ k: "warm", m: 5 }, { k: "learn", l: "voice", m: 10 }, { k: "shadow", a: "about", m: 10 }, { k: "melt", a: ["about"], to: 1, m: 15 }, { k: "rec", a: "about", m: 5 }] },
+  { t: "Фразы-спасатели 1–6", b: [{ k: "warm", m: 5 }, { k: "rescue", from: 0, to: 6, m: 20 }, { k: "melt", a: ["about"], to: 2, m: 15 }, { k: "rec", a: "about", m: 5 }] },
+  { t: "Фразы-спасатели 7–13", b: [{ k: "warm", m: 5 }, { k: "rescue", from: 6, to: 13, m: 20 }, { k: "melt", a: ["about"], to: 3, m: 15 }, { k: "rec", a: "about", m: 5 }] },
+  { t: "Рассказ о себе: 90-60-40", b: [{ k: "warm", m: 10 }, { k: "learn", l: "squeeze", m: 5 }, { k: "squeeze", a: "about", m: 15 }, { k: "todo", it: ["Запишите рассказ о себе на видео (камера телефона)", "Посмотрите запись: где запинаетесь, какие слова «не выходят»", "Упростите эти места в «Моих данных» и повторите"], m: 15 }] },
+  { t: "Мини-собеседование: о себе + спасатели", b: [{ k: "warm", m: 10 }, { k: "quiz", q: "rescue", m: 15 }, { k: "mock", a: ["about"], rescue: true, m: 15 }, { k: "reflect", m: 5 }] },
+  // ---------- неделя 2 ----------
+  { t: "Проект 1: история в прошлом", b: [{ k: "warm", m: 10 }, { k: "learn", l: "story", m: 10 }, { k: "profile", f: ["p1brand", "p1want", "p1chal", "p1use", "comp"], m: 10 }, { k: "build", a: "proj1", m: 20 }] },
+  { t: "Проект 1: растопить шпаргалку", b: [{ k: "warm", m: 10 }, { k: "shadow", a: "proj1", m: 10 }, { k: "melt", a: ["proj1"], to: 3, m: 20 }, { k: "rec", a: "proj1", m: 5 }] },
+  { t: "Проект 2", b: [{ k: "warm", m: 10 }, { k: "profile", f: ["p2brand", "p2want", "p2chal", "p2use"], m: 5 }, { k: "build", a: "proj2", m: 15 }, { k: "melt", a: ["proj2"], to: 3, m: 15 }] },
+  { t: "Словарь профессии 1: этапы, свет, камера", b: [{ k: "warm", m: 10 }, { k: "words", g: [0, 1, 2], m: 30 }, { k: "rec", a: "proj1", m: 5 }] },
+  { t: "Словарь 2: клиент, команда + показ экрана", b: [{ k: "warm", m: 10 }, { k: "words", g: [3, 4, 5], m: 25 }, { k: "screen", m: 15 }] },
+  { t: "Запись: о себе + 2 проекта", b: [{ k: "warm", m: 10 }, { k: "squeeze", a: "proj1", m: 10 }, { k: "mock", a: ["about", "proj1", "proj2"], m: 20 }, { k: "todo", it: ["Запишите видео 4–5 минут: о себе + оба проекта, с открытым портфолио на экране"], m: 10 }] },
+  // ---------- неделя 3 ----------
+  { t: "Почему к нам? Почему ищете работу?", b: [{ k: "warm", m: 10 }, { k: "profile", f: ["company", "cwork", "cwant"], m: 5 }, { k: "build", a: "q1", m: 10 }, { k: "build", a: "q2", m: 10 }, { k: "melt", a: ["q1", "q2"], to: 3, m: 15 }] },
+  { t: "Сильные и слабые стороны", b: [{ k: "warm", m: 10 }, { k: "build", a: "q3", m: 10 }, { k: "build", a: "q4", m: 10 }, { k: "melt", a: ["q3", "q4"], to: 3, m: 15 }, { k: "rec", a: "q4", m: 5 }] },
+  { t: "Правки и сложный проект", b: [{ k: "warm", m: 10 }, { k: "profile", f: ["q6did"], m: 5 }, { k: "build", a: "q5", m: 10 }, { k: "build", a: "q6", m: 10 }, { k: "melt", a: ["q5", "q6"], to: 3, m: 15 }] },
+  { t: "Сроки и командная работа", b: [{ k: "warm", m: 10 }, { k: "build", a: "q7", m: 10 }, { k: "build", a: "q8", m: 10 }, { k: "melt", a: ["q7", "q8"], to: 3, m: 15 }, { k: "rec", a: "q7", m: 5 }] },
+  { t: "Зарплата и ваши вопросы", b: [{ k: "warm", m: 10 }, { k: "learn", l: "money", m: 10 }, { k: "profile", f: ["salary"], m: 3 }, { k: "quiz", q: "money", m: 10 }, { k: "build", a: "q9", m: 7 }, { k: "build", a: "q10", m: 7 }, { k: "melt", a: ["q9", "q10"], to: 3, m: 10 }] },
+  { t: "Все 10 вопросов вперемешку", b: [{ k: "warm", m: 10 }, { k: "learn", l: "faces", m: 5 }, { k: "quiz", q: "para", m: 10 }, { k: "mock", a: ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10"], m: 25 }, { k: "reflect", m: 5 }] },
+  // ---------- неделя 4 ----------
+  { t: "Произношение: th, work/walk, -ed, ударение", b: [{ k: "warm", m: 10 }, { k: "learn", l: "pron", m: 15 }, { k: "quiz", q: "pron", m: 15 }, { k: "shadow", a: "q3", m: 10 }] },
+  { t: "Тень: свои ответы на скорости", b: [{ k: "warm", m: 10 }, { k: "shadow", a: "about", fast: true, m: 10 }, { k: "shadow", a: "proj1", fast: true, m: 10 }, { k: "shadow", a: "q6", fast: true, m: 10 }, { k: "todo", it: ["15 минут YouTube: «3D artist job interview» или «Blender portfolio review», сначала с английскими субтитрами, потом без"], m: 15 }] },
+  { t: "Один вопрос — много лиц", b: [{ k: "warm", m: 10 }, { k: "quiz", q: "para", m: 15 }, { k: "learn", l: "follow", m: 10 }, { k: "mock", a: ["about", "q1", "q3", "q5", "q6"], fast: true, m: 15 }] },
+  { t: "Резюме, портфолио, LinkedIn", b: [{ k: "warm", m: 10 }, { k: "learn", l: "cv", m: 10 }, { k: "write", w: "port", m: 20 }, { k: "todo", it: ["Обновить резюме на 1 страницу: шоурил наверху, проекты, софт, English: intermediate, improving", "Портфолио на ArtStation или Behance: 6–10 работ, под каждой 2–3 строки на английском", "LinkedIn: фото, заголовок «3D Artist | Product Visualization | Blender», статус Open to work"], m: 10 }] },
+  { t: "Сопроводительное письмо и первые отклики", b: [{ k: "warm", m: 10 }, { k: "write", w: "cover", m: 20 }, { k: "todo", it: ["Найти 15 вакансий (LinkedIn Jobs, ArtStation Jobs, Behance Jobs, Telegram-каналы), отобрать 10", "Отправить 5 откликов в компании, которые нравятся меньше всего: это тренировочные собеседования", "Сохранить письмо-шаблон"], m: 15 }] },
+  { t: "Собеседование с уточняющими вопросами", b: [{ k: "warm", m: 10 }, { k: "shadow", a: "q2", fast: true, m: 10 }, { k: "mock", a: ["about", "proj1", "q2", "q4", "q7", "q9", "q10"], rescue: true, m: 25 }, { k: "reflect", m: 5 }] },
+  // ---------- неделя 5 ----------
+  { t: "Пробное собеседование 1", b: [{ k: "warm", m: 10 }, { k: "build", a: "open", m: 10 }, { k: "mock", a: ["open", "about", "proj1", "q1", "q3", "q4", "q6", "q10"], m: 25 }, { k: "reflect", m: 5 }] },
+  { t: "Показ экрана без паники", b: [{ k: "warm", m: 10 }, { k: "screen", m: 15 }, { k: "todo", it: ["Открыть портфолио, расшарить экран в Zoom или Google Meet (можно звонком самому себе) и рассказать проект 1, не теряясь в окнах", "То же для проекта 2", "Закрыть лишние окна и уведомления, оставить одну вкладку с портфолио"], m: 20 }, { k: "rec", a: "proj2", m: 5 }] },
+  { t: "Каверзные вопросы", b: [{ k: "warm", m: 10 }, { k: "build", a: "x1", m: 10 }, { k: "build", a: "x2", m: 8 }, { k: "build", a: "x3", m: 8 }, { k: "melt", a: ["x1", "x2", "x3"], to: 3, m: 14 }] },
+  { t: "Пробное собеседование 2: быстрая речь", b: [{ k: "warm", m: 10 }, { k: "build", a: "close", m: 10 }, { k: "mock", a: ["open", "about", "proj2", "q2", "q5", "q7", "x1", "x3", "close"], fast: true, rescue: true, m: 25 }, { k: "reflect", m: 5 }] },
+  { t: "Что вы о нас знаете?", b: [{ k: "warm", m: 10 }, { k: "profile", f: ["cproj"], m: 5 }, { k: "build", a: "x4", m: 10 }, { k: "melt", a: ["x4", "q1"], to: 3, m: 15 }, { k: "squeeze", a: "about", m: 10 }] },
+  { t: "Пробное собеседование 3 + живой человек", b: [{ k: "warm", m: 10 }, { k: "mock", a: ["open", "about", "proj1", "proj2", "q3", "q4", "q8", "q9", "x2", "x4", "q10", "close"], rescue: true, m: 30 }, { k: "reflect", m: 5 }, { k: "todo", it: ["Записаться к репетитору на Preply или italki: «mock job interview for a 3D artist», обычный темп, 2–3 неожиданных вопроса"], m: 5 }] },
+  // ---------- неделя 6 ----------
+  { t: "Под конкретную компанию", b: [{ k: "warm", m: 10 }, { k: "profile", f: ["company", "cwork", "cwant", "cproj"], m: 10 }, { k: "melt", a: ["q1", "x4"], to: 3, m: 15 }, { k: "todo", it: ["20 минут изучить компанию: проекты, клиенты, стиль", "Вписать 1–2 детали в «Мои данные» (поля о компании)", "Отправить ещё 5–10 откликов, теперь и в компании мечты"], m: 15 }] },
+  { t: "Тестовое задание: пишем вопросы", b: [{ k: "warm", m: 10 }, { k: "learn", l: "test", m: 10 }, { k: "write", w: "test", m: 20 }, { k: "rec", a: "q7", m: 5 }] },
+  { t: "Письмо после собеседования", b: [{ k: "warm", m: 10 }, { k: "write", w: "thanks", m: 15 }, { k: "mock", a: ["about", "q1", "q6", "x3", "q10"], fast: true, m: 20 }] },
+  { t: "День собеседования: ритуал", b: [{ k: "warm", m: 10 }, { k: "learn", l: "day", m: 10 }, { k: "todo", it: ["Накануне: изучить сайт компании, записать 2 детали", "Проверить ссылку на звонок, камеру, микрофон, интернет", "Один раз прогнать вслух рассказ о себе и о проекте", "За 30 минут: открыть портфолио, закрыть уведомления, налить воды, распечатать или открыть «Шпаргалку»", "Сказать вслух 3–4 фразы-спасателя, чтобы разогреть речь"], m: 10 }, { k: "squeeze", a: "proj1", m: 15 }] },
+  { t: "Генеральная репетиция: 30 минут", b: [{ k: "warm", m: 5 }, { k: "mock", a: ["open", "about", "proj1", "proj2", "q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "x1", "x3", "q10", "close"], fast: true, rescue: true, m: 40 }, { k: "reflect", m: 5 }] },
+  { t: "Итог и дальше", b: [{ k: "warm", m: 10 }, { k: "learn", l: "next", m: 5 }, { k: "notes", m: 15 }, { k: "todo", it: ["Рассказ о себе за 60–90 секунд без текста", "2 проекта по схеме «задача → процесс → результат»", "10 частых вопросов по ключевым словам", "Переспрашиваю спокойно, а не молчу", "3 пробных собеседования и хотя бы 1 реальное"], m: 10 }, { k: "mock", a: ["about", "q4", "x2"], m: 10 }] }
+];
+const IV_WEEKS = [["Неделя 1", "Рассказ о себе и фразы-спасатели"], ["Неделя 2", "Проекты из портфолио и словарь профессии"], ["Неделя 3", "10 частых вопросов"], ["Неделя 4", "Слух, произношение и первые отклики"], ["Неделя 5", "Пробные собеседования"], ["Неделя 6", "Реальные собеседования и шлифовка"]];
+
+// короткие уроки в нашем стиле: [заголовок, текст, [[en, ru]]]
+const IV_LEARN = {
+  voice: { t: "Как говорить, чтобы вас понимали", pts: [
+    ["Короткие фразы", "8–12 слов в предложении. Длинную фразу легко потерять на середине. Короткую — невозможно. Носители на собеседованиях тоже говорят короткими фразами.", [["I'm a 3D artist. I create product videos.", "Я 3D-художник. Я делаю продуктовые видео."]]],
+    ["Три времени хватит на всё", "<b>Present Simple</b> — «как обычно»: что вы делаете вообще (I create, I work in). <b>Past Simple</b> — «кадр из прошлого»: проекты и истории (I worked on, the client wanted). <b>Present Perfect</b> — «фото результата»: опыт, который есть у вас сейчас (I've learnt a lot, I've worked with big brands).", [["I work in Blender.", "Я работаю в Blender (вообще)."], ["I worked on a perfume video.", "Я работал над видео для духов (тогда)."], ["I've worked with big brands.", "Я работал с крупными брендами (это мой опыт)."]]],
+    ["Ударные слова", "В каждой фразе голосом выделяйте 1–2 главных слова, а не все подряд. Так речь звучит уверенно, даже с акцентом.", [["I'm a 3D ARTIST with FIVE years of experience.", "Ударение на профессии и цифре."]]],
+    ["Паузы — не ошибка", "Пауза между фразами звучит как уверенность. Пауза в середине фразы звучит как поиск слова. Поэтому думайте <b>между</b> фразами.", []]
+  ] },
+  squeeze: { t: "Метод 90-60-40", pts: [
+    ["Что это", "Вы рассказываете один и тот же ответ три раза подряд: за 90 секунд, потом за 60, потом за 40. Содержание то же, времени меньше.", []],
+    ["Почему работает", "На первом круге вы ещё переводите в голове. На втором уже помните слова и тратите силы на скорость. На третьем мозгу некогда переводить: фразы начинают выходить сами. После этого 60–90 секунд на собеседовании кажутся очень спокойным темпом.", []],
+    ["Как делать", "Не учите текст наизусть. Держите в голове только ключевые слова и стройте фразы вокруг них. Ошиблись — не останавливайтесь, говорите дальше.", []]
+  ] },
+  story: { t: "Проект — это история в прошлом", pts: [
+    ["Схема", "<b>Задача → процесс → результат.</b> Кто клиент и что хотел. В чём была сложность. Что сделали вы. Чем закончилось.", []],
+    ["Кадр из прошлого", "Проект закончен, поэтому почти все глаголы — в Past Simple: wanted, was, did, rendered, delivered. Это 2-я форма: «кадр из прошлого». Правильные глаголы + -ed, неправильные учим: do → did, make → made, send → sent.", [["The client wanted a premium look.", "Клиент хотел премиальный вид."], ["I did the modeling and lighting.", "Я сделал моделинг и свет."]]],
+    ["Отрицание и вопрос", "В отрицании и вопросе прошлое показывает did, а глагол возвращается в 1-ю форму: I didn't lose, Did you render it? Ошибка: I didn't lost.", [["I didn't lose any time.", "Я не потерял ни минуты."]]],
+    ["«Мы» и «я»", "Говорите I о своей части работы: интервьюеру важно, что сделали именно вы. We — о результате команды: We delivered on time.", []]
+  ] },
+  money: { t: "Числа и деньги на слух", pts: [
+    ["Teen или ty", "15 и 50, 13 и 30 — главная ловушка на слух. Fif-TEEN: ударение в конце, длинное «ии». FIF-ty: ударение в начале. Не уверены — переспросите: Sorry, fifteen or fifty?", [["fifteen", "15"], ["fifty", "50"], ["thirteen", "13"], ["thirty", "30"]]],
+    ["Тысячи", "Thousand и hundred после числа без -s: two thousand, five hundred. Суммы 1100–1900 часто говорят сотнями: fifteen hundred = 1500.", [["two thousand five hundred", "2 500"], ["fifteen hundred", "1 500"]]],
+    ["Период", "Per month / a month — в месяц, per hour / an hour — в час, per year / a year — в год. Hour начинается с гласного звука, поэтому an hour.", [["forty dollars an hour", "40 $ в час"], ["two thousand euros per month", "2 000 € в месяц"]]],
+    ["Как назвать сумму", "Посмотрите вилки на похожих вакансиях и назовите сумму с запасом. Вилку говорят так: between … and … или in the range of…", [["Between two and two and a half thousand euros.", "От 2 до 2,5 тысяч евро."]]]
+  ] },
+  faces: { t: "Один вопрос — много лиц", pts: [
+    ["Главный секрет", "Интервьюеры почти никогда не спрашивают словами из учебника. «Tell me about yourself» может прозвучать как «Walk me through your background» или «So, who are you?». Если вы учили ответ только на одну формулировку, вы его не узнаете.", []],
+    ["Что делать", "Учитесь узнавать <b>смысл</b> вопроса по 1–2 ключевым словам: background, yourself → о себе. Strengths, best at, bring → сильные стороны. Criticism, changes, feedback → правки. В тренировке ниже вы слышите незнакомую формулировку и выбираете, какой из ваших ответов подходит.", [["Walk me through your background.", "Расскажите о своём опыте (= о себе)."], ["What do you bring to the team?", "Что вы дадите команде? (= сильные стороны)"]]],
+    ["Не узнали?", "Просто уточните: Just to make sure: you mean my experience?", []]
+  ] },
+  pron: { t: "Четыре ловушки произношения", pts: [
+    ["Th", "Кончик языка между зубами и выдох. Think, three, with — глухо. The, this, that — звонко. Не «с», «з» или «ф».", [["I think the lighting is great.", "Думаю, свет отличный."]]],
+    ["Work или walk", "Work — [уёк]: губы почти не округлены, звук как в «мёд» без «м». Walk — [уок]: круглое «о», l молчит. Перепутаете — получится «я гуляю в студии».", [["I work in Blender.", "Я работаю в Blender."], ["I walk to the studio.", "Я хожу в студию пешком."]]],
+    ["Окончание -ed", "Три звука. [т] после глухих: worked, fixed, helped. [д] после звонких и гласных: rendered, delivered, used. [ид] после t и d: created, wanted, needed. Ошибка: «воркЕд».", [["I worked, I rendered, I created.", "воркт, рэндэд, криэйтид"]]],
+    ["Ударение", "ani-MA-tion, ex-PE-rience, de-VE-lop-ment, AD-ver-tis-ing, com-PO-si-ting. В словах на -tion ударение на слоге перед -tion.", [["animation, experience, development", "ани-МЭЙ-шн, икс-ПИ-риэнс, ди-ВЭ-лопмэнт"]]]
+  ] },
+  follow: { t: "Уточняющие вопросы", pts: [
+    ["Почему они важны", "Хороший интервьюер не идёт по списку: он цепляется за ваш ответ. Готовые ответы — основа, а уточнения проверяют, что за ними правда.", []],
+    ["Самые частые", "Can you give me an example? — Приведите пример. What was your role exactly? — Какая была ваша роль? What would you do differently? — Что бы вы сделали иначе? How long did it take? — Сколько времени заняло?", [["Can you give me an example?", "Приведите пример."], ["What was your role exactly?", "Какой именно была ваша роль?"], ["What would you do differently?", "Что бы вы сделали иначе?"], ["How long did it take?", "Сколько времени это заняло?"]]],
+    ["Как отвечать", "Коротко и с фактом: For example, … / My role was … / I'd plan the render time better. / It took about a week. Would в ответе — потому что это воображаемая ситуация, как во втором условном.", [["It took about a week.", "Это заняло около недели."], ["I'd plan the render time better.", "Я бы лучше спланировал время на рендер."]]]
+  ] },
+  cv: { t: "Резюме и портфолио по-английски", pts: [
+    ["Без «я»", "В резюме и подписях к работам «I» обычно опускают и начинают с глагола в прошлом: Created…, Modeled…, Lit and rendered… Так короче и профессиональнее.", [["Created a 30-second product video for a perfume brand.", "Создал 30-секундное продуктовое видео для бренда духов."]]],
+    ["Подпись к работе", "2–3 строки: задача, софт, ваша роль. Task: … Software: … My role: …", [["Product launch video. Blender, Cycles, After Effects. Modeling, lighting, animation.", "Видео к запуску продукта. Софт. Моя роль."]]],
+    ["Честно про язык", "English: intermediate, improving. Это нормально: для 3D-позиций шоурил решает больше, чем язык.", []]
+  ] },
+  test: { t: "Тестовое задание", pts: [
+    ["Пишите, а не звоните", "Вопросы по тестовому задавайте письменно: проще и можно проверить текст. Короткое сообщение: приветствие, 2–3 вопроса списком, спасибо.", []],
+    ["Главные вопросы", "What is the deadline for the test task? — Какой срок? What resolution and frame rate do you need? — Какое разрешение и частота кадров? Can I use my own models and textures? — Можно свои модели и текстуры? In what format should I send it? — В каком формате прислать?", [["What is the deadline for the test task?", "Какой срок у тестового?"], ["In what format should I send it?", "В каком формате прислать?"]]],
+    ["Should", "Should I…? — «Мне следует…?» Вежливый вопрос о правилах. После should — 1-я форма: should I send, should I use.", [["Should I include the project files?", "Нужно ли прислать файлы проекта?"]]]
+  ] },
+  day: { t: "День собеседования", pts: [
+    ["Первая фраза", "В начале звонка можно сказать: My English is not perfect yet, so sometimes I may ask you to repeat. Thank you for understanding. После этого переспрашивать спокойно.", [["My English is not perfect yet, so sometimes I may ask you to repeat.", "Мой английский пока не идеален, поэтому иногда могу попросить повторить."]]],
+    ["Переспрашивать нормально", "Молчать и угадывать хуже. Не поняли второй раз: Could you say it in other words? Сложно объяснить словами — покажите на экране.", []],
+    ["Шпаргалка", "Рядом с экраном — только ключевые слова, не тексты. Её собирает приложение: кнопка «Шпаргалка» на главной странице курса.", []]
+  ] },
+  next: { t: "Что дальше", pts: [
+    ["Не бросайте", "30 минут в день: разогрев + одно пробное собеседование. Каждое реальное собеседование добавляет новые вопросы: впишите их в разбор после звонка.", []],
+    ["Через 2–3 месяца", "Если каждый день говорить вслух, английский на звонках становится заметно свободнее. Дальше переходите к курсу B1 и B2 в разделе «Учёба»: там те же времена и связки, но глубже.", []]
+  ] }
+};
+
+// письменные задания: проверка регулярными выражениями, как в письмах курса
+const IV_WRITE = {
+  port: { t: "Подписи к 2 работам в портфолио", min: 4,
+    task: "Напишите подписи к двум своим работам: для каждой 2–3 строки на английском. Что за проект, какой софт, ваша роль. Начинайте строки с глагола в прошлом (Created…, Modeled…).",
+    model: "Perfume launch video\nCreated a 20-second product video for a perfume brand.\nSoftware: Blender, Cycles, After Effects.\nMy role: modeling, lighting, animation and compositing.\n\nRunning shoe promo\nDesigned a fast, energetic video for social media.\nSoftware: Blender, After Effects.\nMy role: animation, camera moves and final edit. Delivered in five days.",
+    checks: [["Глагол в прошлом в начале: Created / Designed / Modeled", "(^|\\n)\\s*(created|designed|modeled|modelled|made|produced|animated|lit|rendered|built|developed)\\b"], ["Софт: Software: …", "\\b(software|blender|cinema 4d|houdini|maya|3ds max|after effects|redshift|octane|cycles)\\b"], ["Роль: My role: …", "\\bmy role\\b"], ["Слова профессии: modeling, lighting, animation…", "\\b(modeling|modelling|lighting|animation|texturing|shading|compositing|rendering|simulation)\\b"]] },
+  cover: { t: "Сопроводительное письмо", min: 5,
+    task: "Напишите короткое сопроводительное письмо на 5–6 строк. Обращение. Кто вы и на какую позицию. Опыт (have worked / years of experience). Почему эта компания (1 строка — её вы будете менять под каждую компанию). Ссылка на шоурил. Вежливое окончание.",
+    model: "Hi Anna,\n\nI'm a 3D artist with five years of experience, and I'd like to apply for the 3D Motion Designer position.\nI create product videos for advertising, and I've worked with perfume, cosmetics and sports brands.\nI really like your animations for beauty brands, especially the soft, clean lighting.\nYou can see my showreel here: [link].\nI'd be happy to talk more about how I can help your team.\n\nBest regards,\nMihai",
+    checks: [["Обращение: Hi … / Dear …", "^\\s*(hi|hello|dear)\\b"], ["Позиция: apply for the … position", "\\b(apply|applying) for\\b|\\bposition\\b|\\brole\\b"], ["Опыт: years of experience / I've worked", "\\byears of experience\\b|\\b(i've|i have) (worked|created|made)\\b"], ["Про компанию: your …", "\\byour (work|projects?|animations?|videos?|studio|team|company|style|portfolio)\\b"], ["Шоурил или портфолио", "\\b(showreel|reel|portfolio)\\b"], ["Окончание: Best regards / Kind regards", "\\b(best|kind|warm) regards\\b|\\bthank you\\b"]] },
+  test: { t: "Вопросы по тестовому заданию", min: 4,
+    task: "Вам прислали тестовое задание. Напишите короткое сообщение рекрутеру: поблагодарите, задайте 3 вопроса (срок, разрешение или формат, можно ли свои материалы), закончите вежливо.",
+    model: "Hi Tom,\n\nThank you for the test task, I'm happy to do it.\nI have a few questions:\n1. What is the deadline for the test task?\n2. What resolution and frame rate do you need?\n3. Can I use my own models and textures?\n\nThanks,\nMihai",
+    checks: [["Спасибо за задание", "\\bthank(s| you)\\b"], ["Вопрос о сроке: deadline / when", "\\b(deadline|when should|by when|how much time)\\b"], ["Вопрос о формате: resolution / frame rate / format", "\\b(resolution|frame rate|format|length)\\b"], ["Хотя бы 3 вопроса", "\\?[\\s\\S]*\\?[\\s\\S]*\\?"], ["Вежливый вопрос: Can I / Should I / Could you", "\\b(can i|should i|could you|do you)\\b"]] },
+  thanks: { t: "Письмо после собеседования", min: 3,
+    task: "Напишите письмо в тот же день после собеседования: спасибо, одна деталь, которая понравилась, интерес к работе, «жду ответа».",
+    model: "Hi Anna,\n\nThank you for the interview today. I enjoyed learning about your projects, especially the new skincare campaign.\nI'm excited about this opportunity and I'm looking forward to hearing from you.\n\nBest regards,\nMihai",
+    checks: [["Спасибо за собеседование", "\\bthank you for (the|our|today's) (interview|call|conversation|meeting|time)\\b"], ["Деталь: especially …", "\\b(especially|in particular|particularly)\\b"], ["Интерес: excited / interested", "\\b(excited|interested|happy|keen)\\b"], ["Look forward to hearing (с -ing!)", "\\blook(ing)? forward to hearing\\b"], ["Окончание: Best regards", "\\b(best|kind|warm) regards\\b"]] }
+};
+
+const IV_INTRO = `<p><b>Цель:</b> за 6 недель уверенно пройти 30-минутное собеседование на позицию 3D-артиста или моушн-дизайнера. Не выучить весь английский, а свободно говорить именно там. Собеседования предсказуемы, поэтому ответы готовим заранее и тренируем вслух.</p>
+  <p><b>Метод «тающей шпаргалки»</b> — четыре шага для каждого ответа:</p>
+  <ol>
+    <li><b>Собрать свой ответ.</b> Вы вписываете свои данные (имя, софт, проекты), и приложение собирает из них ваш личный ответ короткими фразами по 8–12 слов.</li>
+    <li><b>Понять каждый кусок.</b> Под каждой фразой разбор: почему слово стоит здесь и почему в такой форме. Понятое не забывается, заученное — забывается.</li>
+    <li><b>Растопить шпаргалку.</b> Четыре ступени: полный текст → текст с пропусками → только ключевые слова → только вопрос. На каждой говорите вслух и записываете себя.</li>
+    <li><b>Говорить без бумажки.</b> «Тень» (повторяете за голосом), «90-60-40» (один ответ всё быстрее) и интервьюер, который задаёт вопросы <b>разными словами</b>, иногда слишком быстро. Отвечать на это нужно фразами-спасателями — кнопки сработают, только если вы сначала скажете фразу вслух.</li>
+  </ol>
+  <p>Каждое занятие: <b>разогрев</b> (повторить выученное) → <b>новое</b> → <b>говорить вслух</b>. 40–60 минут в день, 6 дней в неделю. Лучше 40 минут каждый день, чем 4 часа в субботу.</p>
+  <p class="iv-mute">Приёмы проверенные: исчезающий текст, shadowing, сжатие 4-3-2 из исследований беглости речи. Наше — как они собраны вместе под собеседование, ответы из ваших данных и тренажёр «один вопрос — много лиц».</p>`;
+
+const K_IV = "vzhivuyu.interview.v1";
+const IVS = Object.assign({ p: {}, done: {}, refl: {}, wr: {}, todo: {}, melt: {}, cnt: {}, kw: {} }, store.get(K_IV, {}) || {});
+const saveIv = () => store.set(K_IV, IVS);
+const IV_BLK = { intro: ["🧭", "Как устроен курс"], profile: ["✏️", "Мои данные"], build: ["🧱", "Собираем ответ"], shadow: ["🗣️", "Тень: повторяйте за голосом"], melt: ["🧊", "Тающая шпаргалка"], rec: ["🎙️", "Запишите себя"], rescue: ["🛟", "Фразы-спасатели"], quiz: ["🎯", "Тренировка"], squeeze: ["⏱️", "90-60-40"], todo: ["📌", "Сделать вне приложения"], mock: ["💼", "Собеседование"], reflect: ["📝", "Разбор после собеседования"], learn: ["📘", "Объяснение"], words: ["📚", "Словарь профессии"], screen: ["🖥️", "Показ экрана"], write: ["✉️", "Пишем"], notes: ["📋", "Шпаргалка"], warm: ["🔥", "Разогрев"] };
+const IV_QT = { rescue: "Не понял — спаси", pron: "Произношение на слух", money: "Числа и деньги", para: "Один вопрос — много лиц" };
+let ivDay = 0, IVM = {};
+const ivTok = { n: 0 };
+
+// ---------- подстановка моих данных ----------
+const ivVal = k => { const v = (IVS.p[k] || "").trim(); return v || (IV_SLOTS[k] ? IV_SLOTS[k].d : k); };
+const ivFill = t => String(t).replace(/\{(\w+)\}/g, (m, k) => ivVal(k));
+const ivFillH = t => String(t).split(/(\{\w+\})/).map(x => { const m = x.match(/^\{(\w+)\}$/); return m ? `<span class="iv-slot${(IVS.p[m[1]] || "").trim() ? "" : " ex"}">${esc(ivVal(m[1]))}</span>` : esc(x); }).join("");
+const ivAnsText = id => IV_ANS[id].s.map(x => ivFill(x.en)).join(" ");
+const ivKeys = id => IV_ANS[id].keys.map(ivFill);
+
+// ---------- случайность, одинаковая внутри дня ----------
+function ivRnd(seed) { let s = seed >>> 0 || 1; return () => (s = (s * 1664525 + 1013904223) >>> 0) / 4294967296; }
+function ivShuffle(a, r = Math.random) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+// ---------- голос с ожиданием конца фразы ----------
+function ivSay(text, rate = 0.95) {
+  return new Promise(res => {
+    if (!("speechSynthesis" in window) || typeof SpeechSynthesisUtterance === "undefined") { setTimeout(res, 600); return; }
+    try { speechSynthesis.cancel(); } catch (e) {}
+    let done = false; const fin = () => { if (!done) { done = true; clearTimeout(t); res(); } };
+    const est = (String(text).split(/\s+/).length * 0.42 / rate + 1.2) * 1000 + 1500;
+    const t = setTimeout(fin, est);
+    setTimeout(() => {
+      try { const u = new SpeechSynthesisUtterance(text), v = pickVoice(); if (v) u.voice = v; u.lang = v ? v.lang : "en-GB"; u.rate = rate; u.onend = u.onerror = fin; speechSynthesis.speak(u); }
+      catch (e) { fin(); }
+    }, 40);
+  });
+}
+const ivWait = ms => new Promise(r => setTimeout(r, ms));
+function ivStop() { ivTok.n++; try { speechSynthesis.cancel(); } catch (e) {} clearInterval(ivTimer.id); ivRec.stop(); ivSR.stop(); }
+
+// ---------- запись голоса ----------
+const ivRec = { mr: null, key: "", urls: {}, after: null,
+  ok() { return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && typeof MediaRecorder !== "undefined"); },
+  async start(key, after) {
+    if (!this.ok()) { toast("Запись голоса недоступна здесь. Говорите вслух без записи"); return false; }
+    this.stop();
+    let st; try { st = await navigator.mediaDevices.getUserMedia({ audio: true }); } catch (e) { toast("Нет доступа к микрофону: разрешите его в настройках браузера"); return false; }
+    const ch = [], mr = new MediaRecorder(st);
+    mr.ondataavailable = e => { if (e.data && e.data.size) ch.push(e.data); };
+    mr.onstop = () => { st.getTracks().forEach(t => t.stop()); if (ch.length) { if (this.urls[key]) URL.revokeObjectURL(this.urls[key]); this.urls[key] = URL.createObjectURL(new Blob(ch, { type: mr.mimeType || "audio/mp4" })); } const a = after; if (a) a(); };
+    this.mr = mr; this.key = key; mr.start(); return true;
+  },
+  stop() { const m = this.mr; this.mr = null; this.key = ""; if (m && m.state !== "inactive") try { m.stop(); } catch (e) {} },
+  play(key) { const u = this.urls[key]; if (!u) return; try { speechSynthesis.cancel(); } catch (e) {} const a = new Audio(u); a.play().catch(() => toast("Не получилось включить запись")); }
+};
+// ---------- распознавание речи: отмечаем ключевые слова ----------
+const ivSR = { r: null, ok() { return !!(window.SpeechRecognition || window.webkitSpeechRecognition); },
+  start(onText, onEnd) {
+    const S = window.SpeechRecognition || window.webkitSpeechRecognition; if (!S) return false;
+    this.stop(); const r = new S(); r.lang = "en-US"; r.continuous = true; r.interimResults = true;
+    let all = ""; r.onresult = e => { let t = ""; for (let i = 0; i < e.results.length; i++) t += e.results[i][0].transcript + " "; all = t; onText(t); };
+    r.onend = () => { if (this.r === r) this.r = null; onEnd(all); }; r.onerror = () => {};
+    try { r.start(); this.r = r; return true; } catch (e) { return false; }
+  },
+  stop() { const r = this.r; this.r = null; if (r) try { r.stop(); } catch (e) {} }
+};
+const ivNorm = s => " " + String(s).toLowerCase().replace(/[^a-z0-9 ]+/g, " ").replace(/\s+/g, " ") + " ";
+function ivKeyHit(key, said) { const w = ivNorm(key).trim().split(" ").filter(x => x.length > 2 && !/^(the|and|for|with|your|you)$/.test(x)); if (!w.length) return false; const s = ivNorm(said); return w.filter(x => s.includes(" " + x)).length >= Math.ceil(w.length * 0.6); }
+const ivTimer = { id: 0 };
+
+// ---------- что уже пройдено: ответы, собранные до этого дня ----------
+const ivLearned = di => [...new Set(IV_DAYS.slice(0, di + 1).flatMap(d => d.b.filter(b => b.k === "build").map(b => b.a)))];
+const ivBDone = (di, bi) => !!IVS.done[di + ":" + bi];
+const ivDDone = di => IV_DAYS[di].b.every((b, bi) => ivBDone(di, bi));
+const ivCur = () => { const i = IV_DAYS.findIndex((d, di) => !ivDDone(di)); return i < 0 ? IV_DAYS.length - 1 : i; };
+const ivMin = d => d.b.reduce((s, b) => s + (b.m || 0), 0);
+
+function ivPg(id, cls = "") {
+  let p = $("#" + id);
+  if (!p) { p = document.createElement("div"); p.className = "page gpage iv-page " + cls; p.id = id; p.hidden = true; $("#profilePage").before(p); p.addEventListener("click", onIvClick); p.addEventListener("input", onIvInput); }
+  return p;
+}
+const ivSayBtn = (t, rate) => `<button class="iv-say" data-v="say" data-t="${esc(t)}"${rate ? ` data-r="${rate}"` : ""} aria-label="Послушать">${ICON.play}</button>`;
+
+// ================== ГЛАВНАЯ СТРАНИЦА КУРСА ==================
+function openIv() { renderIv(); const p = ivPg("ivPage"); if (!p.classList.contains("open")) openPageEl(p); }
+function renderIv() {
+  const p = ivPg("ivPage"), cur = ivCur(), dn = IV_DAYS.filter((d, i) => ivDDone(i)).length, n = IV_DAYS.length;
+  const keep = $(".page-body", p) ? $(".page-body", p).scrollTop : 0;
+  p.innerHTML = `<div class="page-head"><button class="icon-btn" data-v="close" aria-label="Назад">${ICON.back}</button>
+      <div class="ph-title"><span class="ph-emoji" aria-hidden="true">💼</span><div style="min-width:0"><b>Собеседования</b><span>6 недель · 40–60 минут в день</span></div></div></div>
+    <div class="scroll page-body">
+      <section class="iv-cover">
+        <small>3D-артист · моушн-дизайнер</small><b>Собеседование на английском</b>
+        <div class="ck-meter"><i style="width:${dn / n * 100}%"></i></div><em>Пройдено ${dn} из ${plural(n, ["занятия", "занятий", "занятий"])}</em>
+        <button class="btn primary iv-go" data-v="day" data-d="${cur}">${dn ? "▶ Продолжить" : "▶ Начать"}: день ${cur + 1}</button>
+      </section>
+      <div class="iv-row"><button class="iv-tool" data-v="prof"><span>✏️</span><b>Мои данные</b><small>из них собираются ответы</small></button>
+        <button class="iv-tool" data-v="notes"><span>📋</span><b>Шпаргалка</b><small>все ответы и ключевые слова</small></button></div>
+      <details class="iv-how"><summary>🧭 Метод «тающей шпаргалки»</summary>${IV_INTRO}</details>
+      ${IV_WEEKS.map((w, wi) => `<h3 class="iv-wh"><b>${w[0]}</b><span>${w[1]}</span></h3>
+        ${IV_DAYS.slice(wi * 6, wi * 6 + 6).map((d, j) => { const di = wi * 6 + j, ok = ivDDone(di), part = d.b.filter((b, bi) => ivBDone(di, bi)).length;
+          return `<button class="iv-day${ok ? " done" : ""}${di === cur ? " cur" : ""}" data-v="day" data-d="${di}"><span class="iv-dn">${ok ? "✓" : di + 1}</span>
+            <span class="iv-dt"><b>${esc(d.t)}</b><span>${ivMin(d)} мин${part && !ok ? ` · ${part} из ${d.b.length}` : ""}</span></span></button>`; }).join("")}`).join("")}
+    </div>`;
+  $(".page-body", p).scrollTop = keep;
+}
+
+// ================== ЗАНЯТИЕ ==================
+function openIvDay(di) {
+  ivStop(); ivDay = +di; IVM = {};
+  renderIvDay();
+  const p = ivPg("ivdPage"); if (!p.classList.contains("open")) openPageEl(p);
+  $(".page-body", p).scrollTop = 0;
+}
+function renderIvDay() {
+  const di = ivDay, d = IV_DAYS[di], p = ivPg("ivdPage"), keep = $(".page-body", p) ? $(".page-body", p).scrollTop : 0;
+  p.innerHTML = `<div class="page-head"><button class="icon-btn" data-v="back" aria-label="Назад">${ICON.back}</button>
+      <div class="ph-title"><span class="ph-emoji" aria-hidden="true">💼</span><div style="min-width:0"><b>День ${di + 1}</b><span>${esc(d.t)}</span></div></div></div>
+    <div class="scroll page-body iv-dbody">
+      <div class="iv-plan">${IV_WEEKS[Math.floor(di / 6)][0]} · ${ivMin(d)} минут · ${plural(d.b.length, ["часть", "части", "частей"])}</div>
+      ${d.b.map((b, bi) => ivBlockHTML(di, bi)).join("")}
+      <div class="iv-end">${ivDDone(di) ? `<b>🎉 День ${di + 1} пройден</b>${di + 1 < IV_DAYS.length ? `<button class="btn primary" data-v="day" data-d="${di + 1}">Завтра: ${esc(IV_DAYS[di + 1].t)} ›</button>` : ""}` : `<span>Отмечайте каждую часть кнопкой «Готово». Завтра откроется следующее занятие.</span>`}</div>
+    </div>`;
+  $(".page-body", p).scrollTop = keep;
+}
+function ivRB(bi) { const el = $("#ivb-" + bi); if (el) el.outerHTML = ivBlockHTML(ivDay, bi); }
+function ivBlockHTML(di, bi) {
+  const b = IV_DAYS[di].b[bi], N = IV_BLK[b.k], ok = ivBDone(di, bi);
+  let title = N[1];
+  if (b.k === "build") title = "Собираем ответ: " + IV_ANS[b.a].t;
+  if (b.k === "learn") title = IV_LEARN[b.l].t;
+  if (b.k === "quiz") title = IV_QT[b.q];
+  if (b.k === "write") title = IV_WRITE[b.w].t;
+  if (b.k === "shadow" || b.k === "rec" || b.k === "squeeze") title += ": " + IV_ANS[b.a].t;
+  if (b.k === "mock") title = (b.a.length > 8 ? "Полное собеседование" : "Собеседование") + ` · ${plural(b.a.length, ["вопрос", "вопроса", "вопросов"])}`;
+  const body = (IV_R[b.k] || (() => ""))(b, di, bi);
+  return `<section class="iv-blk${ok ? " done" : ""}" id="ivb-${bi}">
+    <div class="iv-bh"><span class="iv-be">${ok ? "✓" : N[0]}</span><div><b>${esc(title)}</b><small>${b.m} мин</small></div></div>
+    <div class="iv-bb">${body}</div>
+    <button class="iv-ok${ok ? " on" : ""}" data-v="ok" data-bi="${bi}">${ok ? "✓ Готово" : "Готово"}</button>
+  </section>`;
+}
+function ivMark(bi, on = true) {
+  const k = ivDay + ":" + bi; if (on) IVS.done[k] = 1; else delete IVS.done[k]; saveIv();
+  if (ivDDone(ivDay) && on) { renderIvDay(); toast("День пройден. Отличная работа!"); } else ivRB(bi);
+  if ($("#ivPage")) renderIv();
+}
+
+// ---------- блоки ----------
+const ivLearnHTML = L => L.pts.map(x => `<div class="iv-pt"><b>${x[0]}</b><p>${x[1]}</p>${x[2].length ? `<div class="iv-exs">${x[2].map(e => `<div class="iv-ex"><div><b>${esc(e[0])}</b><span>${esc(e[1])}</span></div>${ivSayBtn(e[0])}</div>`).join("")}</div>` : ""}</div>`).join("");
+function ivSentHTML(id, opt = {}) {
+  return IV_ANS[id].s.map((x, i) => `<div class="iv-sent" data-si="${i}"><div class="iv-sl"><b>${ivFillH(x.en)}</b>${ivSayBtn(ivFill(x.en))}</div><span class="iv-ru">${esc(String(x.ru).replace(/\{\w+\}\.?/g, "…"))}</span>
+    ${opt.why && x.why ? `<details class="iv-why"><summary>Почему так</summary>${x.why.map(w => `<div class="iv-w"><b>${ivFillH(w[0])}</b><p>${esc(ivFill(w[1]))}</p></div>`).join("")}${x.ex ? `<div class="iv-ex"><div><b>${esc(x.ex[0])}</b><span>${esc(x.ex[1])}</span></div>${ivSayBtn(x.ex[0])}</div>` : ""}</details>` : ""}</div>`).join("");
+}
+const ivQHTML = id => { const A = IV_ANS[id]; return `<div class="iv-q"><small>Вопрос</small><div class="iv-sl"><b>${esc(A.q)}</b>${ivSayBtn(A.q)}</div><span class="iv-ru">${esc(A.ru)}</span></div>`; };
+const ivKeysHTML = id => `<div class="iv-keys">${ivKeys(id).map(k => `<span>${esc(k)}</span>`).join("")}</div>`;
+function ivRecHTML(key, label = "Записать себя") {
+  const on = ivRec.key === key, has = ivRec.urls[key];
+  return `<div class="iv-recrow"><button class="iv-rec${on ? " on" : ""}" data-v="rec" data-k="${esc(key)}">${on ? "■ Стоп" : "🎙 " + label}</button>${has && !on ? `<button class="iv-chip" data-v="play" data-k="${esc(key)}">▶ Моя запись</button>` : ""}</div>`;
+}
+function ivMeltText(id, st, bi) {
+  const A = IV_ANS[id];
+  if (st === 0) return A.s.map(x => `<p>${ivFillH(x.en)}</p>`).join("");
+  if (st === 1) { let n = 0; return A.s.map(x => `<p>${ivFill(x.en).split(" ").map(w => { const core = w.replace(/[^A-Za-z']/g, ""); const hide = core.length > 3 && (n++ % 2 === 0); return hide ? `<button class="iv-gap" data-v="gap">${esc(w)}</button>` : esc(w); }).join(" ")}</p>`).join(""); }
+  if (st === 2) return ivKeysHTML(id);
+  return `<p class="iv-mute">Только вопрос. Ответьте вслух без подсказки.</p>${(IVM[bi] || {})["peek" + id] ? ivKeysHTML(id) : `<button class="iv-chip" data-v="peek" data-a="${id}" data-bi="${bi}">👁 Подсмотреть ключевые слова</button>`}`;
+}
+const IV_ST = ["Полный текст", "Пропуски", "Ключевые слова", "Только вопрос"];
+const IV_R = {
+  intro: () => IV_INTRO,
+  learn: b => ivLearnHTML(IV_LEARN[b.l]),
+  profile: b => `<p class="iv-mute">Пишите по-английски, коротко. Пока поле пустое, в ответах стоит пример (он подчёркнут пунктиром). Можно выбрать готовый вариант.</p>
+    ${b.f.map(f => { const S = IV_SLOTS[f]; return `<label class="iv-f"><span>${esc(S.l)}</span><input class="fld" data-f="${f}" value="${esc(IVS.p[f] || "")}" placeholder="${esc(S.ph || S.d)}" autocapitalize="off" spellcheck="false">
+      ${S.ch ? `<div class="iv-chips">${S.ch.map(c => `<button type="button" class="iv-chip${(IVS.p[f] || "") === c ? " on" : ""}" data-v="pick" data-f="${f}" data-x="${esc(c)}">${esc(c)}</button>`).join("")}</div>` : ""}</label>`; }).join("")}`,
+  build: b => { const A = IV_ANS[b.a]; return `${ivQHTML(b.a)}
+    <details class="iv-alt"><summary>Этот же вопрос могут задать иначе</summary>${A.alt.map(q => `<div class="iv-sl"><span>${esc(q)}</span>${ivSayBtn(q)}</div>`).join("")}</details>
+    <h4 class="iv-h4">Ваш ответ</h4>${ivSentHTML(b.a, { why: true })}
+    <div class="iv-row2"><button class="iv-chip" data-v="sayall" data-a="${b.a}">🔊 Весь ответ</button><button class="iv-chip" data-v="sayall" data-a="${b.a}" data-r="0.75">🐢 Медленно</button></div>
+    <h4 class="iv-h4">Ключевые слова</h4>${ivKeysHTML(b.a)}
+    <p class="iv-mute">Прочитайте ответ вслух 5 раз. Не заучивайте слово в слово: держите в голове ключевые слова.</p>`; },
+  shadow: (b, di, bi) => { const M = IVM[bi] || (IVM[bi] = { rate: b.fast ? 1.1 : 0.85, run: false, i: -1, ph: "", rounds: 0 }); const A = IV_ANS[b.a];
+    return `<p class="iv-mute">Голос говорит фразу, потом пауза. В паузе повторите вслух <b>сразу</b>, с той же интонацией, как эхо. Не смотрите в текст, если можете.</p>
+      <div class="iv-chips">${[0.75, 0.85, 1, 1.1].map(r => `<button class="iv-chip${M.rate === r ? " on" : ""}" data-v="srate" data-bi="${bi}" data-x="${r}">${String(r).replace(".", ",")}×</button>`).join("")}</div>
+      <div class="iv-shl">${A.s.map((x, i) => `<p class="${M.i === i ? (M.ph === "you" ? "you" : "now") : ""}">${ivFillH(x.en)}</p>`).join("")}</div>
+      ${M.run ? `<div class="iv-stat">${M.ph === "you" ? "🔁 Ваша очередь: повторите" : "👂 Слушайте"}<i class="iv-bar"><i style="animation-duration:${M.dur || 0}ms"></i></i></div><button class="iv-chip" data-v="sstop" data-bi="${bi}">■ Стоп</button>`
+        : `<button class="btn primary" data-v="shadow" data-bi="${bi}">${M.rounds ? "▶ Ещё круг" : "▶ Начать"}</button>${M.rounds ? `<p class="iv-mute">Кругов: ${M.rounds}. Попробуйте следующий на скорости повыше.</p>` : ""}`}`; },
+  melt: (b, di, bi) => b.a.map(id => { const M = IVM[bi] || (IVM[bi] = {}); const reached = IVS.melt[id] || 0, fin = IVS.melt["f:" + id] || 0, st = M["st" + id] != null ? M["st" + id] : Math.min(reached, b.to);
+    const kw = (M["sr" + id] || null);
+    return `<div class="iv-melt"><h4 class="iv-h4">${esc(IV_ANS[id].t)}</h4>${ivQHTML(id)}
+      <div class="iv-steps">${IV_ST.slice(0, b.to + 1).map((s, i) => `<button class="iv-st${i === st ? " on" : ""}${i <= reached ? " ok" : ""}" data-v="mst" data-a="${id}" data-bi="${bi}" data-x="${i}">${i + 1}. ${s}</button>`).join("")}</div>
+      <div class="iv-mtext">${ivMeltText(id, st, bi)}</div>
+      <div class="iv-row2"><button class="iv-chip" data-v="sayall" data-a="${id}">🔊 Образец</button>${ivRecHTML("m:" + id + ":" + st)}</div>
+      ${st >= 2 && ivSR.ok() ? `<button class="iv-chip" data-v="srk" data-a="${id}" data-bi="${bi}">${ivSR.r && M.srOn === id ? "■ Хватит" : "🗣 Скажите ответ — отмечу ключевые слова"}</button>${kw ? `<div class="iv-keys">${ivKeys(id).map(k => `<span class="${ivKeyHit(k, kw) ? "hit" : "miss"}">${esc(k)}</span>`).join("")}</div><p class="iv-heard">${esc(kw)}</p>` : ""}` : ""}
+      ${st < b.to ? `<button class="btn primary" data-v="mnext" data-a="${id}" data-bi="${bi}" data-x="${st}">Сказал вслух → ступень ${st + 2}</button>` : fin >= b.to ? `<p class="iv-okline">✓ Ступень ${b.to + 1} пройдена</p>` : `<button class="btn primary" data-v="mnext" data-a="${id}" data-bi="${bi}" data-x="${st}">Сказал без подсказки ✓</button>`}
+    </div>`; }).join(""),
+  rec: b => `${ivQHTML(b.a)}<p class="iv-mute">Нажмите запись, послушайте вопрос и ответьте вслух. Потом послушайте себя и сравните с образцом: где запинаетесь, какие слова не выходят?</p>
+    <details class="iv-alt"><summary>Подсказка: ключевые слова</summary>${ivKeysHTML(b.a)}</details>
+    <div class="iv-row2">${ivRecHTML("r:" + b.a)}<button class="iv-chip" data-v="sayall" data-a="${b.a}">🔊 Образец</button></div>`,
+  rescue: b => `<p class="iv-mute">Каждую фразу послушайте и скажите вслух 10 раз: сначала медленно, потом в обычном темпе. Нажимайте на счётчик после каждого раза.</p>
+    ${IV_RESCUE.slice(b.from, b.to).map((r, i) => { const k = "r" + (b.from + i), c = IVS.cnt[k] || 0; return `<div class="iv-res"><small>${esc(r[2])}</small><div class="iv-sl"><b>${esc(r[0])}</b>${ivSayBtn(r[0])}${ivSayBtn(r[0], 0.7).replace("iv-say", "iv-say slow")}</div><span class="iv-ru">${esc(r[1])}</span><p>${esc(r[3])}</p>
+      <button class="iv-cnt${c >= 10 ? " full" : ""}" data-v="cnt" data-k="${k}">${c >= 10 ? "✓ 10 из 10" : `Сказал вслух: ${c} из 10`}</button></div>`; }).join("")}`,
+  quiz: (b, di, bi) => ivQuizHTML(bi, () => ivQuizItems(b, di)),
+  words: (b, di, bi) => `${b.g.map(g => { const G = IV_WORDS[g]; return `<h4 class="iv-h4">${G.e} ${esc(G.t)}</h4><div class="iv-wl">${G.w.map(w => `<div class="iv-wr"><div><b>${esc(w[0])}</b><span>${esc(w[1])}</span><small>${esc(w[2])}</small></div>${ivSayBtn(w[0] + ". " + w[2])}</div>`).join("")}</div>`; }).join("")}
+    <p class="iv-mute">Каждое слово скажите вслух. Потом проверьте себя: слово звучит, вы выбираете перевод.</p>
+    ${ivQuizHTML(bi, () => ivShuffle(b.g.flatMap(g => IV_WORDS[g].w)).slice(0, 12).map(w => { const all = b.g.flatMap(g => IV_WORDS[g].w).filter(x => x !== w); return [w[0], "Что это значит?", ivShuffle([w[1], ...ivShuffle(all).slice(0, 2).map(x => x[1])]), w[1], `${w[0]} — ${w[1]}. ${w[2]}`]; }))}`,
+  screen: (b, di, bi) => `<p class="iv-mute">На реальном звонке больше всего сбивает не английский, а окна и кнопки. Эти фразы ведут интервьюера по вашему портфолио.</p>
+    ${IV_SCREEN.map(s => `<div class="iv-ex"><div><b>${esc(s[0])}</b><span>${esc(s[1])} · ${esc(s[2])}</span></div>${ivSayBtn(s[0])}</div>`).join("")}
+    <p class="iv-mute">Откройте свою работу на экране и расскажите проект 1, используя эти фразы. Запишите себя.</p>${ivRecHTML("scr:" + di)}`,
+  squeeze: (b, di, bi) => { const M = IVM[bi] || (IVM[bi] = { r: 0, run: false, left: 0, used: [] }); const R = [90, 60, 40];
+    return `${ivQHTML(b.a)}${ivKeysHTML(b.a)}<p class="iv-mute">Один и тот же ответ трижды: за 90, 60 и 40 секунд. Не останавливайтесь на ошибках.</p>
+      <div class="iv-sq">${R.map((s, i) => `<div class="iv-sqc${i === M.r && M.run ? " on" : ""}${M.used[i] != null ? " ok" : ""}"><b>${s}</b><small>${M.used[i] != null ? `${M.used[i]} с` : "секунд"}</small>${M.used[i] != null && ivRec.urls["sq:" + bi + ":" + i] ? `<button class="iv-chip" data-v="play" data-k="sq:${bi}:${i}">▶</button>` : ""}</div>`).join("")}</div>
+      ${M.run ? `<div class="iv-clock${M.left <= 10 ? " low" : ""}">${M.left}</div><button class="btn primary" data-v="sqdone" data-bi="${bi}">■ Закончил</button>`
+        : M.r < 3 ? `<button class="btn primary" data-v="sqgo" data-bi="${bi}">▶ Круг ${M.r + 1}: ${R[M.r]} секунд</button>` : `<p class="iv-okline">✓ Все три круга пройдены. Послушайте третью запись: она обычно самая живая.</p>`}`; },
+  todo: (b, di, bi) => b.it.map((t, i) => { const k = `${di}:${bi}:${i}`; return `<label class="iv-todo"><input type="checkbox" data-v="todo" data-k="${k}" data-bi="${bi}"${IVS.todo[k] ? " checked" : ""}><span>${esc(t)}</span></label>`; }).join(""),
+  reflect: (b, di) => { const R = IVS.refl[di] || {}; return `<p class="iv-mute">Сразу после собеседования запишите три вещи. Новые вопросы и слова добавьте в свои ответы.</p>
+    ${[["a", "Какой вопрос застал врасплох?"], ["b", "Какое слово не вспомнилось?"], ["c", "Где переспросили и как это прошло?"]].map(([k, l]) => `<label class="iv-f"><span>${l}</span><textarea class="fld" rows="2" data-rf="${k}">${esc(R[k] || "")}</textarea></label>`).join("")}`; },
+  write: (b, di, bi) => { const W = IV_WRITE[b.w], M = IVM[bi] || (IVM[bi] = {}); const txt = IVS.wr[b.w] || ""; const res = M.res;
+    return `<p>${esc(W.task)}</p><textarea class="fld iv-ta" rows="8" data-w="${b.w}" placeholder="Пишите здесь…" autocapitalize="sentences">${esc(txt)}</textarea>
+      <div class="iv-row2"><button class="btn primary" data-v="wcheck" data-bi="${bi}">Проверить</button><button class="iv-chip" data-v="wmodel" data-bi="${bi}">${M.model ? "Скрыть образец" : "Показать образец"}</button></div>
+      ${res ? `<ul class="iv-checks">${res.map(r => `<li class="${r[1] ? "y" : "n"}">${r[1] ? "✓" : "✗"} ${esc(r[0])}</li>`).join("")}</ul>` : ""}
+      ${M.model ? `<pre class="iv-model">${esc(W.model)}</pre>` : ""}`; },
+  notes: () => ivNotesHTML(ivLearned(IV_DAYS.length - 1)),
+  warm: (b, di, bi) => { const r = ivRnd(di * 97 + 13), resc = di >= 3 ? IV_RESCUE.slice(0, di >= 4 ? 13 : 6) : [], prev = ivLearned(di - 1);
+    const rs = ivShuffle(resc, r).slice(0, 4), as = ivShuffle(prev, r).slice(0, 3);
+    return `<p class="iv-mute">${rs.length || as.length ? "Повторяем выученное вслух." : "Первое занятие: разогреваться пока нечем. Просто прочитайте вслух шаблон ниже."}</p>
+      ${rs.length ? `<h4 class="iv-h4">Фразы-спасатели: каждую 3 раза вслух</h4>${rs.map(x => `<div class="iv-ex"><div><b>${esc(x[0])}</b><span>${esc(x[2])}</span></div>${ivSayBtn(x[0])}</div>`).join("")}` : ""}
+      ${as.length ? `<h4 class="iv-h4">Ответы по ключевым словам</h4>${as.map(id => `<div class="iv-wa">${ivQHTML(id)}${ivKeysHTML(id)}<details class="iv-alt"><summary>Показать ответ</summary>${IV_ANS[id].s.map(x => `<p>${ivFillH(x.en)}</p>`).join("")}</details></div>`).join("")}` : ""}
+      ${!rs.length && !as.length ? `<div class="iv-ex"><div><b>Hi, my name is … I'm a 3D artist with … years of experience.</b><span>Привет, меня зовут… Я 3D-художник с опытом … лет.</span></div>${ivSayBtn("Hi, my name is Mihai. I'm a 3D artist with five years of experience.")}</div>` : ""}`; },
+  mock: (b, di, bi) => ivMockHTML(b, bi)
+};
+
+// ---------- тренировка с вариантами ----------
+function ivQuizItems(b, di) {
+  if (b.q === "para") {
+    const pool = ivLearned(di).filter(id => IV_ANS[id].alt.length);
+    return ivShuffle(pool).slice(0, 8).map(id => { const others = ivShuffle(pool.filter(x => x !== id)).slice(0, 2); const A = IV_ANS[id];
+      return [ivShuffle(A.alt)[0], "Какой из ваших ответов подходит к этому вопросу?", ivShuffle([A.t, ...others.map(x => IV_ANS[x].t)]), A.t, `Это вопрос «${A.ru}» другими словами. Ключевые слова вашего ответа: ${ivKeys(id).join(" · ")}.`]; });
+  }
+  return ivShuffle(IV_Q[b.q]).map(x => [x[0], x[1], ivShuffle(x[2]), x[3], x[4], x[5]]);
+}
+function ivQuizHTML(bi, gen) {
+  const M = IVM[bi] || (IVM[bi] = {});
+  if (!M.qs) { M.qs = gen(); M.i = 0; M.ok = 0; M.pick = null; }
+  if (M.i >= M.qs.length) return `<div class="iv-qz"><b class="iv-score">${M.ok} из ${M.qs.length}</b><p class="iv-mute">${M.ok === M.qs.length ? "Без ошибок!" : "Ошибки — это хорошо: именно они запоминаются."}</p><button class="iv-chip" data-v="qagain" data-bi="${bi}">↻ Ещё раз</button></div>`;
+  const q = M.qs[M.i];
+  return `<div class="iv-qz"><small>${M.i + 1} из ${M.qs.length}</small>
+    ${q[0] ? `<button class="iv-chip big" data-v="say" data-t="${esc(q[0])}" data-r="${q[5] || 0.95}">🔊 Послушать</button>` : ""}
+    <p class="iv-qq">${q[1]}</p>
+    <div class="iv-opts">${q[2].map(o => `<button class="iv-opt${M.pick != null ? (o === q[3] ? " y" : o === M.pick ? " n" : "") : ""}" data-v="qpick" data-bi="${bi}" data-x="${esc(o)}"${M.pick != null ? " disabled" : ""}>${esc(o)}</button>`).join("")}</div>
+    ${M.pick != null ? `<div class="iv-qwhy">${q[0] && M.pick != null ? `<b>${esc(q[0])}</b>` : ""}<p>${esc(q[4])}</p></div><button class="btn primary" data-v="qnext" data-bi="${bi}">Дальше</button>` : ""}</div>`;
+}
+
+// ---------- собеседование ----------
+function ivMockHTML(b, bi) {
+  const M = IVM[bi] || (IVM[bi] = { st: "set", hint: false, fast: !!b.fast, i: 0, res: [] });
+  if (M.st === "set") return `<p class="iv-mute">Интервьюер задаёт вопросы голосом, ${b.fast ? "в обычном живом темпе" : "чуть медленнее обычного"}, и часто другими словами, чем вы учили. Текст вопроса скрыт: слушайте. ${b.rescue ? "Некоторые вопросы прозвучат слишком быстро — спасайтесь фразами." : ""}</p>
+      <p class="iv-mute">Кнопки внизу — это фразы-спасатели. <b>Сначала скажите фразу вслух</b>, потом нажмите: интервьюер отреагирует.</p>
+      <label class="iv-todo"><input type="checkbox" data-v="mhint" data-bi="${bi}"${M.hint ? " checked" : ""}><span>Показывать ключевые слова (подсказка)</span></label>
+      <label class="iv-todo"><input type="checkbox" data-v="mfast" data-bi="${bi}"${M.fast ? " checked" : ""}><span>Живой темп речи</span></label>
+      <button class="btn primary" data-v="mgo" data-bi="${bi}">▶ Начать собеседование</button>`;
+  if (M.st === "run") { const id = b.a[M.i], A = IV_ANS[id];
+    return `<div class="iv-mock"><small>Вопрос ${M.i + 1} из ${b.a.length}</small>
+      <div class="iv-who"><span>👩‍💼</span><div>${M.show ? `<b>${esc(M.q)}</b>` : `<b class="iv-hid">Вопрос звучит голосом</b>`}<button class="iv-link" data-v="mshow" data-bi="${bi}">${M.show ? "Скрыть текст" : "👁 Показать текст"}</button></div></div>
+      ${M.hint ? ivKeysHTML(id) : ""}
+      <div class="iv-clock small">${M.t || 0} с</div>
+      <div class="iv-help">
+        <button class="iv-hb" data-v="mrep" data-bi="${bi}" data-x="same">“Sorry, could you repeat that, please?”</button>
+        <button class="iv-hb" data-v="mrep" data-bi="${bi}" data-x="slow">“Could you speak a little slower, please?”</button>
+        <button class="iv-hb" data-v="mrep" data-bi="${bi}" data-x="other">“Could you say it in other words?”</button>
+      </div>
+      <button class="btn primary" data-v="mnextq" data-bi="${bi}">${M.i + 1 < b.a.length ? "Ответил → следующий вопрос" : "Ответил → закончить"}</button>
+      ${ivRec.ok() && !M.nomic ? `<p class="iv-mute">🎙 Ответы записываются: в конце их можно послушать.</p>` : ""}
+      <button class="iv-link" data-v="mquit" data-bi="${bi}">Прервать</button></div>`; }
+  return `<p class="iv-okline">✓ Собеседование окончено · ${plural(b.a.length, ["вопрос", "вопроса", "вопросов"])}</p>
+    <p class="iv-mute">Послушайте каждый свой ответ. Отметьте ключевые слова, которые вы сказали. Чего не хватило — повторите по образцу.</p>
+    ${b.a.map((id, i) => { const R = M.res[i] || {}; return `<div class="iv-mr"><b>${esc(R.q || IV_ANS[id].q)}</b><span class="iv-ru">${esc(IV_ANS[id].t)} · ${R.t || 0} с${R.help ? ` · спасатели: ${R.help}` : ""}</span>
+      <div class="iv-keys">${ivKeys(id).map((k, j) => `<button class="iv-kc${(IVS.kw[bi + ":" + i] || {})[j] ? " hit" : ""}" data-v="kc" data-k="${bi}:${i}" data-x="${j}">${esc(k)}</button>`).join("")}</div>
+      <div class="iv-row2">${ivRec.urls["mk:" + bi + ":" + i] ? `<button class="iv-chip" data-v="play" data-k="mk:${bi}:${i}">▶ Мой ответ</button>` : ""}<button class="iv-chip" data-v="sayall" data-a="${id}">🔊 Образец</button></div></div>`; }).join("")}
+    <button class="iv-chip" data-v="magain" data-bi="${bi}">↻ Пройти ещё раз</button>`;
+}
+async function ivMockAsk(bi, mode) {
+  const b = IV_DAYS[ivDay].b[bi], M = IVM[bi], id = b.a[M.i], A = IV_ANS[id], tok = ++ivTok.n;
+  const base = M.fast ? 1.05 : 0.9;
+  if (!mode) { M.q = M.i === 0 || Math.random() < 0.35 ? A.q : ivShuffle(A.alt)[0]; M.rate = b.rescue && Math.random() < 0.3 ? 1.45 : base; M.t = 0; M.help = 0; }
+  else if (mode === "slow") M.rate = 0.72;
+  else if (mode === "other") { const o = [A.q, ...A.alt].filter(q => q !== M.q); M.q = ivShuffle(o)[0]; M.rate = 0.85; }
+  if (mode) M.help = (M.help || 0) + 1;
+  ivRB(bi);
+  ivRec.stop();
+  await ivSay(M.q, M.rate);
+  if (tok !== ivTok.n || M.st !== "run") return;
+  if (!M.nomic && !(await ivRec.start("mk:" + bi + ":" + M.i))) { M.nomic = true; ivRB(bi); }
+  clearInterval(ivTimer.id);
+  ivTimer.id = setInterval(() => { if (M.st !== "run") { clearInterval(ivTimer.id); return; } M.t = (M.t || 0) + 1; const c = $("#ivb-" + bi + " .iv-clock"); if (c) c.textContent = M.t + " с"; }, 1000);
+}
+
+// ---------- шпаргалка ----------
+function ivNotesHTML(ids, keysOnly) {
+  return `<div class="iv-notes">${ids.map(id => `<div class="iv-note"><b>${esc(IV_ANS[id].t)}</b><small>${esc(IV_ANS[id].q)}</small>${keysOnly ? `<p class="iv-nk">${esc(ivKeys(id).join(" · "))}</p>` : `<p>${esc(ivAnsText(id))}</p>`}</div>`).join("")}
+    <div class="iv-note"><b>Спасатели</b><p class="iv-nk">${keysOnly ? "repeat · slower · you mean…? · let me think · other words" : IV_RESCUE.map(r => esc(r[0])).join("<br>")}</p></div></div>`;
+}
+let ivNK = false;
+function openIvNotes() {
+  const p = ivPg("ivnPage"), list = ivLearned(ivCur());
+  p.innerHTML = `<div class="page-head"><button class="icon-btn" data-v="pclose" data-p="ivnPage" aria-label="Назад">${ICON.back}</button>
+      <div class="ph-title"><span class="ph-emoji" aria-hidden="true">📋</span><div style="min-width:0"><b>Шпаргалка</b><span>Мои ответы из моих данных</span></div></div></div>
+    <div class="scroll page-body">
+      <div class="iv-row2"><button class="iv-chip${ivNK ? "" : " on"}" data-v="nk" data-x="0">Полные ответы</button><button class="iv-chip${ivNK ? " on" : ""}" data-v="nk" data-x="1">Только ключевые слова</button><button class="iv-chip" data-v="ncopy">Скопировать</button></div>
+      <p class="iv-mute">На собеседовании держите рядом только ключевые слова, не тексты. Здесь ответы, которые вы уже собрали; новые появляются по ходу курса.</p>
+      ${ivNotesHTML(list, ivNK)}
+    </div>`;
+  if (!p.classList.contains("open")) openPageEl(p);
+}
+function openIvProf() {
+  const p = ivPg("ivpPage");
+  p.innerHTML = `<div class="page-head"><button class="icon-btn" data-v="pclose" data-p="ivpPage" aria-label="Назад">${ICON.back}</button>
+      <div class="ph-title"><span class="ph-emoji" aria-hidden="true">✏️</span><div style="min-width:0"><b>Мои данные</b><span>Из них собираются все ответы</span></div></div></div>
+    <div class="scroll page-body"><div class="iv-blk">${IV_R.profile({ f: Object.keys(IV_SLOTS) })}</div></div>`;
+  if (!p.classList.contains("open")) openPageEl(p);
+}
+
+// ---------- нажатия ----------
+async function onIvClick(e) {
+  const t = e.target.closest("[data-v]"); if (!t) return;
+  const v = t.dataset.v, bi = t.dataset.bi != null ? +t.dataset.bi : null, M = bi != null ? (IVM[bi] || (IVM[bi] = {})) : null;
+  if (t.matches('input[type="checkbox"]')) {
+    if (v === "todo") { IVS.todo[t.dataset.k] = t.checked; saveIv(); const b = IV_DAYS[ivDay].b[bi]; if (b.it.every((x, i) => IVS.todo[`${ivDay}:${bi}:${i}`]) && !ivBDone(ivDay, bi)) ivMark(bi); }
+    if (v === "mhint") M.hint = t.checked;
+    if (v === "mfast") M.fast = t.checked;
+    return;
+  }
+  switch (v) {
+    case "close": ivStop(); closePageEl($("#ivPage")); renderEx(); break;
+    case "back": ivStop(); closePageEl($("#ivdPage")); renderIv(); renderEx(); break;
+    case "pclose": closePageEl($("#" + t.dataset.p)); if ($("#ivdPage") && !$("#ivdPage").hidden) renderIvDay(); break;
+    case "day": openIvDay(+t.dataset.d); break;
+    case "prof": openIvProf(); break;
+    case "notes": openIvNotes(); break;
+    case "nk": ivNK = t.dataset.x === "1"; openIvNotes(); break;
+    case "ncopy": { const txt = ivLearned(ivCur()).map(id => `${IV_ANS[id].t}\n${IV_ANS[id].q}\n${ivNK ? ivKeys(id).join(" · ") : ivAnsText(id)}`).join("\n\n");
+      try { await navigator.clipboard.writeText(txt); toast("Шпаргалка скопирована"); } catch (err) { toast("Не получилось скопировать"); } break; }
+    case "ok": ivMark(bi, !ivBDone(ivDay, bi)); break;
+    case "say": ivStop(); speak(t.dataset.t, { el: t, rate: +t.dataset.r || 0.95 }); break;
+    case "sayall": ivStop(); speak(ivAnsText(t.dataset.a), { el: t, rate: +t.dataset.r || 0.92 }); break;
+    case "pick": { const f = t.dataset.f; IVS.p[f] = t.dataset.x; saveIv(); const box = t.closest(".iv-f"); $("input", box).value = t.dataset.x; $$(".iv-chip", box).forEach(c => c.classList.toggle("on", c === t)); break; }
+    case "gap": t.classList.toggle("open"); break;
+    case "peek": M["peek" + t.dataset.a] = 1; ivRB(bi); break;
+    case "cnt": { const k = t.dataset.k; IVS.cnt[k] = Math.min(10, (IVS.cnt[k] || 0) + 1); saveIv(); const c = IVS.cnt[k]; t.textContent = c >= 10 ? "✓ 10 из 10" : `Сказал вслух: ${c} из 10`; t.classList.toggle("full", c >= 10); break; }
+    case "rec": { const k = t.dataset.k; if (ivRec.key === k) { ivRec.stop(); } else { try { speechSynthesis.cancel(); } catch (err) {} const blk = t.closest(".iv-blk"); const ok = await ivRec.start(k, () => { const el = blk && blk.id ? +blk.id.slice(4) : null; if (el != null && $("#ivb-" + el)) ivRB(el); }); if (ok) { t.classList.add("on"); t.textContent = "■ Стоп"; } } break; }
+    case "play": ivRec.play(t.dataset.k); break;
+    // тень
+    case "srate": M.rate = +t.dataset.x; ivRB(bi); break;
+    case "sstop": ivStop(); M.run = false; M.i = -1; ivRB(bi); break;
+    case "shadow": { ivStop(); const b = IV_DAYS[ivDay].b[bi], tok = ++ivTok.n, S = IV_ANS[b.a].s; M.run = true;
+      for (let i = 0; i < S.length; i++) {
+        const txt = ivFill(S[i].en); M.i = i; M.ph = "say"; M.dur = 0; ivRB(bi);
+        await ivSay(txt, M.rate); if (tok !== ivTok.n) return;
+        M.ph = "you"; M.dur = Math.max(2200, txt.split(" ").length * 520 / M.rate + 900); ivRB(bi);
+        await ivWait(M.dur); if (tok !== ivTok.n) return;
+      }
+      M.run = false; M.i = -1; M.rounds = (M.rounds || 0) + 1; ivRB(bi); if (!ivBDone(ivDay, bi)) ivMark(bi); break; }
+    // тающая шпаргалка
+    case "mst": M["st" + t.dataset.a] = +t.dataset.x; ivRB(bi); break;
+    case "mnext": { const id = t.dataset.a, st = +t.dataset.x, b = IV_DAYS[ivDay].b[bi]; IVS.melt[id] = Math.max(IVS.melt[id] || 0, Math.min(st + 1, b.to)); if (st >= b.to) IVS.melt["f:" + id] = Math.max(IVS.melt["f:" + id] || 0, b.to); saveIv(); M["st" + id] = Math.min(st + 1, b.to); M["sr" + id] = null; ivRB(bi);
+      if (b.a.every(a => (IVS.melt["f:" + a] || 0) >= b.to) && st >= b.to && !ivBDone(ivDay, bi)) ivMark(bi); break; }
+    case "srk": { const id = t.dataset.a; if (ivSR.r) { ivSR.stop(); break; } M.srOn = id; const ok = ivSR.start(txt => { M["sr" + id] = txt; const el = $("#ivb-" + bi + " .iv-heard"); if (el) el.textContent = txt; else ivRB(bi); }, () => { M.srOn = null; ivRB(bi); }); if (ok) { t.textContent = "■ Хватит"; } else toast("Распознавание речи недоступно в этом браузере"); break; }
+    // 90-60-40
+    case "sqgo": { ivStop(); const b = IV_DAYS[ivDay].b[bi], tok = ++ivTok.n, R = [90, 60, 40]; await ivSay(IV_ANS[b.a].q, 0.95); if (tok !== ivTok.n) return;
+      M.run = true; M.left = R[M.r]; ivRB(bi); ivRec.start("sq:" + bi + ":" + M.r); const r0 = M.r, t0 = Date.now();
+      ivTimer.id = setInterval(() => { M.left = Math.max(0, R[r0] - Math.floor((Date.now() - t0) / 1000)); const c = $("#ivb-" + bi + " .iv-clock"); if (c) { c.textContent = M.left; c.classList.toggle("low", M.left <= 10); } if (M.left <= 0) ivSqEnd(bi, R[r0]); }, 250);
+      M.t0 = t0; break; }
+    case "sqdone": ivSqEnd(bi, Math.round((Date.now() - M.t0) / 1000)); break;
+    // тренировки
+    case "qpick": { const q = M.qs[M.i]; M.pick = t.dataset.x; if (M.pick === q[3]) M.ok++; ivRB(bi); break; }
+    case "qnext": M.i++; M.pick = null; ivRB(bi); if (M.i >= M.qs.length && !ivBDone(ivDay, bi)) ivMark(bi); break;
+    case "qagain": M.qs = null; ivRB(bi); break;
+    // письмо
+    case "wcheck": { const b = IV_DAYS[ivDay].b[bi], W = IV_WRITE[b.w], txt = IVS.wr[b.w] || ""; const sent = txt.split(/[.!?\n]+/).filter(s => s.trim().split(/\s+/).length >= 2).length;
+      M.res = [[`Строк или предложений: ${sent} (нужно от ${W.min})`, sent >= W.min], ...W.checks.map(c => [c[0], new RegExp(c[1], "im").test(txt)])]; ivRB(bi);
+      if (M.res.every(r => r[1]) && !ivBDone(ivDay, bi)) { toast("Всё на месте!"); ivMark(bi); } break; }
+    case "wmodel": M.model = !M.model; ivRB(bi); break;
+    // собеседование
+    case "mgo": ivStop(); M.st = "run"; M.i = 0; M.res = []; M.show = false; ivMockAsk(bi); break;
+    case "mshow": M.show = !M.show; ivRB(bi); break;
+    case "mrep": ivMockAsk(bi, t.dataset.x); break;
+    case "mnextq": { const b = IV_DAYS[ivDay].b[bi]; ivTok.n++; try { speechSynthesis.cancel(); } catch (err) {} clearInterval(ivTimer.id); ivRec.stop();
+      M.res[M.i] = { q: M.q, t: M.t || 0, help: M.help || 0 }; M.i++; M.show = false;
+      if (M.i >= b.a.length) { M.st = "end"; await ivWait(300); ivRB(bi); if (!ivBDone(ivDay, bi)) ivMark(bi); await ivSay("Thank you, that's all from our side. We'll be in touch.", 0.95); }
+      else { await ivWait(400); ivMockAsk(bi); } break; }
+    case "mquit": ivStop(); M.st = "set"; ivRB(bi); break;
+    case "magain": M.st = "set"; ivRB(bi); break;
+    case "kc": { const k = t.dataset.k, j = t.dataset.x; const o = IVS.kw[k] || (IVS.kw[k] = {}); o[j] = !o[j]; saveIv(); t.classList.toggle("hit", !!o[j]); break; }
+  }
+}
+function ivSqEnd(bi, used) { const M = IVM[bi]; if (!M || !M.run) return; clearInterval(ivTimer.id); ivRec.stop(); M.used[M.r] = Math.max(1, used); M.r++; M.run = false; ivRB(bi); if (M.r >= 3 && !ivBDone(ivDay, bi)) ivMark(bi); }
+function onIvInput(e) {
+  const t = e.target;
+  if (t.dataset.f) { IVS.p[t.dataset.f] = t.value; saveIv(); const box = t.closest(".iv-f"); if (box) $$(".iv-chip", box).forEach(c => c.classList.toggle("on", c.dataset.x === t.value)); }
+  else if (t.dataset.rf) { (IVS.refl[ivDay] || (IVS.refl[ivDay] = {}))[t.dataset.rf] = t.value; saveIv(); }
+  else if (t.dataset.w) { IVS.wr[t.dataset.w] = t.value; saveIv(); }
+}
+
+// плитка в «Упражнениях» — после «Книг»
+const renderExIv = renderEx;
+renderEx = function () {
+  renderExIv();
+  const g = $("#scr-ex .ex-grid"); if (!g || $('[data-x="interview"]', g)) return;
+  const dn = IV_DAYS.filter((d, i) => ivDDone(i)).length;
+  const html = `<button class="ex-tile" data-x="interview" style="--tb:#CFE6FF"><span class="ex-e">💼</span><b>Собеседования</b><span>6 недель к свободному разговору на собеседовании: ваши ответы, тень, интервьюер</span><em>${dn ? `${dn} из ${IV_DAYS.length} занятий` : "36 занятий по 40–60 минут"}</em>${dn === IV_DAYS.length ? `<i class="ex-ok">✓</i>` : `<i class="ex-tag">Новое</i>`}</button>`;
+  const bk = $('[data-x="books"]', g);
+  if (bk) bk.insertAdjacentHTML("afterend", html); else g.insertAdjacentHTML("afterbegin", html);
+};
+$("#scr-ex").addEventListener("click", e => { if (e.target.closest('[data-x="interview"]')) openIv(); });
+renderEx();
+
 // ================== СТРАНИЦА «НЕПРАВИЛЬНЫЕ ГЛАГОЛЫ»: как выбрать форму + список + тренировки ==================
 let irrQuery = "";
 const irrExRender = renderExPage;
