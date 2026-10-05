@@ -27477,6 +27477,7 @@ async function tuCall(mode, body = {}) {
     try { r = await fetch(SB_URL + "/functions/v1/tutor", { method: "POST", headers: { Authorization: "Bearer " + tok, apikey: SB_KEY, "Content-Type": "application/json" }, body: JSON.stringify(base) }); }
     catch (e) { throw Object.assign(new Error("Нет связи с сервером репетитора"), { code: "net" }); }
     const j = await r.json().catch(() => ({ error: r.status === 404 ? "Функция tutor ещё не установлена в Supabase" : "Сервер репетитора не отвечает (" + r.status + ")" }));
+    if (r.status === 404 && !j.error) j.error = "Сервер не нашёл функцию tutor в Supabase: проверьте, что она задеплоена и называется именно tutor";
     if (!r.ok || j.error) throw Object.assign(new Error(j.error || "Ошибка " + r.status), { code: j.code || "", status: r.status, data: j });
     return j;
   }
@@ -27571,7 +27572,7 @@ async function tuRefresh() {
     else if (TU.prof) tuCall("profile", { profile: TU.prof }).catch(() => {});      // анкета была заполнена до входа
     if (TU.prof && !r.plan) tuMakePlan(true);
     saveTu(); if (isOpen("#tuPage")) renderTutor();
-  } catch (e) { if (e.status === 404 || /не установлена/.test(e.message)) { TU.offline = e.message; if (isOpen("#tuPage")) renderTutor(); } }
+  } catch (e) { if (e.status === 404 || /не установлена|не нашёл функцию/.test(e.message)) { TU.offline = e.message; if (isOpen("#tuPage")) renderTutor(); } }
 }
 const tuNextItem = () => { for (const w of (TU.plan && TU.plan.weeks) || []) for (const it of w.items) if (!it.done) return { w, it }; return null; };
 function tuWeekNow() {
