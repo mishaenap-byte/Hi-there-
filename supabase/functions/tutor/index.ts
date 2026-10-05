@@ -99,22 +99,34 @@ async function llm(c: Ctx, model: string, system: string, msgs: Msg[], o: { json
     if (o.json) gen.responseMimeType = "application/json";
     // без «раздумий» — меньше пауза: у 2.5 это thinkingBudget 0, у новых моделей thinkingLevel minimal
     const think = (m: string) => /2\.5/.test(m) ? { thinkingBudget: 0 } : /2\.0/.test(m) ? null : { thinkingLevel: "minimal" };
+    // у новых моделей «раздумья» тоже тратят maxOutputTokens — даём запас, иначе ответ обрывается на полуслове
+    const cfg = (m: string, th: any) => { const g = { ...gen }; if (!/2\.[05]/.test(m)) g.maxOutputTokens = gen.maxOutputTokens + 2048; if (th) g.thinkingConfig = th; return g; };
     const call = (m: string, th: any) => fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent`, {
       method: "POST", headers: { "x-goog-api-key": key, "Content-Type": "application/json" },
-      body: JSON.stringify({ systemInstruction: { parts: [{ text: system }] }, contents, generationConfig: th ? { ...gen, thinkingConfig: th } : gen }),
+      body: JSON.stringify({ systemInstruction: { parts: [{ text: system }] }, contents, generationConfig: cfg(m, th) }),
     });
-    const tries = [GEM_OK[model] || model, ...FALLBACK.filter(m => m !== model)];
-    let j: any = null, err = "";
+    const tries = [GEM_OK[model] || model, ...FALLBACK.filter(m => m !== model && m !== GEM_OK[model])];
+    let j: any = null, err = "", busy = false;
     for (const m of tries) {
-      let th = NO_THINK.has(m) ? null : think(m), r = await call(m, th); j = await r.json().catch(() => ({}));
-      if (!r.ok && th && /thinking/i.test(j.error?.message || "")) { th = null; NO_THINK.add(m); r = await call(m, null); j = await r.json().catch(() => ({})); }
-      if (r.ok) { GEM_OK[model] = m; model = m; err = ""; break; }
-      err = j.error && j.error.message || String(r.status);
-      if (!(r.status === 404 || /no longer available|not found|not supported|deprecated/i.test(err))) break;
+      for (let attempt = 0; attempt < 2; attempt++) {
+        let th = NO_THINK.has(m) ? null : think(m), r = await call(m, th); j = await r.json().catch(() => ({}));
+        if (!r.ok && th && /thinking/i.test(j.error?.message || "")) { th = null; NO_THINK.add(m); r = await call(m, null); j = await r.json().catch(() => ({})); }
+        if (r.ok) { if (!busy && m !== model) GEM_OK[model] = m; model = m; err = ""; break; }
+        err = j.error && j.error.message || String(r.status);
+        busy = r.status === 429 || r.status >= 500 || /high demand|overloaded|unavailable|try again/i.test(err);
+        if (!busy) break;
+        if (attempt === 0) await new Promise(res => setTimeout(res, 700));   // Google перегружен — одна короткая пауза и повтор
+      }
+      if (!err) break;
+      if (!(busy || /no longer available|not found|not supported|deprecated/i.test(err))) break;
     }
-    if (err) throw new Fail("Модель: " + err, 502);
+    // Gemini перегружен целиком — отвечаем через OpenAI, чтобы урок не встал
+    if (err && busy && env("OPENAI_API_KEY")) return llm(c, "gpt-4.1-mini", system, msgs, o);
+    if (err) throw new Fail(busy ? "Модель сейчас перегружена, повторите через минуту" : "Модель: " + err, 502);
     const cand = j.candidates && j.candidates[0];
-    text = (cand && cand.content && cand.content.parts || []).map((p: any) => p.text || "").join("");
+    text = (cand && cand.content && cand.content.parts || []).filter((p: any) => !p.thought).map((p: any) => p.text || "").join("");
+    // ответ упёрся в лимит — не показываем оборванную фразу, обрезаем до последнего законченного предложения
+    if (cand && cand.finishReason === "MAX_TOKENS" && !o.json) { const k = Math.max(text.lastIndexOf(". "), text.lastIndexOf("? "), text.lastIndexOf("! ")); if (k > 0) text = text.slice(0, k + 1); }
     tin = j.usageMetadata?.promptTokenCount || 0; tout = (j.usageMetadata?.candidatesTokenCount || 0) + (j.usageMetadata?.thoughtsTokenCount || 0);
   }
   const p = LLM_PRICE[model] || LLM_PRICE["gemini-3.8-flash"];
