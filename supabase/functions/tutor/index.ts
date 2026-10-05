@@ -37,7 +37,9 @@ class Fail extends Error { constructor(msg: string, public status = 400, public 
 const ADMINS = (env("TUTOR_ADMINS") || env("PUSH_ADMINS")).split(",").map(s => s.trim()).filter(Boolean);
 const FREE_LESSONS = +(env("TUTOR_FREE_LESSONS") || 2);
 const DAILY_VOICE_SEC = +(env("TUTOR_DAILY_VOICE_MIN") || 60) * 60;
-const MODEL = env("GEMINI_MODEL") || "gemini-2.5-flash";
+const MODEL = env("GEMINI_MODEL") || "gemini-3.8-flash";
+// запасные модели, если Google закрыл выбранную («no longer available», «not found»)
+const FALLBACK = ["gemini-3.8-flash", "gemini-flash-latest"];
 const ANALYZER = env("ANALYZER_MODEL") || MODEL;
 const STT = env("TUTOR_STT") === "scribe" ? "scribe" : "openai";
 const ALERT_DAY_USD = +(env("TUTOR_ALERT_DAY_USD") || 10), ALERT_USER_MONTH_USD = +(env("TUTOR_ALERT_USER_USD") || 3);
@@ -46,7 +48,7 @@ const ALERT_DAY_USD = +(env("TUTOR_ALERT_DAY_USD") || 10), ALERT_USER_MONTH_USD 
 // модели: за 1 млн токенов [вход, выход]
 const LLM_PRICE: Record<string, [number, number]> = {
   "gemini-2.5-flash": [0.30, 2.50], "gemini-2.5-flash-lite": [0.10, 0.40], "gemini-2.0-flash": [0.10, 0.40],
-  "gemini-flash-latest": [0.30, 2.50], "gemini-flash-lite-latest": [0.10, 0.40],
+  "gemini-3.8-flash": [0.50, 3.00], "gemini-flash-latest": [0.50, 3.00], "gemini-flash-lite-latest": [0.10, 0.40],
   "gpt-4.1-mini": [0.40, 1.60], "gpt-4.1-nano": [0.10, 0.40], "gpt-4o-mini": [0.15, 0.60],
 };
 const TTS_PER_MIN = 0.015;                       // gpt-4o-mini-tts ≈ $0.015 за минуту речи
@@ -70,6 +72,8 @@ async function cost(c: Ctx, service: string, model: string, units: number, unit:
 }
 
 // ---------- текстовая модель (Gemini или OpenAI) ----------
+const GEM_OK: Record<string, string> = {};   // какая модель реально ответила вместо выбранной
+const NO_THINK = new Set<string>();          // модели, которые не принимают настройку «раздумий»
 type Msg = { role: "user" | "assistant"; text: string };
 async function llm(c: Ctx, model: string, system: string, msgs: Msg[], o: { json?: boolean; max?: number; temp?: number } = {}) {
   let text = "", tin = 0, tout = 0;
@@ -93,17 +97,27 @@ async function llm(c: Ctx, model: string, system: string, msgs: Msg[], o: { json
     if (!contents.length || contents[0].role !== "user") contents.unshift({ role: "user", parts: [{ text: "(урок начался)" }] });
     const gen: any = { temperature: o.temp ?? 0.7, maxOutputTokens: o.max || 600 };
     if (o.json) gen.responseMimeType = "application/json";
-    if (/flash/.test(model) && !/2\.0/.test(model)) gen.thinkingConfig = { thinkingBudget: 0 };   // без «раздумий» — меньше пауза
-    const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
+    // без «раздумий» — меньше пауза: у 2.5 это thinkingBudget 0, у новых моделей thinkingLevel minimal
+    const think = (m: string) => /2\.5/.test(m) ? { thinkingBudget: 0 } : /2\.0/.test(m) ? null : { thinkingLevel: "minimal" };
+    const call = (m: string, th: any) => fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent`, {
       method: "POST", headers: { "x-goog-api-key": key, "Content-Type": "application/json" },
-      body: JSON.stringify({ systemInstruction: { parts: [{ text: system }] }, contents, generationConfig: gen }),
+      body: JSON.stringify({ systemInstruction: { parts: [{ text: system }] }, contents, generationConfig: th ? { ...gen, thinkingConfig: th } : gen }),
     });
-    const j = await r.json(); if (!r.ok) throw new Fail("Модель: " + (j.error && j.error.message || r.status), 502);
+    const tries = [GEM_OK[model] || model, ...FALLBACK.filter(m => m !== model)];
+    let j: any = null, err = "";
+    for (const m of tries) {
+      let th = NO_THINK.has(m) ? null : think(m), r = await call(m, th); j = await r.json().catch(() => ({}));
+      if (!r.ok && th && /thinking/i.test(j.error?.message || "")) { th = null; NO_THINK.add(m); r = await call(m, null); j = await r.json().catch(() => ({})); }
+      if (r.ok) { GEM_OK[model] = m; model = m; err = ""; break; }
+      err = j.error && j.error.message || String(r.status);
+      if (!(r.status === 404 || /no longer available|not found|not supported|deprecated/i.test(err))) break;
+    }
+    if (err) throw new Fail("Модель: " + err, 502);
     const cand = j.candidates && j.candidates[0];
     text = (cand && cand.content && cand.content.parts || []).map((p: any) => p.text || "").join("");
     tin = j.usageMetadata?.promptTokenCount || 0; tout = (j.usageMetadata?.candidatesTokenCount || 0) + (j.usageMetadata?.thoughtsTokenCount || 0);
   }
-  const p = LLM_PRICE[model] || LLM_PRICE["gemini-2.5-flash"];
+  const p = LLM_PRICE[model] || LLM_PRICE["gemini-3.8-flash"];
   later(cost(c, "llm", model, tin + tout, "tokens", (tin * p[0] + tout * p[1]) / 1e6));
   return { text: text.trim(), tin, tout, usd: (tin * p[0] + tout * p[1]) / 1e6 };
 }
@@ -632,7 +646,7 @@ Deno.serve(async req => {
         return json(out);
       }
       if (mode === "analyzer_test") {
-        const models = (Array.isArray(b.models) && b.models.length ? b.models : [MODEL, "gemini-2.5-flash-lite", "gpt-4.1-mini"]).filter((m: string) => LLM_PRICE[m]).slice(0, 3);
+        const models = (Array.isArray(b.models) && b.models.length ? b.models : [MODEL, "gemini-flash-lite-latest", "gpt-4.1-mini"]).filter((m: string) => LLM_PRICE[m]).slice(0, 3);
         const res: any[] = [];
         for (const m of models) {
           let caught = 0, usd = 0, ms = 0; const rows: any[] = [];

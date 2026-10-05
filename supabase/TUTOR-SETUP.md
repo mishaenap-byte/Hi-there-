@@ -31,7 +31,7 @@ Edge Functions → **Secrets** → добавьте:
 
 | Имя | Что меняет | По умолчанию |
 |---|---|---|
-| `GEMINI_MODEL` | модель репетитора | `gemini-2.5-flash` |
+| `GEMINI_MODEL` | модель репетитора | `gemini-3.8-flash` (если Google её закроет, функция сама возьмёт `gemini-flash-latest`) |
 | `ANALYZER_MODEL` | модель аналитика ошибок | как `GEMINI_MODEL` |
 | `TUTOR_STT` | распознавание: `openai` или `scribe` | `openai` |
 | `TUTOR_FREE_LESSONS` | бесплатных уроков | `2` |
