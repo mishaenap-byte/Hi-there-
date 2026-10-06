@@ -2655,6 +2655,31 @@ html.native #sheet{padding-bottom:var(--sab)}
 .iv-bb p{margin:6px 0}
 .iv-ok{display:block;margin:12px 0 0 auto;padding:8px 16px;border-radius:14px;background:#F1F3F6;box-shadow:inset 0 0 0 2px #17171F;font-weight:800;font-size:14px;color:#17171F}
 .iv-ok.on{background:#7BEA64}
+.ad-body{padding-bottom:40px}
+.ad-load{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;padding:40px 20px;color:var(--ink)}
+.ad-load small{color:var(--muted);font-size:13px}
+.ad-spin{width:28px;height:28px;border-radius:50%;border:3px solid var(--line);border-top-color:var(--ink);animation:adSpin .8s linear infinite}
+@keyframes adSpin{to{transform:rotate(360deg)}}
+.ad-note{margin:0 0 12px;padding:12px 14px;border-radius:16px;background:var(--surface-2);color:var(--ink);font-size:13.5px;line-height:1.45}
+.ad-h{margin:16px 4px 6px;font-size:15px;font-weight:800;color:var(--ink)}
+.ad-tabs{display:flex;gap:6px;overflow-x:auto;margin:0 0 14px;padding:2px;scrollbar-width:none}
+.ad-tabs::-webkit-scrollbar{display:none}
+.ad-tabs button{flex:none;padding:8px 13px;border-radius:12px;background:var(--surface-2);font-size:13.5px;font-weight:800;color:var(--ink-2)}
+.ad-tabs button.on{background:var(--ink);color:var(--bg)}
+.ad-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.ad-big{padding:14px;border-radius:18px;background:var(--surface-2);display:flex;flex-direction:column;gap:2px;margin-bottom:10px;min-width:0}
+.ad-grid .ad-big{margin:0}
+.ad-big b{font:400 26px "Dela Gothic One",var(--f-body,system-ui);color:var(--ink);overflow-wrap:anywhere}.ad-big span{font-size:12.5px;font-weight:700;color:var(--muted);line-height:1.3}
+.ad-row{display:grid;grid-template-columns:26px 1fr;column-gap:8px;align-items:center;padding:9px 4px;border-bottom:1px solid var(--line);cursor:pointer}
+.ad-row span{grid-row:span 2;font-size:17px}.ad-row b{font-size:14.5px;color:var(--ink)}.ad-row small{font-size:12.5px;color:var(--muted)}
+.ad-tw{overflow-x:auto;margin:0 -4px;-webkit-overflow-scrolling:touch}
+.ad-t{border-collapse:collapse;font-size:13px;min-width:520px;width:100%;color:var(--ink)}
+.ad-t th{position:sticky;top:0;background:var(--bg);text-align:left;font-size:11.5px;font-weight:800;color:var(--muted);padding:6px;white-space:nowrap;cursor:pointer}
+.ad-t th.on{color:var(--ink);text-decoration:underline}
+.ad-t td{padding:8px 6px;border-top:1px solid var(--line);white-space:nowrap}
+.ad-t tr{cursor:pointer}
+.ad-cal{display:grid;grid-template-columns:repeat(14,1fr);gap:4px}
+.ad-cal i{aspect-ratio:1;border-radius:4px;background:var(--surface-2)}.ad-cal i.on{background:var(--ink)}
 .iv-mute{font-size:13.5px;color:#6B7080;font-weight:600}
 .iv-h4{margin:14px 0 6px;font-size:14px;font-weight:800;color:#17171F}
 .iv-say{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#FFEC3D;box-shadow:inset 0 0 0 2px #17171F;color:#17171F}
@@ -29877,7 +29902,7 @@ const SB_KEY = "sb_publishable_joEqyAceqo_yHxcv7poMVA_4am-DjC5";
 const K_CUID = "vz.cloud.uid", K_SKIP = "vz.cloud.skip";
 const SB_TOKEN_KEY = "sb-jdpreowtaahhqaalzhgi-auth-token";
 // что уезжает в облако как «прогресс» (группы и личные сообщения живут отдельно)
-const PROGRESS_KEYS = [K_PROFILE, K_WGRP, K_VB, K_LVL, K_R, K_WALK, K_PACKS, K_BANK, K_MISSION, K_CAPS, K_CH, K_GUIDE, K_PATH, K_TALK, K_EX, K_BK, K_CHNK, K_GAMES];
+const PROGRESS_KEYS = [K_PROFILE, K_WGRP, K_VB, K_LVL, K_R, K_WALK, K_PACKS, K_BANK, K_MISSION, K_CAPS, K_CH, K_GUIDE, K_PATH, K_TALK, K_EX, K_BK, K_CHNK, K_GAMES, K_IV];
 const SYNC_KEYS = new Set([K_DICT, K_MARKS].concat(PROGRESS_KEYS));
 
 const sb = window.supabase.createClient(SB_URL, SB_KEY, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
@@ -31393,6 +31418,110 @@ const PUSH = (() => {
 })();
 // отправил слова в повторение — предлагаем напоминания
 { const q = irQueue; irQueue = function () { const r = q.apply(this, arguments); try { PUSH.offer(); } catch (e) {} return r; }; }
+// ================== АДМИНКА: видит только автор (его id в PUSH_ADMINS), данные отдаёт функция admin ==================
+const ADMIN = (() => {
+  const K_ME = "vz.admin.me", K_OPEN = "vz.ev.open";
+  const fn = async (body) => {
+    const { data } = await sb.auth.getSession();
+    const tok = data && data.session && data.session.access_token;
+    if (!tok) throw new Error("Войдите в аккаунт");
+    let r; try { r = await fetch(SB_URL + "/functions/v1/admin", { method: "POST", headers: { Authorization: "Bearer " + tok, apikey: SB_KEY, "Content-Type": "application/json" }, body: JSON.stringify(body) }); }
+    catch (e) { throw new Error("Нет связи с сервером"); }
+    const j = await r.json().catch(() => ({ error: r.status === 404 ? "Функция admin ещё не установлена в Supabase (см. ADMIN-SETUP.md)" : "Сервер ответил " + r.status }));
+    if (!r.ok || j.error) throw new Error(j.error || "Ошибка " + r.status);
+    return j;
+  };
+  // кто сейчас в приложении и когда заходили — для вкладок «Сейчас», «Сегодня», «Возвраты»
+  const ping = () => { if (CLOUD.uid && !document.hidden) sb.from("presence").upsert({ user_id: CLOUD.uid, at: new Date().toISOString() }).then(() => {}, () => {}); };
+  const open = () => {
+    if (!CLOUD.uid || document.hidden) return;
+    if (Date.now() - (+lsGet(K_OPEN) || 0) > 30 * 60e3) { lsSet(K_OPEN, String(Date.now())); sb.from("app_events").insert({ user_id: CLOUD.uid, kind: "open" }).then(() => {}, () => {}); }
+    ping();
+  };
+  setTimeout(open, 4000); setInterval(ping, 45000);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) open(); });
+  // строка «Админка» в профиле — только если сервер подтвердил, что это автор
+  const isMe = () => !!CLOUD.uid && lsGet(K_ME) === CLOUD.uid;
+  let checked = "";
+  async function check() {
+    if (!CLOUD.uid || checked === CLOUD.uid) return; checked = CLOUD.uid;
+    try { const r = await fn({ mode: "me" }); if (r.admin) lsSet(K_ME, CLOUD.uid); else lsDel(K_ME); }
+    catch (e) { checked = ""; return; }
+    if (isOpen("#profilePage")) renderProfile();
+  }
+  const prevRows = CLOUD.setRows;
+  CLOUD.setRows = function () { if (this.uid) setTimeout(check, 0); return (isMe() ? `<button class="set-row" data-a="adminOpen"><span>📊</span>Админка</button>` : "") + prevRows.call(this); };
+  document.addEventListener("click", e => { if (e.target.closest('[data-a="adminOpen"]')) { e.stopPropagation(); openAdmin(); } }, true);
+
+  const AD = { data: null, sort: "last", tab: "now", timer: 0 };
+  const agoS = t => t ? ago(t) : "—";
+  function page() {
+    let p = $("#adPage");
+    if (!p) { p = document.createElement("div"); p.className = "page gpage"; p.id = "adPage"; p.hidden = true; $("#profilePage").before(p); p.addEventListener("click", onClick); }
+    return p;
+  }
+  function openAdmin() {
+    const p = page();
+    p.innerHTML = `<div class="page-head"><button class="icon-btn" data-ad="close" aria-label="Назад">${ICON.back}</button>
+      <div class="ph-title"><span class="ph-emoji" aria-hidden="true">📊</span><div style="min-width:0"><b>Админка</b><span>видите только вы</span></div></div>
+      <button class="icon-btn" data-ad="reload" aria-label="Обновить">↻</button></div>
+      <div class="scroll page-body ad-body" id="adBody"><div class="ad-load"><span class="ad-spin"></span><b>Собираю данные…</b></div></div>`;
+    openPageEl(p); load();
+    clearInterval(AD.timer); AD.timer = setInterval(() => { if (!isOpen("#adPage")) clearInterval(AD.timer); else if (AD.tab === "now") load(true); }, 20000);
+  }
+  async function load(quiet) {
+    try { AD.data = await fn({ mode: "overview" }); render(); }
+    catch (e) { if (!quiet) { const b = $("#adBody"); if (b) b.innerHTML = `<div class="ad-load"><b>Не получилось</b><small>${esc(e.message)}</small></div>`; } }
+  }
+  const TABS = [["now", "Сейчас"], ["today", "Сегодня"], ["users", "Люди"], ["ret", "Возвраты"]];
+  const big = (n, t) => `<div class="ad-big"><b>${n}</b><span>${t}</span></div>`;
+  function render() {
+    const b = $("#adBody"), d = AD.data; if (!b || !d) return;
+    let h = `<div class="ad-tabs">${TABS.map(t => `<button class="${AD.tab === t[0] ? "on" : ""}" data-ad="tab" data-t="${t[0]}">${t[1]}</button>`).join("")}</div>`;
+    if (!d.tables.presence) h += `<div class="ad-note">Онлайн и входы пока не считаются: запустите supabase/admin.sql в SQL Editor (один раз).</div>`;
+    if (AD.tab === "now") h += big(d.now.online, "онлайн сейчас") + (d.now.list.map(u => `<div class="ad-row" data-ad="user" data-id="${esc(u.id)}"><span>🟢</span><b>${esc(u.name || "Без имени")}</b><small>в приложении</small></div>`).join("") || `<p class="iv-mute">Никого. Обновляется каждые 20 секунд.</p>`);
+    if (AD.tab === "today") { const t = d.today, T = d.totals;
+      h += `<div class="ad-grid">${big(t.visits, "зашли сегодня")}${big(t.signups, "новых регистраций")}${big(t.learned, "занимались курсом")}${big(T.week, "заходили за 7 дней")}${big(T.users, "всего аккаунтов")}${big(T.lessons, "уроков курса пройдено всеми")}</div>
+        <h3 class="ad-h">Уровни</h3><p class="iv-mute">${Object.entries(T.levels).sort().map(([k, v]) => `${esc(k)}: ${v}`).join(" · ") || "—"}</p>`; }
+    if (AD.tab === "users") {
+      const cols = [["name", "Имя"], ["last", "Вход"], ["level", "Ур."], ["streak", "🔥"], ["lessons", "Уроков"], ["steps", "Шагов"], ["words", "Слов"], ["xp", "XP"]];
+      const key = AD.sort, val = (u, k) => k === "last" ? Date.parse(u.last || 0) || 0 : k === "name" || k === "level" ? String(k === "name" ? u.name || u.email : u.level || "").toLowerCase() : +u[k] || 0;
+      const list = d.users.slice().sort((a, c) => { const x = val(a, key), y = val(c, key); return typeof x === "string" ? (x > y ? 1 : x < y ? -1 : 0) : y - x; });
+      h += `<div class="ad-tw"><table class="ad-t"><thead><tr>${cols.map(c => `<th data-ad="sort" data-k="${c[0]}" class="${key === c[0] ? "on" : ""}">${c[1]}</th>`).join("")}</tr></thead><tbody>
+        ${list.map(u => `<tr data-ad="user" data-id="${esc(u.id)}"><td><b>${esc(u.name || u.email || u.id.slice(0, 8))}</b></td><td>${agoS(u.last)}</td><td>${esc(u.level || "—")}</td><td>${u.streak}</td><td>${u.lessons}</td><td>${u.steps}</td><td>${u.words}</td><td>${u.xp}</td></tr>`).join("")}</tbody></table></div>
+        <p class="iv-mute">Тап по строке — карточка. Словарь, сообщения и посты людей здесь не показываются, только счётчики.</p>`;
+    }
+    if (AD.tab === "ret") { const r = d.returns, pc = x => x == null ? "—" : Math.round(x * 100) + "%";
+      h += `<div class="ad-grid">${big(pc(r.d1), "вернулись на следующий день · из " + r.d1_n)}${big(pc(r.d7), "вернулись через 7 дней · из " + r.d7_n)}</div><p class="iv-mute">Считается по тем, кто зарегистрировался за последние 5 недель. Вход отмечается, когда человек открывает приложение (не чаще раза в 30 минут).</p>`; }
+    b.innerHTML = h;
+  }
+  async function user(id) {
+    const u = (AD.data.users || []).find(x => x.id === id) || { id };
+    const head = `<div class="sh-head"><span class="eyebrow">Карточка</span><h2>${esc(u.name || u.email || "Пользователь")}</h2></div>`;
+    openSheet(head + `<div class="ad-load"><span class="ad-spin"></span></div>`);
+    try {
+      const r = await fn({ mode: "user", id });
+      const lv = Object.entries(r.byLv).filter(([, n]) => n).map(([k, n]) => `${k}: ${n}`).join(" · ") || "ещё не начинал";
+      const days = new Set(r.days), cal = Array.from({ length: 28 }, (_, i) => { const t = new Date(Date.now() - (27 - i) * 864e5).toISOString().slice(0, 10); return `<i class="${days.has(t) ? "on" : ""}" title="${t}"></i>`; }).join("");
+      sheetBody.innerHTML = head + `<p class="muted" style="margin:0 0 12px">${esc(r.email)}${r.created ? " · с " + new Date(r.created).toLocaleDateString("ru-RU") : ""} · последний вход ${agoS(u.last)}</p>
+        <div class="ad-grid">${big(esc(r.level || "—"), "уровень")}${big(r.streak, "серия дней 🔥")}${big(r.lessons, "уроков курса")}${big(r.steps, "шагов курса всего")}${big(r.words, "слов в словаре")}${big(r.xp, "XP")}</div>
+        <h4 class="ad-h">Курс по уровням</h4><p class="iv-mute">${esc(lv)}</p>
+        <h4 class="ad-h">Ещё</h4><p class="iv-mute">Басен прослушано: ${r.books} · шагов «Собеседований»: ${r.interview}${r.goal ? " · цель: " + esc(r.goal) : ""}</p>
+        <h4 class="ad-h">Заходил за 4 недели</h4><div class="ad-cal">${cal}</div>
+        <p class="iv-mute" style="margin-top:10px">Последняя синхронизация: ${agoS(r.last_sync)}</p>`;
+    } catch (e) { sheetBody.innerHTML = head + `<p>${esc(e.message)}</p>`; }
+  }
+  function onClick(e) {
+    const a = e.target.closest("[data-ad]"); if (!a) return;
+    const v = a.dataset.ad;
+    if (v === "close") { clearInterval(AD.timer); closePageEl(page()); }
+    if (v === "reload") load();
+    if (v === "tab") { AD.tab = a.dataset.t; render(); }
+    if (v === "sort") { AD.sort = a.dataset.k; render(); }
+    if (v === "user") user(a.dataset.id);
+  }
+  return { open: openAdmin, check };
+})();
 // ================== ВКЛАДКИ: «Люди» вместо «Ленты», «Учёба» вместо «Пути»; в Book — повторение лесенкой и круглая «＋» ==================
 (() => {
   const bar = $("#tabbar"), fd = $('.tab[data-tab="feed"]', bar), pt = $(".tab-path", bar);
