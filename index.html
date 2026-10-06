@@ -91,11 +91,6 @@ mark.tu-err{background:transparent;color:inherit;text-decoration:underline wavy 
 .tu-mic svg{width:30px;height:30px}
 .tu-mic.rec{transform:scale(1.12);background:#C2185B;box-shadow:0 0 0 10px rgba(224,69,123,.18),0 0 0 22px rgba(224,69,123,.08)}
 .tu-mic:disabled{opacity:.45}
-.tu-mic.rt{touch-action:auto}
-.tu-mic.live{animation:tuLive 2.4s ease-in-out infinite}
-.tu-mic.off{background:var(--surface-2);color:var(--muted);box-shadow:none}
-@keyframes tuLive{0%,100%{box-shadow:0 6px 18px rgba(224,69,123,.35),0 0 0 0 rgba(224,69,123,.22)}50%{box-shadow:0 6px 18px rgba(224,69,123,.35),0 0 0 12px rgba(224,69,123,0)}}
-@media (prefers-reduced-motion:reduce){.tu-mic.live{animation:none}}
 .tu-fast{display:flex;align-items:center;gap:12px;width:100%;margin-top:10px;padding:10px 12px;border-radius:14px;background:var(--surface-2);color:var(--ink);text-align:left}
 .tu-fast span{flex:1;min-width:0;display:flex;flex-direction:column}.tu-fast b{font-size:14px;margin:0}.tu-cover .tu-fast small{font-size:12px;color:var(--muted);font-weight:600;text-transform:none;letter-spacing:0;margin:1px 0 0}
 .tu-fast i{flex:none;width:42px;height:26px;border-radius:999px;background:var(--line,#ccc);position:relative;transition:background .2s}
@@ -27462,7 +27457,6 @@ renderEx();
 // На сайте всё идёт через функцию tutor в Supabase (ключи только там). В превью без входа — демо: модель Claude + голос браузера.
 const K_TU = "vzhivuyu.tutor.v1";
 const TU = Object.assign({ prof: null, plan: null, memory: null, hw: null, sessions: [], access: null, admin: false, demo: {}, marks: {}, fast: false }, store.get(K_TU, {}) || {});
-TU.fast = false;          // ⚡ быстрый режим скрыт (Mihai не понравился), код оставлен
 const saveTu = () => store.set(K_TU, { prof: TU.prof, plan: TU.plan, memory: TU.memory, hw: TU.hw, sessions: TU.sessions.slice(0, 30), access: TU.access, admin: TU.admin, demo: TU.demo, marks: TU.marks, fast: TU.fast });
 // отметки пунктов плана на этом телефоне: «пройдено» и «позже» (на сегодня); ключ — как на сервере, переживает перестройку плана
 const tuKey = it => it.kind + ":" + (it.lesson || it.title);
@@ -27650,14 +27644,14 @@ const tuRt = {
     try { this.au.play().catch(() => {}); } catch (e) {}
   },
   async start(args) {
-    Object.assign(this, { me: {}, cur: null, live: true, active: false, byeWant: false, byeSent: false, pend: [] });
+    Object.assign(this, { me: {}, cur: null, live: true, active: false, byeWant: false, byeSent: false, pend: [], rec: null, wait: [] });
     const r = await tuCall("start", { ...args, rt: true });
     if (!this.live) return;
     TS.sid = r.session; this.model = r.rt.model; if (r.access) TU.access = r.access;
     let st; try { st = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true } }); }
     catch (e) { throw new Error("нет доступа к микрофону"); }
     if (!this.live) { st.getTracks().forEach(t => t.stop()); return; }
-    this.st = st;
+    this.st = st; this.mic(false);          // по кнопке: микрофон открыт, только пока кнопка зажата
     const pc = new RTCPeerConnection(); this.pc = pc;
     pc.ontrack = e => { this.au.srcObject = e.streams[0]; this.au.play().catch(() => {}); };
     st.getTracks().forEach(t => pc.addTrack(t, st));
@@ -27688,14 +27682,10 @@ const tuRt = {
   ev(e) {
     if (!this.live) return;
     switch (e.type) {
-      case "input_audio_buffer.speech_started": {
-        clearTimeout(TS.nudge);
-        const t = { role: "user", text: "", pending: true, t0: Date.now() }; this.me[e.item_id] = t; TS.turns.push(t);
-        this.setState("rec"); this.draw(); break;
-      }
-      case "input_audio_buffer.speech_stopped": { const t = this.me[e.item_id]; if (t) t.sec = Math.round((Date.now() - t.t0) / 100) / 10; this.setState("think"); break; }
+      case "input_audio_buffer.committed": { const t = this.wait.shift(); if (t) this.me[e.item_id] = t; break; }
       case "conversation.item.input_audio_transcription.completed": {
         let t = this.me[e.item_id]; if (!t) { t = { role: "user" }; TS.turns.push(t); }
+        delete this.me[e.item_id];
         t.text = String(e.transcript || "").trim(); t.pending = false;
         if (!t.text) { TS.turns = TS.turns.filter(x => x !== t); this.draw(); break; }
         this.draw();
@@ -27705,7 +27695,7 @@ const tuRt = {
         });
         break;
       }
-      case "conversation.item.input_audio_transcription.failed": { const t = this.me[e.item_id]; if (t) { t.pending = false; t.text = ""; TS.turns = TS.turns.filter(x => x !== t); this.draw(); } break; }
+      case "conversation.item.input_audio_transcription.failed": { const t = this.me[e.item_id]; delete this.me[e.item_id]; if (t) { t.pending = false; t.text = ""; TS.turns = TS.turns.filter(x => x !== t); this.draw(); } break; }
       case "response.created": this.active = true; break;
       case "response.output_audio_transcript.delta": {
         if (!this.cur || this.cur.rid !== e.response_id) { this.cur = { role: "tutor", text: "", rid: e.response_id }; TS.turns.push(this.cur); }
@@ -27733,14 +27723,14 @@ const tuRt = {
       }
       case "error": {
         const m = (e.error && e.error.message) || "";
-        if (/active response|no active response|not found/i.test(m)) break;
+        if (/active response|no active response|not found|buffer too small|cancel/i.test(m)) { if (/buffer too small/i.test(m)) { const t = this.wait.shift(); if (t) { TS.turns = TS.turns.filter(x => x !== t); this.draw(); } if (TS.state === "think") this.setState("idle"); } break; }
         console.warn("realtime", e.error); toast("Быстрый режим: " + (m || "ошибка"));
         break;
       }
     }
   },
   // время вышло: дослушать, потом прощание и разбор
-  bye() { if (this.byeSent) return; this.byeWant = true; this.mute(true); if (!this.active) this.sayBye(); setTimeout(() => { if (TS.rt && !TS.ended && !TS.finishing) tuFinish(); }, 25000); },
+  bye() { if (this.byeSent) return; this.byeWant = true; if (this.rec) this.release(); if (!this.active) this.sayBye(); setTimeout(() => { if (TS.rt && !TS.ended && !TS.finishing) tuFinish(); }, 25000); },
   sayBye() {
     this.byeSent = true;
     this.send({ type: "conversation.item.create", item: { type: "message", role: "user", content: [{ type: "input_text", text: "(Coach note, not from the learner: the lesson time is over. Say a warm goodbye in 1–2 short sentences, praise one concrete thing they said, and say the review is ready.)" }] } });
@@ -27753,10 +27743,30 @@ const tuRt = {
     this.setState("think");
     this.log({ role: "user", text: v, sec: 0 }).then(r => { if (r && r.turn_id) { t.id = r.turn_id; tuAnalyze(t); } });
   },
-  mute(on) {
-    TS.muted = on === undefined ? !TS.muted : !!on;
-    if (this.st) this.st.getAudioTracks().forEach(t => { t.enabled = !TS.muted; });
-    renderTalkBar();
+  mic(on) { if (this.st) this.st.getAudioTracks().forEach(t => { t.enabled = !!on; }); },
+  // зажал: стираем тишину в буфере, перебиваем учителя, открываем микрофон
+  rec: null, wait: [],
+  press() {
+    if (!this.live || !TS.sid || this.rec || TS.wrap) return;
+    clearTimeout(TS.nudge);
+    if (this.active || TS.state === "speak") { this.send({ type: "response.cancel" }); this.send({ type: "output_audio_buffer.clear" }); }
+    this.send({ type: "input_audio_buffer.clear" });
+    this.mic(true);
+    const t = { role: "user", text: "", pending: true, t0: Date.now() }; this.rec = t; TS.turns.push(t);
+    TS.state = "rec"; renderTalkBar(); this.draw();
+  },
+  // отпустил: хвост фразы долетает ~0.25 с, потом закрываем микрофон и просим ответ
+  release() {
+    const t = this.rec; if (!t) return; this.rec = null;
+    t.sec = Math.round((Date.now() - t.t0) / 100) / 10;
+    if (t.sec < 0.5) { this.mic(false); this.send({ type: "input_audio_buffer.clear" }); TS.turns = TS.turns.filter(x => x !== t); TS.state = "idle"; renderTalkBar(); this.draw(); toast("Зажмите кнопку и держите, пока говорите"); return; }
+    TS.state = "think"; renderTalkBar();
+    setTimeout(() => {
+      this.mic(false);
+      this.wait.push(t);
+      this.send({ type: "input_audio_buffer.commit" });
+      this.send({ type: "response.create" }); this.active = true;
+    }, 250);
   },
   stop() {
     this.live = false;
@@ -27764,23 +27774,30 @@ const tuRt = {
     try { if (this.pc) { this.pc.getSenders().forEach(s => s.track && s.track.stop()); this.pc.close(); } } catch (e) {}
     if (this.st) this.st.getTracks().forEach(t => t.stop());
     if (this.au) { try { this.au.pause(); } catch (e) {} this.au.srcObject = null; }
-    this.pc = this.dc = this.st = null; this.cur = null;
+    this.pc = this.dc = this.st = null; this.cur = null; this.rec = null; this.wait = [];
   }
 };
 function tuRtBar(b) {
-  const st = TS.state, m = TS.muted;
-  const label = !TS.sid ? "Подключаю голос…" : m ? (TS.wrap ? "Учитель прощается…" : "Микрофон выключен — нажмите, чтобы говорить") : st === "rec" ? "Слушаю…" : st === "think" ? "Думаю…" : st === "speak" ? "Отвечаю… можно перебить голосом" : "Говорите — я слушаю";
+  const st = TS.state, m = false;
+  const label = !TS.sid ? "Подключаю голос…" : TS.wrap ? "Учитель прощается…" : st === "rec" ? "Говорите… отпустите, когда закончите" : st === "think" ? "Думаю…" : st === "speak" ? "Отвечаю… можно перебить: зажмите кнопку" : "Зажмите и говорите";
   b.innerHTML = `${TS.wrap && !TS.ended ? `<div class="tu-wrap">⏱ Время урока вышло: учитель прощается, потом разбор.</div>` : ""}
     ${TS.ended ? `<button class="btn primary wide" data-tu="review">Смотреть разбор</button>` : `
     ${TS.sid && st === "idle" && !m ? `<button class="tu-hint" data-tu="hint" ${TS.hinting ? "disabled" : ""}>💡 Не знаю, что сказать</button>` : ""}
     <div class="tu-ctrl">
       <button class="tu-kb" data-tu="kb" aria-label="Написать текстом">⌨️</button>
-      <button class="tu-mic rt${m ? " off" : st === "rec" ? " rec" : " live"}" data-tu="mute" ${!TS.sid || TS.wrap ? "disabled" : ""} aria-label="${m ? "Включить микрофон" : "Выключить микрофон"}">${ICON.mic}</button>
+      <button class="tu-mic${st === "rec" ? " rec" : ""}" id="tuMicBtn" ${!TS.sid || TS.wrap ? "disabled" : ""} aria-label="Зажмите и говорите">${ICON.mic}</button>
       <button class="tu-end" data-tu="finish" ${!TS.sid ? "disabled" : ""}>Закончить</button>
     </div>
     <div class="tu-lbl">⚡ ${esc(label)}</div>
     <form class="tu-txt" id="tuTxt" ${TS.kb ? "" : "hidden"}><input class="fld" id="tuIn" placeholder="Напишите по-английски…" autocomplete="off" maxlength="600"><button class="btn primary sm" ${!TS.sid ? "disabled" : ""}>${ICON.send}</button></form>`}`;
   const f = $("#tuTxt"); if (f) f.onsubmit = e => { e.preventDefault(); const v = $("#tuIn").value.trim(); if (!v || !TS.sid) return; $("#tuIn").value = ""; tuRt.text(v); };
+  const mic = $("#tuMicBtn");
+  if (mic) {
+    mic.addEventListener("pointerdown", e => { e.preventDefault(); try { mic.setPointerCapture(e.pointerId); } catch (_) {} tuRt.press(); });
+    const up = e => { if (!tuRt.rec) return; e.preventDefault(); tuRt.release(); };
+    mic.addEventListener("pointerup", up); mic.addEventListener("pointercancel", up);
+    mic.addEventListener("contextmenu", e => e.preventDefault());
+  }
 }
 
 // ---------- страницы ----------
@@ -27840,7 +27857,7 @@ function renderTutor() {
         <b>${esc(wk ? wk.goal : "Говорите вслух — я отмечу ошибки и объясню каждую")}</b>
         ${left}
         <button class="btn primary tu-go" data-tu="next">▶ ${esc(goTxt)}</button>
-        ${tuCloud() && TU.fastShown ? `<button class="tu-fast${TU.fast ? " on" : ""}" data-tu="fast" role="switch" aria-checked="${TU.fast ? "true" : "false"}"><span><b>⚡ Быстрый режим</b><small>${TU.fast ? "говорите без кнопки, учитель отвечает сразу" : "без кнопки и почти без пауз · бета"}</small></span><i></i></button>` : ""}
+        ${tuCloud() ? `<button class="tu-fast${TU.fast ? " on" : ""}" data-tu="fast" role="switch" aria-checked="${TU.fast ? "true" : "false"}"><span><b>⚡ Быстрый режим</b><small>${TU.fast ? "та же кнопка, учитель отвечает почти сразу" : "ответ почти без паузы · бета"}</small></span><i></i></button>` : ""}
         ${TU.memory && TU.memory.stopped ? `<em>В прошлый раз: ${esc(TU.memory.stopped)}</em>` : ""}
       </section>
       ${nlL ? `<div class="tu-lescard"><span>📘</span><div><b>Повторить тему: ${esc(nlL.t || nl.it.title)}</b><small>урок основного блока из вашего плана · можно потом</small></div>
@@ -28303,14 +28320,13 @@ function onTuClick(e) {
   const v = a.dataset.tu, pg = a.closest(".tu-page");
   switch (v) {
     case "close":
-      if (pg && pg.id === "tuTalk" && TS.sid && !TS.ended && TS.turns.some(t => t.role === "user")) { if (TS.rt) tuRt.mute(true); toast("Закончить урок и получить разбор?", { actions: [["Разбор", () => tuFinish()], ["Выйти", () => { clearInterval(TS.timer); tuMic.cancel(); tuPlayer.stop(); tuRt.stop(); tuPresence(false); tuCall("finish", { session: TS.sid, lessons: tuLessonsCat(), sits: tuSitsCat() }).catch(() => {}); closePageEl(pg); }]] }); return; }
+      if (pg && pg.id === "tuTalk" && TS.sid && !TS.ended && TS.turns.some(t => t.role === "user")) { toast("Закончить урок и получить разбор?", { actions: [["Разбор", () => tuFinish()], ["Выйти", () => { clearInterval(TS.timer); tuMic.cancel(); tuPlayer.stop(); tuRt.stop(); tuPresence(false); tuCall("finish", { session: TS.sid, lessons: tuLessonsCat(), sits: tuSitsCat() }).catch(() => {}); closePageEl(pg); }]] }); return; }
       if (pg && pg.id === "tuTalk") { clearInterval(TS.timer); tuMic.cancel(); tuPlayer.stop(); tuRt.stop(); tuPresence(false); }
       if (pg && pg.id === "tuHw" && HWS.i >= HWS.hw.tasks.length && HWS.ok.length && HWS.hw._saved !== true) HWS.hw._saved = true;
       closePageEl(pg); break;
     case "login": if (CLOUD && CLOUD.showAuth) CLOUD.showAuth(); break;
     case "admin": openAdmin(); break;
-    case "fast": TU.fast = !TU.fast; saveTu(); renderTutor(); if (TU.fast) toast("Быстрый режим: просто говорите, как по телефону. Учитель слышит паузу и сразу отвечает; перебить можно голосом"); break;
-    case "mute": tuRt.mute(); break;
+    case "fast": TU.fast = !TU.fast; saveTu(); renderTutor(); if (TU.fast) toast("Быстрый режим: та же кнопка — зажали, сказали, отпустили. Учитель начинает отвечать почти сразу"); break;
     case "next": { const nx = tuNextItem("talk"); if (nx) tuPlanItem(nx.it.id); else tuStart(TU_SITS.find(x => x.id === "free")); break; }
     case "later": { for (const w of (TU.plan && TU.plan.weeks) || []) for (const it of w.items) if (it.id === a.dataset.id) tuMark(it, "later:" + tuToday()); renderTutor(); toast("Хорошо, напомню завтра. Урок остаётся в плане"); break; }
     case "sit": tuStart(TU_SITS.find(x => x.id === a.dataset.s)); break;
