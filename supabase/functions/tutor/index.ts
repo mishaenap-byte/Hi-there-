@@ -143,7 +143,12 @@ function parseJSON(s: string): any {
 // ---------- распознавание: дословно, без исправлений ----------
 const STT_PROMPT = "Transcribe exactly what the speaker says, word for word, including grammar mistakes, missing articles (a, an, the), wrong verb forms and wrong word order. Do not correct, rephrase or complete anything. The speaker is a Russian-speaking English learner and may say some words in Russian: write them in Cyrillic.";
 const extOf = (mime: string) => /webm/.test(mime) ? "webm" : /ogg/.test(mime) ? "ogg" : /wav/.test(mime) ? "wav" : /mpeg|mp3/.test(mime) ? "mp3" : "m4a";
-async function stt(c: Ctx, engine: string, audio: Uint8Array, mime: string, sec: number) {
+// слова из жизни ученика (работа, интересы) — распознавание узнаёт их, а не подменяет похожими («3D» → «frizzy»)
+function vocabOf(p: any, extra = "") {
+  const w = [p && p.job, ...((p && p.interests) || []), extra].filter(Boolean).join(", ");
+  return w ? clampText(w, 300) : "";
+}
+async function stt(c: Ctx, engine: string, audio: Uint8Array, mime: string, sec: number, vocab = "") {
   const file = new File([audio as Uint8Array<ArrayBuffer>], "speech." + extOf(mime), { type: mime || "audio/mp4" });
   const fd = new FormData();
   let text = "";
@@ -155,7 +160,7 @@ async function stt(c: Ctx, engine: string, audio: Uint8Array, mime: string, sec:
     text = j.text || "";
   } else {
     const key = env("OPENAI_API_KEY"); if (!key) throw new Fail("Не задан OPENAI_API_KEY", 500);
-    fd.append("file", file); fd.append("model", env("OPENAI_STT_MODEL") || "gpt-4o-transcribe"); fd.append("prompt", STT_PROMPT); fd.append("response_format", "json");
+    fd.append("file", file); fd.append("model", env("OPENAI_STT_MODEL") || "gpt-4o-transcribe"); fd.append("prompt", STT_PROMPT + (vocab ? " Words and names the speaker may use: " + vocab + "." : "")); fd.append("response_format", "json");
     const r = await fetch("https://api.openai.com/v1/audio/transcriptions", { method: "POST", headers: { Authorization: `Bearer ${key}` }, body: fd });
     const j = await r.json(); if (!r.ok) throw new Fail("Распознавание: " + (j.error && j.error.message || r.status), 502);
     text = j.text || "";
@@ -258,6 +263,7 @@ function memoryBrief(m: any) {
   const L: string[] = [];
   if (m.stopped) L.push(`Last time: ${m.stopped}`);
   if (m.facts && m.facts.length) L.push(`What you know about the learner: ${m.facts.slice(0, 12).join("; ")}.`);
+  if (m.speak && m.speak.avg && m.speak.avg < 8) L.push(`Last lesson the learner gave short answers (about ${m.speak.avg} words) and asked ${m.speak.q || 0} questions. From the start, help them speak longer: open questions, sentence frames, your own short example first.`);
   if (m.next_focus && m.next_focus.length) L.push(`Rules the learner struggles with — create natural chances to use them (questions that require them), without saying so: ${m.next_focus.slice(0, 4).join("; ")}.`);
   return L.join(" ");
 }
@@ -273,12 +279,22 @@ function tutorSystem(o: { p: any; level: string; name: string; mem: any; sit: an
     levelStyle(o.level),
     STRICT[(o.p && o.p.strict) || "balanced"],
     langRule(o.p, o.level),
-    fears.includes("freeze") ? "If the learner seems stuck (very short or empty answer, 'I don't know', long Russian), offer the beginning of a sentence: 'You can start with: I'd like…'." : "",
+    COACH,
+    fears.includes("freeze") ? "The learner told us they freeze when speaking: be extra warm, use the stuck strategy early, celebrate every longer answer." : "",
     fears.includes("understand") ? "Speak especially simply; if the learner did not understand, rephrase more simply instead of repeating." : "",
     "If the learner's words make no sense or are empty, ask them kindly to say it again.",
     o.textMode ? "This part of the lesson is in text chat." : "",
   ].filter(Boolean).join("\n");
 }
+const COACH = `Speaking coach rules (most important):
+- Ask open questions (What…? How…? Tell me about…), not yes/no or "A or B?" questions — those invite one-word answers.
+- STUCK signals: an answer of 1–6 words, "I don't know", "I don't know English", Russian words, or silence. When stuck: (1) react warmly to WHAT they said, no correction this time; (2) share a tiny example from your own life in one short sentence; (3) give a sentence frame they can finish, e.g. "You can say: I usually make … for …"; (4) ask again, simpler.
+- If the learner says their English is bad, reassure in one sentence ("Your English is enough for this talk, we go step by step") and continue.
+- When the learner gives a longer answer, notice it briefly ("Great, that's a full story!").
+- Never more than one short correction in two replies, and never when the learner is stuck.`;
+const isQ = (t: string) => /\?\s*$/.test(t) || /^(what|where|when|why|how|who|which|whose|do|does|did|are|is|was|were|can|could|have|has|would|will|should)\b/i.test(t.trim());
+const wordsOf = (t: string) => (String(t).match(/[A-Za-zА-Яа-яЁё0-9']+/g) || []).length;
+const needQ = (goal: string) => { const m = /(\d+)\s*вопрос/i.exec(goal || ""); return m ? +m[1] : 0; };
 const tutorNameOf = (p: any) => (p && p.voice && ["onyx", "ash", "echo", "fable", "verse", "ballad"].includes(p.voice)) ? "Alex" : "Emma";
 
 async function ownedSession(uid: string, sid: string) {
@@ -305,6 +321,7 @@ const TYPES = ["articles", "tense", "verb_form", "agreement", "preposition", "wo
 const ANALYZER_SYS = `You are an error analyst for a Russian-speaking learner of English. You get ONE learner utterance from a spoken lesson (transcribed verbatim) and the tutor's previous line for context.
 Find real mistakes only: grammar (articles, tenses, verb forms, subject-verb agreement, prepositions, word order, plurals, question forms, pronouns) and wrong words or Russian calques.
 Do NOT count: punctuation, capital letters, fillers (um, uh, well), contractions, short natural spoken answers ("Yes, sure.", "Pizza, please.", "Two."). Elliptical answers are correct.
+If a word looks like a speech-recognition slip (an odd word that sounds like the obvious one, e.g. "a frizzy artist" for "a 3D artist", "Cinema for D" for "Cinema 4D"), do NOT count it as a mistake.
 If the learner said a word or phrase in Russian, add it with type "vocabulary": wrong = the Russian part, fix = the natural English.
 Return JSON: {"mistakes":[{"wrong":"exact fragment copied from the utterance","fix":"the same fragment corrected","type":"${TYPES.join("|")}","explain":"1–2 простых предложения по-русски: почему так. Для времён — образы: 1-я форма «как обычно», 2-я «кадр из прошлого», 3-я «фото результата»."}]}
 At most 5 mistakes, most important first. If there are none, return {"mistakes":[]}.`;
@@ -326,10 +343,13 @@ ${STYLE_RU}
 Верни JSON:
 {"summary":"2–3 предложения по-русски: что получилось хорошо и над чем поработать",
  "details":[{"i":номер ошибки,"rule":"правило простыми словами, 1–2 предложения","chunks":[["кусок правильной фразы","почему он такой и стоит здесь"]],"examples":[["English example","перевод"]],"ru":"как по-русски и почему русский путает","how":"как не ошибаться: короткий приём","lesson":"id урока из списка на это правило или пусто"}],
+ "stretch":[{"was":"короткий ответ ученика дословно","better":"тот же ответ длиннее: его же слова + 1–2 простых куска, его уровень","chunks":[["добавленный кусок","зачем он: что он добавляет к рассказу и почему стоит здесь"]]}],
+ "brave":"1–2 предложения по-русски: приём, как в следующий раз говорить длиннее (например, «ответ + деталь + вопрос в ответ»)",
  "repeat":{"type":"тип самых частых ошибок","lesson":"id урока из списка или пусто","why":"одно предложение"},
  "homework":[задания],
  "memory":{"stopped":"одно предложение по-английски: на чём остановились","facts":["новые факты о человеке по-английски, коротко"],"next_focus":["правило, с которым трудно, по-английски коротко"]}}
 details — для каждой ошибки (до 10), 2–3 examples на каждую.
+stretch — 2–3 самых коротких ответа ученика: покажи, как сказать то же длиннее и живее. Не придумывай факты, которых нет в диалоге; если нужна деталь — бери из анкеты или ставь понятную заготовку в скобках, например (название проекта).
 homework — от 5 до 10 заданий ТОЛЬКО на ошибки этого урока (если ошибок мало — на те же правила в новых фразах из жизни ученика). Виды:
  {"k":"choose","q":"фраза с ___","ru":"перевод","opts":["вариант","вариант","вариант"],"a":"правильный вариант","why":"почему"}
  {"k":"fix","wrong":"фраза с ошибкой","ru":"перевод","a":["правильный вариант","допустимый вариант"],"why":"почему"}
@@ -556,13 +576,20 @@ Deno.serve(async req => {
       const vsec = await voiceToday(uid), textMode = s.mode === "text" || vsec >= DAILY_VOICE_SEC;
       let you = "", usec = 0;
       const a = audioIn(b);
-      if (a && !textMode) { usec = a.sec; you = await stt(c, STT, a.bytes, a.mime, a.sec); } else you = clampText(b.text, 800);
+      if (a && !textMode) { usec = a.sec; you = await stt(c, STT, a.bytes, a.mime, a.sec, vocabOf(p)); } else you = clampText(b.text, 800);
       if (!you && a && textMode) return json({ you: "", text: "Голосовые минуты на сегодня закончились — давайте продолжим текстом. Напишите ответ по-английски.", retry: true, text_mode: true, switched: true, sec: 0 });
       if (!you) { const t = textMode ? { sec: 0 } : await tts(c, "Sorry, I didn't catch that. Could you say it again?", p); return json({ you: "", text: "Sorry, I didn't catch that. Could you say it again?", retry: true, ...t }); }
       const { data: ut } = await db().from("tutor_turns").insert({ session_id: s.id, user_id: uid, role: "user", text: you, sec: usec }).select("id").single();
       const hist = await turnsOf(s.id, 30);
-      const sys = tutorSystem({ p, level: lv, name, mem: all.memory, sit: { title: s.title }, tutorName: tutorNameOf(p), textMode });
+      const sit = { title: s.title, goal: clampText(b.sit && b.sit.goal, 240), role: clampText(b.sit && b.sit.role, 200) };
+      const sys = tutorSystem({ p, level: lv, name, mem: all.memory, sit, tutorName: tutorNameOf(p), textMode });
       const msgs: Msg[] = hist.map((h: any) => ({ role: h.role === "tutor" ? "assistant" : "user", text: h.text }));
+      // заметка тренера: ученик зажат / пора дать ему спросить самому
+      const mine = hist.filter((h: any) => h.role === "user"), asked = mine.filter((h: any) => isQ(h.text)).length, k = needQ(sit.goal);
+      const notes: string[] = [];
+      if (wordsOf(you) <= 6 || /don'?t know|no idea|не знаю|[а-яё]{3,}/i.test(you)) notes.push("The learner seems STUCK: use the stuck strategy now.");
+      if (k && asked < k && mine.length >= 3 && mine.length % 2 === 1) notes.push(`Goal: the learner must ask you ${k} questions; asked so far: ${asked}. After reacting, hand the turn over: invite them to ask you something, e.g. "Now your turn: ask me anything about me!"`);
+      if (!b.wrap && notes.length) msgs.push({ role: "user", text: "(Coach note, not from the learner: " + notes.join(" ") + ")" });
       if (b.wrap) msgs.push({ role: "user", text: "(The lesson time is up. Say a warm goodbye in 1–2 sentences: one thing the learner did well. No question.)" });
       const r = await llm(c, MODEL, sys, msgs, { max: 260 });
       const text = r.text || "Could you tell me more?";
@@ -571,6 +598,30 @@ Deno.serve(async req => {
       const minutes = Math.min(30, (Date.now() - Date.parse(s.started_at)) / 60000);
       await db().from("tutor_sessions").update({ turns: s.turns + 2, voice_sec: (+s.voice_sec || 0) + usec + t.sec, minutes: Math.round(minutes * 10) / 10, ...(textMode && s.mode !== "text" ? { mode: "text" } : {}) }).eq("id", s.id);
       return json({ you, turn_id: ut && ut.id, text, text_mode: textMode, switched: textMode && s.mode !== "text", ...t });
+    }
+
+    if (mode === "plan_mark") {
+      // урок из плана открыт — отмечаем пройденным, чтобы он не висел главной кнопкой
+      const { data } = await db().from("learning_plan").select("plan").eq("user_id", uid).maybeSingle();
+      const plan = data && data.plan; if (!plan) return json({ ok: false });
+      const key = clampText(b.key, 200);
+      for (const w of plan.weeks || []) for (const it of w.items || []) if (it.id === b.id || it.kind + ":" + (it.lesson || it.title) === key) it.done = true;
+      await db().from("learning_plan").upsert({ user_id: uid, plan, updated_at: new Date().toISOString() });
+      return json({ ok: true });
+    }
+
+    if (mode === "hint") {
+      // «Не знаю, что сказать»: 3 начала фразы под последний вопрос репетитора, из жизни ученика
+      const s = await ownedSession(uid, b.session); c.sid = s.id;
+      const all = await loadAll(uid), p = all.profile || {}, lv = level || p.level || "A2";
+      const hist = await turnsOf(s.id, 8), last = [...hist].reverse().find((h: any) => h.role === "tutor");
+      const r = await llm(c, MODEL, `You help a Russian-speaking English learner (level ${lv}) who froze in a spoken lesson and does not know what to say. ${learnerBrief(p, lv, name)}
+Give 3 different ways to start the answer to the tutor's last line: simple, true-to-life for this learner, each is the BEGINNING of a sentence the learner finishes with their own words (end with "…"), 4–9 words, level-appropriate. Also one short idea in Russian what they could talk about, and one question the learner could ask back.
+Return JSON: {"idea":"по-русски, одно предложение: о чём можно рассказать","starts":[{"en":"I usually work on…","ru":"Обычно я работаю над…"}],"ask":{"en":"And what do you do?","ru":"А чем занимаетесь вы?"}}`,
+        [{ role: "user", text: `Situation: ${s.title}. Tutor's last line: ${last ? last.text : "(start)"}\nLearner's previous answers: ${hist.filter((h: any) => h.role === "user").map((h: any) => h.text).join(" | ").slice(0, 600) || "(none)"}` }], { json: true, max: 400, temp: 0.6 });
+      const j = parseJSON(r.text) || {};
+      const pair = (x: any) => x && x.en ? { en: clampText(x.en, 120), ru: clampText(x.ru, 160) } : null;
+      return json({ idea: clampText(j.idea, 240), starts: (Array.isArray(j.starts) ? j.starts : []).map(pair).filter(Boolean).slice(0, 3), ask: pair(j.ask) });
     }
 
     if (mode === "analyze") {
@@ -608,7 +659,11 @@ Deno.serve(async req => {
       const by: Record<string, number> = {}; for (const m of ms) by[m.type] = (by[m.type] || 0) + 1;
       const by_type = Object.entries(by).sort((a, b) => b[1] - a[1]).map(([type, n]) => ({ type, n }));
       const rep = j.repeat || {};
-      const summary = { text: clampText(j.summary, 800), by_type, repeat: { type: clampText(rep.type, 30) || (by_type[0] && by_type[0].type) || "", lesson: LESSON_IDS.test(rep.lesson) ? rep.lesson : "", why: clampText(rep.why, 300) }, mistakes: ms.length, minutes: Math.round(minutes * 10) / 10 };
+      const mine = turns.filter((t: any) => t.role === "user" && t.text), wl = mine.map((t: any) => wordsOf(t.text));
+      const longest = mine[wl.indexOf(Math.max(...wl))];
+      const speak = { answers: mine.length, avg: Math.round(wl.reduce((a: number, x: number) => a + x, 0) / Math.max(1, wl.length) * 10) / 10, longest: longest ? clampText(longest.text, 300) : "", longest_n: Math.max(0, ...wl), q: mine.filter((t: any) => isQ(t.text)).length, q_need: needQ(String(b.goal || "")) };
+      const stretch = (Array.isArray(j.stretch) ? j.stretch : []).filter((x: any) => x && x.was && x.better).slice(0, 3).map((x: any) => ({ was: clampText(x.was, 200), better: clampText(x.better, 300), chunks: (Array.isArray(x.chunks) ? x.chunks : []).slice(0, 5).map((c: any) => [clampText(c[0], 120), clampText(c[1], 300)]) }));
+      const summary = { text: clampText(j.summary, 800), by_type, repeat: { type: clampText(rep.type, 30) || (by_type[0] && by_type[0].type) || "", lesson: LESSON_IDS.test(rep.lesson) ? rep.lesson : "", why: clampText(rep.why, 300) }, mistakes: ms.length, minutes: Math.round(minutes * 10) / 10, speak, stretch, brave: clampText(j.brave, 400) };
       await db().from("tutor_sessions").update({ ended_at: new Date().toISOString(), minutes: summary.minutes, summary }).eq("id", s.id);
       // домашка
       const tasks = cleanHw(j.homework);
@@ -619,7 +674,7 @@ Deno.serve(async req => {
       const freq: Record<string, number> = {}; for (const f of m0.frequent || []) freq[f.type] = f.n; for (const [k, v] of Object.entries(by)) freq[k] = (freq[k] || 0) + v;
       const facts = [...new Set([...(m0.facts || []), ...((jm.facts || []) as string[]).map(x => clampText(x, 120))].filter(Boolean))].slice(-20);
       const memory = { stopped: clampText(jm.stopped, 300) || m0.stopped || "", facts, next_focus: ((jm.next_focus || m0.next_focus || []) as string[]).map(x => clampText(x, 120)).slice(0, 5),
-        frequent: Object.entries(freq).sort((a, b) => b[1] - a[1]).slice(0, 8).map(([type, n]) => ({ type, n })), lessons: (m0.lessons || 0) + 1, last: { title: s.title, at: s.started_at } };
+        frequent: Object.entries(freq).sort((a, b) => b[1] - a[1]).slice(0, 8).map(([type, n]) => ({ type, n })), lessons: (m0.lessons || 0) + 1, last: { title: s.title, at: s.started_at }, speak: { avg: speak.avg, q: speak.q } };
       await db().from("tutor_memory").upsert({ user_id: uid, memory, updated_at: new Date().toISOString() });
       // план живой: отмечаем пройденное и перестраиваем непройденное по ошибкам — в фоне, ответ не ждёт
       if (all.plan && all.profile) {

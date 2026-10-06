@@ -21,6 +21,9 @@ html.rot-l .stage,html.rot-r .stage{padding:0}html.rot-l .app,html.rot-r .app{ma
 .tu-cover em{font-style:normal;font-size:12.5px;font-weight:700;color:#4A4E5A;line-height:1.35}
 .tu-pill{align-self:flex-start;padding:3px 10px;border-radius:99px;background:#fff;box-shadow:inset 0 0 0 2px #17171F;font-size:12px;font-weight:800;color:#17171F}
 .tu-go{margin-top:6px;white-space:normal;height:auto;min-height:48px;line-height:1.25;padding-top:10px;padding-bottom:10px}
+.tu-lescard{display:flex;align-items:center;gap:10px;margin:0 0 12px;padding:12px 14px;border-radius:18px;background:var(--surface-2);color:var(--ink)}
+.tu-lescard>span{font-size:24px}.tu-lescard>div:first-of-type{flex:1;display:flex;flex-direction:column;gap:2px;min-width:0}.tu-lescard b{font-size:14.5px}.tu-lescard small{font-size:12px;color:var(--muted)}
+.tu-lesbtns{display:flex;flex-direction:column;align-items:center;gap:4px;flex:none}.tu-lesbtns .link-btn{font-size:12.5px}
 .tu-hwcard{width:100%;display:flex;flex-direction:column;align-items:flex-start;gap:2px;margin:0 0 12px;padding:12px 14px;border-radius:18px;background:#FFF3A6;box-shadow:inset 0 0 0 2.5px var(--edge,#17171F),0 3px 0 var(--edge,#17171F);text-align:left;color:#17171F}
 .tu-hwcard span{font-size:20px}.tu-hwcard b{font-size:15px;font-weight:800}.tu-hwcard small{font-size:12.5px;font-weight:600;color:#5A5E6A}
 .tu-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 2px 12px}
@@ -58,6 +61,21 @@ mark.tu-err{background:transparent;color:inherit;text-decoration:underline wavy 
 .tu-bar{flex:none;padding:10px 14px calc(12px + var(--sab,0px));border-top:1px solid var(--line);background:var(--bg)}
 .tu-wrap{margin:0 0 8px;padding:8px 12px;border-radius:12px;background:var(--marker-soft);color:var(--marker-ink);font-size:13px;font-weight:700;line-height:1.35}
 .tu-ctrl{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.tu-hint{display:block;margin:0 auto 10px;padding:7px 14px;border-radius:999px;background:var(--surface-2);color:var(--ink);font-weight:800;font-size:13px}
+.tu-hint.pulse{background:var(--marker-soft);color:var(--marker-ink);animation:tuPulse 1.6s ease-in-out infinite}
+@keyframes tuPulse{50%{transform:scale(1.05)}}
+.tu-goal em{font-style:normal;color:var(--ink);white-space:nowrap}.tu-goal em.ok{color:var(--accent)}
+.tu-hcard{align-self:stretch;padding:12px;border-radius:16px;background:var(--marker-soft);color:var(--marker-ink);display:flex;flex-direction:column;gap:8px}
+.tu-hcard>b{font-size:13.5px}.tu-hcard p{margin:0;font-size:13.5px;line-height:1.4}
+.tu-hstart{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:12px;background:var(--paper,#fff);color:var(--ink)}
+.tu-hstart div{flex:1;display:flex;flex-direction:column}.tu-hstart b{font-size:15px}.tu-hstart small{font-size:12.5px;color:var(--muted)}
+.tu-brave{margin:0 2px 14px;padding:14px 16px;border-radius:20px;background:var(--surface-2);display:flex;flex-direction:column;gap:10px;color:var(--ink)}
+.tu-brave h4{margin:0;font-size:15px}.tu-brave p{margin:0;font-size:14px;line-height:1.45;color:var(--ink-2)}
+.tu-stats{display:flex;gap:8px;flex-wrap:wrap}.tu-stats span{flex:1;min-width:88px;padding:8px 10px;border-radius:12px;background:var(--paper,#fff);font-size:12px;color:var(--muted);line-height:1.3}
+.tu-stats span b{display:block;font-size:18px;color:var(--ink)}
+.tu-stretch{display:flex;flex-direction:column;gap:6px;padding:10px 12px;border-radius:14px;background:var(--paper,#fff)}
+.tu-stretch .was{font-size:13.5px;color:var(--muted)}.tu-stretch .was s{text-decoration:none}
+.tu-stretch .bet{display:flex;align-items:flex-start;gap:6px;font-size:15.5px;font-weight:700;color:var(--ink)}.tu-stretch .bet span{flex:1}
 .tu-kb,.tu-end{min-width:72px;height:40px;padding:0 12px;border-radius:14px;background:var(--surface-2);color:var(--ink);font-weight:800;font-size:13.5px}
 .tu-kb{min-width:44px;font-size:18px}
 .tu-end:disabled{opacity:.45}
@@ -27425,8 +27443,12 @@ renderEx();
 // Голосовой собеседник: урок-ситуация 5–10 минут → отмеченные ошибки → подробный разбор → домашка → память к следующему разу.
 // На сайте всё идёт через функцию tutor в Supabase (ключи только там). В превью без входа — демо: модель Claude + голос браузера.
 const K_TU = "vzhivuyu.tutor.v1";
-const TU = Object.assign({ prof: null, plan: null, memory: null, hw: null, sessions: [], access: null, admin: false, demo: {} }, store.get(K_TU, {}) || {});
-const saveTu = () => store.set(K_TU, { prof: TU.prof, plan: TU.plan, memory: TU.memory, hw: TU.hw, sessions: TU.sessions.slice(0, 30), access: TU.access, admin: TU.admin, demo: TU.demo });
+const TU = Object.assign({ prof: null, plan: null, memory: null, hw: null, sessions: [], access: null, admin: false, demo: {}, marks: {} }, store.get(K_TU, {}) || {});
+const saveTu = () => store.set(K_TU, { prof: TU.prof, plan: TU.plan, memory: TU.memory, hw: TU.hw, sessions: TU.sessions.slice(0, 30), access: TU.access, admin: TU.admin, demo: TU.demo, marks: TU.marks });
+// отметки пунктов плана на этом телефоне: «пройдено» и «позже» (на сегодня); ключ — как на сервере, переживает перестройку плана
+const tuKey = it => it.kind + ":" + (it.lesson || it.title);
+const tuToday = () => new Date().toISOString().slice(0, 10);
+function tuApplyMarks() { for (const w of (TU.plan && TU.plan.weeks) || []) for (const it of w.items) if ((TU.marks || {})[tuKey(it)] === "done") it.done = true; }
 
 const TU_SITS = [
   { id: "intro", e: "👋", t: "Знакомство", goal: "Рассказать о себе и задать собеседнику 3 вопроса", role: "a friendly new neighbour who wants to get to know the learner" },
@@ -27567,14 +27589,19 @@ async function tuRefresh() {
   try {
     const r = await tuCall("status");
     TU.admin = !!r.admin; TU.access = r.access; TU.memory = r.memory; TU.hw = r.homework; TU.sessions = r.sessions || [];
-    if (r.plan) TU.plan = r.plan;
+    if (r.plan) { TU.plan = r.plan; tuApplyMarks(); }
     if (r.profile) TU.prof = Object.assign({}, TU.prof || {}, r.profile);
     else if (TU.prof) tuCall("profile", { profile: TU.prof }).catch(() => {});      // анкета была заполнена до входа
     if (TU.prof && !r.plan) tuMakePlan(true);
     saveTu(); if (isOpen("#tuPage")) renderTutor();
   } catch (e) { if (e.status === 404 || /не установлена|не нашёл функцию/.test(e.message)) { TU.offline = e.message; if (isOpen("#tuPage")) renderTutor(); } }
 }
-const tuNextItem = () => { for (const w of (TU.plan && TU.plan.weeks) || []) for (const it of w.items) if (!it.done) return { w, it }; return null; };
+const tuNextItem = (kind) => { const later = "later:" + tuToday(); for (const w of (TU.plan && TU.plan.weeks) || []) for (const it of w.items) if (!it.done && (!kind || it.kind === kind) && (TU.marks || {})[tuKey(it)] !== later) return { w, it }; return null; };
+function tuMark(it, m) {
+  (TU.marks = TU.marks || {})[tuKey(it)] = m;
+  if (m === "done") { it.done = true; if (tuCloud()) tuCall("plan_mark", { id: it.id, key: tuKey(it) }).catch(() => {}); }
+  saveTu();
+}
 function tuWeekNow() {
   if (!TU.plan) return null;
   const start = Date.parse(TU.plan.start || TU.plan.created || Date.now()), wi = Math.min(TU.plan.weeks.length - 1, Math.max(0, Math.floor((Date.now() - start) / (7 * 864e5))));
@@ -27582,13 +27609,14 @@ function tuWeekNow() {
 }
 function renderTutor() {
   const p = tuPg("tuPage"), keep = $(".page-body", p) ? $(".page-body", p).scrollTop : 0;
-  const nx = tuNextItem(), wk = tuWeekNow(), acc = TU.access, hw = TU.hw && TU.hw.status === "new" ? TU.hw : null;
+  const nx = tuNextItem("talk"), nl = tuNextItem("lesson"), wk = tuWeekNow(), acc = TU.access, hw = TU.hw && TU.hw.status === "new" ? TU.hw : null;
   const mode = tuCloud() ? "" : tuDemo() ? `<div class="tu-note">🧪 Демо в превью: отвечает модель Claude, голос — браузера. Настоящий репетитор (голос OpenAI, память в облаке) работает на сайте после входа.</div>`
     : `<div class="tu-note">☁️ Репетитор работает после входа в аккаунт.<button class="btn soft sm" data-tu="login" style="margin-top:8px">Войти</button></div>`;
   const off = TU.offline ? `<div class="tu-note warn">⚙️ ${esc(TU.offline)}. Шаги — в TUTOR-SETUP.md.</div>` : "";
   const left = acc && !acc.unlimited ? `<span class="tu-pill">${acc.free_left ? `Бесплатно: ${plural(acc.free_left, ["урок", "урока", "уроков"])}` : "Пробные уроки пройдены"}</span>` : acc && acc.plan === "beta" ? `<span class="tu-pill">Бета-доступ</span>` : "";
-  const goTxt = nx ? (nx.it.kind === "lesson" ? `📘 ${nx.it.title}` : `🎙 ${nx.it.title}`) : "🎙 Свободный разговор";
-  p.innerHTML = tuHead("ИИ-репетитор", "говорим 5–10 минут · разбор · домашка", "🎙", TU.admin ? `<button class="icon-btn" data-tu="admin" aria-label="Админка">📊</button>` : "") + `
+  const goTxt = nx ? `🎙 ${nx.it.title}` : "🎙 Свободный разговор";
+  const nlL = nl && LESSONS[nl.it.lesson];
+  p.innerHTML = tuHead("ИИ-репетитор", "говорим 5–10 минут · разбор · домашка", "🎙") + `
     <div class="scroll page-body tu-body">
       ${off}${mode}
       <section class="tu-cover">
@@ -27598,6 +27626,8 @@ function renderTutor() {
         <button class="btn primary tu-go" data-tu="next">▶ ${esc(goTxt)}</button>
         ${TU.memory && TU.memory.stopped ? `<em>В прошлый раз: ${esc(TU.memory.stopped)}</em>` : ""}
       </section>
+      ${nlL ? `<div class="tu-lescard"><span>📘</span><div><b>Повторить тему: ${esc(nlL.t || nl.it.title)}</b><small>урок основного блока из вашего плана · можно потом</small></div>
+        <div class="tu-lesbtns"><button class="btn soft sm" data-tu="pi" data-id="${esc(nl.it.id)}">Открыть</button><button class="link-btn" data-tu="later" data-id="${esc(nl.it.id)}">Позже</button></div></div>` : ""}
       ${hw ? `<button class="tu-hwcard" data-tu="hw"><span>📝</span><b>Домашка из прошлого урока</b><small>${plural(hw.tasks.length, ["задание", "задания", "заданий"])} на ваши ошибки · репетитор проверит в начале урока</small></button>` : ""}
       <div class="tu-row"><button class="tu-tool" data-tu="plan"><span>🗺</span><b>Твой план</b><small>${TU.plan ? "4 недели, план перестраивается после уроков" : "составить по анкете"}</small></button>
         <button class="tu-tool" data-tu="anketa"><span>⚙️</span><b>Анкета</b><small>цель, голос, строгость, язык</small></button></div>
@@ -27629,7 +27659,7 @@ async function tuStart(sit, planItem) {
     tuPresence(true);
     clearInterval(TS.timer); TS.timer = setInterval(tuTick, 1000);
     TS.busy = false; TS.state = "speak"; renderTalk();
-    tuPlayer.play(r, r.text, () => { if (TS.state === "speak") { TS.state = "idle"; renderTalkBar(); } });
+    tuPlayer.play(r, r.text, () => { if (TS.state === "speak") { TS.state = "idle"; renderTalkBar(); tuNudge(); } });
   } catch (e) {
     TS.busy = false; TS.state = "idle";
     closePageEl(tuPg("tuTalk")); tuErr(e);
@@ -27659,11 +27689,33 @@ function renderTalk() {
   renderTalkBar(); tuTick(); tuScroll();
 }
 function tuChatHTML() {
-  return `<div class="tu-goal">🎯 ${esc((TS.sit && TS.sit.goal) || "")}</div>` + TS.turns.map((t, i) => t.role === "tutor"
+  const goal = (TS.sit && TS.sit.goal) || "", k = tuNeedQ(goal), asked = TS.turns.filter(t => t.role === "user" && t.text && tuIsQ(t.text)).length;
+  return `<div class="tu-goal">🎯 ${esc(goal)}${k ? ` · <em class="${asked >= k ? "ok" : ""}">❓ ваши вопросы: ${Math.min(asked, k)} из ${k}</em>` : ""}</div>` + TS.turns.map((t, i) => t.role === "hint" ? tuHintHTML(t)
+    : t.role === "tutor"
     ? `<div class="tu-msg tutor"><p>${esc(t.text)}</p><button class="tu-rep" data-tu="replay" data-i="${i}" aria-label="Повторить">${ICON.play}</button></div>`
     : `<div class="tu-msg me${t.pending ? " pending" : ""}"><p>${t.pending ? "…" : tuMarked(t)}</p>${t.mistakes && t.mistakes.length ? `<small>${plural(t.mistakes.length, ["ошибка", "ошибки", "ошибок"])} · тап по подчёркнутому</small>` : t.checked ? `<small class="ok">✓ без ошибок</small>` : ""}</div>`).join("")
     + (TS.state === "think" ? `<div class="tu-msg tutor typing"><p><i></i><i></i><i></i></p></div>` : "");
 }
+const tuNeedQ = g => { const m = /(\d+)\s*вопрос/i.exec(g || ""); return m ? +m[1] : 0; };
+const tuIsQ = t => /\?\s*$/.test(t) || /^(what|where|when|why|how|who|which|whose|do|does|did|are|is|was|were|can|could|have|has|would|will|should)\b/i.test(String(t).trim());
+const tuWords = t => (String(t).match(/[A-Za-zА-Яа-яЁё0-9']+/g) || []).length;
+function tuHintHTML(h) {
+  if (h.loading) return `<div class="tu-hcard"><b>💡 Подбираю, с чего начать…</b></div>`;
+  return `<div class="tu-hcard"><b>💡 Начните с готового кусочка и закончите своими словами</b>${h.idea ? `<p>${esc(h.idea)}</p>` : ""}
+    ${(h.starts || []).map(x => `<div class="tu-hstart"><div><b>${esc(x.en)}</b><small>${esc(x.ru)}</small></div>${sayBtn(x.en.replace(/…$/, ""))}</div>`).join("")}
+    ${h.ask ? `<p>А потом спросите в ответ:</p><div class="tu-hstart"><div><b>${esc(h.ask.en)}</b><small>${esc(h.ask.ru)}</small></div>${sayBtn(h.ask.en)}</div>` : ""}</div>`;
+}
+// «Не знаю, что сказать»: подсказка не идёт в диалог, репетитор её не видит
+async function tuHint() {
+  if (!TS.sid || TS.busy || TS.hinting) return;
+  TS.hinting = true; clearTimeout(TS.nudge);
+  const h = { role: "hint", loading: true }; TS.turns.push(h); rerenderChat(); renderTalkBar();
+  try { const r = await tuCall("hint", { session: TS.sid }); Object.assign(h, { loading: false, idea: r.idea, starts: r.starts || [], ask: r.ask }); if (!h.starts.length) throw new Error("Подсказка не получилась — попробуйте ещё раз"); }
+  catch (e) { TS.turns = TS.turns.filter(t => t !== h); tuErr(e); }
+  TS.hinting = false; rerenderChat(); renderTalkBar();
+}
+// после ответа репетитора 9 секунд тишины — кнопка подсказки мягко пульсирует
+function tuNudge() { clearTimeout(TS.nudge); TS.nudge = setTimeout(() => { const h = $(".tu-hint"); if (h && TS.state === "idle" && !TS.busy && !TS.ended) h.classList.add("pulse"); }, 9000); }
 function tuScroll() { const c = $("#tuChat"); if (c) requestAnimationFrame(() => { c.scrollTop = c.scrollHeight; }); }
 function rerenderChat() { const c = $("#tuChat"); if (c) { c.innerHTML = tuChatHTML(); tuScroll(); } }
 function renderTalkBar() {
@@ -27673,6 +27725,7 @@ function renderTalkBar() {
   b.innerHTML = `${TS.wrap && !TS.ended ? `<div class="tu-wrap">⏱ Время урока вышло: ответьте ещё раз — репетитор попрощается, и будет разбор.</div>` : ""}
     ${TS.textMode ? `<div class="tu-wrap">💬 На сегодня голосовые минуты закончились — продолжаем текстом. Завтра голос вернётся.</div>` : ""}
     ${TS.ended ? `<button class="btn primary wide" data-tu="review">Смотреть разбор</button>` : `
+    ${TS.sid && !TS.busy && st !== "rec" ? `<button class="tu-hint" data-tu="hint" ${TS.hinting ? "disabled" : ""}>💡 Не знаю, что сказать</button>` : ""}
     <div class="tu-ctrl">
       <button class="tu-kb" data-tu="kb" aria-label="Написать текстом">⌨️</button>
       ${voice ? `<button class="tu-mic${st === "rec" ? " rec" : ""}" id="tuMicBtn" ${TS.busy || !TS.sid ? "disabled" : ""} aria-label="Зажмите и говорите">${ICON.mic}</button>` : `<span class="tu-nomic">${TS.textMode ? "" : "Голос недоступен здесь — пишите текстом"}</span>`}
@@ -27694,7 +27747,8 @@ async function tuSend(r) {
   TS.busy = true; TS.state = "think";
   const me = { role: "user", text: "", pending: true }; TS.turns.push(me); rerenderChat(); renderTalkBar();
   try {
-    const body = { session: TS.sid, wrap: TS.wrap };
+    clearTimeout(TS.nudge);
+    const body = { session: TS.sid, wrap: TS.wrap, sit: TS.sit ? { goal: TS.sit.goal, role: TS.sit.role } : null };
     if (r.blob) { body.audio = await tuB64(r.blob); body.mime = r.mime; body.dur = Math.round(r.dur * 10) / 10; } else body.text = r.text;
     const res = await tuCall("turn", body);
     if (res.text_mode) { TS.textMode = true; TS.kb = true; }
@@ -27708,7 +27762,7 @@ async function tuSend(r) {
       if (TS.wrap) TS.ended = true;
     }
     TS.busy = false; TS.state = TS.textMode ? "idle" : "speak"; rerenderChat(); renderTalkBar();
-    tuPlayer.play(res, res.text, () => { if (TS.state === "speak") { TS.state = "idle"; renderTalkBar(); } if (TS.ended) tuFinish(); });
+    tuPlayer.play(res, res.text, () => { if (TS.state === "speak") { TS.state = "idle"; renderTalkBar(); tuNudge(); } if (TS.ended) tuFinish(); });
     if (TS.textMode && TS.ended) tuFinish();
   } catch (e) {
     TS.turns = TS.turns.filter(t => t !== me); TS.busy = false; TS.state = "idle"; rerenderChat(); renderTalkBar();
@@ -27731,13 +27785,13 @@ async function tuFinish() {
   p.innerHTML = tuHead("Разбор", TS.sit ? TS.sit.t : "", "🔎") + `<div class="scroll page-body"><div class="tu-load"><span class="tu-spin"></span><b>Готовлю разбор и домашку…</b><small>Смотрю каждую ошибку и подбираю задания</small></div></div>`;
   tuShow(p);
   try {
-    const r = await tuCall("finish", { session: TS.sid, lessons: tuLessonsCat(), sits: tuSitsCat() });
+    const r = await tuCall("finish", { session: TS.sid, goal: TS.sit ? TS.sit.goal : "", lessons: tuLessonsCat(), sits: tuSitsCat() });
     if (r.memory) TU.memory = r.memory;
     if (r.homework) TU.hw = r.homework;
     if (TS.planItem && TU.plan) { for (const w of TU.plan.weeks) for (const it of w.items) if (it.id === TS.planItem) it.done = true; }
     TU.sessions.unshift({ id: TS.sid, title: TS.sit ? TS.sit.t : "Урок", at: new Date(TS.t0).toISOString(), minutes: r.summary ? r.summary.minutes : 0, by_type: r.summary ? r.summary.by_type : [] });
     saveTu();
-    const rev = { session: { id: TS.sid, title: TS.sit ? TS.sit.t : "Урок", summary: r.summary }, turns: TS.turns.filter(t => !t.pending), mistakes: r.mistakes || [], homework: r.homework };
+    const rev = { session: { id: TS.sid, title: TS.sit ? TS.sit.t : "Урок", summary: r.summary }, turns: TS.turns.filter(t => !t.pending && t.role !== "hint"), mistakes: r.mistakes || [], homework: r.homework };
     // реплики с id, чтобы ошибки встали на свои места
     TU.rev = rev; renderReview();
     closePageEl(tuPg("tuTalk"));
@@ -27772,10 +27826,20 @@ function renderReview() {
         ${les ? `<button class="btn primary wide" data-tu="lesson" data-l="${les}">📘 Повторить тему: ${esc(LESSONS[les].t)}</button>${rep.why ? `<small>${esc(rep.why)}</small>` : ""}` : ""}
         ${R0.homework ? `<button class="btn soft wide" data-tu="hw" style="margin-top:8px">📝 Домашка: ${plural(R0.homework.tasks.length, ["задание", "задания", "заданий"])}${R0.homework.status === "done" ? ` · ${R0.homework.score} из ${R0.homework.total}` : ""}</button>` : ""}
       </section>
+      ${tuBraveHTML(sm)}
       ${ms.length ? `<h3 class="tu-h">Ошибки — тап, чтобы разобрать подробно</h3>${ms.map((m, i) => `<button class="tu-mis" data-tu="mis" data-i="${i}"><span class="tu-mt">${esc(tuType(m.type)[0])}</span><span class="tu-mw"><s>${esc(m.wrong)}</s> → <b>${esc(m.fix)}</b></span><small>${esc(m.explain || "")}</small></button>`).join("")}` : ""}
       <h3 class="tu-h">Весь диалог</h3>
       <div class="tu-chat static">${R0.turns.map(t => t.role === "tutor" ? `<div class="tu-msg tutor"><p>${esc(t.text)}</p></div>` : `<div class="tu-msg me"><p>${tuMarked(t)}</p></div>`).join("")}</div>
     </div>`;
+}
+function tuBraveHTML(sm) {
+  const sp = sm.speak, st = sm.stretch || [];
+  if (!sp && !st.length) return "";
+  return `<section class="tu-brave"><h4>🗣 Как вы говорили</h4>
+    ${sp ? `<div class="tu-stats"><span><b>${sp.avg}</b>слов в ответе</span><span><b>${sp.longest_n}</b>слов в самом длинном</span>${sp.q_need ? `<span><b>${sp.q} из ${sp.q_need}</b>ваших вопросов</span>` : `<span><b>${sp.q}</b>ваших вопросов</span>`}</div>` : ""}
+    ${sp ? `<p>${sp.avg < 6 ? "Ответы пока короткие, это нормально для начала. Ниже показано, как растянуть каждый своими же словами." : sp.avg < 10 ? "Вы уже отвечаете фразами. Следующий шаг: добавлять деталь и задавать вопрос в ответ." : "Развёрнутые ответы 👏 Так и продолжайте."}</p>` : ""}
+    ${st.length ? `<h4>Как сказать больше</h4><p>Ваш ответ — и он же, только длиннее. Добавленные кусочки разобраны: зачем каждый.</p>${st.map(x => `<div class="tu-stretch"><div class="was">Было: <s>${esc(x.was)}</s></div><div class="bet"><span>${esc(x.better)}</span>${sayBtn(x.better)}</div>${x.chunks && x.chunks.length ? `<div class="tu-chunks">${x.chunks.map(c => `<div><b>${esc(c[0])}</b><span>${esc(c[1])}</span></div>`).join("")}</div>` : ""}</div>`).join("")}` : ""}
+    ${sm.brave ? `<p><b>Приём на следующий раз.</b> ${esc(sm.brave)}</p>` : ""}</section>`;
 }
 function tuMisSheet(m) {
   const d = m.detail || {}, T = tuType(m.type), les = tuLessonFor(m.type, d.lesson);
@@ -27880,7 +27944,7 @@ async function tuMakePlan(quiet) {
   if (!TU.prof) return null;
   try {
     const r = await tuCall("plan", { profile: TU.prof, lessons: tuLessonsCat(), sits: tuSitsCat(), fresh: !TU.plan || TU.plan.local });
-    TU.plan = r.plan; saveTu(); return TU.plan;
+    TU.plan = r.plan; tuApplyMarks(); saveTu(); return TU.plan;
   } catch (e) {
     if (!TU.plan) { TU.plan = tuLocalPlan(TU.prof); saveTu(); }
     if (!quiet && e.code !== "login") toast("План с ИИ не получился: " + e.message + ". Показываю план по анкете");
@@ -27905,7 +27969,7 @@ function openPlan() {
 }
 function tuPlanItem(id) {
   for (const w of (TU.plan && TU.plan.weeks) || []) for (const it of w.items) if (it.id === id) {
-    if (it.kind === "lesson") { if (LESSONS[it.lesson]) { openLesson(it.lesson); if (!it.done) { it.done = true; saveTu(); } } else toast("Этот урок ещё готовится"); return; }
+    if (it.kind === "lesson") { if (LESSONS[it.lesson]) { openLesson(it.lesson); if (!it.done) tuMark(it, "done"); if (isOpen("#tuPage")) renderTutor(); } else toast("Этот урок ещё готовится"); return; }
     const s = TU_SITS.find(x => x.id === it.sit);
     tuStart({ id: it.sit || "custom", e: s ? s.e : "🎙", t: it.title, goal: it.goal || (s && s.goal) || "", role: it.role || (s && s.role) || "" }, it.id);
     return;
@@ -27964,7 +28028,8 @@ function onTuClick(e) {
       closePageEl(pg); break;
     case "login": if (CLOUD && CLOUD.showAuth) CLOUD.showAuth(); break;
     case "admin": openAdmin(); break;
-    case "next": { const nx = tuNextItem(); if (nx) tuPlanItem(nx.it.id); else tuStart(TU_SITS.find(x => x.id === "free")); break; }
+    case "next": { const nx = tuNextItem("talk"); if (nx) tuPlanItem(nx.it.id); else tuStart(TU_SITS.find(x => x.id === "free")); break; }
+    case "later": { for (const w of (TU.plan && TU.plan.weeks) || []) for (const it of w.items) if (it.id === a.dataset.id) tuMark(it, "later:" + tuToday()); renderTutor(); toast("Хорошо, напомню завтра. Урок остаётся в плане"); break; }
     case "sit": tuStart(TU_SITS.find(x => x.id === a.dataset.s)); break;
     case "plan": openPlan(); break;
     case "replan": { const p = tuPg("tuPlan"); TU.plan = null; if (p._paint) p._paint(); tuMakePlan().then(() => p._paint && p._paint()); break; }
@@ -27976,6 +28041,7 @@ function onTuClick(e) {
     case "replay": { const t = TS.turns[+a.dataset.i]; if (t) { tuPlayer.unlock(); tuPlayer.play(null, t.text); } break; }
     case "kb": TS.kb = !TS.kb; renderTalkBar(); if (TS.kb) setTimeout(() => { const i = $("#tuIn"); if (i) i.focus(); }, 50); break;
     case "finish": tuFinish(); break;
+    case "hint": tuHint(); break;
     case "refinish": tuFinish(); break;
     case "review": tuFinish(); break;
     case "err": {
@@ -28000,7 +28066,7 @@ const TU_DEMO = (() => {
   const sessions = {};
   const brief = () => { const p = TU.prof || {}; return `Ученик: ${ME ? ME.name : ""}, уровень ${tuLevel()}, цель ${p.goal || ""}, работа ${p.job || ""}, интересы ${(p.interests || []).join(", ")}. Строгость исправлений: ${p.strict || "balanced"}.`; };
   const say = async (sys, hist) => { const j = await SAMPLE.json(`${sys}\nДиалог:\n${hist.map(t => (t.role === "tutor" ? "Tutor: " : "Learner: ") + t.text).join("\n")}\nОтветь только JSON: {"reply":"следующая реплика репетитора по-английски"}`); return String(j.reply || "Could you tell me more?"); };
-  const sysOf = s => `Ты — тёплый терпеливый репетитор английского ${tuNameOf()} для русскоязычного ученика. ${brief()} Ситуация: ${s.title}. Цель: ${s.goal}. Твоя роль: ${s.role}. Реплика: 1–3 коротких предложения, потом вопрос. Простой разговорный текст без markdown и эмодзи.`;
+  const sysOf = s => `Ты — тёплый терпеливый репетитор английского ${tuNameOf()} для русскоязычного ученика. ${brief()} Ситуация: ${s.title}. Цель: ${s.goal}. Твоя роль: ${s.role}. Реплика: 1–3 коротких предложения, потом открытый вопрос (What / How / Tell me about), не «да или нет». Если ответ ученика короткий (до 6 слов), «I don't know» или по-русски — не исправляй, тепло отреагируй, дай свой короткий пример и начало фразы «You can say: …», спроси проще. Если по цели ученик должен задавать вопросы — через пару реплик предложи: «Now your turn: ask me something!». Простой разговорный текст без markdown и эмодзи.`;
   return {
     async plan(b) { const j = await SAMPLE.json(`Ты — планировщик обучения. Анкета: ${JSON.stringify(b.profile)}. Составь план на 4 недели. Ситуации: ${b.sits}. Уроки блока: ${b.lessons}. Ответь только JSON {"note":"...","weeks":[{"n":1,"goal":"...","items":[{"kind":"talk","sit":"id","title":"...","goal":"...","role":"..."},{"kind":"lesson","lesson":"a1-04","title":"..."}]}]}`);
       const weeks = (j.weeks || []).slice(0, 4).map((w, wi) => ({ n: wi + 1, goal: String(w.goal || ""), items: (w.items || []).slice(0, 6).map((it, ii) => ({ ...it, id: `w${wi + 1}-${ii + 1}`, done: false, kind: it.kind === "lesson" && LESSONS[it.lesson] ? "lesson" : "talk" })) })).filter(w => w.items.length);
@@ -28030,13 +28096,20 @@ const TU_DEMO = (() => {
     },
     async finish(b) {
       const s = sessions[b.session] || { turns: [], mistakes: [] }, ms = s.mistakes || [];
-      const j = await SAMPLE.json(`Ты — добрый преподаватель английского для русскоязычных. Мы учёные, которые объясняют сложное простым языком: разбирай правильную фразу по кусочкам и говори, почему каждый кусок такой. Для форм глагола — образы: 1-я форма «как обычно», 2-я «кадр из прошлого», 3-я «фото результата». Диалог: ${s.turns.map(t => t.role + ": " + t.text).join(" | ")}. Ошибки: ${ms.map((m, i) => i + ". " + m.wrong + " → " + m.fix).join("; ") || "нет"}. Уроки блока: ${b.lessons}. Ответь только JSON {"summary":"2–3 предложения","details":[{"i":0,"rule":"...","chunks":[["кусок","почему"]],"examples":[["en","ru"]],"ru":"...","how":"..."}],"repeat":{"type":"тип","lesson":"id","why":"..."},"homework":[{"k":"choose","q":"... ___ ...","ru":"...","opts":["a","b","c"],"a":"a","why":"..."},{"k":"fix","wrong":"...","ru":"...","a":["..."],"why":"..."},{"k":"fill","q":"... ___ ...","ru":"...","a":["..."],"why":"..."}],"memory":{"stopped":"...","facts":["..."],"next_focus":["..."]}} Домашка 5–8 заданий на ошибки урока.`);
+      const j = await SAMPLE.json(`Ты — добрый преподаватель английского для русскоязычных. Мы учёные, которые объясняют сложное простым языком: разбирай правильную фразу по кусочкам и говори, почему каждый кусок такой. Для форм глагола — образы: 1-я форма «как обычно», 2-я «кадр из прошлого», 3-я «фото результата». Диалог: ${s.turns.map(t => t.role + ": " + t.text).join(" | ")}. Ошибки: ${ms.map((m, i) => i + ". " + m.wrong + " → " + m.fix).join("; ") || "нет"}. Уроки блока: ${b.lessons}. Ответь только JSON {"summary":"2–3 предложения","details":[{"i":0,"rule":"...","chunks":[["кусок","почему"]],"examples":[["en","ru"]],"ru":"...","how":"..."}],"repeat":{"type":"тип","lesson":"id","why":"..."},"homework":[{"k":"choose","q":"... ___ ...","ru":"...","opts":["a","b","c"],"a":"a","why":"..."},{"k":"fix","wrong":"...","ru":"...","a":["..."],"why":"..."},{"k":"fill","q":"... ___ ...","ru":"...","a":["..."],"why":"..."}],"memory":{"stopped":"...","facts":["..."],"next_focus":["..."]},"stretch":[{"was":"короткий ответ ученика дословно","better":"он же длиннее: его слова + 1–2 простых куска","chunks":[["добавленный кусок","зачем он"]]}],"brave":"приём по-русски, как говорить длиннее"} Домашка 5–8 заданий на ошибки урока. stretch — 2–3 самых коротких ответа ученика, без выдуманных фактов.`);
       (j.details || []).forEach(d => { if (ms[d.i]) ms[d.i].detail = d; });
       const by = {}; ms.forEach(m => { by[m.type] = (by[m.type] || 0) + 1; });
-      const summary = { text: j.summary || "", by_type: Object.entries(by).sort((a, b2) => b2[1] - a[1]).map(([type, n]) => ({ type, n })), repeat: j.repeat || {}, minutes: Math.round((Date.now() - TS.t0) / 6000) / 10 };
+      const mine = s.turns.filter(t => t.role === "user" && t.text), wl = mine.map(t => tuWords(t.text));
+      const speak = { answers: mine.length, avg: Math.round(wl.reduce((a, x) => a + x, 0) / Math.max(1, wl.length) * 10) / 10, longest_n: Math.max(0, ...wl), q: mine.filter(t => tuIsQ(t.text)).length, q_need: tuNeedQ(b.goal) };
+      const summary = { speak, stretch: (j.stretch || []).filter(x => x && x.was && x.better).slice(0, 3), brave: j.brave || "", text: j.summary || "", by_type: Object.entries(by).sort((a, b2) => b2[1] - a[1]).map(([type, n]) => ({ type, n })), repeat: j.repeat || {}, minutes: Math.round((Date.now() - TS.t0) / 6000) / 10 };
       const homework = (j.homework || []).length ? { id: "hw-" + Date.now(), tasks: j.homework.filter(t => t && t.a), status: "new" } : null;
       const m0 = TU.memory || {}; const memory = { stopped: (j.memory && j.memory.stopped) || "", facts: [...(m0.facts || []), ...((j.memory && j.memory.facts) || [])].slice(-20), next_focus: (j.memory && j.memory.next_focus) || [], lessons: (m0.lessons || 0) + 1 };
       return { summary, mistakes: ms, homework, memory };
+    },
+    async hint(b) {
+      const s = sessions[b.session] || { turns: [] }, last = [...s.turns].reverse().find(t => t.role === "tutor");
+      const j = await SAMPLE.json(`Ученик английского (${brief()}) зажался в разговоре и не знает, что сказать. Последняя реплика репетитора: «${last ? last.text : ""}». Дай 3 разных начала ответа (4–9 слов, заканчиваются «…», ученик договорит сам) и один вопрос в ответ. Ответь только JSON {"idea":"по-русски: о чём можно рассказать","starts":[{"en":"I usually…","ru":"Обычно я…"}],"ask":{"en":"...","ru":"..."}}`);
+      return { idea: j.idea || "", starts: (j.starts || []).filter(x => x && x.en).slice(0, 3), ask: j.ask && j.ask.en ? j.ask : null };
     },
     async hw_submit() { return { ok: true }; },
     async hw_sent() { return { ok: true }; },
