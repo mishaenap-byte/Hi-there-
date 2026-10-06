@@ -263,11 +263,34 @@ function memoryBrief(m: any) {
   const L: string[] = [];
   if (m.stopped) L.push(`Last time: ${m.stopped}`);
   if (m.facts && m.facts.length) L.push(`What you know about the learner: ${m.facts.slice(0, 12).join("; ")}.`);
+  if (m.phrases && m.phrases.length) L.push(`Phrases the learner practised before (English — Russian): ${m.phrases.slice(-12).map((x: any) => x.en + " — " + x.ru).join("; ")}. At the start, quickly check 2 of them: give the Russian, the learner says it in English.`);
   if (m.speak && m.speak.avg && m.speak.avg < 8) L.push(`Last lesson the learner gave short answers (about ${m.speak.avg} words) and asked ${m.speak.q || 0} questions. From the start, help them speak longer: open questions, sentence frames, your own short example first.`);
   if (m.next_focus && m.next_focus.length) L.push(`Rules the learner struggles with — create natural chances to use them (questions that require them), without saying so: ${m.next_focus.slice(0, 4).join("; ")}.`);
   return L.join(" ");
 }
-function tutorSystem(o: { p: any; level: string; name: string; mem: any; sit: any; tutorName: string; textMode: boolean }) {
+// «Учитель ведёт»: не болтовня, а быстрая тренировка — «скажи по-английски», разбор по-русски, фраза растёт
+// разговор с учителем внутри: живой диалог по ситуации, но после слабых ответов — мини-урок
+// («Лучше так: …» + почему по-русски + «Повтори» + «Теперь добавь»), и регулярно «Скажи по-английски: …»
+function guidedSystem(o: { p: any; level: string; name: string; mem: any; sit: any; tutorName: string; textMode: boolean }) {
+  const s = o.sit || {}, en = /B2|C1/.test(o.level), ru = en ? "simple English" : "Russian";
+  return [
+    `You are ${o.tutorName}, an English teacher in the Hi There app having a real spoken CONVERSATION with the learner, and TEACHING inside it. The learner's speaking is weak: they join words with difficulty and answer in short phrases. They want to progress fast and be guided.`,
+    learnerBrief(o.p, o.level, o.name),
+    memoryBrief(o.mem),
+    `Today's situation: ${s.title || "free conversation"}.${s.goal ? " Goal: " + s.goal + "." : ""}${s.role ? " In the conversation you play: " + s.role + "." : ""} It is a real conversation: ask about the learner's real life and react to what they say.`,
+    `After EVERY learner answer decide:
+a) Good answer (a full sentence, no big mistakes) → react naturally in English, maybe offer one better word, continue the conversation with one open question (What…? How…? Tell me about…).
+b) Short (1–5 words), broken, or with a mistake → a TEACH MOMENT: in ${ru}, show how to say what they MEANT as a full natural English phrase: «Лучше так: "…"», add ONE short reason in ${ru} for the key piece (why this word, why this form, why here; for verb forms use the images: 1-я форма «как обычно», 2-я «кадр из прошлого», 3-я «фото результата»), then «Повтори». After they repeat it correctly → «Теперь добавь: …» once, to make it longer (a detail, a time, because…, and…). Then back to the conversation with your next question.
+c) They don't know a word, say «не знаю», or switch to Russian → give the English phrase right away and ask them to repeat it, then continue.
+d) Every 3–4 exchanges: a «Скажи по-английски: "…"» task — a phrase from their life they will need in the next part of this conversation; then use it in the conversation right away.
+Never more than 2 teaching steps in a row: then return to the conversation.`,
+    `Rules: one step per reply, max 35 words. ${en ? "Speak English." : "Conversation in English; explanations and instructions (Лучше так / Повтори / Теперь добавь / Скажи по-английски) in Russian."} No long praise, no lists, no markdown, no emoji. Keep the pace fast. Put every English model phrase in straight double quotes "like this".`,
+    o.textMode ? "This part of the lesson is in text chat." : "",
+  ].filter(Boolean).join("\n");
+}
+const isGuided = (p: any, _sitId?: string) => (p && p.style) !== "talk";
+function tutorSystem(o: { p: any; level: string; name: string; mem: any; sit: any; tutorName: string; textMode: boolean; guided?: boolean }) {
+  if (o.guided) return guidedSystem(o);
   const s = o.sit || {};
   const fears = (o.p && o.p.fears) || [];
   return [
@@ -343,12 +366,16 @@ ${STYLE_RU}
 Верни JSON:
 {"summary":"2–3 предложения по-русски: что получилось хорошо и над чем поработать",
  "details":[{"i":номер ошибки,"rule":"правило простыми словами, 1–2 предложения","chunks":[["кусок правильной фразы","почему он такой и стоит здесь"]],"examples":[["English example","перевод"]],"ru":"как по-русски и почему русский путает","how":"как не ошибаться: короткий приём","lesson":"id урока из списка на это правило или пусто"}],
+ "result":{"score":0-100,"passed":true/false,"why":"1–2 предложения по-русски: что уже получается и чего не хватило до цели"},
+ "phrases":[{"en":"фраза, которую ученик отработал на уроке (в правильном виде)","ru":"перевод"}],
  "stretch":[{"was":"короткий ответ ученика дословно","better":"тот же ответ длиннее: его же слова + 1–2 простых куска, его уровень","chunks":[["добавленный кусок","зачем он: что он добавляет к рассказу и почему стоит здесь"]]}],
  "brave":"1–2 предложения по-русски: приём, как в следующий раз говорить длиннее (например, «ответ + деталь + вопрос в ответ»)",
  "repeat":{"type":"тип самых частых ошибок","lesson":"id урока из списка или пусто","why":"одно предложение"},
  "homework":[задания],
  "memory":{"stopped":"одно предложение по-английски: на чём остановились","facts":["новые факты о человеке по-английски, коротко"],"next_focus":["правило, с которым трудно, по-английски коротко"]}}
 details — для каждой ошибки (до 10), 2–3 examples на каждую.
+result — честно: достиг ли ученик цели урока. passed=true только если он сам, без подсказок, сказал нужное по цели связными фразами (score ≥ 70). Короткие ответы из 2–5 слов, повторы за учителем и «не знаю» — это ещё не цель. Не завышай.
+phrases — до 8 главных фраз урока, которые ученик отработал (правильный вид).
 stretch — 2–3 самых коротких ответа ученика: покажи, как сказать то же длиннее и живее. Не придумывай факты, которых нет в диалоге; если нужна деталь — бери из анкеты или ставь понятную заготовку в скобках, например (название проекта).
 homework — от 5 до 10 заданий ТОЛЬКО на ошибки этого урока (если ошибок мало — на те же правила в новых фразах из жизни ученика). Виды:
  {"k":"choose","q":"фраза с ___","ru":"перевод","opts":["вариант","вариант","вариант"],"a":"правильный вариант","why":"почему"}
@@ -396,8 +423,10 @@ function cleanPlan(j: any, old: any) {
   // уже пройденное не теряем: те же уроки остаются отмеченными
   const done = new Set<string>(), keepDone: any[] = [];
   for (const w of (old && old.weeks) || []) for (const it of w.items || []) if (it.done) { done.add(it.kind + ":" + (it.lesson || it.title)); keepDone.push(it); }
-  for (const w of weeks) for (const it of w.items) if (done.has(it.kind + ":" + (it.lesson || it.title))) it.done = true;
-  return { note: clampText(j.note, 400), weeks, created: old && old.created || new Date().toISOString(), updated: new Date().toISOString(), start: old && old.start || new Date().toISOString().slice(0, 10) };
+  const tried: Record<string, any> = {};
+  for (const w of (old && old.weeks) || []) for (const it of w.items || []) if (it.tries) tried[it.kind + ":" + (it.lesson || it.title)] = it;
+  for (const w of weeks) for (const it of w.items as any[]) { const k = it.kind + ":" + (it.lesson || it.title); if (done.has(k)) it.done = true; if (tried[k]) { it.tries = tried[k].tries; it.best = tried[k].best; } }
+  return { graded: true, note: clampText(j.note, 400), weeks, created: old && old.created || new Date().toISOString(), updated: new Date().toISOString(), start: old && old.start || new Date().toISOString().slice(0, 10) };
 }
 async function makePlan(c: Ctx, p: any, mem: any, old: any, b: any, extra = "") {
   const lessons = clampText(b.lessons, 6000), sits = clampText(b.sits, 2500);
@@ -512,6 +541,11 @@ Deno.serve(async req => {
 
     if (mode === "status") {
       const all = await loadAll(uid);
+      if (all.plan && !all.plan.graded) {
+        for (const w of all.plan.weeks || []) for (const it of w.items || []) if (it.kind === "talk" && it.done && it.best == null) { it.done = false; it.tries = 1; }
+        all.plan.graded = true;
+        await db().from("learning_plan").upsert({ user_id: uid, plan: all.plan, updated_at: new Date().toISOString() });
+      }
       const { data: ses } = await db().from("tutor_sessions").select("id,title,situation,started_at,ended_at,minutes,turns,summary").eq("user_id", uid).gte("turns", 2).order("started_at", { ascending: false }).limit(20);
       return json({ admin, access: await accessOf(uid, admin, all.access), profile: all.profile, plan: all.plan, memory: all.memory, homework: all.homework,
         sessions: (ses || []).map((s: any) => ({ id: s.id, title: s.title, situation: s.situation, at: s.started_at, minutes: s.minutes, done: !!s.ended_at, by_type: s.summary && s.summary.by_type || null })) });
@@ -558,8 +592,9 @@ Deno.serve(async req => {
       const hw = all.homework, hwInfo = !hw ? "" : hw.status === "done"
         ? `The learner DID the homework from last lesson: ${hw.score} out of ${hw.total}. Praise them with the exact score, then ask ONE short spoken question that checks the same rule (homework topic: ${(hw.tasks || []).slice(0, 2).map((t: any) => t.why || t.q || t.wrong).join(" / ").slice(0, 200)}). Wait for the answer before moving on.`
         : `The learner has NOT done the homework yet. Do not scold. Offer to practise it right now for one minute: ask ONE quick question on the same rule (${(hw.tasks || []).slice(0, 2).map((t: any) => t.why || t.q || t.wrong).join(" / ").slice(0, 200)}).`;
-      const sys = tutorSystem({ p, level: lv, name, mem: all.memory, sit, tutorName: tutorNameOf(p), textMode });
-      const opening = `Start the lesson now. Greet the learner like someone you already know${all.memory ? " and mention briefly where you stopped last time" : " (it is your first lesson: introduce yourself by name)"}. ${hwInfo} ${hwInfo ? "After that check, lead into today's situation." : "Then lead into today's situation with your first question."} Max 4 short sentences.${p.lang === "ru" && /A1|A2/.test(lv) ? " You may say the greeting in Russian, then switch to English." : ""}`;
+      const guided = isGuided(p, sit.id);
+      const sys = tutorSystem({ p, level: lv, name, mem: all.memory, sit, tutorName: tutorNameOf(p), textMode, guided });
+      const opening = guided ? `Start the lesson now. One short greeting by name${all.memory ? "" : " and your name"}. ${/B2|C1/.test(lv) ? "" : "In Russian, one sentence: what we talk about today and what the learner will be able to say after it. "}${hwInfo ? "Then the homework check as a «Скажи по-английски» task on the homework rule (wait for the answer). " : all.memory && all.memory.phrases && all.memory.phrases.length ? "Then a quick check of one old phrase as «Скажи по-английски» (wait for the answer). " : "Then your first conversation question in English. "}Max 3 short sentences.` : `Start the lesson now. Greet the learner like someone you already know${all.memory ? " and mention briefly where you stopped last time" : " (it is your first lesson: introduce yourself by name)"}. ${hwInfo} ${hwInfo ? "After that check, lead into today's situation." : "Then lead into today's situation with your first question."} Max 4 short sentences.${p.lang === "ru" && /A1|A2/.test(lv) ? " You may say the greeting in Russian, then switch to English." : ""}`;
       const r = await llm(c, MODEL, sys, [{ role: "user", text: opening }], { max: 300 });
       const text = r.text || "Hi! Let's start.";
       const t = textMode ? { sec: 0 } : await tts(c, text, p);
@@ -582,16 +617,20 @@ Deno.serve(async req => {
       const { data: ut } = await db().from("tutor_turns").insert({ session_id: s.id, user_id: uid, role: "user", text: you, sec: usec }).select("id").single();
       const hist = await turnsOf(s.id, 30);
       const sit = { title: s.title, goal: clampText(b.sit && b.sit.goal, 240), role: clampText(b.sit && b.sit.role, 200) };
-      const sys = tutorSystem({ p, level: lv, name, mem: all.memory, sit, tutorName: tutorNameOf(p), textMode });
+      const guided = isGuided(p, s.situation);
+      const sys = tutorSystem({ p, level: lv, name, mem: all.memory, sit, tutorName: tutorNameOf(p), textMode, guided });
       const msgs: Msg[] = hist.map((h: any) => ({ role: h.role === "tutor" ? "assistant" : "user", text: h.text }));
       // заметка тренера: ученик зажат / пора дать ему спросить самому
       const mine = hist.filter((h: any) => h.role === "user"), asked = mine.filter((h: any) => isQ(h.text)).length, k = needQ(sit.goal);
       const notes: string[] = [];
-      if (wordsOf(you) <= 6 || /don'?t know|no idea|не знаю|[а-яё]{3,}/i.test(you)) notes.push("The learner seems STUCK: use the stuck strategy now.");
+      // ученик отвечал на задание учителя (повтори / добавь / скажи) — короткий ответ тут нормален
+      const prevT = [...hist].reverse().find((h: any) => h.role === "tutor"), drill = !!prevT && /Повтори|Теперь добавь|Скажи по-английски|Repeat|Now add|Say in English/i.test(prevT.text);
+      if (guided) { if (/don'?t know|no idea|не знаю|не помню/i.test(you)) notes.push("The learner is stuck: give the English phrase now and ask to repeat it."); else if (wordsOf(you) <= 5 && !drill && !/^(yes|no|ok|okay|sure|thanks|thank you)\b/i.test(you)) notes.push("Short answer: TEACH MOMENT now (Лучше так / почему / Повтори)."); }
+      else if (wordsOf(you) <= 6 || /don'?t know|no idea|не знаю|[а-яё]{3,}/i.test(you)) notes.push("The learner seems STUCK: use the stuck strategy now.");
       if (k && asked < k && mine.length >= 3 && mine.length % 2 === 1) notes.push(`Goal: the learner must ask you ${k} questions; asked so far: ${asked}. After reacting, hand the turn over: invite them to ask you something, e.g. "Now your turn: ask me anything about me!"`);
       if (!b.wrap && notes.length) msgs.push({ role: "user", text: "(Coach note, not from the learner: " + notes.join(" ") + ")" });
-      if (b.wrap) msgs.push({ role: "user", text: "(The lesson time is up. Say a warm goodbye in 1–2 sentences: one thing the learner did well. No question.)" });
-      const r = await llm(c, MODEL, sys, msgs, { max: 260 });
+      if (b.wrap) msgs.push({ role: "user", text: guided ? "(The lesson time is up. In Russian, 1–2 sentences: one phrase they learned today and one thing that improved. No question.)" : "(The lesson time is up. Say a warm goodbye in 1–2 sentences: one thing the learner did well. No question.)" });
+      const r = await llm(c, MODEL, sys, msgs, { max: guided ? 200 : 260 });
       const text = r.text || "Could you tell me more?";
       const t = textMode ? { sec: 0 } : await tts(c, text, p);
       await db().from("tutor_turns").insert({ session_id: s.id, user_id: uid, role: "tutor", text, sec: t.sec });
@@ -663,7 +702,10 @@ Return JSON: {"idea":"по-русски, одно предложение: о ч�
       const longest = mine[wl.indexOf(Math.max(...wl))];
       const speak = { answers: mine.length, avg: Math.round(wl.reduce((a: number, x: number) => a + x, 0) / Math.max(1, wl.length) * 10) / 10, longest: longest ? clampText(longest.text, 300) : "", longest_n: Math.max(0, ...wl), q: mine.filter((t: any) => isQ(t.text)).length, q_need: needQ(String(b.goal || "")) };
       const stretch = (Array.isArray(j.stretch) ? j.stretch : []).filter((x: any) => x && x.was && x.better).slice(0, 3).map((x: any) => ({ was: clampText(x.was, 200), better: clampText(x.better, 300), chunks: (Array.isArray(x.chunks) ? x.chunks : []).slice(0, 5).map((c: any) => [clampText(c[0], 120), clampText(c[1], 300)]) }));
-      const summary = { text: clampText(j.summary, 800), by_type, repeat: { type: clampText(rep.type, 30) || (by_type[0] && by_type[0].type) || "", lesson: LESSON_IDS.test(rep.lesson) ? rep.lesson : "", why: clampText(rep.why, 300) }, mistakes: ms.length, minutes: Math.round(minutes * 10) / 10, speak, stretch, brave: clampText(j.brave, 400) };
+      const rs = j.result || {}, score = Math.max(0, Math.min(100, Math.round(+rs.score || 0)));
+      const result = { score, passed: rs.passed === true && score >= 70, why: clampText(rs.why, 400) };
+      const phrases = (Array.isArray(j.phrases) ? j.phrases : []).filter((x: any) => x && x.en).slice(0, 8).map((x: any) => ({ en: clampText(x.en, 160), ru: clampText(x.ru, 200) }));
+      const summary = { result, phrases, text: clampText(j.summary, 800), by_type, repeat: { type: clampText(rep.type, 30) || (by_type[0] && by_type[0].type) || "", lesson: LESSON_IDS.test(rep.lesson) ? rep.lesson : "", why: clampText(rep.why, 300) }, mistakes: ms.length, minutes: Math.round(minutes * 10) / 10, speak, stretch, brave: clampText(j.brave, 400) };
       await db().from("tutor_sessions").update({ ended_at: new Date().toISOString(), minutes: summary.minutes, summary }).eq("id", s.id);
       // домашка
       const tasks = cleanHw(j.homework);
@@ -674,12 +716,12 @@ Return JSON: {"idea":"по-русски, одно предложение: о ч�
       const freq: Record<string, number> = {}; for (const f of m0.frequent || []) freq[f.type] = f.n; for (const [k, v] of Object.entries(by)) freq[k] = (freq[k] || 0) + v;
       const facts = [...new Set([...(m0.facts || []), ...((jm.facts || []) as string[]).map(x => clampText(x, 120))].filter(Boolean))].slice(-20);
       const memory = { stopped: clampText(jm.stopped, 300) || m0.stopped || "", facts, next_focus: ((jm.next_focus || m0.next_focus || []) as string[]).map(x => clampText(x, 120)).slice(0, 5),
-        frequent: Object.entries(freq).sort((a, b) => b[1] - a[1]).slice(0, 8).map(([type, n]) => ({ type, n })), lessons: (m0.lessons || 0) + 1, last: { title: s.title, at: s.started_at }, speak: { avg: speak.avg, q: speak.q } };
+        frequent: Object.entries(freq).sort((a, b) => b[1] - a[1]).slice(0, 8).map(([type, n]) => ({ type, n })), lessons: (m0.lessons || 0) + 1, last: { title: s.title, at: s.started_at }, speak: { avg: speak.avg, q: speak.q }, phrases: [...(m0.phrases || []), ...phrases].filter((x: any, i: number, a: any[]) => a.findIndex((y: any) => y.en.toLowerCase() === x.en.toLowerCase()) === i).slice(-30) };
       await db().from("tutor_memory").upsert({ user_id: uid, memory, updated_at: new Date().toISOString() });
       // план живой: отмечаем пройденное и перестраиваем непройденное по ошибкам — в фоне, ответ не ждёт
       if (all.plan && all.profile) {
         const plan = all.plan;
-        for (const w of plan.weeks || []) for (const it of w.items || []) if (it.id === s.plan_item) it.done = true;
+        for (const w of plan.weeks || []) for (const it of w.items || []) if (it.id === s.plan_item) { it.tries = (+it.tries || 0) + 1; it.best = Math.max(+it.best || 0, score); if (result.passed) it.done = true; }
         await db().from("learning_plan").upsert({ user_id: uid, plan, updated_at: new Date().toISOString() });
         if (b.lessons && b.sits) later(makePlan(c, all.profile, memory, plan, b, `Только что прошёл урок «${s.title}». Ошибки по типам: ${JSON.stringify(by_type)}. Перестрой непройденные уроки: добавь повторение слабых правил.`));
       }
