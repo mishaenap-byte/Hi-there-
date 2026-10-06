@@ -27497,15 +27497,40 @@ const tuLessonMin = () => { const m = (TU.prof && TU.prof.minutes) || 10; return
 // ---------- связь: сайт → функция tutor, превью → демо ----------
 const tuCloud = () => !!(CLOUD && CLOUD.uid && typeof sb !== "undefined");
 const tuDemo = () => !tuCloud() && !!SAMPLE;
+async function tuFetch(base) {
+  const { data } = await sb.auth.getSession();
+  const tok = data && data.session && data.session.access_token;
+  if (!tok) throw Object.assign(new Error("Войдите в аккаунт заново"), { code: "login" });
+  try { return await fetch(SB_URL + "/functions/v1/tutor", { method: "POST", headers: { Authorization: "Bearer " + tok, apikey: SB_KEY, "Content-Type": "application/json" }, body: JSON.stringify(base) }); }
+  catch (e) { throw Object.assign(new Error("Нет связи с сервером репетитора"), { code: "net" }); }
+}
+// потоковый вызов (реплика, начало урока): события приходят по мере готовности — своя фраза, текст учителя, голос кусочками
+async function tuStream(mode, body, on) {
+  const r = await tuFetch({ mode, name: ME ? ME.name : "", level: tuLevel(), ...body, stream: true });
+  const ct = r.headers.get("content-type") || "";
+  if (!r.ok || !/ndjson/.test(ct) || !r.body || !r.body.getReader) {
+    // старая функция на сервере — обычный ответ, раскладываем его в те же события
+    const j = await r.json().catch(() => ({ error: r.status === 404 ? "Сервер не нашёл функцию tutor в Supabase: проверьте, что она задеплоена и называется именно tutor" : "Сервер репетитора не отвечает (" + r.status + ")" }));
+    if (!r.ok || j.error) throw Object.assign(new Error(j.error || "Ошибка " + r.status), { code: j.code || "", status: r.status, data: j });
+    if (mode === "start") on({ t: "meta", ...j });
+    else if (j.retry) { on({ t: "end", ...j }); return; }
+    else { on({ t: "you", you: j.you, turn_id: j.turn_id }); on({ t: "text", text: j.text }); }
+    if (j.audio || j.url) on({ t: "audio", i: 0, n: 1, audio: j.audio, url: j.url });
+    on({ t: "end", text_mode: j.text_mode, switched: j.switched }); return;
+  }
+  const rd = r.body.getReader(), dec = new TextDecoder(); let buf = "";
+  const line = l => { if (!l.trim()) return; const ev = JSON.parse(l); if (ev.t === "error") throw Object.assign(new Error(ev.error || "Ошибка"), { code: ev.code || "", status: ev.status }); on(ev); };
+  for (;;) {
+    const { value, done } = await rd.read(); if (done) break;
+    buf += dec.decode(value, { stream: true }); let i;
+    while ((i = buf.indexOf("\n")) >= 0) { const l = buf.slice(0, i); buf = buf.slice(i + 1); line(l); }
+  }
+  line(buf);
+}
 async function tuCall(mode, body = {}) {
   const base = { mode, name: ME ? ME.name : "", level: tuLevel(), ...body };
   if (tuCloud()) {
-    const { data } = await sb.auth.getSession();
-    const tok = data && data.session && data.session.access_token;
-    if (!tok) throw Object.assign(new Error("Войдите в аккаунт заново"), { code: "login" });
-    let r;
-    try { r = await fetch(SB_URL + "/functions/v1/tutor", { method: "POST", headers: { Authorization: "Bearer " + tok, apikey: SB_KEY, "Content-Type": "application/json" }, body: JSON.stringify(base) }); }
-    catch (e) { throw Object.assign(new Error("Нет связи с сервером репетитора"), { code: "net" }); }
+    const r = await tuFetch(base);
     const j = await r.json().catch(() => ({ error: r.status === 404 ? "Функция tutor ещё не установлена в Supabase" : "Сервер репетитора не отвечает (" + r.status + ")" }));
     if (r.status === 404 && !j.error) j.error = "Сервер не нашёл функцию tutor в Supabase: проверьте, что она задеплоена и называется именно tutor";
     if (!r.ok || j.error) throw Object.assign(new Error(j.error || "Ошибка " + r.status), { code: j.code || "", status: r.status, data: j });
@@ -27557,7 +27582,36 @@ const tuB64 = blob => new Promise((ok, no) => { const r = new FileReader(); r.on
 const tuPlayer = {
   ctx: null, src: null, el: null,
   unlock() { try { if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)(); if (this.ctx.state === "suspended") this.ctx.resume(); } catch (e) {} },
-  stop() { try { if (this.src) this.src.stop(); } catch (e) {} this.src = null; try { speechSynthesis.cancel(); } catch (e) {} },
+  stop() { if (this.q) { for (const s of this.q.srcs) try { s.stop(); } catch (e) {} this.q = null; } try { if (this.src) this.src.stop(); } catch (e) {} this.src = null; try { speechSynthesis.cancel(); } catch (e) {} },
+  // голос кусочками: каждый кусок ставится сразу за предыдущим, без пауз; onend — когда отзвучал последний
+  q: null,
+  qStart(onend) { this.stop(); this.q = { onend, left: 0, closed: false, t: 0, chain: Promise.resolve(), failed: false, srcs: [] }; },
+  qPush(r) {
+    const q = this.q; if (!q) return;
+    if (!this.ctx || !(r.audio || r.url)) { q.failed = true; return; }
+    q.left++;
+    q.chain = q.chain.then(async () => {
+      if (this.q !== q) return;
+      try {
+        const buf = r.audio ? Uint8Array.from(atob(r.audio), c => c.charCodeAt(0)).buffer : await (await fetch(r.url)).arrayBuffer();
+        const ab = await new Promise((ok, no) => this.ctx.decodeAudioData(buf, ok, no));
+        if (this.q !== q) return;
+        const s = this.ctx.createBufferSource(); s.buffer = ab; s.connect(this.ctx.destination);
+        const at = Math.max(this.ctx.currentTime + 0.03, q.t); s.start(at); q.t = at + ab.duration;
+        q.srcs.push(s); this.src = s; s.onended = () => { q.left--; this.qCheck(q); };
+      } catch (e) { q.left--; q.failed = true; this.qCheck(q); }
+    });
+  },
+  qEnd(text) {
+    const q = this.q; if (!q) return;
+    q.chain.then(() => {
+      if (this.q !== q) return;
+      q.closed = true;
+      if (q.failed && !q.srcs.length && text) { this.q = null; this.play(null, text, q.onend); return; }   // голос не пришёл — голос браузера
+      this.qCheck(q);
+    });
+  },
+  qCheck(q) { if (q.closed && q.left <= 0 && this.q === q) { this.q = null; this.src = null; if (q.onend) q.onend(); } },
   async play(r, text, onend) {
     this.stop();
     const done = () => { if (onend) onend(); };
@@ -27661,13 +27715,25 @@ async function tuStart(sit, planItem) {
   Object.assign(TS, { sid: null, sit, turns: [], busy: true, t0: Date.now(), wrap: false, ended: false, textMode: false, planItem: planItem || null, state: "think" });
   renderTalk(); tuShow(tuPg("tuTalk"));
   try {
-    const r = await tuCall("start", { sit: { id: sit.id, title: sit.t, goal: sit.goal, role: sit.role }, plan_item: planItem || "" });
-    TS.sid = r.session; TS.textMode = !!r.text_mode; if (r.access) TU.access = r.access;
-    TS.turns.push({ role: "tutor", text: r.text });
-    tuPresence(true);
-    clearInterval(TS.timer); TS.timer = setInterval(tuTick, 1000);
-    TS.busy = false; TS.state = "speak"; renderTalk();
-    tuPlayer.play(r, r.text, () => { if (TS.state === "speak") { TS.state = "idle"; renderTalkBar(); tuNudge(); } });
+    const args = { sit: { id: sit.id, title: sit.t, goal: sit.goal, role: sit.role }, plan_item: planItem || "" };
+    const begin = r => {
+      TS.sid = r.session; TS.textMode = !!r.text_mode; if (r.access) TU.access = r.access;
+      TS.turns.push({ role: "tutor", text: r.text });
+      tuPresence(true);
+      clearInterval(TS.timer); TS.timer = setInterval(tuTick, 1000);
+      TS.busy = false; TS.state = "speak"; renderTalk();
+    };
+    const after = () => { if (TS.state === "speak") { TS.state = "idle"; renderTalkBar(); tuNudge(); } };
+    if (tuCloud()) {
+      let text = "";
+      tuPlayer.qStart(after);
+      await tuStream("start", args, ev => { if (ev.t === "meta") { text = ev.text; begin(ev); } else if (ev.t === "audio") tuPlayer.qPush(ev); });
+      tuPlayer.qEnd(TS.textMode ? "" : text);
+    } else {
+      const r = await tuCall("start", args);
+      begin(r);
+      tuPlayer.play(r, r.text, after);
+    }
   } catch (e) {
     TS.busy = false; TS.state = "idle";
     closePageEl(tuPg("tuTalk")); tuErr(e);
@@ -27760,6 +27826,7 @@ async function tuSend(r) {
     clearTimeout(TS.nudge);
     const body = { session: TS.sid, wrap: TS.wrap, sit: TS.sit ? { goal: TS.sit.goal, role: TS.sit.role } : null };
     if (r.blob) { body.audio = await tuB64(r.blob); body.mime = r.mime; body.dur = Math.round(r.dur * 10) / 10; } else body.text = r.text;
+    if (tuCloud()) { await tuSendStream(body, me); return; }
     const res = await tuCall("turn", body);
     if (res.text_mode) { TS.textMode = true; TS.kb = true; }
     if (res.retry) { TS.turns.pop(); TS.turns.push({ role: "tutor", text: res.text }); }
@@ -27779,6 +27846,27 @@ async function tuSend(r) {
     if (e.code === "too_long") { tuFinish(); return; }
     tuErr(e);
   }
+}
+async function tuSendStream(body, me) {
+  let text = "", fin = null;
+  const after = () => { if (TS.state === "speak") { TS.state = "idle"; renderTalkBar(); tuNudge(); } if (TS.ended) tuFinish(); };
+  tuPlayer.qStart(after);
+  await tuStream("turn", body, ev => {
+    if (ev.t === "you") { me.text = ev.you; me.pending = false; me.id = ev.turn_id; rerenderChat(); if (ev.turn_id) tuAnalyze(me); }     // своя фраза видна сразу, разбор ошибок стартует раньше
+    else if (ev.t === "text") { text = ev.text; TS.turns.push({ role: "tutor", text }); if (TS.wrap) TS.ended = true; TS.busy = false; TS.state = TS.textMode ? "idle" : "speak"; rerenderChat(); renderTalkBar(); }
+    else if (ev.t === "audio") tuPlayer.qPush(ev);
+    else if (ev.t === "end") fin = ev;
+  });
+  if (fin && fin.retry) {
+    TS.turns = TS.turns.filter(t => t !== me); text = fin.text; TS.turns.push({ role: "tutor", text });
+    if (fin.text_mode) { TS.textMode = true; TS.kb = true; }
+    TS.busy = false; TS.state = TS.textMode ? "idle" : "speak"; rerenderChat(); renderTalkBar();
+    if (fin.audio || fin.url) tuPlayer.qPush(fin);
+  } else if (fin) {
+    if (fin.text_mode) { TS.textMode = true; TS.kb = true; }
+    if (fin.switched) { toast("Голосовые минуты на сегодня закончились — дальше текстом"); TS.state = "idle"; renderTalkBar(); }
+  }
+  tuPlayer.qEnd(TS.textMode ? "" : text);
 }
 // аналитик ошибок — параллельно, ответ репетитора его не ждёт
 async function tuAnalyze(t) {

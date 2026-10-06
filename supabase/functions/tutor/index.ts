@@ -73,7 +73,7 @@ async function cost(c: Ctx, service: string, model: string, units: number, unit:
 
 // ---------- текстовая модель (Gemini или OpenAI) ----------
 const GEM_OK: Record<string, string> = {};   // какая модель реально ответила вместо выбранной
-const NO_THINK = new Set<string>();          // модели, которые не принимают настройку «раздумий»
+const THINK_OK: Record<string, any> = {};   // какая настройка «раздумий» модель реально принимает (minimal → low → без настройки)
 type Msg = { role: "user" | "assistant"; text: string };
 async function llm(c: Ctx, model: string, system: string, msgs: Msg[], o: { json?: boolean; max?: number; temp?: number } = {}) {
   let text = "", tin = 0, tout = 0;
@@ -109,8 +109,11 @@ async function llm(c: Ctx, model: string, system: string, msgs: Msg[], o: { json
     let j: any = null, err = "", busy = false;
     for (const m of tries) {
       for (let attempt = 0; attempt < 2; attempt++) {
-        let th = NO_THINK.has(m) ? null : think(m), r = await call(m, th); j = await r.json().catch(() => ({}));
-        if (!r.ok && th && /thinking/i.test(j.error?.message || "")) { th = null; NO_THINK.add(m); r = await call(m, null); j = await r.json().catch(() => ({})); }
+        let th = m in THINK_OK ? THINK_OK[m] : think(m), r = await call(m, th); j = await r.json().catch(() => ({}));
+        // «minimal» не принят — пробуем «low» (всё ещё быстро), и только потом без настройки (модель думает долго)
+        if (!r.ok && th && th.thinkingLevel === "minimal" && /thinking/i.test(j.error?.message || "")) { th = { thinkingLevel: "low" }; r = await call(m, th); j = await r.json().catch(() => ({})); }
+        if (!r.ok && th && /thinking/i.test(j.error?.message || "")) { th = null; r = await call(m, null); j = await r.json().catch(() => ({})); }
+        if (r.ok) THINK_OK[m] = th;
         if (r.ok) { if (!busy && m !== model) GEM_OK[model] = m; model = m; err = ""; break; }
         err = j.error && j.error.message || String(r.status);
         busy = r.status === 429 || r.status >= 500 || /high demand|overloaded|unavailable|try again/i.test(err);
@@ -201,6 +204,25 @@ async function tts(c: Ctx, text: string, p: any): Promise<{ audio?: string; url?
   later(cost(c, "tts", "gpt-4o-mini-tts", sec, "sec", sec / 60 * TTS_PER_MIN));
   if (std) later(db().storage.from("tutor-tts").upload(path, buf, { contentType: "audio/mpeg", upsert: true }));
   return { audio: encodeBase64(buf), sec };
+}
+
+// потоковый ответ: строки JSON по мере готовности (своя фраза → текст учителя → голос кусочками)
+function ndjson(run: (emit: (o: any) => void) => Promise<void>) {
+  const enc = new TextEncoder();
+  const body = new ReadableStream({
+    async start(ctl) {
+      const emit = (o: any) => { try { ctl.enqueue(enc.encode(JSON.stringify(o) + "\n")); } catch { /* клиент ушёл */ } };
+      try { await run(emit); } catch (e) { const f = e as Fail; emit({ t: "error", error: f.message || String(e), code: f.code || undefined, status: f.status || 500 }); }
+      try { ctl.close(); } catch { /* */ }
+    },
+  });
+  return new Response(body, { headers: { ...cors, "Content-Type": "application/x-ndjson; charset=utf-8", "Cache-Control": "no-cache" } });
+}
+// голос по кусочкам: первое предложение отдельно — оно озвучивается быстрее и начинает играть раньше
+function splitSpeech(text: string) {
+  const re = /[.!?…](?=\s)/g; let m: RegExpExecArray | null;
+  while ((m = re.exec(text))) if (m.index >= 18 && text.length - m.index > 12) return [text.slice(0, m.index + 1).trim(), text.slice(m.index + 1).trim()];
+  return [text];
 }
 
 // ---------- данные человека ----------
@@ -597,46 +619,70 @@ Deno.serve(async req => {
       const opening = guided ? `Start the lesson now. One short greeting by name${all.memory ? "" : " and your name"}. ${/B2|C1/.test(lv) ? "" : "In Russian, one sentence: what we talk about today and what the learner will be able to say after it. "}${hwInfo ? "Then the homework check as a «Скажи по-английски» task on the homework rule (wait for the answer). " : all.memory && all.memory.phrases && all.memory.phrases.length ? "Then a quick check of one old phrase as «Скажи по-английски» (wait for the answer). " : "Then your first conversation question in English. "}Max 3 short sentences.` : `Start the lesson now. Greet the learner like someone you already know${all.memory ? " and mention briefly where you stopped last time" : " (it is your first lesson: introduce yourself by name)"}. ${hwInfo} ${hwInfo ? "After that check, lead into today's situation." : "Then lead into today's situation with your first question."} Max 4 short sentences.${p.lang === "ru" && /A1|A2/.test(lv) ? " You may say the greeting in Russian, then switch to English." : ""}`;
       const r = await llm(c, MODEL, sys, [{ role: "user", text: opening }], { max: 300 });
       const text = r.text || "Hi! Let's start.";
+      const meta = { session: s.id, text, text_mode: textMode, access: acc, hw_check: hw ? { status: hw.status, score: hw.score, total: hw.total } : null };
+      const save = (sec: number) => Promise.all([db().from("tutor_turns").insert({ session_id: s.id, user_id: uid, role: "tutor", text, sec }), db().from("tutor_sessions").update({ turns: 1, voice_sec: sec }).eq("id", s.id)]);
+      if (b.stream) return ndjson(async emit => {
+        emit({ t: "meta", ...meta });
+        let sec = 0;
+        if (!textMode) { const jobs = splitSpeech(text).map(x => tts(c, x, p)); for (let i = 0; i < jobs.length; i++) { const t: any = await jobs[i].catch(e => { console.error("tts", e); return { sec: 0, fail: true }; }); sec += t.sec; emit({ t: "audio", i, n: jobs.length, ...t }); } }
+        await save(sec); emit({ t: "end", sec });
+      });
       const t = textMode ? { sec: 0 } : await tts(c, text, p);
-      await db().from("tutor_turns").insert({ session_id: s.id, user_id: uid, role: "tutor", text, sec: t.sec });
-      await db().from("tutor_sessions").update({ turns: 1, voice_sec: t.sec }).eq("id", s.id);
-      return json({ session: s.id, text, text_mode: textMode, access: acc, hw_check: hw ? { status: hw.status, score: hw.score, total: hw.total } : null, ...t });
+      await save(t.sec);
+      return json({ ...meta, ...t });
     }
 
     if (mode === "turn") {
-      const s = await ownedSession(uid, b.session); c.sid = s.id;
-      if (s.ended_at) throw new Fail("Урок уже закончен");
-      if (s.turns >= 80) throw new Fail("Урок получился длинным — давайте подведём итог", 400, "too_long");
-      const all = await loadAll(uid), p = all.profile || {}, lv = level || p.level || "A2";
-      const vsec = await voiceToday(uid), textMode = s.mode === "text" || vsec >= DAILY_VOICE_SEC;
-      let you = "", usec = 0;
+      // одна реплика: всё, что можно, — параллельно; в потоковом режиме ученик видит свою фразу, потом текст учителя,
+      // а голос приходит по кусочкам: первое предложение озвучено и играет, пока озвучивается остальное
       const a = audioIn(b);
-      if (a && !textMode) { usec = a.sec; you = await stt(c, STT, a.bytes, a.mime, a.sec, vocabOf(p)); } else you = clampText(b.text, 800);
-      if (!you && a && textMode) return json({ you: "", text: "Голосовые минуты на сегодня закончились — давайте продолжим текстом. Напишите ответ по-английски.", retry: true, text_mode: true, switched: true, sec: 0 });
-      if (!you) { const t = textMode ? { sec: 0 } : await tts(c, "Sorry, I didn't catch that. Could you say it again?", p); return json({ you: "", text: "Sorry, I didn't catch that. Could you say it again?", retry: true, ...t }); }
-      const { data: ut } = await db().from("tutor_turns").insert({ session_id: s.id, user_id: uid, role: "user", text: you, sec: usec }).select("id").single();
-      const hist = await turnsOf(s.id, 30);
-      const sit = { title: s.title, goal: clampText(b.sit && b.sit.goal, 240), role: clampText(b.sit && b.sit.role, 200) };
-      const guided = isGuided(p, s.situation);
-      const sys = tutorSystem({ p, level: lv, name, mem: all.memory, sit, tutorName: tutorNameOf(p), textMode, guided });
-      const msgs: Msg[] = hist.map((h: any) => ({ role: h.role === "tutor" ? "assistant" : "user", text: h.text }));
-      // заметка тренера: ученик зажат / пора дать ему спросить самому
-      const mine = hist.filter((h: any) => h.role === "user"), asked = mine.filter((h: any) => isQ(h.text)).length, k = needQ(sit.goal);
-      const notes: string[] = [];
-      // ученик отвечал на задание учителя (повтори / добавь / скажи) — короткий ответ тут нормален
-      const prevT = [...hist].reverse().find((h: any) => h.role === "tutor"), drill = !!prevT && /Повтори|Теперь добавь|Скажи по-английски|Repeat|Now add|Say in English/i.test(prevT.text);
-      if (guided) { if (/don'?t know|no idea|не знаю|не помню/i.test(you)) notes.push("The learner is stuck: give the English phrase now and ask to repeat it."); else if (wordsOf(you) <= 5 && !drill && !/^(yes|no|ok|okay|sure|thanks|thank you)\b/i.test(you)) notes.push("Short answer: TEACH MOMENT now (Лучше так / почему / Повтори)."); }
-      else if (wordsOf(you) <= 6 || /don'?t know|no idea|не знаю|[а-яё]{3,}/i.test(you)) notes.push("The learner seems STUCK: use the stuck strategy now.");
-      if (k && asked < k && mine.length >= 3 && mine.length % 2 === 1) notes.push(`Goal: the learner must ask you ${k} questions; asked so far: ${asked}. After reacting, hand the turn over: invite them to ask you something, e.g. "Now your turn: ask me anything about me!"`);
-      if (!b.wrap && notes.length) msgs.push({ role: "user", text: "(Coach note, not from the learner: " + notes.join(" ") + ")" });
-      if (b.wrap) msgs.push({ role: "user", text: guided ? "(The lesson time is up. In Russian, 1–2 sentences: one phrase they learned today and one thing that improved. No question.)" : "(The lesson time is up. Say a warm goodbye in 1–2 sentences: one thing the learner did well. No question.)" });
-      const r = await llm(c, MODEL, sys, msgs, { max: guided ? 200 : 260 });
-      const text = r.text || "Could you tell me more?";
-      const t = textMode ? { sec: 0 } : await tts(c, text, p);
-      await db().from("tutor_turns").insert({ session_id: s.id, user_id: uid, role: "tutor", text, sec: t.sec });
-      const minutes = Math.min(30, (Date.now() - Date.parse(s.started_at)) / 60000);
-      await db().from("tutor_sessions").update({ turns: s.turns + 2, voice_sec: (+s.voice_sec || 0) + usec + t.sec, minutes: Math.round(minutes * 10) / 10, ...(textMode && s.mode !== "text" ? { mode: "text" } : {}) }).eq("id", s.id);
-      return json({ you, turn_id: ut && ut.id, text, text_mode: textMode, switched: textMode && s.mode !== "text", ...t });
+      const run = async (emit: (o: any) => void, split: boolean) => {
+        const [s, all, hist0, vsec] = await Promise.all([ownedSession(uid, b.session), loadAll(uid), turnsOf(String(b.session), 30).catch(() => [] as any[]), voiceToday(uid)]);
+        c.sid = s.id;
+        if (s.ended_at) throw new Fail("Урок уже закончен");
+        if (s.turns >= 80) throw new Fail("Урок получился длинным — давайте подведём итог", 400, "too_long");
+        const p = all.profile || {}, lv = level || p.level || "A2", textMode = s.mode === "text" || vsec >= DAILY_VOICE_SEC;
+        let you = "", usec = 0;
+        if (a && !textMode) { usec = a.sec; you = await stt(c, STT, a.bytes, a.mime, a.sec, vocabOf(p)); } else you = clampText(b.text, 800);
+        if (!you && a && textMode) { emit({ t: "end", you: "", text: "Голосовые минуты на сегодня закончились — давайте продолжим текстом. Напишите ответ по-английски.", retry: true, text_mode: true, switched: true, sec: 0 }); return; }
+        if (!you) { const SORRY = "Sorry, I didn't catch that. Could you say it again?"; const t = textMode ? { sec: 0 } : await tts(c, SORRY, p); emit({ t: "end", you: "", text: SORRY, retry: true, ...t }); return; }
+        const utP = db().from("tutor_turns").insert({ session_id: s.id, user_id: uid, role: "user", text: you, sec: usec }).select("id").single()
+          .then(({ data }: any) => { emit({ t: "you", you, turn_id: data && data.id }); return data; });
+        const hist = [...hist0, { role: "user", text: you }];
+        const sit = { title: s.title, goal: clampText(b.sit && b.sit.goal, 240), role: clampText(b.sit && b.sit.role, 200) };
+        const guided = isGuided(p, s.situation);
+        const sys = tutorSystem({ p, level: lv, name, mem: all.memory, sit, tutorName: tutorNameOf(p), textMode, guided });
+        const msgs: Msg[] = hist.map((h: any) => ({ role: h.role === "tutor" ? "assistant" : "user", text: h.text }));
+        // заметка тренера: ученик зажат / пора дать ему спросить самому
+        const mine = hist.filter((h: any) => h.role === "user"), asked = mine.filter((h: any) => isQ(h.text)).length, k = needQ(sit.goal);
+        const notes: string[] = [];
+        // ученик отвечал на задание учителя (повтори / добавь / скажи) — короткий ответ тут нормален
+        const prevT = [...hist].reverse().find((h: any) => h.role === "tutor"), drill = !!prevT && /Повтори|Теперь добавь|Скажи по-английски|Repeat|Now add|Say in English/i.test(prevT.text);
+        if (guided) { if (/don'?t know|no idea|не знаю|не помню/i.test(you)) notes.push("The learner is stuck: give the English phrase now and ask to repeat it."); else if (wordsOf(you) <= 5 && !drill && !/^(yes|no|ok|okay|sure|thanks|thank you)\b/i.test(you)) notes.push("Short answer: TEACH MOMENT now (Лучше так / почему / Повтори)."); }
+        else if (wordsOf(you) <= 6 || /don'?t know|no idea|не знаю|[а-яё]{3,}/i.test(you)) notes.push("The learner seems STUCK: use the stuck strategy now.");
+        if (k && asked < k && mine.length >= 3 && mine.length % 2 === 1) notes.push(`Goal: the learner must ask you ${k} questions; asked so far: ${asked}. After reacting, hand the turn over: invite them to ask you something, e.g. "Now your turn: ask me anything about me!"`);
+        if (!b.wrap && notes.length) msgs.push({ role: "user", text: "(Coach note, not from the learner: " + notes.join(" ") + ")" });
+        if (b.wrap) msgs.push({ role: "user", text: guided ? "(The lesson time is up. In Russian, 1–2 sentences: one phrase they learned today and one thing that improved. No question.)" : "(The lesson time is up. Say a warm goodbye in 1–2 sentences: one thing the learner did well. No question.)" });
+        const [, r] = await Promise.all([utP, llm(c, MODEL, sys, msgs, { max: guided ? 200 : 260 })]);
+        const text = r.text || "Could you tell me more?";
+        emit({ t: "text", text });
+        let sec = 0;
+        if (!textMode) {
+          const parts = split ? splitSpeech(text) : [text];
+          const jobs = parts.map(x => tts(c, x, p));          // все кусочки озвучиваются сразу, отдаём по порядку
+          for (let i = 0; i < jobs.length; i++) { const t: any = await jobs[i].catch(e => { console.error("tts", e); return { sec: 0, fail: true }; }); sec += t.sec; emit({ t: "audio", i, n: jobs.length, ...t }); }
+        }
+        const minutes = Math.min(30, (Date.now() - Date.parse(s.started_at)) / 60000);
+        await Promise.all([
+          db().from("tutor_turns").insert({ session_id: s.id, user_id: uid, role: "tutor", text, sec }),
+          db().from("tutor_sessions").update({ turns: s.turns + 2, voice_sec: (+s.voice_sec || 0) + usec + sec, minutes: Math.round(minutes * 10) / 10, ...(textMode && s.mode !== "text" ? { mode: "text" } : {}) }).eq("id", s.id),
+        ]);
+        emit({ t: "end", text_mode: textMode, switched: textMode && s.mode !== "text", sec });
+      };
+      if (b.stream) return ndjson(emit => run(emit, true));
+      const out: any = {};
+      await run(o => { const { t, i, n, ...rest } = o; if (t === "audio") { if (i === 0) Object.assign(out, rest); } else Object.assign(out, rest); }, false);
+      return json(out);
     }
 
     if (mode === "plan_mark") {
