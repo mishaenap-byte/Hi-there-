@@ -27862,7 +27862,7 @@ function renderTutor() {
       </section>
       ${nlL ? `<div class="tu-lescard"><span>📘</span><div><b>Повторить тему: ${esc(nlL.t || nl.it.title)}</b><small>урок основного блока из вашего плана · можно потом</small></div>
         <div class="tu-lesbtns"><button class="btn soft sm" data-tu="pi" data-id="${esc(nl.it.id)}">Открыть</button><button class="link-btn" data-tu="later" data-id="${esc(nl.it.id)}">Позже</button></div></div>` : ""}
-      ${hw ? `<button class="tu-hwcard" data-tu="hw"><span>📝</span><b>Домашка из прошлого урока</b><small>${plural(hw.tasks.length, ["задание", "задания", "заданий"])} на ваши ошибки · репетитор проверит в начале урока</small></button>` : ""}
+      ${hw ? `<button class="tu-hwcard" data-tu="hw"><span>📝</span><b>Домашка из прошлого урока</b><small>${plural(hw.tasks.length, ["задание", "задания", "заданий"])} на ваши ошибки · правило потом встретится в разговоре</small></button>` : ""}
       <div class="tu-row"><button class="tu-tool" data-tu="plan"><span>🗺</span><b>Твой план</b><small>${TU.plan ? "4 недели, план перестраивается после уроков" : "составить по анкете"}</small></button>
         <button class="tu-tool" data-tu="anketa"><span>⚙️</span><b>Анкета</b><small>цель, голос, строгость, язык</small></button></div>
       <h3 class="tu-h">Выбрать ситуацию</h3>
@@ -27873,7 +27873,7 @@ function renderTutor() {
         <ol><li><b>Зажмите кнопку и говорите</b>, отпустите — репетитор ответит голосом.</li>
         <li>Ошибки тихо подчёркиваются в записи, разговор не прерывается. Тап по подчёркнутому — короткое объяснение.</li>
         <li>После урока — <b>разбор</b>: каждая ошибка по кусочкам, с примерами и приёмом «как не ошибаться». Кнопка «Повторить тему» ведёт в урок основного блока.</li>
-        <li><b>Домашка</b> из ваших ошибок. В следующий раз репетитор помнит, где остановились, и проверит её одним вопросом.</li></ol>
+        <li><b>Домашка</b> из ваших ошибок. Репетитор помнит ваши ошибки и в следующих разговорах даёт шанс сказать это правильно.</li></ol>
         <button class="link-btn" data-tu="terms">Условия и приватность</button></details>
     </div>`;
   $(".page-body", p).scrollTop = keep;
@@ -28376,7 +28376,7 @@ const TU_DEMO = (() => {
     async start(b) {
       const id = "demo-" + Date.now(); const s = sessions[id] = { ...b.sit, turns: [] };
       const hw = TU.hw, mem = TU.memory;
-      const t = await say(sysOf(s) + ` Начни урок: поздоровайся как знакомый${mem ? "" : ", представься"}, одним предложением по-русски скажи, что сегодня тренируем, и начни сцену в своей роли. ${hw ? (hw.status === "done" ? `Домашка сделана: ${hw.score} из ${hw.total} — похвали с этим числом и задай один устный вопрос на то же правило.` : "Домашка не сделана — не ругай, предложи повторить прямо сейчас одним вопросом.") : ""} Максимум 4 предложения.`, []);
+      const t = await say(sysOf(s) + ` Начни урок: поздоровайся как знакомый${mem ? "" : ", представься"}, одним предложением по-русски скажи, что сегодня тренируем, и начни сцену в своей роли. ${hw && hw.status === "done" ? `Коротко похвали за домашку: ${hw.score} из ${hw.total}.` : ""} Никаких заданий, проверок и фраз из прошлых уроков или домашки. Максимум 3 коротких предложения.`, []);
       s.turns.push({ role: "tutor", text: t });
       return { session: id, text: t, text_mode: false };
     },

@@ -647,13 +647,17 @@ Deno.serve(async req => {
       if (error) throw error;
       c.sid = s.id;
       const p = all.profile || {}, lv = level || p.level || "A2";
-      // домашка прошлого урока: приложение само знает результат, на слово не верим
-      const hw = all.homework, hwInfo = !hw ? "" : hw.status === "done"
-        ? `The learner DID the homework from last lesson: ${hw.score} out of ${hw.total}. Praise them with the exact score, then ask ONE short spoken question that checks the same rule (homework topic: ${(hw.tasks || []).slice(0, 2).map((t: any) => t.why || t.q || t.wrong).join(" / ").slice(0, 200)}). Wait for the answer before moving on.`
-        : `The learner has NOT done the homework yet. Do not scold. Offer to practise it right now for one minute: ask ONE quick question on the same rule (${(hw.tasks || []).slice(0, 2).map((t: any) => t.why || t.q || t.wrong).join(" / ").slice(0, 200)}).`;
+      // домашка прошлого урока: в разговор не тащим ни её фразы, ни её тему — только правило, на новом примере из сегодняшней ситуации
+      const hw = all.homework;
+      const hwRule = !hw ? "" : [...new Set((hw.tasks || []).map((t: any) => clampText(t.why, 80)).filter(Boolean))].slice(0, 3).join("; ");
+      const hwDone = hw && hw.status === "done" ? `The learner did the homework: ${hw.score} out of ${hw.total}. ` : "";
       const guided = isGuided(p, sit.id);
-      const sys = tutorSystem({ p, level: lv, name, mem: all.memory, sit, tutorName: tutorNameOf(p), textMode, guided });
-      const opening = guided ? `Start the lesson now. One short greeting by name${all.memory ? "" : " and your name"}. ${/B2|C1/.test(lv) ? "" : "In Russian, one sentence: what we talk about today and what the learner will be able to say after it. "}${hwInfo ? "Then the homework check. " + hwInfo + " Make it one «Скажи по-английски» task with a phrase from TODAY'S situation (wait for the answer). " : sit.role ? "Then start the scene in English, in your role (" + sit.role + "), with your first line to the learner. " : "Then your first conversation question in English, about today's situation. "}Max 3 short sentences.` : `Start the lesson now. Greet the learner like someone you already know${all.memory ? " and mention briefly where you stopped last time" : " (it is your first lesson: introduce yourself by name)"}. ${hwInfo} ${hwInfo ? "After that check, lead into today's situation." : "Then lead into today's situation with your first question."} Max 4 short sentences.${p.lang === "ru" && /A1|A2/.test(lv) ? " You may say the greeting in Russian, then switch to English." : ""}`;
+      let sys = tutorSystem({ p, level: lv, name, mem: all.memory, sit, tutorName: tutorNameOf(p), textMode, guided });
+      if (hwRule) sys += `\nGrammar rule from the last homework: ${hwRule}. Later in this lesson, give the learner a natural chance to use it INSIDE today's situation with a new sentence. Never repeat homework sentences or topics, and never mention unfinished homework (the app reminds them).`;
+      const first = sit.role ? "start the scene in English, in your role (" + sit.role + "), with your first line to the learner" : "ask your first conversation question in English, about today's situation";
+      const opening = guided
+        ? `Start the lesson now. One short greeting by name${all.memory ? "" : " and your name"}${hwDone ? ` and one short phrase praising the homework score (${hw.score}/${hw.total})` : ""}. ${/B2|C1/.test(lv) ? "" : "In Russian, ONE short sentence: what we practise today. "}Then ${first}. Max 3 short sentences, nothing else: no tasks, no checks, no other topics.`
+        : `Start the lesson now. Greet the learner like someone you already know${all.memory ? "" : " (it is your first lesson: introduce yourself by name)"}. ${hwDone ? "Praise the homework score in one short phrase. " : ""}Then ${first}. Max 3 short sentences.${p.lang === "ru" && /A1|A2/.test(lv) ? " You may say the greeting in Russian, then switch to English." : ""}`;
       if (b.rt) {
         // быстрый режим: голос в голос через OpenAI Realtime; телефон подключается к OpenAI напрямую по временному ключу
         let rt;
