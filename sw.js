@@ -1,12 +1,13 @@
 // Hi There — сервис-воркер: приложение открывается быстро и без интернета
-const V = "hithere-v118";
+const V = "hithere-v119";
 const TTS_CACHE = "hithere-tts";   // записи голоса — отдельно, переживают обновления приложения
 const BOOK_CACHE = "hithere-books";
+const CITY3D = "hithere-city3d"; // модели и three.js для 3D-города: файлы не меняются (новая версия — новое имя), храним между обновлениями
 const INBOX = "hithere-inbox";     // пришедшие уведомления: приложение забирает их в личные сообщения от «Hi There» // аудио книг: файлы не меняются, после обновления приложения качать заново не нужно
 const SHELL = ["./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./maskable-512.png", "./apple-touch-icon.png"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(V).then(c => c.addAll(SHELL)).then(() => self.skipWaiting())); });
 self.addEventListener("activate", e => {
-  e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== V && k !== TTS_CACHE && k !== BOOK_CACHE && k !== INBOX).map(k => caches.delete(k)))).then(() => self.clients.claim()));
+  e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== V && k !== TTS_CACHE && k !== BOOK_CACHE && k !== CITY3D && k !== INBOX).map(k => caches.delete(k)))).then(() => self.clients.claim()));
 });
 self.addEventListener("fetch", e => {
   const r = e.request, u = new URL(r.url);
@@ -17,6 +18,10 @@ self.addEventListener("fetch", e => {
   if (r.method === "GET" && u.origin === location.origin && /\/books\/.+\.mp3$/.test(u.pathname)) {  // книги: из кэша, без интернета тоже
     if (r.headers.has("range")) return;                                              // запросы кусками — напрямую в сеть
     e.respondWith(caches.open(BOOK_CACHE).then(c => c.match(r).then(hit => hit || fetch(r).then(res => { if (res.status === 200) c.put(r, res.clone()); return res; }))));
+    return;
+  }
+  if (r.method === "GET" && u.origin === location.origin && /\/city3d\/.+\.(glb|png)$|\/city3d\/three-r\d+\.js$/.test(u.pathname)) {
+    e.respondWith(caches.open(CITY3D).then(c => c.match(r).then(hit => hit || fetch(r).then(res => { if (res.status === 200) c.put(r, res.clone()); return res; }))));
     return;
   }
   if (r.method !== "GET" || u.hostname.endsWith("supabase.co")) return;          // база — всегда напрямую
