@@ -1,5 +1,5 @@
 // Hi There — сервис-воркер: приложение открывается быстро и без интернета
-const V = "hithere-v119";
+const V = "hithere-v120";
 const TTS_CACHE = "hithere-tts";   // записи голоса — отдельно, переживают обновления приложения
 const BOOK_CACHE = "hithere-books";
 const CITY3D = "hithere-city3d"; // модели и three.js для 3D-города: файлы не меняются (новая версия — новое имя), храним между обновлениями

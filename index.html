@@ -3281,6 +3281,33 @@ html.native .w4-worlds{bottom:calc(10px + var(--sab))}
 .ct-help li{margin-bottom:6px}
 .ct-load{position:absolute;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 18px);transform:translateX(-50%);z-index:3;padding:8px 14px;border-radius:14px;background:#fff;color:#17171F;font-size:13px;font-weight:800;box-shadow:inset 0 0 0 2.5px #17171F;pointer-events:none;white-space:nowrap}
 .ct-cv3{z-index:0}
+.ct-lis{position:absolute;left:10px;right:10px;top:calc(env(safe-area-inset-top,0px) + 74px);z-index:3;display:flex;flex-wrap:wrap;gap:6px;pointer-events:none}
+.ct-lis > *{pointer-events:auto}
+.ct-lis[hidden]{display:none}
+.ct-lis button{border:0;padding:7px 12px;border-radius:14px;background:#D6EEFF;color:#17171F;font-size:13.5px;font-weight:900;box-shadow:inset 0 0 0 2.5px #17171F;cursor:pointer}
+.ct-lis button:active{transform:scale(.96)}
+.ct-lis span{padding:7px 12px;border-radius:14px;background:#fff;color:#17171F;font-size:13px;font-weight:800;box-shadow:inset 0 0 0 2.5px #17171F}
+.ct-lis span[hidden]{display:none}
+.ct-msg{position:absolute;left:50%;top:calc(env(safe-area-inset-top,0px) + 122px);z-index:3;width:max-content;max-width:calc(100% - 32px);box-sizing:border-box;padding:9px 14px;border-radius:18px;background:#fff;color:#17171F;box-shadow:inset 0 0 0 2.5px #17171F,0 8px 20px rgba(23,23,31,.2);text-align:center;transform:translate(-50%,-8px);opacity:0;transition:transform .2s,opacity .2s;pointer-events:none}
+.ct-msg.in{transform:translate(-50%,0);opacity:1}
+.ct-msg.ok{background:#E7F8EC;box-shadow:inset 0 0 0 2.5px #2FCB7E,0 8px 20px rgba(23,23,31,.2)}
+.ct-msg b{display:block;font-size:16px;font-weight:900;line-height:1.3}
+.ct-msg span{display:block;margin-top:2px;font-size:13px;font-weight:700;color:#4A4F5C;line-height:1.35}
+.ct-joy{position:absolute;left:0;top:0;z-index:2;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,.35);box-shadow:inset 0 0 0 2.5px rgba(23,23,31,.55);pointer-events:none}
+.ct-joy[hidden]{display:none}
+.ct-joy i{position:absolute;left:28px;top:28px;width:44px;height:44px;border-radius:50%;background:#FFEC3D;box-shadow:inset 0 0 0 2.5px #17171F,0 4px 10px rgba(23,23,31,.25)}
+.ct-act{position:absolute;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 22px);z-index:3;transform:translateX(-50%);max-width:calc(100% - 40px);padding:13px 22px;border:0;border-radius:22px;background:#FFEC3D;color:#17171F;font-size:16px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:inset 0 0 0 2.5px #17171F,0 8px 18px rgba(23,23,31,.25);cursor:pointer}
+.ct-act:active{transform:translateX(-50%) scale(.96)}
+.ct-act[hidden]{display:none}
+.ct-fade{position:absolute;inset:0;z-index:5;background:#17171F;opacity:0;transition:opacity .16s;pointer-events:none}
+.ct-fade.on{opacity:1}
+.ct-board{display:flex;flex-direction:column;gap:6px;padding:10px;border-radius:18px;background:#17171F}
+.ct-brow{display:grid;grid-template-columns:52px 1fr 26px auto;gap:8px;align-items:center;padding:9px 10px;border:0;border-radius:12px;background:#24242E;color:#FFEC3D;font-family:ui-monospace,Menlo,monospace;font-size:14px;text-align:left;cursor:pointer}
+.ct-brow b{font-weight:900}
+.ct-brow span{color:#fff;font-weight:700}
+.ct-brow i{font-style:normal;font-weight:900;text-align:center;color:#17171F;background:#FFEC3D;border-radius:6px}
+.ct-brow em{font-style:normal;font-weight:800;color:#7BEA64}
+.ct-brow em.late{color:#FF8A3D}
 .ct-cv[hidden]{display:none}
 .w4-city{margin-top:10px}
 .w4-city .w4-walk-e{background:#DDF3D2;font-size:30px}
@@ -3293,6 +3320,10 @@ html.night .ct-ru,html.night .ct-who small{color:var(--muted)}
 html.night .ct-why.ok{background:#173826}
 html.night .ct-why.bad{background:#3E2A1E}
 html.night .ct-task{background:#4A4320;color:var(--ink)}
+html.night .ct-lis button{background:#244A66;color:var(--ink);box-shadow:inset 0 0 0 2.5px var(--ink)}
+html.night .ct-lis span,html.night .ct-msg{background:var(--surface);color:var(--ink);box-shadow:inset 0 0 0 2.5px var(--ink)}
+html.night .ct-msg.ok{background:#173826}
+html.night .ct-msg span{color:var(--muted)}
 html.night .ct-x{background:var(--line);color:var(--ink)}
 .w4-walk i{flex:none;margin-left:auto;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(#FFE66E,#FFC61F);color:#5A3A00;box-shadow:0 3px 0 #E0A000}
 .w4-h{margin:24px 4px 4px;font-size:24px;font-weight:900;letter-spacing:-.3px;text-wrap:balance}
@@ -20255,12 +20286,13 @@ $("#scr-walk").addEventListener("click", e => {
 $("#scr-walk").addEventListener("submit", e => { if (e.target.matches("[data-wk-form]")) { e.preventDefault(); wkSubmitFree(); } });
 window.addEventListener("resize", () => { if (!W.busy && $("#wkView")) wkCamera(WK_PATH[W.pos].y, 0); });
 // ================== ИГРА «ГОРОД»: обучающая RPG — ходите по городу, говорите с жителями, выполняйте квесты ==================
-// Карта из клеток, герой идёт туда, куда нажали. Квест = цепочка разговоров: жители говорят по-английски,
-// вы выбираете ответ или собираете фразу, после каждого ответа — разбор «почему».
+// Герой ходит, куда ведёт палец (как джойстик), или туда, куда нажали. В кафе, магазине, аптеке, на почте, в библиотеке
+// и на вокзале есть комнаты. Квест = цепочка шагов: разговор (выбрать ответ или собрать фразу, после ответа — разбор «почему»),
+// дорога на слух, список покупок, поиск вещи по описанию.
 const K_CITY = "vzhivuyu.city.v1";
 const CT = 40;                                   // размер клетки на экране, px
-const CITY_W = 26, CITY_H = 40;
-const CITY_SOLID = new Set(["#", "T", "h", "b", "o", "~", "L", "f"]);
+const CITY_W = 26, CITY_CH = 40, CITY_H = 76;    // город — первые 40 рядов; ниже, за пустотой, — комнаты
+const CITY_SOLID = new Set(["#", "T", "h", "b", "o", "~", "L", "f", "V", "W", "c", "k", "S", "m", "B", "R"]);
 // ---------- карта: рисуем кодом, чтобы её было легко менять ----------
 const CITY_B = [   // здания: x, y, ширина, высота (последний ряд — фасад с дверью), крыша, стена, вывеска
   { id: "station", x: 7, y: 1, w: 12, h: 4, roof: "#7C8FB8", wall: "#E9E2D0", sign: "STATION", door: 12 },
@@ -20272,6 +20304,72 @@ const CITY_B = [   // здания: x, y, ширина, высота (после
   { id: "house2", x: 20, y: 31, w: 4, h: 3, roof: "#6FA3D8", wall: "#F1F5FB", sign: "", door: 21 },
   { id: "library", x: 15, y: 26, w: 9, h: 3, roof: "#8E7B62", wall: "#F3EBDD", sign: "LIBRARY", door: 19 }
 ];
+// комнаты: W стена, w пол-доски, t плитка, c стойка, k стол, S полка, m кофемашина, B табло, P платформа, R рельсы, E выход
+const CITY_IN = {
+  cafe: { at: [1, 44], floor: "w", name: "Bean There", map: [
+    "WWWWWWWWW",
+    "WwwwwwwmW",
+    "WcccccccW",
+    "WwwwwwwwW",
+    "WkwwkwwkW",
+    "WwwwwwwwW",
+    "WWWWEWWWW"] },
+  pharmacy: { at: [12, 44], floor: "t", name: "Pharmacy", map: [
+    "WWWWWWWW",
+    "WSSwwSSW",
+    "WccccccW",
+    "WttttttW",
+    "WSttttSW",
+    "WttttttW",
+    "WWWEWWWW"] },
+  shop: { at: [1, 53], floor: "t", name: "Corner Shop", map: [
+    "WWWWWWWWWW",
+    "WtttctttSW",
+    "WccctttttW",
+    "WttttSSStW",
+    "WtttttttSW",
+    "WSSSttttSW",
+    "WttttttttW",
+    "WWWWWEWWWW"],
+    // что лежит на полках, по порядку полок слева направо, сверху вниз
+    shelf: ["tea", "apples", "bananas", "tomatoes", "eggs", "bread", "cheese", "milk", "orange juice"] },
+  post: { at: [13, 53], floor: "w", name: "Post Office", map: [
+    "WWWWWWWW",
+    "WSwwwwSW",
+    "WccccccW",
+    "WwwwwwwW",
+    "WkwwwwkW",
+    "WwwwwwwW",
+    "WWWEWWWW"] },
+  library: { at: [1, 63], floor: "w", name: "Library", map: [
+    "WWWWWWWWWWW",
+    "WSSSSwSSSSW",
+    "WwwwwwwwwwW",
+    "WSSwwwwwSSW",
+    "WwwwcccwwwW",
+    "WwkwwwwwkwW",
+    "WwwwwwwwwwW",
+    "WWWWWEWWWWW"] },
+  station: { at: [12, 63], floor: "t", name: "Station", map: [
+    "WWWWWWWWWWWWWW",
+    "WPPRRPPRRPPRRW",
+    "WPPRRPPRRPPRRW",
+    "WPPRRPPRRPPRRW",
+    "WPPRRPPRRPPRRW",
+    "WttttttttttttW",
+    "WttttttttttttW",
+    "WtBBttttttWWWW",
+    "WttttttttcwwwW",
+    "WttttttttcwwwW",
+    "WtttttttttWWWW",
+    "WWWWWWEWWWWWWW"] }
+};
+// табло на вокзале
+const CITY_BOARD = [["09:05", "Brighton", "1", "On time"], ["09:10", "London Euston", "2", "On time"], ["09:25", "Manchester", "3", "Delayed"], ["09:40", "Oxford", "1", "Cancelled"]];
+const CITY_GOODS = { apples: ["яблоки", "#E8483B"], bananas: ["бананы", "#F7D14B"], tomatoes: ["помидоры", "#E2533A"], bread: ["хлеб", "#D9A35B"], eggs: ["яйца", "#F4EBDC"], cheese: ["сыр", "#F6C945"], milk: ["молоко", "#FFFFFF"], tea: ["чай", "#5B8C3A"], "orange juice": ["апельсиновый сок", "#FF9F2E"] };
+const CITY_ZONES = [{ id: "city", x: 0, y: 0, w: CITY_W, h: CITY_CH }];
+const CITY_DOOR = {};     // зона → { d: дверь в городе, out: клетка перед ней, e: выход в комнате, spawn: клетка за выходом }
+const CITY_SHELF = {};    // "x,y" → товар
 function cityMapBuild() {
   const m = Array.from({ length: CITY_H }, () => Array(CITY_W).fill("."));
   const set = (x, y, c) => { if (x >= 0 && y >= 0 && x < CITY_W && y < CITY_H) m[y][x] = c; };
@@ -20279,7 +20377,7 @@ function cityMapBuild() {
   // дороги и тротуары
   rect(0, 6, CITY_W, 2, "r"); rect(0, 5, CITY_W, 1, "s"); rect(0, 8, CITY_W, 1, "s");
   rect(0, 22, CITY_W, 2, "r"); rect(0, 21, CITY_W, 1, "s"); rect(0, 24, CITY_W, 1, "s");
-  rect(11, 8, 2, CITY_H - 8, "r"); rect(10, 8, 1, CITY_H - 8, "s"); rect(13, 8, 1, CITY_H - 8, "s");
+  rect(11, 8, 2, CITY_CH - 8, "r"); rect(10, 8, 1, CITY_CH - 8, "s"); rect(13, 8, 1, CITY_CH - 8, "s");
   rect(10, 5, 4, 4, "r"); rect(10, 21, 4, 4, "r");
   // зебры у перекрёстков
   rect(11, 9, 2, 1, "="); rect(11, 20, 2, 1, "="); rect(11, 25, 2, 1, "="); rect(8, 22, 1, 2, "="); rect(15, 22, 1, 2, "="); rect(8, 6, 1, 2, "="); rect(15, 6, 1, 2, "=");
@@ -20300,43 +20398,88 @@ function cityMapBuild() {
   rect(14, 35, 12, 1, "f"); set(16, 35, "p"); set(21, 35, "p");
   // здания поверх
   CITY_B.forEach(b => rect(b.x, b.y, b.w, b.h, "#"));
+  // ниже города — пустота, в ней комнаты; у зданий с комнатой дверь — проход «D»
+  rect(0, CITY_CH, CITY_W, CITY_H - CITY_CH, "V");
+  for (const id in CITY_IN) {
+    const r = CITY_IN[id], [ox, oy] = r.at, b = CITY_B.find(b => b.id === id);
+    let k = 0;
+    r.map.forEach((row, j) => [...row].forEach((ch, i) => {
+      set(ox + i, oy + j, ch);
+      if (ch === "S" && r.shelf) CITY_SHELF[`${ox + i},${oy + j}`] = r.shelf[k++];
+      if (ch === "E") CITY_DOOR[id] = { e: [ox + i, oy + j], spawn: [ox + i, oy + j - 1] };
+    }));
+    CITY_ZONES.push({ id, x: ox, y: oy, w: r.map[0].length, h: r.map.length });
+    const dy = b.y + b.h - 1; set(b.door, dy, "D");
+    Object.assign(CITY_DOOR[id], { d: [b.door, dy], out: [b.door, dy + 1] });
+  }
   return m;
 }
 const CITY_MAP = cityMapBuild();
-const ctTile = (x, y) => x < 0 || y < 0 || x >= CITY_W || y >= CITY_H ? "#" : CITY_MAP[y][x];
+const ctTile = (x, y) => x < 0 || y < 0 || x >= CITY_W || y >= CITY_H ? "V" : CITY_MAP[y][x];
+const ctZoneAt = (x, y) => { const z = CITY_ZONES.find(z => x >= z.x && y >= z.y && x < z.x + z.w && y < z.y + z.h); return z ? z.id : null; };
+const ctZone = id => CITY_ZONES.find(z => z.id === id) || CITY_ZONES[0];
+const ctIn = (id, x, y) => [CITY_IN[id].at[0] + x, CITY_IN[id].at[1] + y];
 
 // ---------- жители ----------
-// look: рубашка, волосы, кожа; dir: куда смотрит (0 вниз, 1 влево, 2 вправо, 3 вверх)
+// look: рубашка, волосы, кожа; dir: куда смотрит (0 вниз, 1 влево, 2 вправо, 3 вверх); reach — с какого расстояния можно заговорить (через стойку дальше)
+const ctNpc = (name, role, [x, y], dir, look, reach) => ({ name, role, x, y, dir, look, reach: reach || 1.6 });
 const CITY_NPC = {
-  barista: { name: "Lily", role: "бариста в кафе", x: 4, y: 13, dir: 0, look: ["#E86A5B", "#7A3B2E", "#F2C9A8"] },
-  neighbour: { name: "Tom", role: "ваш сосед", x: 22, y: 34, dir: 1, look: ["#3FB2FF", "#3A2A1E", "#E8B894"] },
-  pharmacist: { name: "Mr Patel", role: "фармацевт", x: 4, y: 19, dir: 0, look: ["#FFFFFF", "#17171F", "#B07A50"] },
-  clerk: { name: "Grace", role: "кассир на вокзале", x: 12, y: 5, dir: 0, look: ["#2B4C8C", "#D9A441", "#F2D2B6"] },
-  grandma: { name: "Mrs Green", role: "пожилая соседка", x: 18, y: 18, dir: 0, look: ["#B98AD6", "#E6E6E6", "#F2D2B6"] },
-  kid: { name: "Max", role: "мальчик в парке", x: 23, y: 15, dir: 1, look: ["#FFEC3D", "#2B2B35", "#E8B894"] },
-  shopkeeper: { name: "Rosie", role: "хозяйка магазина", x: 4, y: 29, dir: 0, look: ["#FFA94D", "#8A5A2B", "#F2C9A8"] },
-  postman: { name: "Sam", role: "почтальон", x: 4, y: 35, dir: 0, look: ["#D35D5D", "#17171F", "#8D5A3B"] },
-  librarian: { name: "Ms Clarke", role: "библиотекарь", x: 19, y: 29, dir: 0, look: ["#2FCB7E", "#C0392B", "#F2D2B6"] }
+  barista: ctNpc("Lily", "бариста в кафе", ctIn("cafe", 4, 1), 0, ["#E86A5B", "#7A3B2E", "#F2C9A8"], 2.3),
+  neighbour: ctNpc("Tom", "ваш сосед", [22, 34], 1, ["#3FB2FF", "#3A2A1E", "#E8B894"]),
+  pharmacist: ctNpc("Mr Patel", "фармацевт", ctIn("pharmacy", 3, 1), 0, ["#FFFFFF", "#17171F", "#B07A50"], 2.3),
+  clerk: ctNpc("Grace", "кассир на вокзале", ctIn("station", 10, 8), 1, ["#2B4C8C", "#D9A441", "#F2D2B6"], 2.3),
+  grandma: ctNpc("Mrs Green", "пожилая соседка", [18, 18], 0, ["#B98AD6", "#E6E6E6", "#F2D2B6"]),
+  kid: ctNpc("Max", "мальчик в парке", [23, 15], 1, ["#FFEC3D", "#2B2B35", "#E8B894"]),
+  shopkeeper: ctNpc("Rosie", "хозяйка магазина", ctIn("shop", 2, 1), 0, ["#FFA94D", "#8A5A2B", "#F2C9A8"], 2.3),
+  postman: ctNpc("Sam", "почтальон", ctIn("post", 3, 1), 0, ["#D35D5D", "#17171F", "#8D5A3B"], 2.3),
+  librarian: ctNpc("Ms Clarke", "библиотекарь", ctIn("library", 5, 3), 0, ["#2FCB7E", "#C0392B", "#F2D2B6"], 2.3)
 };
 const CITY_ITEMS = {};        // id → { e, t } — пополняют квесты
 const CITY_Q = [];            // квесты по порядку — пополняются ниже
 
 // ---------- сохранение ----------
-const CY = Object.assign({ qi: 0, si: 0, items: [], done: {}, pos: [17, 35], seen: false }, store.get(K_CITY, {}) || {});
-const saveCity = () => store.set(K_CITY, { qi: CY.qi, si: CY.si, items: CY.items, done: CY.done, pos: CY.pos, seen: CY.seen, v2d: !!CY.v2d });
-const CG = { p: null, cv: null, ctx: null, cache: null, cs: 1, px: 0, py: 0, path: [], walk: null, cam: [0, 0], raf: 0, t: 0, dlg: null, pend: null, dirty: true, face: 0, step: 0 };
+const CY = Object.assign({ qi: 0, si: 0, items: [], done: {}, pos: [16, 34], seen: false, basket: {} }, store.get(K_CITY, {}) || {});
+const saveCity = () => store.set(K_CITY, { ver: 2, qid: CY.qid, qi: CY.qi, si: CY.si, miss: CY.miss || 0, items: CY.items, done: CY.done, pos: CY.pos, seen: CY.seen, v2d: !!CY.v2d, basket: CY.basket || {} });
+const CG = { p: null, cv: null, ctx: null, cache: null, cs: 1, px: 0, py: 0, path: [], walk: null, cam: [0, 0], raf: 0, t: 0, dlg: null, pend: null, dirty: true, face: 0, step: 0, zone: "city", joy: null, keys: {}, goMiss: 0, findMiss: 0, act: null, tile: "" };
 const ctQuest = () => CITY_Q[CY.qi] || null;
 const ctStep = () => { const q = ctQuest(); return q ? q.steps[CY.si] || null : null; };
 const ctHas = id => CY.items.includes(id);
-// кто сейчас ждёт героя: житель текущего шага
-const ctTarget = () => { const s = ctStep(); return s ? s.npc : null; };
+// кто сейчас ждёт героя: житель текущего шага (у шагов «дойди», «найди» такого нет)
+const ctTarget = () => { const s = ctStep(); return s && !s.go && !s.find ? s.npc : null; };
+const ctListen = s => s && (s.go || s.fetch || s.find) || null;   // что герою сказали на словах — можно переслушать
+// старые сохранения: номер квеста → id, номера шагов — под новые шаги
+function ctMigrate() {
+  if (CY.ver === 2) { const i = CITY_Q.findIndex(q => q.id === CY.qid); CY.qi = i < 0 ? CITY_Q.length : i; return; }
+  const OLD = ["coffee", "keys", "headache", "parcel", "library", "football", "picnic", "ticket"], SI = { coffee: { 1: 3 }, headache: { 1: 2, 2: 3 }, parcel: { 2: 3 } };
+  const id = OLD[CY.qi];
+  if (!id) { CY.qi = CITY_Q.length; CY.si = 0; }
+  else { CY.qi = CITY_Q.findIndex(q => q.id === id); CY.si = (SI[id] && SI[id][CY.si]) || CY.si; }
+  if (!CY.si) { const i = CITY_Q.findIndex(q => !(CY.done || {})[q.id]); if (i >= 0 && i < CY.qi) CY.qi = i; }   // новые квесты, вставленные раньше, не пропускаем
+  CY.qid = CITY_Q[CY.qi] ? CITY_Q[CY.qi].id : "";
+  CY.ver = 2; saveCity();
+}
 
-// ---------- рисование: плоский «стикерный» стиль; позже сюда встанут тайлы Kenney ----------
-const CC = { ink: "#17171F", grass: "#9BD77E", grass2: "#8CCB6E", road: "#5E6370", line: "#F4F1E8", walk: "#E9E3D6", walk2: "#DCD4C4", plaza: "#F2DDB0", plaza2: "#E6CD98", water: "#7FCBF2", water2: "#A9DDF7", tree: "#3FA34D", tree2: "#2F8A3E", hedge: "#57B05A", flower: ["#FF6FB5", "#FFEC3D", "#FFFFFF"] };
+// ---------- рисование 2D: плоский «стикерный» стиль ----------
+const CC = { ink: "#17171F", grass: "#9BD77E", grass2: "#8CCB6E", road: "#5E6370", line: "#F4F1E8", walk: "#E9E3D6", walk2: "#DCD4C4", plaza: "#F2DDB0", plaza2: "#E6CD98", water: "#7FCBF2", water2: "#A9DDF7", tree: "#3FA34D", tree2: "#2F8A3E", hedge: "#57B05A", flower: ["#FF6FB5", "#FFEC3D", "#FFFFFF"], wood: "#E7C9A0", wood2: "#D6B386", tile: "#ECE8E1", tile2: "#DAD4CA", voidc: "#2B2732" };
 const hash2 = (x, y) => { let h = x * 374761393 + y * 668265263; h = (h ^ (h >> 13)) * 1274126177; return ((h ^ (h >> 16)) >>> 0) / 4294967295; };
 function ctRR(c, x, y, w, h, r) { c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); }
+const ctWallC = id => (CITY_B.find(b => b.id === id) || {}).wall || "#EDE6DA";
 function ctGround(c, t, x, y) {
   const X = x * CT, Y = y * CT, n = hash2(x, y);
+  if (t === "V") { c.fillStyle = CC.voidc; c.fillRect(X, Y, CT, CT); return; }
+  if (y >= CITY_CH) {   // комнаты
+    const z = ctZoneAt(x, y), fl = z && CITY_IN[z] ? CITY_IN[z].floor : "t";
+    if (t === "W") { c.fillStyle = ctWallC(z); c.fillRect(X, Y, CT, CT); c.fillStyle = "rgba(23,23,31,.14)"; c.fillRect(X, Y + CT - 8, CT, 8); return; }
+    if (t === "R") { c.fillStyle = "#6B5E55"; c.fillRect(X, Y, CT, CT); c.fillStyle = "#8A7B70"; for (let k = 0; k < 4; k++) c.fillRect(X, Y + 3 + k * 10, CT, 4); c.fillStyle = "#C9CED6"; c.fillRect(X + 9, Y, 4, CT); c.fillRect(X + 27, Y, 4, CT); return; }
+    if (t === "P") { c.fillStyle = "#CFCFD4"; c.fillRect(X, Y, CT, CT); if (ctTile(x + 1, y) === "R") { c.fillStyle = "#FFD23F"; c.fillRect(X + CT - 5, Y, 5, CT); } return; }
+    const wood = fl === "w";
+    c.fillStyle = wood ? CC.wood : CC.tile; c.fillRect(X, Y, CT, CT);
+    c.strokeStyle = wood ? CC.wood2 : CC.tile2; c.lineWidth = 1.5;
+    if (wood) { c.beginPath(); for (let k = 1; k < 4; k++) { c.moveTo(X, Y + k * 10); c.lineTo(X + CT, Y + k * 10); } c.stroke(); }
+    else c.strokeRect(X + 0.75, Y + 0.75, CT - 1.5, CT - 1.5);
+    if (t === "E") { c.fillStyle = "#B0473A"; ctRR(c, X + 4, Y + 8, CT - 8, CT - 16, 5); c.fill(); }
+    return;
+  }
   const base = t === "r" || t === "=" ? CC.road : t === "s" || t === "L" ? CC.walk : t === "p" || t === "o" || t === "b" ? CC.plaza : t === "~" ? CC.water : CC.grass;
   c.fillStyle = base; c.fillRect(X, Y, CT, CT);
   if (base === CC.grass) { c.fillStyle = CC.grass2; for (let k = 0; k < 3; k++) { const a = hash2(x * 7 + k, y * 3 - k); c.fillRect(X + 4 + a * 30, Y + 4 + hash2(y + k, x) * 30, 3, 6); } }
@@ -20375,6 +20518,26 @@ function ctProp(c, t, x, y) {
     c.fillStyle = "rgba(23,23,31,.15)"; c.beginPath(); c.ellipse(X + 22, Y + 34, 8, 3, 0, 0, 7); c.fill();
     c.fillStyle = "#3A3F4B"; c.fillRect(X + 18, Y + 6, 4, 28); c.strokeRect(X + 18, Y + 6, 4, 28);
     c.fillStyle = "#FFE58A"; c.beginPath(); c.arc(X + 20, Y + 7, 6, 0, 7); c.fill(); c.stroke();
+  } else if (t === "c") {   // стойка
+    c.fillStyle = "#B97A3E"; c.fillRect(X, Y + 6, CT, CT - 10); c.strokeRect(X, Y + 6, CT, CT - 10);
+    c.fillStyle = "#D9A066"; c.fillRect(X + 1.5, Y + 7.5, CT - 3, 8);
+  } else if (t === "k") {   // столик
+    c.fillStyle = "rgba(23,23,31,.15)"; c.beginPath(); c.ellipse(X + 21, Y + 32, 14, 5, 0, 0, 7); c.fill();
+    c.fillStyle = "#FFFFFF"; c.beginPath(); c.arc(X + 20, Y + 20, 13, 0, 7); c.fill(); c.stroke();
+  } else if (t === "m") {   // кофемашина
+    c.fillStyle = "#B97A3E"; c.fillRect(X, Y + 14, CT, CT - 16); c.strokeRect(X, Y + 14, CT, CT - 16);
+    c.fillStyle = "#9AA3AF"; ctRR(c, X + 8, Y + 2, 24, 22, 4); c.fill(); c.stroke();
+  } else if (t === "S") {   // полка
+    const g = CITY_SHELF[`${x},${y}`], z = ctZoneAt(x, y);
+    c.fillStyle = "#8A5A2B"; c.fillRect(X + 2, Y + 2, CT - 4, CT - 6); c.strokeRect(X + 2, Y + 2, CT - 4, CT - 6);
+    for (let k = 0; k < 6; k++) {
+      c.fillStyle = g ? CITY_GOODS[g][1] : z === "library" ? ["#E86A5B", "#3FB2FF", "#2FCB7E", "#FFEC3D", "#B98AD6", "#FFA94D"][(k + x + y) % 6] : z === "pharmacy" ? (k % 2 ? "#FFFFFF" : "#2FCB7E") : "#C8955A";
+      c.fillRect(X + 6 + (k % 3) * 10, Y + 6 + Math.floor(k / 3) * 14, 8, 11);
+    }
+    if (g) { c.font = "800 9px system-ui, sans-serif"; c.textAlign = "center"; c.textBaseline = "middle"; c.fillStyle = "#FFFFFF"; c.fillRect(X + 2, Y + CT - 14, CT - 4, 11); c.fillStyle = CC.ink; c.fillText(g.length > 8 ? g.split(" ")[0] : g, X + CT / 2, Y + CT - 8); }
+  } else if (t === "B") {   // табло
+    c.fillStyle = "#17171F"; c.fillRect(X, Y + 4, CT, CT - 8);
+    c.fillStyle = "#FFD23F"; for (let k = 0; k < 4; k++) c.fillRect(X + 4, Y + 9 + k * 6, k % 2 ? 22 : 30, 3);
   }
 }
 function ctBuilding(c, b) {
@@ -20390,7 +20553,7 @@ function ctBuilding(c, b) {
   c.fillStyle = b.wall; c.fillRect(X + 2, fy, W - 4, CT - 2); c.strokeRect(X + 2, fy, W - 4, CT - 2);
   for (let i = 0; i < b.w; i++) {
     const wx = (b.x + i) * CT;
-    if (b.x + i === b.door) { c.fillStyle = "#6B4A2F"; ctRR(c, wx + 10, fy + 8, 20, CT - 10, 4); c.fill(); c.stroke(); c.fillStyle = "#FFE58A"; c.beginPath(); c.arc(wx + 25, fy + 24, 2, 0, 7); c.fill(); }
+    if (b.x + i === b.door) { c.fillStyle = CITY_IN[b.id] ? "#3A2A1E" : "#6B4A2F"; ctRR(c, wx + 10, fy + 8, 20, CT - 10, 4); c.fill(); c.stroke(); c.fillStyle = "#FFE58A"; c.beginPath(); c.arc(wx + 25, fy + 24, 2, 0, 7); c.fill(); }
     else { c.fillStyle = "#BFE3F7"; ctRR(c, wx + 9, fy + 9, 22, 17, 3); c.fill(); c.stroke(); c.strokeStyle = "rgba(255,255,255,.8)"; c.lineWidth = 2; c.beginPath(); c.moveTo(wx + 13, fy + 22); c.lineTo(wx + 19, fy + 13); c.stroke(); c.strokeStyle = CC.ink; c.lineWidth = 3; }
   }
   if (b.awning) { for (let i = 0; i < b.w * 2; i++) { c.fillStyle = i % 2 ? "#FFFFFF" : b.awning; c.fillRect(X + 2 + i * (W - 4) / (b.w * 2), fy - 6, (W - 4) / (b.w * 2), 10); } c.strokeRect(X + 2, fy - 6, W - 4, 10); }
@@ -20400,6 +20563,7 @@ function ctBuilding(c, b) {
     c.fillStyle = CC.ink; c.textAlign = "center"; c.textBaseline = "middle"; c.fillText(b.sign, X + W / 2, sy + 11.5);
   }
 }
+// весь город и комнаты — одна картинка; рисуем один раз
 function ctRenderCache() {
   const s = CG.cs, cv = document.createElement("canvas");
   cv.width = CITY_W * CT * s; cv.height = CITY_H * CT * s;
@@ -20407,6 +20571,9 @@ function ctRenderCache() {
   for (let y = 0; y < CITY_H; y++) for (let x = 0; x < CITY_W; x++) ctGround(c, ctTile(x, y), x, y);
   for (let y = 0; y < CITY_H; y++) for (let x = 0; x < CITY_W; x++) { const t = ctTile(x, y); if (t !== "#") ctProp(c, t, x, y); }
   CITY_B.forEach(b => ctBuilding(c, b));
+  // номера платформ
+  const st = ctZone("station"); c.font = "900 16px system-ui, sans-serif"; c.textAlign = "center"; c.textBaseline = "middle";
+  [1, 5, 9].forEach((dx, k) => { const X = (st.x + dx) * CT + CT, Y = (st.y + 4) * CT + 20; c.fillStyle = "#2B4C8C"; ctRR(c, X - 12, Y - 11, 24, 22, 6); c.fill(); c.fillStyle = "#FFFFFF"; c.fillText(String(k + 1), X, Y + 1); });
   CG.cache = cv;
 }
 // человечек: тень, ноги, туловище, голова, волосы; bob — шаг
@@ -20431,23 +20598,32 @@ function ctBubble(c, px, py, mark, t) {
 }
 
 // ---------- кадр ----------
+const ctMe = () => [Math.round(CG.px / CT), Math.round(CG.py / CT)];
+// камера держит героя в центре, но не выходит за край зоны (города или комнаты); узкую комнату ставит посередине
+function ctCam(vw, vh) {
+  const Z = ctZone(CG.zone), zx = Z.x * CT, zy = Z.y * CT, zw = Z.w * CT, zh = Z.h * CT;
+  const cx = zw <= vw ? zx + zw / 2 - vw / 2 : Math.max(zx, Math.min(zx + zw - vw, CG.px + CT / 2 - vw / 2));
+  const cy = zh <= vh * 0.8 ? zy + zh / 2 - vh * 0.5 : Math.max(zy - 70, Math.min(zy + zh - vh + 20, CG.py + CT / 2 - vh * 0.45));
+  return [cx, cy];
+}
 function ctFrame(t) {
   CG.raf = 0; if (!CG.cv || !isOpen("#cityPage")) return;
   CG.t = t || 0;
   const moved = ctTick(t);
+  ctActUpdate(t);
   if (CG.r3) { CG.r3.frame(t); ctArrow(); CG.raf = requestAnimationFrame(ctFrame); return; }   // 3D-город рисует сам
   const c = CG.ctx, vw = CG.cv.clientWidth, vh = CG.cv.clientHeight, s = CG.cs;
-  // камера держит героя в центре, но не выходит за край карты
-  const cx = Math.max(0, Math.min(CITY_W * CT - vw, CG.px + CT / 2 - vw / 2)), cy = Math.max(0, Math.min(CITY_H * CT - vh, CG.py + CT / 2 - vh * 0.45));
-  CG.cam = [cx, cy];
-  c.setTransform(s, 0, 0, s, 0, 0); c.clearRect(0, 0, vw, vh);
-  c.drawImage(CG.cache, cx * s, cy * s, vw * s, vh * s, 0, 0, vw, vh);
+  const [cx, cy] = ctCam(vw, vh); CG.cam = [cx, cy];
+  c.setTransform(s, 0, 0, s, 0, 0); c.fillStyle = CC.voidc; c.fillRect(0, 0, vw, vh);
+  // кусок общей картинки — только своя зона (город или комната); вокруг — пустота
+  const Z = ctZone(CG.zone), sx = Math.max(Z.x * CT, cx), sy = Math.max(Z.y * CT, cy), sw = Math.min((Z.x + Z.w) * CT, cx + vw) - sx, sh = Math.min((Z.y + Z.h) * CT, cy + vh) - sy;
+  if (sw > 0 && sh > 0) c.drawImage(CG.cache, sx * s, sy * s, sw * s, sh * s, sx - cx, sy - cy, sw, sh);
   c.translate(-cx, -cy);
   // цель пути
   if (CG.path.length) { const [gx, gy] = CG.path[CG.path.length - 1]; c.strokeStyle = "rgba(23,23,31,.5)"; c.lineWidth = 2.5; c.setLineDash([5, 5]); c.beginPath(); c.arc(gx * CT + 20, gy * CT + 22, 10, 0, 7); c.stroke(); c.setLineDash([]); }
   // люди по глубине: кто ниже, тот ближе
-  const target = ctTarget(), q = ctQuest();
-  const ppl = Object.keys(CITY_NPC).map(id => ({ id, n: CITY_NPC[id], y: CITY_NPC[id].y * CT }));
+  const target = ctTarget();
+  const ppl = Object.keys(CITY_NPC).filter(id => ctZoneAt(CITY_NPC[id].x, CITY_NPC[id].y) === CG.zone).map(id => ({ id, n: CITY_NPC[id], y: CITY_NPC[id].y * CT }));
   ppl.push({ me: true, y: CG.py });
   ppl.sort((a, b) => a.y - b.y).forEach(p => {
     if (p.me) ctPerson(c, CG.px, CG.py, ["#FFEC3D", "#2B2B35", "#F2C9A8"], CG.face, CG.walk && Math.floor(t / 140) % 2, true);
@@ -20458,87 +20634,325 @@ function ctFrame(t) {
   });
   c.setTransform(1, 0, 0, 1, 0, 0);
   ctArrow();
-  if (moved || target || CG.walk) CG.raf = requestAnimationFrame(ctFrame);
+  if (moved || target || CG.walk || (CG.joy && CG.joy.on)) CG.raf = requestAnimationFrame(ctFrame);
 }
 const ctKick = () => { if (!CG.raf) CG.raf = requestAnimationFrame(ctFrame); };
-// стрелка у края экрана, если тот, кто ждёт, не виден
+
+// ---------- куда показывает стрелка ----------
+// точка в своей зоне: если цель в другой зоне — дверь (из города) или выход (из комнаты)
+function ctRoute(x, y) {
+  const z = ctZoneAt(x, y);
+  if (z === CG.zone) return [x, y];
+  if (CG.zone !== "city") return CITY_DOOR[CG.zone].e;
+  return CITY_DOOR[z] ? CITY_DOOR[z].d : null;
+}
+function ctAim() {
+  const s = ctStep(); if (!s) return null;
+  if (s.go) { if (CG.goMiss < 2) return null; const g = s.go; return g.zone ? ctRoute(...CITY_DOOR[g.zone].spawn) : ctRoute(g.area[0], g.area[1]); }   // по дороге на слух — без стрелки, после двух ошибок подсказываем
+  if (s.find) return CG.findMiss >= 2 ? ctRoute(...s.find.spots[s.find.at]) : null;
+  const n = CITY_NPC[s.npc]; return n ? ctRoute(n.x, n.y) : null;
+}
+// стрелка у края экрана, если цели не видно
 function ctArrow() {
   const a = $("#ctArrow"); if (!a) return;
-  const id = ctTarget(), n = id && CITY_NPC[id];
-  if (!n || CG.dlg) { a.hidden = true; return; }
-  const vw = CG.cv.clientWidth, vh = CG.cv.clientHeight, [nx, ny] = CG.r3 ? CG.r3.screen(id) : [n.x * CT + 20 - CG.cam[0], n.y * CT + 20 - CG.cam[1]];
+  const pt = CG.dlg ? null : ctAim();
+  if (!pt) { a.hidden = true; return; }
+  const vw = CG.cv.clientWidth, vh = CG.cv.clientHeight, [nx, ny] = CG.r3 ? CG.r3.screenAt(pt[0] + 0.5, pt[1] + 0.5) : [pt[0] * CT + 20 - CG.cam[0], pt[1] * CT + 20 - CG.cam[1]];
   if (nx > 0 && nx < vw && ny > 60 && ny < vh - 20) { a.hidden = true; return; }
   const cx = vw / 2, cy = vh / 2, ang = Math.atan2(ny - cy, nx - cx), k = Math.min((vw / 2 - 34) / Math.abs(Math.cos(ang) || 1e-6), (vh / 2 - 70) / Math.abs(Math.sin(ang) || 1e-6));
   a.hidden = false; a.style.transform = `translate(${cx + Math.cos(ang) * k - 22}px, ${cy + Math.sin(ang) * k - 22}px)`;
   $("i", a).style.transform = `rotate(${ang}rad)`;
 }
+// нажали на стрелку: идём к цели — через дверь, если надо
+function ctSeek() {
+  const s = ctStep(), pt = ctAim(); if (!pt) return;
+  const n = s && CITY_NPC[s.npc];
+  if (n && !s.go && !s.find && ctZoneAt(n.x, n.y) === CG.zone) { ctTap({ npc: s.npc }); return; }
+  CG.seek = true; ctGo(pt[0], pt[1]);
+}
 
-// ---------- движение: путь по клеткам (поиск в ширину), 5 клеток в секунду ----------
+// ---------- движение ----------
+// по клеткам (нажатие) — поиск пути в ширину; пальцем — свободно, со скольжением вдоль стен
 const ctFree = (x, y) => !CITY_SOLID.has(ctTile(x, y)) && !Object.values(CITY_NPC).some(n => n.x === x && n.y === y);
 function ctPathTo(tx, ty) {
-  const sx = Math.round(CG.px / CT), sy = Math.round(CG.py / CT), key = (x, y) => y * CITY_W + x, prev = new Map([[key(sx, sy), -1]]), qu = [[sx, sy]];
+  const [sx, sy] = ctMe(), key = (x, y) => y * CITY_W + x, prev = new Map([[key(sx, sy), -1]]), qu = [[sx, sy]];
   while (qu.length) {
     const [x, y] = qu.shift();
     if (x === tx && y === ty) { const out = []; let k = key(x, y); while (k !== -1 && k !== key(sx, sy)) { out.unshift([k % CITY_W, Math.floor(k / CITY_W)]); k = prev.get(k); } return out; }
+    const t = ctTile(x, y); if ((t === "D" || t === "E") && !(x === sx && y === sy)) continue;   // сквозь двери путь не идёт
     for (const [dx, dy] of [[0, 1], [1, 0], [0, -1], [-1, 0]]) { const nx = x + dx, ny = y + dy, k = key(nx, ny); if (!prev.has(k) && ctFree(nx, ny)) { prev.set(k, key(x, y)); qu.push([nx, ny]); } }
   }
   return null;
 }
+const CT_R = 0.28;   // «толщина» героя в клетках
+function ctHit(px, py) {
+  const cx = px / CT + 0.5, cy = py / CT + 0.5;
+  for (const [ax, ay] of [[-CT_R, -CT_R], [CT_R, -CT_R], [-CT_R, CT_R], [CT_R, CT_R]]) if (CITY_SOLID.has(ctTile(Math.floor(cx + ax), Math.floor(cy + ay)))) return true;
+  const ox = CG.px / CT + 0.5, oy = CG.py / CT + 0.5;
+  for (const id in CITY_NPC) { const n = CITY_NPC[id], d = Math.hypot(n.x + 0.5 - cx, n.y + 0.5 - cy); if (d < 0.62 && d < Math.hypot(n.x + 0.5 - ox, n.y + 0.5 - oy)) return true; }
+  return false;
+}
+function ctSlide(dx, dy) {
+  if (dx && !ctHit(CG.px + dx, CG.py)) CG.px += dx;
+  else if (dx) ctNudge(dx, 0);
+  if (dy && !ctHit(CG.px, CG.py + dy)) CG.py += dy;
+  else if (dy) ctNudge(0, dy);
+}
+// упёрлись: если впереди дверь — входим; если почти попали в проход — подтягиваем к его середине
+function ctNudge(dx, dy) {
+  const cx = CG.px / CT + 0.5, cy = CG.py / CT + 0.5, tx = Math.floor(cx + Math.sign(dx) * (CT_R + 0.06)), ty = Math.floor(cy + Math.sign(dy) * (CT_R + 0.06));
+  const ahead = ctTile(dx ? tx : Math.floor(cx), dy ? ty : Math.floor(cy));
+  if (ahead === "D" && dy < 0) { const z = Object.keys(CITY_DOOR).find(k => CITY_DOOR[k].d[0] === Math.floor(cx) && CITY_DOOR[k].d[1] === ty); if (z) { ctEnter(z); return; } }
+  if (ahead === "E" && dy > 0) { ctExit(); return; }
+  if (dy) { const fx = cx - Math.floor(cx) - 0.5; if (Math.abs(fx) < 0.45 && !CITY_SOLID.has(ctTile(Math.floor(cx), ty))) CG.px -= Math.sign(fx) * Math.min(Math.abs(fx) * CT, Math.abs(dy)); }
+  if (dx) { const fy = cy - Math.floor(cy) - 0.5; if (Math.abs(fy) < 0.45 && !CITY_SOLID.has(ctTile(tx, Math.floor(cy)))) CG.py -= Math.sign(fy) * Math.min(Math.abs(fy) * CT, Math.abs(dx)); }
+}
+const CT_SP = 0.15;   // скорость, px/мс (≈3,7 клетки в секунду)
 function ctTick(t) {
-  if (!CG.path.length) { CG.walk = null; return false; }
   const dt = CG.last ? Math.min(60, t - CG.last) : 16; CG.last = t;
-  const [gx, gy] = CG.path[0], tx = gx * CT, ty = gy * CT, sp = (CG.r3 ? 0.13 : 0.2) * dt;
-  const dx = tx - CG.px, dy = ty - CG.py, d = Math.hypot(dx, dy);
-  CG.walk = 1; CG.face = Math.abs(dx) > Math.abs(dy) ? (dx < 0 ? 1 : 2) : (dy < 0 ? 3 : 0);
-  if (d <= sp) { CG.px = tx; CG.py = ty; CG.path.shift(); if (!CG.path.length) { CG.last = 0; CY.pos = [gx, gy]; saveCity(); ctArrive(); } }
-  else { CG.px += dx / d * sp; CG.py += dy / d * sp; }
-  return true;
+  let moved = false;
+  const j = CG.joy, kx = (CG.keys.ArrowRight || CG.keys.d ? 1 : 0) - (CG.keys.ArrowLeft || CG.keys.a ? 1 : 0), ky = (CG.keys.ArrowDown || CG.keys.s ? 1 : 0) - (CG.keys.ArrowUp || CG.keys.w ? 1 : 0);
+  const vx = j && j.on ? j.vx : kx, vy = j && j.on ? j.vy : ky, m = Math.hypot(vx, vy);
+  if (!CG.dlg && !CG.fade && m > 0.15) {        // ведут пальцем или стрелками
+    CG.path = []; CG.pend = null; CG.seek = false;
+    const sp = CT_SP * dt * Math.min(1, m);
+    ctSlide(vx / m * sp, vy / m * sp);
+    CG.walk = 1; CG.face = Math.abs(vx) > Math.abs(vy) ? (vx < 0 ? 1 : 2) : (vy < 0 ? 3 : 0);
+    moved = true;
+  } else if (CG.path.length && !CG.fade) {        // идём по пути из нажатия
+    const [gx, gy] = CG.path[0], tx = gx * CT, ty = gy * CT, sp = CT_SP * dt;
+    const dx = tx - CG.px, dy = ty - CG.py, d = Math.hypot(dx, dy);
+    CG.walk = 1; CG.face = Math.abs(dx) > Math.abs(dy) ? (dx < 0 ? 1 : 2) : (dy < 0 ? 3 : 0);
+    if (d <= sp) { CG.px = tx; CG.py = ty; CG.path.shift(); if (!CG.path.length) { ctOnTile(true); if (!CG.fade) ctArrive(); } }
+    else { CG.px += dx / d * sp; CG.py += dy / d * sp; }
+    moved = true;
+  } else CG.walk = null;
+  if (moved) ctOnTile(false);
+  return moved;
 }
 function ctGo(tx, ty, then) {
   const p = ctPathTo(tx, ty); if (!p) return false;
-  CG.path = p; CG.pend = then || null; CG.last = 0;
+  CG.path = p; CG.pend = then || null;
   if (!p.length) ctArrive();
   ctKick(); return true;
 }
 function ctArrive() { const f = CG.pend; CG.pend = null; if (f) f(); }
-// нажали на карту: на жителя — подходим и говорим, на пустую клетку — идём туда
-function ctTap(e) {
-  if (CG.dlg) return;
-  let id = e.npc || null, x, y;
-  if (!id && CG.r3) {   // 3D: что под пальцем — житель, здание или клетка земли
-    const h = CG.r3.pick(e.clientX, e.clientY); if (!h) return;
-    if (h.b) { if (h.b.sign) toast(h.b.sign); return; }
-    if (h.npc) id = h.npc; else { x = h.x; y = h.y; }
-  } else if (!id) {
-    const r = CG.cv.getBoundingClientRect(); x = Math.floor((e.clientX - r.left + CG.cam[0]) / CT); y = Math.floor((e.clientY - r.top + CG.cam[1]) / CT);
-    id = Object.keys(CITY_NPC).find(k => { const n = CITY_NPC[k]; return (n.x === x && n.y === y) || (n.x === x && n.y === y + 1); });
-  }
-  if (id) {
-    const n = CITY_NPC[id], me = [Math.round(CG.px / CT), Math.round(CG.py / CT)];
-    if (Math.abs(me[0] - n.x) + Math.abs(me[1] - n.y) === 1) { ctFaceTo(n); ctTalk(id); return; }
-    const spots = [[n.x, n.y + 1], [n.x - 1, n.y], [n.x + 1, n.y], [n.x, n.y - 1]].filter(([a, b]) => ctFree(a, b)).map(s => ({ s, p: ctPathTo(s[0], s[1]), pen: CG.r3 && s[1] === n.y + 1 ? 3 : 0 })).filter(o => o.p).sort((a, b) => a.p.length + a.pen - b.p.length - b.pen);   // в 3D встаём сбоку, чтобы не закрывать лицо жителя
-    if (spots.length) ctGo(spots[0].s[0], spots[0].s[1], () => { ctFaceTo(n); ctTalk(id); });
-    return;
-  }
-  if (!ctFree(x, y)) { const b = CITY_B.find(b => x >= b.x && x < b.x + b.w && y >= b.y && y < b.y + b.h); if (b && b.sign) toast(b.sign); return; }
-  ctGo(x, y);
+// встали на новую клетку: двери, проверка «дошёл ли куда сказали», сохранение места
+function ctOnTile(end) {
+  const [x, y] = ctMe(), key = x + "," + y, t = ctTile(x, y);
+  if (t === "D" && (end || Math.abs(CG.px - x * CT) < 8)) { const z = Object.keys(CITY_DOOR).find(k => CITY_DOOR[k].d[0] === x && CITY_DOOR[k].d[1] === y); if (z) { ctEnter(z); return; } }
+  if (t === "E" && (end || Math.abs(CG.px - x * CT) < 8)) { ctExit(); return; }
+  if (key === CG.tile) return;
+  CG.tile = key; CY.pos = [x, y];
+  clearTimeout(CG.saveT); CG.saveT = setTimeout(saveCity, 600);
+  ctGoCheck();
+}
+// двери: короткое затемнение и мы внутри / снаружи
+function ctFadeTo(fn) {
+  if (CG.fade) return; CG.fade = true;
+  const f = $("#ctFade"); f.classList.add("on");
+  setTimeout(() => { fn(); CG.tile = ""; ctOnTile(false); f.classList.remove("on"); ctKick(); setTimeout(() => { CG.fade = false; if (CG.seek) { CG.seek = false; ctSeek(); } }, 160); }, 170);
+}
+function ctEnter(z) {
+  const d = CITY_DOOR[z]; CG.path = []; CG.pend = null;
+  ctFadeTo(() => { CG.zone = z; CG.px = d.spawn[0] * CT; CG.py = d.spawn[1] * CT; CG.face = 3; gsnd && gsnd("tap"); ctHud(); });
+}
+function ctExit() {
+  const z = CG.zone, d = CITY_DOOR[z]; if (!d) return; CG.path = []; CG.pend = null;
+  ctFadeTo(() => { CG.zone = "city"; CG.px = d.out[0] * CT; CG.py = d.out[1] * CT; CG.face = 0; ctHud(); });
 }
 function ctFaceTo(n) { const dx = n.x * CT - CG.px, dy = n.y * CT - CG.py; CG.face = Math.abs(dx) > Math.abs(dy) ? (dx < 0 ? 1 : 2) : (dy < 0 ? 3 : 0); ctKick(); }
 
-// ---------- разговор ----------
-// узел: { say, ru, opts: [{ t, ok, why }] } — выбрать ответ; { say, ru, build, task } — собрать фразу; { say, ru } — просто реплика
-function ctTalk(id) {
-  const n = CITY_NPC[id], q = ctQuest(), s = ctStep();
-  if (s && s.npc === id) {
-    if (s.need && !ctHas(s.need)) { ctLines(id, s.wait || [{ say: "Sorry, I'm busy right now.", ru: "Извините, я сейчас занят." }], null); return; }
-    ctLines(id, s.dlg, ok => ctStepDone(q, s, ok));
+// ---------- нажатие на карту ----------
+// на жителя — подходим и говорим; на полку, табло, место из задания — подходим и пользуемся; на здание — идём к двери; на землю — идём туда
+function ctTap(e) {
+  if (CG.dlg || CG.fade) return;
+  let id = e.npc || null, x, y;
+  if (!id && CG.r3) {
+    const h = CG.r3.pick(e.clientX, e.clientY); if (!h) return;
+    if (h.b) { ctBuildingTap(h.b); return; }
+    if (h.npc) id = h.npc; else { x = h.x; y = h.y; }
+  } else if (!id) {
+    const r = CG.cv.getBoundingClientRect(); x = Math.floor((e.clientX - r.left + CG.cam[0]) / CT); y = Math.floor((e.clientY - r.top + CG.cam[1]) / CT);
+    id = Object.keys(CITY_NPC).find(k => { const n = CITY_NPC[k]; return n.x === x && (n.y === y || n.y === y + 1); });
+  }
+  if (id) {
+    const n = CITY_NPC[id], me = [CG.px / CT, CG.py / CT];
+    if (ctZoneAt(n.x, n.y) !== CG.zone) return;
+    if (Math.hypot(me[0] - n.x, me[1] - n.y) <= n.reach) { ctFaceTo(n); ctTalk(id); return; }
+    ctWalkNear(n.x, n.y, () => { ctFaceTo(n); ctTalk(id); }, n.reach > 2);
     return;
   }
+  if (ctZoneAt(x, y) !== CG.zone) return;
+  const use = ctUseAt(x, y);
+  if (use) { ctWalkNear(x, y, use); return; }
+  const t = ctTile(x, y);
+  if (t === "#") { const b = CITY_B.find(b => x >= b.x && x < b.x + b.w && y >= b.y && y < b.y + b.h); if (b) ctBuildingTap(b); return; }
+  if (CITY_SOLID.has(t)) return;
+  ctGo(x, y);
+}
+function ctBuildingTap(b) {
+  if (CITY_DOOR[b.id] && CG.zone === "city") ctGo(...CITY_DOOR[b.id].d);
+  else if (b.sign) toast(b.sign);
+}
+// подойти к клетке: на соседнюю (или через стойку — на клетку дальше)
+function ctWalkNear(x, y, then, far) {
+  const cand = [[x, y + 1], [x - 1, y], [x + 1, y], [x, y - 1]].concat(far ? [[x, y + 2], [x - 2, y], [x + 2, y]] : []);
+  const spots = cand.map(s => ({ s, p: ctFree(...s) && ctPathTo(...s) })).filter(o => o.p).map(o => ({ ...o, w: o.p.length + (CG.r3 && o.s[1] === y + 1 && o.s[0] === x && !far ? 3 : 0) })).sort((a, b) => a.w - b.w);   // в 3D встаём сбоку, чтобы не закрывать лицо
+  if (spots.length) ctGo(spots[0].s[0], spots[0].s[1], then);
+}
+
+// ---------- что рядом: житель, полка, табло, место из задания → кнопка внизу ----------
+function ctUseAt(x, y) {
+  const g = CITY_SHELF[`${x},${y}`]; if (g) return () => ctPick(g);
+  if (ctTile(x, y) === "B") return ctBoard;
+  const s = ctStep(); if (s && s.find) { const i = s.find.spots.findIndex(p => p[0] === x && p[1] === y); if (i >= 0) return () => ctLook(i); }
+  return null;
+}
+function ctNear() {
+  const cx = CG.px / CT, cy = CG.py / CT, z = CG.zone;
+  let best = null, bd = 99;
+  const take = (d, o) => { if (d < bd) { bd = d; best = o; } };
+  for (const id in CITY_NPC) { const n = CITY_NPC[id]; if (ctZoneAt(n.x, n.y) !== z) continue; const d = Math.hypot(n.x - cx, n.y - cy); if (d <= n.reach) take(d - 0.4, { k: "npc:" + id, label: `💬 ${n.name}`, act: () => { ctFaceTo(n); ctTalk(id); } }); }
+  const s = ctStep();
+  const fx = Math.round(cx), fy = Math.round(cy);
+  for (let y = fy - 1; y <= fy + 1; y++) for (let x = fx - 1; x <= fx + 1; x++) {
+    const d = Math.hypot(x - cx, y - cy); if (d > 1.45) continue;
+    const g = CITY_SHELF[`${x},${y}`];
+    if (g) take(d, { k: "shelf:" + g, label: s && s.fetch ? `🧺 Взять: ${g}` : `🔊 ${g}`, act: () => ctPick(g) });
+    if (ctTile(x, y) === "B") take(d, { k: "board", label: "📋 Табло", act: ctBoard });
+  }
+  if (s && s.find) s.find.spots.forEach((p, i) => { const d = Math.hypot(p[0] - cx, p[1] - cy); if (d <= 1.45) take(d - 0.2, { k: "spot:" + i, label: `👀 ${p[2]}`, act: () => ctLook(i) }); });
+  return best;
+}
+function ctActUpdate(t) {
+  if (t - (CG.actT || 0) < 120) return; CG.actT = t;
+  const b = $("#ctAct"); if (!b) return;
+  const a = CG.dlg || CG.fade ? null : ctNear();
+  CG.act = a;
+  if (!a) { b.hidden = true; b.dataset.k = ""; return; }
+  if (b.dataset.k !== a.k) { b.dataset.k = a.k; b.textContent = a.label; }
+  b.hidden = false;
+}
+
+// ---------- джойстик: ведёте пальцем — герой идёт; короткое нажатие — как раньше ----------
+function ctPointer(cv) {
+  const J = $("#ctJoy");
+  cv.addEventListener("pointerdown", e => {
+    if (e.pointerType === "mouse" && e.button) return;
+    if (CG.dlg) return;
+    CG.joy = { id: e.pointerId, sx: e.clientX, sy: e.clientY, on: false, vx: 0, vy: 0, t0: performance.now() };
+    try { cv.setPointerCapture(e.pointerId); } catch (_) {}
+  });
+  cv.addEventListener("pointermove", e => {
+    const j = CG.joy; if (!j || j.id !== e.pointerId) return;
+    const dx = e.clientX - j.sx, dy = e.clientY - j.sy, d = Math.hypot(dx, dy);
+    if (!j.on && d > 12) {
+      j.on = true; const r = $("#cityPage").getBoundingClientRect();
+      J.hidden = false; J.style.transform = `translate(${j.sx - r.left - 50}px, ${j.sy - r.top - 50}px)`; ctKick();
+    }
+    if (j.on) {
+      const k = Math.min(1, d / 50); j.vx = dx / (d || 1) * k; j.vy = dy / (d || 1) * k;
+      $("i", J).style.transform = `translate(${j.vx * 30}px, ${j.vy * 30}px)`;
+    }
+  });
+  const up = e => {
+    const j = CG.joy; if (!j || j.id !== e.pointerId) return;
+    CG.joy = null; J.hidden = true; $("i", J).style.transform = "";
+    if (!j.on && e.type === "pointerup" && performance.now() - j.t0 < 500) ctTap(e);
+    ctKick();
+  };
+  cv.addEventListener("pointerup", up); cv.addEventListener("pointercancel", up);
+}
+function ctKey(e) {
+  if (!isOpen("#cityPage") || CG.dlg || /INPUT|TEXTAREA/.test((e.target || {}).tagName || "")) return;
+  const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+  if (!["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "w", "a", "s", "d", " ", "Enter"].includes(k)) return;
+  if (e.type === "keydown" && (k === " " || k === "Enter")) { if (CG.act) { e.preventDefault(); CG.act.act(); } return; }
+  CG.keys[k] = e.type === "keydown"; e.preventDefault(); ctKick();
+}
+window.addEventListener("keydown", ctKey); window.addEventListener("keyup", ctKey);
+
+// ---------- реплики без окна: «не то место», «нашёл», «взял» ----------
+function ctSay(en, ru, ok) {
+  const m = $("#ctMsg"); if (!m) return;
+  m.className = "ct-msg in" + (ok ? " ok" : "");
+  m.innerHTML = `${en ? `<b class="en">${esc(en)}</b>` : ""}${ru ? `<span>${esc(ru)}</span>` : ""}`;
+  m.hidden = false; if (en) speak(en);
+  clearTimeout(CG.msgT); CG.msgT = setTimeout(() => { m.classList.remove("in"); setTimeout(() => { if (!m.classList.contains("in")) m.hidden = true; }, 250); }, 3800);
+}
+
+// ---------- задания-действия ----------
+// дойти: g = { zone | area:[x,y,w,h], say, ru, ok, wrong:[{ zone | area, say, ru }] }
+function ctGoCheck() {
+  const s = ctStep(); if (!s || !s.go || CG.dlg) return;
+  const g = s.go, [x, y] = ctMe(), z = CG.zone;
+  const hit = a => (a.zone && a.zone === z) || (a.area && x >= a.area[0] && y >= a.area[1] && x < a.area[0] + a.area[2] && y < a.area[1] + a.area[3]);
+  if (hit(g)) {
+    const miss = CG.goMiss; CG.goMiss = 0; CG.wrongAt = null;
+    if (g.ok) ctSay(g.ok, g.okRu, true);
+    ctStepDone(ctQuest(), s, miss); return;
+  }
+  const w = (g.wrong || []).find(hit), key = w ? (w.zone || w.area.join()) : null;
+  if (w && CG.wrongAt !== key) { CG.goMiss++; ctSay(w.say, w.ru); ctHud(); }
+  CG.wrongAt = key;
+}
+// найти: f = { say, ru, spots: [[x, y, "что это"]], at, item, found, foundRu }
+function ctLook(i) {
+  const q = ctQuest(), s = ctStep(); if (!s || !s.find) return;
+  const f = s.find;
+  if (i === f.at) {
+    const miss = CG.findMiss; CG.findMiss = 0;
+    ctSay(f.found, f.foundRu, true);
+    if (CG.r3) CG.r3.emote("me", true);
+    ctStepDone(q, s, miss);
+  } else { CG.findMiss++; ctSay("Hmm… nothing here.", "Хм… тут ничего нет. Послушайте ещё раз, где искать: 🔊 вверху."); if (CG.r3) CG.r3.emote("me", false); ctHud(); }
+}
+// список покупок: товары с полок в корзину; на кассе проверяем
+function ctPick(g) {
+  const s = ctStep();
+  if (!s || !s.fetch) { ctSay(g, CITY_GOODS[g][0]); return; }
+  const b = CY.basket = CY.basket || {};
+  if ((b[g] || 0) >= 5) { ctSay("", "Хватит, больше в корзину не влезет."); return; }
+  b[g] = (b[g] || 0) + 1; saveCity(); ctHud();
+  if (CG.r3) CG.r3.emote("me", true);
+  ctSay(g, `🧺 в корзине: ${b[g]}`, true);
+}
+function ctFetchCheck(f) {
+  const b = CY.basket || {}, have = Object.keys(b).filter(k => b[k]);
+  if (!have.length) return [{ say: f.wait || "Hi! Have you got everything on your list? The shelves are behind you.", ru: f.waitRu || "Привет! Всё по списку набрали? Полки у вас за спиной." }];
+  const bad = [];
+  for (const [k, n] of Object.entries(f.list)) if ((b[k] || 0) !== n) bad.push(`<b>${esc(k)}</b>: в списке ${n}, в корзине ${b[k] || 0}`);
+  for (const k of have) if (!f.list[k]) bad.push(`<b>${esc(k)}</b> (${esc(CITY_GOODS[k][0])}) — этого в списке нет`);
+  if (!bad.length) return true;
+  CY.miss = (CY.miss || 0) + 1; CY.basket = {}; saveCity(); ctHud();
+  return [{ say: "Hmm, that's not what's on the list. Let's put it all back. Try again!", ru: "Хм, это не то, что в списке. Вернём всё на полки — попробуйте ещё раз!", note: bad.join("<br>") + "<br>Послушайте список ещё раз: кнопка 🔊 вверху." }];
+}
+// табло на вокзале
+function ctBoard() {
+  openSheet(`<div class="sh-head"><span class="eyebrow">Station</span><h2>📋 Departures</h2></div>
+    <div class="ct-board">${CITY_BOARD.map(r => `<button class="ct-brow" data-say="${esc(`${r[0]}, ${r[1]}, platform ${r[2]}, ${r[3]}`)}"><b>${r[0]}</b><span>${esc(r[1])}</span><i>${r[2]}</i><em class="${r[3] === "On time" ? "" : "late"}">${esc(r[3])}</em></button>`).join("")}</div>
+    <p class="ct-sh-lead" style="margin-top:10px"><b>Time</b> — время, <b>Platform</b> — платформа, <b>On time</b> — по расписанию, <b>Delayed</b> — задерживается, <b>Cancelled</b> — отменён. Нажмите на строку, чтобы послушать.</p>`);
+  sheetBody.onclick = e => { const r = e.target.closest("[data-say]"); if (r) speak(r.dataset.say, { el: r }); };
+}
+
+// ---------- разговор ----------
+// узел: { say, ru, opts: [{ t, ok, why }] } — выбрать ответ; { say, ru, build, task } — собрать фразу; { say, ru, note } — просто реплика
+function ctTalk(id) {
+  const n = CITY_NPC[id], q = ctQuest(), s = ctStep();
+  if (s && s.npc === id && !s.go && !s.find) {
+    if (s.need && !ctHas(s.need)) { ctLines(id, s.wait || [{ say: "Sorry, I'm busy right now.", ru: "Извините, я сейчас занят." }], null); return; }
+    if (s.fetch) { const r = ctFetchCheck(s.fetch); if (r !== true) { ctLines(id, r, null); return; } }
+    ctLines(id, s.dlg, miss => ctStepDone(q, s, miss));
+    return;
+  }
+  const L = ctListen(s);
+  if (L && s.from === id) { ctLines(id, [{ say: L.say, ru: L.ru }], null); return; }   // тот, кто объяснял, повторит
   ctLines(id, n.idle && n.idle.length ? [n.idle[Math.floor(Math.random() * n.idle.length)]] : [{ say: "Hi there! Lovely day, isn't it?", ru: "Привет! Чудесный день, правда?" }], null);
 }
 function ctLines(id, nodes, done) {
   CG.dlg = { id, nodes, i: 0, miss: 0, done, picked: null };
-  CG.path = []; ctArrow(); ctNode();
+  CG.path = []; CG.joy = null; $("#ctJoy").hidden = true; ctArrow(); ctNode();
 }
 function ctNode() {
   const D = CG.dlg, n = CITY_NPC[D.id], N = D.nodes[D.i], box = $("#ctDlg");
@@ -20550,7 +20964,7 @@ function ctNode() {
       <button class="ct-x" data-ct="close" aria-label="Закрыть">✕</button></div>
     ${N.say ? `<p class="ct-say en">${esc(N.say)} <button class="ct-snd" data-ct="say" aria-label="Послушать">🔊</button></p>
     <button class="ct-tr" data-ct="tr">Перевод</button><p class="ct-ru" hidden>${esc(N.ru || "")}</p>` : ""}
-    ${N.task ? `<p class="ct-task">${N.task}</p>` : ""}
+    ${N.task ? `<p class="ct-task">${N.task}</p>` : ""}${N.note ? `<p class="ct-task">${N.note}</p>` : ""}
     ${opts ? `<div class="ct-opts">${opts.map((x, j) => `<button class="ct-opt en" data-ct="opt" data-j="${j}">${esc(x.o.t)}</button>`).join("")}</div>`
       : N.build ? `<div class="ct-build">${builderHTML("ctb")}</div>`
       : `<button class="btn primary wide" data-ct="next">${D.i + 1 < D.nodes.length ? "Дальше" : "Пока!"}</button>`}
@@ -20594,12 +21008,13 @@ function ctEnd(finished) {
 }
 function ctStepDone(q, s, miss) {
   CY.miss = (CY.miss || 0) + miss;
+  if (s.fetch) CY.basket = {};
   if (s.take) CY.items = CY.items.filter(x => x !== s.take);
   if (s.give && !ctHas(s.give)) { CY.items.push(s.give); const it = CITY_ITEMS[s.give]; if (it) toast(`${it.e} ${it.t} — в рюкзаке`); }
-  CY.si++;
+  CY.si++; CG.goMiss = 0; CG.findMiss = 0;
   if (CY.si >= q.steps.length) {
     const stars = CY.miss === 0 ? 3 : CY.miss <= 2 ? 2 : 1;
-    CY.done[q.id] = Math.max(CY.done[q.id] || 0, stars); CY.qi++; CY.si = 0; CY.miss = 0; saveCity();
+    CY.done[q.id] = Math.max(CY.done[q.id] || 0, stars); CY.qi++; CY.si = 0; CY.miss = 0; CY.qid = CITY_Q[CY.qi] ? CITY_Q[CY.qi].id : ""; saveCity();
     award({ title: "Квест пройден!", rows: [[`🏙️ ${q.t}`, 25]].concat(stars === 3 ? [["Без единой ошибки", 10]] : []) });
     setTimeout(() => ctQuestWords(q, stars), 400);
   } else saveCity();
@@ -20625,20 +21040,50 @@ function ctQuestWords(q, stars) {
 // ---------- экран ----------
 function ctHud() {
   const g = $("#ctGoal"); if (!g) return;
-  const q = ctQuest(), s = ctStep();
+  const q = ctQuest(), s = ctStep(), L = ctListen(s);
   g.innerHTML = q ? `<small>${esc(q.t)} · ${CY.si + 1}/${q.steps.length}</small><b>${esc(s.goal)}</b>` : `<small>Все квесты пройдены</small><b>Скоро — новый район города</b>`;
   $("#ctBag").dataset.n = CY.items.length || "";
+  const l = $("#ctLis"); l.hidden = !L;
+  if (L) {
+    const b = CY.basket || {}, have = Object.keys(b).filter(k => b[k]);
+    $("#ctBasket").textContent = s.fetch ? (have.length ? "🧺 " + have.map(k => `${k} ×${b[k]}`).join(", ") : "🧺 пусто") : "";
+    $("#ctBasket").hidden = !s.fetch;
+  }
+  ctHudPos();
+}
+// кнопки «послушать» и подсказки — сразу под плашкой задания, какой бы высоты она ни была
+function ctHudPos() {
+  const p = $("#cityPage"), top = $(".ct-top", p); if (!p || !top || p.hidden) return;
+  const y = top.getBoundingClientRect().bottom - p.getBoundingClientRect().top, l = $("#ctLis");
+  l.style.top = y + "px";
+  $("#ctMsg").style.top = (l.hidden ? y + 4 : y + 44) + "px";
+}
+// задание на слух: текст можно открыть, перевод — ещё одной кнопкой
+function ctListenText() {
+  const L = ctListen(ctStep()); if (!L) return;
+  openSheet(`<div class="sh-head"><span class="eyebrow">Что вам сказали</span><h2>📝 Текст</h2></div>
+    <p class="ct-say en" style="margin:6px 0 10px">${esc(L.say)} <button class="ct-snd" data-ls>🔊</button></p>
+    <button class="ct-tr" data-lt>Перевод</button><p class="ct-ru" hidden>${esc(L.ru || "")}</p>`);
+  sheetBody.onclick = e => {
+    if (e.target.closest("[data-ls]")) speak(L.say, { el: e.target.closest("[data-ls]") });
+    const t = e.target.closest("[data-lt]"); if (t) { const r = $(".ct-ru", sheetBody); r.hidden = !r.hidden; t.textContent = r.hidden ? "Перевод" : "Скрыть перевод"; }
+  };
 }
 function ctBagOpen() {
-  const q = ctQuest();
+  const b = CY.basket || {}, have = Object.keys(b).filter(k => b[k]);
   openSheet(`<div class="sh-head"><span class="eyebrow">Рюкзак и квесты</span><h2>🎒 Город</h2></div>
     <h3 class="ct-sh-h">В рюкзаке</h3>
     ${CY.items.length ? `<div class="ct-items">${CY.items.map(i => `<span class="ct-item">${CITY_ITEMS[i] ? CITY_ITEMS[i].e + " " + esc(CITY_ITEMS[i].t) : esc(i)}</span>`).join("")}</div>` : `<p class="ct-sh-lead">Пока пусто.</p>`}
+    ${have.length ? `<h3 class="ct-sh-h">В корзине</h3><div class="ct-items">${have.map(k => `<span class="ct-item">${esc(k)} ×${b[k]}</span>`).join("")}</div><button class="btn soft wide" data-ctput style="margin-top:8px">Вернуть всё на полки</button>` : ""}
     <h3 class="ct-sh-h">Квесты</h3>
-    <div class="ct-qs">${CITY_Q.map((x, i) => `<div class="ct-q ${i < CY.qi ? "done" : i === CY.qi ? "cur" : "lock"}"><b>${i < CY.qi ? "✓" : i === CY.qi ? "▶" : "🔒"} ${esc(x.t)}</b><span><span class="lvl-chip">${x.lvl}</span> ${i < CY.qi ? "★".repeat(CY.done[x.id] || 0) : i === CY.qi ? esc(x.steps[CY.si].goal) : esc(x.intro)}</span></div>`).join("")}</div>
+    <div class="ct-qs">${CITY_Q.map((x, i) => { const d = CY.done[x.id], cur = i === CY.qi; return `<div class="ct-q ${d ? "done" : cur ? "cur" : "lock"}"><b>${d ? "✓" : cur ? "▶" : "🔒"} ${esc(x.t)}</b><span><span class="lvl-chip">${x.lvl}</span> ${d ? "★".repeat(d) : cur ? esc(x.steps[CY.si].goal) : esc(x.intro)}</span></div>`; }).join("")}</div>
     <button class="btn soft wide" data-ct3d style="margin-top:14px">${CY.v2d ? "Показать город в 3D" : "Показать город в 2D (для слабых телефонов)"}</button>
     <button class="btn soft wide" data-ctreset style="margin-top:8px">Начать город заново</button>`);
-  sheetBody.onclick = e => { if (e.target.closest("[data-ct3d]")) { closeSheet(); ct3dToggle(); return; } if (e.target.closest("[data-ctreset]") && confirm("Начать все квесты города заново?")) { Object.assign(CY, { qi: 0, si: 0, items: [], done: {}, miss: 0 }); saveCity(); closeSheet(); ctHud(); ctKick(); } };
+  sheetBody.onclick = e => {
+    if (e.target.closest("[data-ctput]")) { CY.basket = {}; saveCity(); closeSheet(); ctHud(); return; }
+    if (e.target.closest("[data-ct3d]")) { closeSheet(); ct3dToggle(); return; }
+    if (e.target.closest("[data-ctreset]") && confirm("Начать все квесты города заново?")) { Object.assign(CY, { qi: 0, si: 0, qid: CITY_Q[0].id, items: [], done: {}, miss: 0, basket: {} }); saveCity(); closeSheet(); ctHud(); ctKick(); }
+  };
 }
 function cityPage() {
   let p = $("#cityPage");
@@ -20648,15 +21093,27 @@ function cityPage() {
     <div class="ct-top"><button class="icon-btn ct-b" data-cp="back" aria-label="Назад">${ICON.back}</button>
       <div class="ct-goal" id="ctGoal"></div>
       <button class="icon-btn ct-b" id="ctBag" data-cp="bag" aria-label="Рюкзак и квесты">🎒</button></div>
+    <div class="ct-lis" id="ctLis" hidden><button data-cp="hear">🔊 Послушать ещё</button><button data-cp="text">📝 Текст</button><span id="ctBasket" hidden></span></div>
+    <div class="ct-msg" id="ctMsg" hidden></div>
     <div class="ct-arrow" id="ctArrow" hidden><i>➜</i></div>
+    <div class="ct-joy" id="ctJoy" hidden><i></i></div>
+    <button class="ct-act" id="ctAct" hidden></button>
+    <div class="ct-fade" id="ctFade"></div>
     <section class="ct-dlg" id="ctDlg" hidden aria-live="polite"></section>`;
   p.addEventListener("click", e => {
     const b = e.target.closest("[data-cp]");
-    if (b) { if (b.dataset.cp === "back") closeCity(); if (b.dataset.cp === "bag") ctBagOpen(); if (b.dataset.cp === "help") ctHelp(); return; }
+    if (b) {
+      const k = b.dataset.cp;
+      if (k === "back") closeCity(); if (k === "bag") ctBagOpen(); if (k === "help") ctHelp();
+      if (k === "hear") { const L = ctListen(ctStep()); if (L) speak(L.say, { el: b }); }
+      if (k === "text") ctListenText();
+      return;
+    }
     if (e.target.closest("#ctDlg")) ctClick(e);
   });
-  $("#ctArrow", p).addEventListener("click", () => { const id = ctTarget(); if (id) ctTap({ clientX: 0, clientY: 0, npc: id }); });
-  $("#ctCv", p).addEventListener("pointerup", e => { if (e.pointerType === "mouse" && e.button) return; ctTap(e); });
+  $("#ctArrow", p).addEventListener("click", ctSeek);
+  $("#ctAct", p).addEventListener("click", () => { if (CG.act) CG.act.act(); });
+  ctPointer($("#ctCv", p));
   return p;
 }
 function ctResize() {
@@ -20664,21 +21121,22 @@ function ctResize() {
   const r = CG.cv.getBoundingClientRect(), s = CG.cs;
   CG.cv.width = Math.round(r.width * s); CG.cv.height = Math.round(r.height * s);
   if (CG.r3) CG.r3.resize();
-  ctKick();
+  ctHudPos(); ctKick();
 }
 function openCity() {
   const p = cityPage();
+  if (!CG.migrated) { ctMigrate(); CG.migrated = true; }
   CG.cv = $("#ctCv", p); CG.ctx = CG.cv.getContext("2d");
-  CG.cs = Math.min(2, window.devicePixelRatio || 1);
+  CG.cs = Math.min(1.5, window.devicePixelRatio || 1);
   if (!CG.cache) ctRenderCache();
-  const [x, y] = ctFree(CY.pos[0], CY.pos[1]) ? CY.pos : [17, 35];
-  CG.px = x * CT; CG.py = y * CT; CG.path = []; CG.face = 3;
+  const [x, y] = ctFree(CY.pos[0], CY.pos[1]) && !"DE".includes(ctTile(...CY.pos)) ? CY.pos : [16, 34];
+  CG.px = x * CT; CG.py = y * CT; CG.path = []; CG.face = 3; CG.zone = ctZoneAt(x, y) || "city"; CG.tile = x + "," + y;
   openPageEl(p);
   requestAnimationFrame(() => { ctResize(); ctHud(); });
   ct3d();
   if (!CY.seen) { CY.seen = true; saveCity(); setTimeout(ctHelp, 450); }
 }
-function closeCity() { if (CG.dlg) ctEnd(false); closePageEl(cityPage()); }
+function closeCity() { if (CG.dlg) ctEnd(false); CG.joy = null; CG.keys = {}; closePageEl(cityPage()); }
 // 3D: three.js и модели Kenney грузятся только здесь, из папки city3d; пока грузятся (или если не вышло) — город в 2D
 let ct3dWait = null;
 function ct3d() {
@@ -20687,10 +21145,12 @@ function ct3d() {
   const p = cityPage(), chip = document.createElement("div");
   chip.className = "ct-load"; chip.textContent = "Загружаю 3D-город…"; p.append(chip);
   ct3dWait = import("./city3d/city3d.js").then(m => m.start({
-    host: p, MAP: CITY_MAP, W: CITY_W, H: CITY_H, B: CITY_B, NPC: CITY_NPC, CT, state: CG, target: ctTarget, mark: () => CY.si === 0 ? "!" : "?",
-    paintGround: c => { for (let y = 0; y < CITY_H; y++) for (let x = 0; x < CITY_W; x++) ctGround(c, ctTile(x, y), x, y); }
+    host: p, MAP: CITY_MAP, W: CITY_W, H: CITY_H, CH: CITY_CH, B: CITY_B, NPC: CITY_NPC, CT, state: CG, target: ctTarget, mark: () => CY.si === 0 ? "!" : "?",
+    ZONES: CITY_ZONES, IN: CITY_IN, SHELF: CITY_SHELF, GOODS: CITY_GOODS, BOARD: CITY_BOARD, zoneAt: ctZoneAt,
+    spots: () => { const s = ctStep(); return s && s.find ? s.find.spots : []; },
+    paintGround: (c, y0, y1) => { c.save(); c.translate(0, -y0 * CT); for (let y = y0; y < y1; y++) for (let x = 0; x < CITY_W; x++) ctGround(c, ctTile(x, y), x, y); c.restore(); }
   })).then(r3 => {
-    r3.el.addEventListener("pointerup", e => { if (e.pointerType === "mouse" && e.button) return; ctTap(e); });
+    ctPointer(r3.el);
     if (CY.v2d) { r3.el.hidden = true; CG.r3off = r3; return; }
     CG.r3 = r3; CG.cv.style.visibility = "hidden"; ctResize();
   }).catch(err => { console.warn("3D-город не загрузился", err); toast("3D не загрузился — город в 2D"); })
@@ -20703,114 +21163,41 @@ function ct3dToggle() {
 }
 function ctHelp() {
   openSheet(`<div class="sh-head"><span class="eyebrow">Обучающая игра</span><h2>🏙️ Город</h2></div>
-    <p class="ct-sh-lead">Вы только что переехали в английский город. Жители говорят с вами по-английски, а вы отвечаете.</p>
-    <ul class="ct-help"><li><b>Ходить:</b> нажмите на клетку, и герой дойдёт сам.</li>
-      <li><b>Говорить:</b> нажмите на жителя. У того, кто ждёт вас по квесту, над головой <b>!</b> или <b>?</b>.</li>
-      <li><b>Отвечать:</b> выберите фразу или соберите её из слов. После каждого ответа — разбор, почему так.</li>
-      <li><b>🔊</b> озвучит реплику, «Перевод» покажет её по-русски.</li>
-      <li>Предметы из квестов лежат в <b>🎒 рюкзаке</b>. Там же список квестов.</li></ul>
+    <p class="ct-sh-lead">Вы только что переехали в английский город. Жители говорят с вами по-английски, а вы отвечаете и действуете.</p>
+    <ul class="ct-help"><li><b>Ходить:</b> ведите пальцем по экрану — как джойстиком. Или просто нажмите, куда идти.</li>
+      <li><b>Двери:</b> подойдите к двери кафе, магазина, почты — и вы внутри. Выход — коврик у нижней стены.</li>
+      <li><b>Говорить:</b> подойдите к жителю и нажмите кнопку <b>💬</b> внизу. Тот, кто ждёт вас, отмечен <b>!</b> или <b>?</b>.</li>
+      <li><b>Задания на слух:</b> вам объяснят дорогу, продиктуют список покупок или скажут, где искать вещь. Стрелки не будет — слушайте! <b>🔊</b> повторит, <b>📝</b> покажет текст.</li>
+      <li>Предметы лежат в <b>🎒 рюкзаке</b>. Там же список квестов.</li></ul>
     <button class="btn primary wide" data-ctgo>Пошли гулять!</button>`);
   sheetBody.onclick = e => { if (e.target.closest("[data-ctgo]")) closeSheet(); };
 }
 window.addEventListener("resize", () => { if (isOpen("#cityPage")) ctResize(); });
-
 // ---------- квесты города ----------
-Object.assign(CITY_ITEMS, {
-  coffee: { e: "☕", t: "Флэт уайт с собой" },
-  keys: { e: "🔑", t: "Ключи миссис Грин" }
-});
+// шаг: { npc, goal, dlg } — разговор; { go } — дойти, куда объяснили; { fetch } — собрать покупки по списку; { find } — найти вещь по описанию
+Object.assign(CITY_ITEMS, {"coffee": {"e": "☕", "t": "Флэт уайт с собой"}, "keys": {"e": "🔑", "t": "Ключи миссис Грин"}, "medicine": {"e": "💊", "t": "Таблетки от простуды"}, "scarf": {"e": "🧣", "t": "Шарф для мамы Тома"}, "parcel": {"e": "📦", "t": "Посылка для мамы Тома"}, "card": {"e": "🪪", "t": "Читательский билет"}, "book": {"e": "📕", "t": "Книга «Остров сокровищ»"}, "ball": {"e": "⚽", "t": "Мяч Макса"}, "picnic_bag": {"e": "🧺", "t": "Еда для пикника"}, "ticket": {"e": "🎫", "t": "Билет до Лондона"}, "shopping": {"e": "🛍️", "t": "Покупки для миссис Грин"}, "glasses": {"e": "👓", "t": "Очки миссис Грин"}});
 CITY_Q.push(
-  { id: "coffee", t: "Кофе с собой", lvl: "A2", intro: "Первое утро в городе: закажите кофе и познакомьтесь с соседом.",
-    steps: [
-      { npc: "barista", goal: "Закажи кофе с собой в кафе «Bean There»", give: "coffee", dlg: [
-        { say: "Hi! What can I get you?", ru: "Привет! Что вам предложить?", opts: [
-          { t: "Could I get a flat white, please?", ok: true, why: "<b>Could I get… , please?</b> — так вежливо заказывают в кафе. Could — мягкая форма can, а please в конце делает просьбу дружелюбной." },
-          { t: "I want a flat white.", ok: false, why: "«I want» в кафе звучит как требование ребёнка. Англичане просят: <b>Could I get… / Can I have…</b>" },
-          { t: "Give me a flat white.", ok: false, why: "Глагол в начале без please — это приказ. Вежливо: <b>Could I get a flat white, please?</b>" }] },
-        { say: "Sure. Is that to have here or to go?", ru: "Конечно. Здесь или с собой?", opts: [
-          { t: "To go, please.", ok: true, why: "<b>to go</b> — «с собой». В Британии ещё говорят <b>to take away</b>." },
-          { t: "With me, please.", ok: false, why: "Дословный перевод «с собой» не работает. Кофе с собой — <b>to go</b>." },
-          { t: "For go, please.", ok: false, why: "Здесь нужен <b>to</b>: to go. For перед глаголом не ставят." }] },
-        { say: "That's three pounds twenty. Card or cash?", ru: "С вас три фунта двадцать. Картой или наличными?", opts: [
-          { t: "By card, please.", ok: true, why: "Оплата картой — <b>by card</b>. Как by bus, by taxi: by + способ." },
-          { t: "With card, please.", ok: false, why: "С картой говорят <b>by</b>: by card. With card — ошибка русскоговорящих («с картой»)." },
-          { t: "On card, please.", ok: false, why: "Способ оплаты — <b>by card</b>. On card не говорят." }] },
-        { say: "Here you go. Have a nice day!", ru: "Держите. Хорошего дня!", task: "Ответьте: «Спасибо, и вам тоже!»", build: "Thanks, you too!", why: "<b>You too!</b> — «и вам тоже». Так отвечают на любое пожелание: Have a nice day! — You too!" }] },
-      { npc: "neighbour", goal: "Отнеси кофе соседу Тому у дома напротив", need: "coffee", take: "coffee",
-        wait: [{ say: "Morning! I'd love a coffee right now…", ru: "Доброе утро! Сейчас бы кофе…" }], dlg: [
-        { say: "Oh, hi! You're my new neighbour, aren't you?", ru: "О, привет! Ты мой новый сосед, да?", opts: [
-          { t: "Yes, I've just moved in.", ok: true, why: "<b>I've just moved in</b> — «я только что въехал». Present Perfect с just: дело только что случилось, и это важно сейчас — фото результата." },
-          { t: "Yes, I just move in.", ok: false, why: "После have нужна 3-я форма: <b>I've just moved in</b>. «I just move» — это «я обычно въезжаю»." },
-          { t: "Yes, I'm moving in yesterday.", ok: false, why: "С yesterday нужен кадр из прошлого: <b>I moved in yesterday</b>. -ing здесь не подходит." }] },
-        { say: "Nice to meet you! Is that coffee for me?", ru: "Приятно познакомиться! Это кофе мне?", opts: [
-          { t: "Yes, it's for you.", ok: true, why: "Для кого-то — <b>for</b>: it's for you, a present for my mum." },
-          { t: "Yes, it's to you.", ok: false, why: "«Тебе» в смысле «для тебя» — <b>for you</b>. To — это направление: I gave it to you." },
-          { t: "Yes, it's your.", ok: false, why: "your всегда стоит перед предметом: your coffee. Без предмета — <b>yours</b>: it's yours." }] },
-        { say: "That's so kind of you! Thanks a lot.", ru: "Как мило с твоей стороны! Большое спасибо.", task: "Ответьте: «Пожалуйста!» (в ответ на спасибо)", build: "You're welcome.", why: "В ответ на спасибо говорят <b>You're welcome</b> или <b>No problem</b>. Please так не используют — оно только для просьб." },
-        { say: "By the way, Mrs Green looks worried. She's in the park. Maybe you can help her?", ru: "Кстати, миссис Грин чем-то встревожена. Она в парке. Может, поможешь ей?" }] }
-    ],
-    words: [["to go", "с собой (о еде, напитках)"], ["Could I get…, please?", "Можно мне…, пожалуйста?"], ["by card", "картой"], ["You too!", "И вам тоже!"], ["I've just moved in.", "Я только что въехал."], ["neighbour", "сосед"], ["That's so kind of you!", "Как мило с вашей стороны!"], ["You're welcome.", "Пожалуйста (в ответ на спасибо)."]] },
-
-  { id: "keys", t: "Ключи миссис Грин", lvl: "A2", intro: "Соседка потеряла ключи. Расспросите людей и найдите их.",
-    steps: [
-      { npc: "grandma", goal: "Узнай, что случилось у миссис Грин в парке", dlg: [
-        { say: "Oh dear, oh dear… I can't find my keys!", ru: "Ох, батюшки… Не могу найти ключи!", opts: [
-          { t: "What's wrong? Can I help you?", ok: true, why: "<b>What's wrong?</b> — «Что случилось?». <b>Can I help you?</b> — предложить помощь." },
-          { t: "What's wrong with you?", ok: false, why: "«What's wrong with you?» звучит как «Что с тобой не так?!» — грубо. Просто: <b>What's wrong?</b>" },
-          { t: "Can I helping you?", ok: false, why: "После can глагол в 1-й форме, без -ing: <b>Can I help you?</b>" }] },
-        { say: "I had them this morning. I went to the shop and then to the library.", ru: "Утром они были у меня. Я ходила в магазин, а потом в библиотеку.", opts: [
-          { t: "When did you last see them?", ok: true, why: "Вопрос о прошлом: <b>did</b> + 1-я форма. Did забрал себе прошлое, поэтому see остаётся «как обычно»." },
-          { t: "When you last saw them?", ok: false, why: "В вопросе нужен помощник: <b>When did you last see them?</b>" },
-          { t: "When did you last saw them?", ok: false, why: "После did — только 1-я форма: see, а не saw. Прошлое уже показал did." }] },
-        { say: "At the corner shop, I think. I paid for some milk there.", ru: "Кажется, в магазинчике на углу. Я там платила за молоко.", opts: [
-          { t: "Don't worry. I'll ask at the shop.", ok: true, why: "Решение в моменте — <b>I'll</b> (I will): «Я схожу спрошу»." },
-          { t: "Don't worry. I ask at the shop.", ok: false, why: "I ask — «я обычно спрашиваю». Решение прямо сейчас — <b>I'll ask</b>." },
-          { t: "Don't worry. I asked at the shop.", ok: false, why: "asked — уже спросил в прошлом. А вы только собираетесь: <b>I'll ask</b>." }] }] },
-      { npc: "shopkeeper", goal: "Спроси в магазине «Corner Shop» про ключи", dlg: [
-        { say: "Hello, love! What can I do for you?", ru: "Здравствуй, дорогой! Чем могу помочь?", opts: [
-          { t: "Hi! Did anyone find any keys this morning?", ok: true, why: "В вопросе — <b>anyone</b> и <b>any</b>. Did + find: прошлое показал did." },
-          { t: "Hi! Did someone found keys this morning?", ok: false, why: "После did — 1-я форма: find. А в вопросе лучше <b>anyone</b>." },
-          { t: "Hi! Somebody find keys this morning?", ok: false, why: "Без did это не вопрос, и find не в прошлом. Правильно: <b>Did anyone find any keys?</b>" }] },
-        { say: "Keys? No, sorry. But Mrs Green talked to Ms Clarke at the library.", ru: "Ключи? Нет, извини. Но миссис Грин разговаривала с мисс Кларк в библиотеке.", task: "Скажите: «Спасибо, я схожу в библиотеку»", build: "Thanks, I'll go to the library.", why: "Решение в моменте — <b>I'll</b>. Куда — <b>to the library</b>: библиотека конкретная, та самая." }] },
-      { npc: "librarian", goal: "Загляни в библиотеку к мисс Кларк", give: "keys", dlg: [
-        { say: "Hello! Are you looking for something?", ru: "Здравствуйте! Вы что-то ищете?", opts: [
-          { t: "Yes, I'm looking for Mrs Green's keys.", ok: true, why: "<b>look for</b> — «искать». <b>Mrs Green's keys</b> — «ключи миссис Грин»: человек + 's + вещь." },
-          { t: "Yes, I'm looking Mrs Green's keys.", ok: false, why: "«Искать» — всегда <b>look for</b>. Без for получается бессмыслица." },
-          { t: "Yes, I'm looking for keys of Mrs Green.", ok: false, why: "С людьми принадлежность показывают через <b>'s</b>: Mrs Green's keys." }] },
-        { say: "Oh, these keys? She left them on the desk an hour ago!", ru: "А, эти ключи? Она оставила их на столе час назад!", opts: [
-          { t: "Great! Can I take them to her?", ok: true, why: "keys — их много, значит <b>them</b>. После can — глагол без to." },
-          { t: "Great! Can I take it to her?", ok: false, why: "keys — множественное число, поэтому <b>them</b>, а не it." },
-          { t: "Great! Can I to take them to her?", ok: false, why: "После can не ставят to: <b>Can I take…</b>" }] }] },
-      { npc: "grandma", goal: "Верни ключи миссис Грин", need: "keys", take: "keys",
-        wait: [{ say: "Did you find anything, dear?", ru: "Нашёл что-нибудь, милый?" }], dlg: [
-        { say: "My keys! Where did you find them?", ru: "Мои ключи! Где ты их нашёл?", opts: [
-          { t: "At the library. You left them on the desk.", ok: true, why: "Это кадр из прошлого: <b>left</b> — 2-я форма leave." },
-          { t: "At the library. You leaved them on the desk.", ok: false, why: "leave — неправильный глагол: leave – <b>left</b> – left." },
-          { t: "At the library. You have left them there an hour ago.", ok: false, why: "С ago — только кадр из прошлого: <b>You left them…</b> Have left с ago не бывает." }] },
-        { say: "Thank you so much, dear. You're a star!", ru: "Огромное спасибо, милый. Ты просто чудо!", task: "Ответьте: «Не за что. Хорошего дня!»", build: "No problem. Have a nice day!", why: "<b>No problem</b> — «не за что». <b>Have a nice day!</b> — «Хорошего дня!»" }] }
-    ],
-    words: [["What's wrong?", "Что случилось?"], ["When did you last see…?", "Когда ты в последний раз видел…?"], ["look for", "искать"], ["Did anyone find…?", "Кто-нибудь находил…?"], ["leave → left", "оставить"], ["an hour ago", "час назад"], ["No problem.", "Не за что."], ["You're a star!", "Ты просто чудо!"]] }
-);
-// квесты 3–8: аптека, посылка, библиотека, мяч, пикник, билет
-Object.assign(CITY_ITEMS, {"medicine": {"e": "💊", "t": "Таблетки от простуды"}, "scarf": {"e": "🧣", "t": "Шарф для мамы Тома"}, "parcel": {"e": "📦", "t": "Посылка для мамы Тома"}, "card": {"e": "🪪", "t": "Читательский билет"}, "book": {"e": "📕", "t": "Книга «Остров сокровищ»"}, "ball": {"e": "⚽", "t": "Мяч Макса"}, "picnic_bag": {"e": "🧺", "t": "Еда для пикника"}, "ticket": {"e": "🎫", "t": "Билет до Лондона"}});
-CITY_Q.push(
-  {"id": "headache", "t": "Голова раскалывается", "lvl": "A2", "intro": "Сосед Том заболел: сходите в аптеку и принесите ему лекарство.", "steps": [{"npc": "neighbour", "goal": "Узнай, как дела у Тома", "dlg": [{"say": "Hi… Sorry, I don't feel very well today.", "ru": "Привет… Извини, мне сегодня нехорошо.", "opts": [{"t": "Oh no! What's the matter?", "ok": true, "why": "<b>What's the matter?</b> — «Что случилось?», когда человеку плохо. Звучит с участием."}, {"t": "Oh no! How do you feel yourself?", "ok": false, "why": "«Как ты себя чувствуешь» дословно не переводится: yourself здесь лишнее. Правильно: <b>How are you feeling?</b> или <b>What's the matter?</b>"}, {"t": "Oh no! What has happened with you?", "ok": false, "why": "«Случилось с тобой» — happened <b>to</b> you, а не with. А когда человеку плохо, проще всего спросить: <b>What's the matter?</b>"}]}, {"say": "I've got a terrible headache and a sore throat. I think it's a cold.", "ru": "У меня ужасно болят голова и горло. Кажется, это простуда.", "opts": [{"t": "Shall I go to the pharmacy for you?", "ok": true, "why": "<b>Shall I…?</b> — «Мне сходить…?». Так предлагают помощь. <b>for you</b> — «для тебя, вместо тебя»."}, {"t": "Do I go to the pharmacy for you?", "ok": false, "why": "Do I go…? — «Я обычно хожу…?». Помощь предлагают через <b>Shall I…?</b>"}, {"t": "I go to the pharmacy for you?", "ok": false, "why": "Без помощника это не вопрос, а «я хожу в аптеку». Предложить помощь: <b>Shall I go…?</b>"}]}, {"say": "Would you? That's really kind. Mr Patel at the pharmacy is very good.", "ru": "Правда? Это очень мило. Мистер Патель в аптеке — отличный специалист.", "task": "Ответьте: «Конечно. Я скоро вернусь»", "build": "Of course. I'll be back soon.", "why": "<b>I'll be back</b> — «я вернусь»: решение в моменте, поэтому will. <b>soon</b> — «скоро»."}]}, {"npc": "pharmacist", "goal": "Опиши мистеру Пателю, что с Томом, и возьми лекарство", "give": "medicine", "dlg": [{"say": "Good morning! How can I help?", "ru": "Доброе утро! Чем могу помочь?", "opts": [{"t": "My neighbour has got a bad cold.", "ok": true, "why": "Болезни описывают через <b>have got</b>: have got a cold, have got a headache. Сосед — это he, поэтому <b>has got</b>."}, {"t": "My neighbour have got a bad cold.", "ok": false, "why": "My neighbour — это he, а с he/she/it нужно <b>has got</b>, не have got."}, {"t": "My neighbour is cold.", "ok": false, "why": "is cold — «ему холодно, он замёрз». А «у него простуда» — <b>he has got a cold</b>."}]}, {"say": "Oh dear. How long has he had it?", "ru": "Ох. И сколько он уже болеет?", "opts": [{"t": "He's had it for three days.", "ok": true, "why": "Болеет с прошлого и до сих пор — <b>has had</b> (фото результата: had — 3-я форма have). Сколько длится — <b>for</b> three days."}, {"t": "He has it for three days.", "ok": false, "why": "По-русски «болеет три дня» — в настоящем. А в английском, если началось в прошлом и длится до сих пор, нужно <b>he's had it for…</b>"}, {"t": "He's had it since three days.", "ok": false, "why": "<b>since</b> — с какого момента (since Monday), <b>for</b> — сколько длится (for three days)."}]}, {"say": "Has he got a temperature?", "ru": "У него есть температура?", "opts": [{"t": "No, he hasn't. But he's got a sore throat.", "ok": true, "why": "Вопрос с has got — краткий ответ тоже с has: <b>No, he hasn't</b>. Болит горло — <b>a sore throat</b>."}, {"t": "No, he doesn't. But he's got a sore throat.", "ok": false, "why": "Вопрос начинался с has, значит и в ответе <b>has</b>: No, he hasn't. Doesn't — ответ на вопросы с does."}, {"t": "No, he hasn't got. But he's got a sore throat.", "ok": false, "why": "В кратком ответе got не повторяют: <b>No, he hasn't.</b>"}]}, {"say": "OK. Try these tablets. They're good for colds and headaches.", "ru": "Хорошо. Попробуйте эти таблетки. Они хорошо помогают от простуды и головной боли.", "opts": [{"t": "Thanks. How often should he take them?", "ok": true, "why": "<b>How often</b> — «как часто». В вопросе should стоит перед he. Таблеток много — значит <b>them</b>."}, {"t": "Thanks. How often he should take them?", "ok": false, "why": "В вопросе помощник встаёт перед подлежащим: <b>How often should he…?</b>"}, {"t": "Thanks. How often should he take it?", "ok": false, "why": "tablets — множественное число, поэтому <b>them</b>, а не it."}]}, {"say": "Two tablets three times a day, after food. Never on an empty stomach!", "ru": "По две таблетки три раза в день, после еды. Ни в коем случае не на пустой желудок!", "task": "Повторите, чтобы не забыть: «Три раза в день, после еды»", "build": "Three times a day, after food.", "why": "<b>three times a day</b> — «три раза в день»: без in и без the. <b>after food</b> — после еды, <b>before food</b> — до еды."}]}, {"npc": "neighbour", "goal": "Отнеси таблетки Тому", "need": "medicine", "take": "medicine", "wait": [{"say": "Oh, my head… Have you been to the pharmacy yet?", "ru": "Ох, голова… Ты уже сходил в аптеку?"}], "dlg": [{"say": "You're back! Did Mr Patel have anything for me?", "ru": "Ты вернулся! У мистера Пателя нашлось что-нибудь для меня?", "opts": [{"t": "Yes, he gave me these tablets for you.", "ok": true, "why": "Кадр из прошлого: <b>gave</b> — 2-я форма give. Таблеток много — <b>these</b>."}, {"t": "Yes, he gived me these tablets for you.", "ok": false, "why": "give — неправильный глагол: give – <b>gave</b> – given."}, {"t": "Yes, he gave me this tablets for you.", "ok": false, "why": "this — для одной вещи. Таблеток много — <b>these tablets</b>."}]}, {"say": "Brilliant. So how many do I take?", "ru": "Отлично. И сколько мне принимать?", "opts": [{"t": "Two tablets three times a day, after food.", "ok": true, "why": "Всё, как сказал мистер Патель: <b>three times a day</b>, <b>after food</b>."}, {"t": "Two tablets three times in a day, after food.", "ok": false, "why": "«В день» — просто <b>a day</b>: three times a day. In здесь лишнее."}, {"t": "Two tablets three times a day, after eat.", "ok": false, "why": "После after нужно существительное или -ing: <b>after food</b> или after eating."}]}, {"say": "Thanks, mate. I'll take them right now.", "ru": "Спасибо, дружище. Сейчас же приму.", "task": "Пожелайте: «Выздоравливай скорее!»", "build": "Get well soon!", "why": "<b>Get well soon!</b> — обычное пожелание больному: «Поправляйся скорее!»"}, {"say": "Thanks! Oh, and it's my mum's birthday on Saturday… Come round tomorrow, I need a favour.", "ru": "Спасибо! Ой, а у мамы в субботу день рождения… Заходи завтра, мне нужна твоя помощь."}]}], "words": [["I've got a headache.", "У меня болит голова."], ["a sore throat", "больное горло"], ["a cold", "простуда"], ["What's the matter?", "Что случилось?"], ["Shall I…?", "Мне (сделать)…?"], ["How long have you had it?", "Как давно это у вас?"], ["three times a day", "три раза в день"], ["after food", "после еды"], ["Get well soon!", "Выздоравливай скорее!"]]},
-  {"id": "parcel", "t": "Посылка для мамы", "lvl": "A2", "intro": "Помогите Тому отправить маме подарок ко дню рождения.", "steps": [{"npc": "neighbour", "goal": "Зайди к Тому: ему нужна помощь", "give": "scarf", "dlg": [{"say": "Hi! Those tablets really helped. I'm much better today.", "ru": "Привет! Таблетки очень помогли. Мне сегодня гораздо лучше.", "opts": [{"t": "Great! I'm glad you're feeling better.", "ok": true, "why": "<b>feeling better</b> — «чувствуешь себя лучше». Better — сравнительная форма good и well."}, {"t": "Great! I'm glad you feel yourself better.", "ok": false, "why": "yourself здесь лишнее: «чувствовать себя» — просто <b>feel</b>: you're feeling better."}, {"t": "Great! I'm glad you're feeling more good.", "ok": false, "why": "У good особая форма: good – <b>better</b> – best. More good не говорят."}]}, {"say": "But Mr Patel says I should stay at home. And I've got this scarf for Mum's birthday, but I can't post it!", "ru": "Но мистер Патель говорит, что мне надо сидеть дома. А у меня шарф маме на день рождения, и я не могу его отправить!", "opts": [{"t": "I can post it for you, if you like.", "ok": true, "why": "После can — глагол без to: <b>can post</b>. Шарф один — <b>it</b>. <b>if you like</b> — «если хочешь», звучит мягко."}, {"t": "I can to post it for you, if you like.", "ok": false, "why": "После can не ставят to: <b>I can post…</b>"}, {"t": "I can post them for you, if you like.", "ok": false, "why": "Шарф один — значит <b>it</b>. Them — когда вещей много."}]}, {"say": "Would you? You're a star! You'll need a box and a card. Rosie's got everything at her shop.", "ru": "Правда? Ты чудо! Понадобятся коробка и открытка. У Рози в магазине есть всё.", "task": "Скажите: «Без проблем. Я схожу к Рози»", "build": "No problem. I'll go to Rosie's.", "why": "Решение в моменте — <b>I'll</b>. <b>Rosie's</b> — «к Рози», то есть в её магазин: слово shop можно не говорить."}, {"say": "Here's the scarf. And here's Mum's address in Edinburgh.", "ru": "Вот шарф. А вот мамин адрес в Эдинбурге."}]}, {"npc": "shopkeeper", "goal": "Купи коробку и открытку в магазине «Corner Shop»", "need": "scarf", "take": "scarf", "give": "parcel", "wait": [{"say": "Hello, love! Need anything today?", "ru": "Здравствуй, дорогой! Тебе сегодня что-нибудь нужно?"}], "dlg": [{"say": "Hello, love! What can I do for you?", "ru": "Здравствуй, дорогой! Чем могу помочь?", "opts": [{"t": "Hi! Have you got any small boxes?", "ok": true, "why": "В вопросе — <b>any</b>: «есть ли какие-нибудь». Коробок может быть много: box → <b>boxes</b>."}, {"t": "Hi! Have you got any small box?", "ok": false, "why": "После any в вопросе исчисляемое ставят во множественное число: <b>any boxes</b>."}, {"t": "Hi! Is there any small boxes?", "ok": false, "why": "boxes — множественное, значит нужно are, а не is. А проще и вежливее: <b>Have you got any…?</b>"}]}, {"say": "Yes, I've got some here. This one's perfect for a scarf. Anything else?", "ru": "Да, вот есть несколько. Эта как раз для шарфа. Что-нибудь ещё?", "opts": [{"t": "Yes, I'd like a birthday card too, please.", "ok": true, "why": "Одна открытка — <b>a card</b>. <b>I'd like…, please</b> — вежливое «я бы хотел»."}, {"t": "Yes, I'd like some birthday card too.", "ok": false, "why": "some ставят перед множественным (some cards) или неисчисляемым (some milk). Одна открытка — <b>a card</b>."}, {"t": "Yes, give me a birthday card too.", "ok": false, "why": "Глагол в начале без please — это приказ. Вежливо: <b>I'd like…, please</b>."}]}, {"say": "Here you go: a box and a card.", "ru": "Вот, пожалуйста: коробка и открытка.", "opts": [{"t": "Thanks. How much is that altogether?", "ok": true, "why": "Про деньги спрашивают <b>How much</b>. <b>altogether</b> — «всего, за всё вместе»."}, {"t": "Thanks. How many is that altogether?", "ok": false, "why": "many — для того, что считают штуками (how many boxes?). Цена — <b>how much</b>."}, {"t": "Thanks. How much it costs altogether?", "ok": false, "why": "В вопросе нужен помощник: How much does it cost? Или проще всего: <b>How much is that?</b>"}]}, {"say": "Three pounds fifty. Let me help you pack it… There! Now take it to Sam at the post office.", "ru": "Три фунта пятьдесят. Давай помогу упаковать… Готово! Теперь неси посылку Сэму на почту."}]}, {"npc": "postman", "goal": "Отправь посылку на почте", "need": "parcel", "take": "parcel", "wait": [{"say": "Hi! Got a letter or a parcel to send? I'm here till five.", "ru": "Привет! Есть письмо или посылка? Я здесь до пяти."}], "dlg": [{"say": "Hello! How can I help?", "ru": "Здравствуйте! Чем могу помочь?", "opts": [{"t": "I'd like to send this parcel to Edinburgh, please.", "ok": true, "why": "<b>I'd like to…, please</b> — вежливо. Куда отправляем — <b>to</b> Edinburgh."}, {"t": "I'd like to send this parcel in Edinburgh, please.", "ok": false, "why": "Направление «куда» — <b>to</b>. In — «где, внутри»."}, {"t": "I want send this parcel to Edinburgh.", "ok": false, "why": "После want нужен to: want to send. А вежливее — <b>I'd like to send…, please</b>."}]}, {"say": "Sure. Just write the address here, please.", "ru": "Конечно. Напишите здесь адрес, пожалуйста.", "task": "Попросите: «Можно воспользоваться вашей ручкой?»", "build": "Could I use your pen?", "why": "<b>Could I…?</b> — вежливая просьба. «Воспользоваться» — просто <b>use</b>, без предлога."}, {"say": "Thanks. Do you want first class or second class?", "ru": "Спасибо. Отправить первым классом или вторым?", "opts": [{"t": "How long will it take?", "ok": true, "why": "<b>How long will it take?</b> — «Сколько времени это займёт?». Это вопрос, поэтому will стоит перед it."}, {"t": "How long it will take?", "ok": false, "why": "В вопросе will ставят перед подлежащим: <b>How long will it take?</b>"}, {"t": "How much time will it go?", "ok": false, "why": "«Сколько будет идти» дословно не переводится. О времени в пути: <b>How long will it take?</b>"}]}, {"say": "Second class takes two or three days. First class usually gets there the next day.", "ru": "Вторым классом — два-три дня. Первым обычно доходит на следующий день.", "opts": [{"t": "First class, please. It must arrive by Friday.", "ok": true, "why": "<b>by Friday</b> — «к пятнице, не позже пятницы». После must — глагол без to."}, {"t": "First class, please. It must arrive until Friday.", "ok": false, "why": "until — «до» в смысле «всё время до» (I'll wait until Friday). Срок «к пятнице» — <b>by Friday</b>."}, {"t": "First class, please. It must to arrive by Friday.", "ok": false, "why": "После must не ставят to: <b>must arrive</b>."}]}, {"say": "No problem, it'll be there by Friday. Oh, have you joined the library yet? Ms Clarke loves new faces.", "ru": "Без проблем, будет на месте к пятнице. Кстати, ты уже записался в библиотеку? Мисс Кларк всегда рада новым лицам."}]}], "words": [["parcel", "посылка"], ["Have you got any…?", "У вас есть…?"], ["birthday card", "открытка на день рождения"], ["How much is that altogether?", "Сколько с меня всего?"], ["I'd like to send…", "Я хотел бы отправить…"], ["address", "адрес"], ["How long will it take?", "Сколько времени это займёт?"], ["by Friday", "к пятнице"], ["first class", "первым классом (быстрая доставка)"]]},
+  {"id": "coffee", "t": "Кофе с собой", "lvl": "A2", "intro": "Первое утро в городе: познакомьтесь с соседом и найдите кафе по его объяснению — без стрелки, на слух.", "steps": [{"npc": "neighbour", "goal": "Познакомься с соседом Томом у соседнего дома", "dlg": [{"say": "Oh, hi! You're my new neighbour, aren't you?", "ru": "О, привет! Ты мой новый сосед, да?", "opts": [{"t": "Yes, I've just moved in.", "ok": true, "why": "<b>I've just moved in</b> — «я только что въехал». Present Perfect с just: дело только что случилось, и это важно сейчас — фото результата."}, {"t": "Yes, I just move in.", "ok": false, "why": "После have нужна 3-я форма: <b>I've just moved in</b>. «I just move» — это «я обычно въезжаю»."}, {"t": "Yes, I'm moving in yesterday.", "ok": false, "why": "С yesterday нужен кадр из прошлого: <b>I moved in yesterday</b>. -ing здесь не подходит."}]}, {"say": "Nice to meet you! I'm Tom. Listen, I'm waiting for a delivery and I'm dying for a coffee. Could you get me one?", "ru": "Приятно познакомиться! Я Том. Слушай, я жду доставку, а кофе хочется — сил нет. Возьмёшь мне?", "opts": [{"t": "Sure! What would you like?", "ok": true, "why": "<b>What would you like?</b> — «Что ты будешь?» про то, что нужно прямо сейчас. <b>would like</b> — мягкое «хотел бы», так спрашивают вежливо."}, {"t": "Sure! What do you like?", "ok": false, "why": "<b>What do you like?</b> — «Что тебе вообще нравится?», про вкусы по жизни. А нужен заказ сейчас: <b>What would you like?</b>"}, {"t": "Sure! What you would like?", "ok": false, "why": "В вопросе помощник would встаёт перед you: <b>What would you like?</b> — как в «Would you…?»."}]}, {"say": "A flat white, please. The café is called Bean There. Walk to the main road and turn right. Cross the road at the zebra crossing. Then cross the main road at the next zebra crossing. Walk past the pharmacy. The café is on your left.", "ru": "Флэт уайт, пожалуйста. Кафе называется Bean There. Дойди до главной дороги и поверни направо. Перейди дорогу по зебре. Потом перейди главную дорогу по следующей зебре. Пройди мимо аптеки. Кафе будет слева.", "task": "Запомните дорогу и ответьте: «Понял. Скоро вернусь»", "build": "Got it. I'll be back soon.", "why": "<b>Got it</b> — «понял», коротко и по-дружески. <b>I'll be back</b> — решение прямо сейчас, поэтому will. <b>soon</b> — «скоро», стоит в конце."}]}, {"go": {"zone": "cafe", "say": "A flat white, please. The café is called Bean There. Walk to the main road and turn right. Cross the road at the zebra crossing. Then cross the main road at the next zebra crossing. Walk past the pharmacy. The café is on your left.", "ru": "Флэт уайт, пожалуйста. Кафе называется Bean There. Дойди до главной дороги и поверни направо. Перейди дорогу по зебре. Потом перейди главную дорогу по следующей зебре. Пройди мимо аптеки. Кафе будет слева.", "ok": "Bean There! Found it.", "okRu": "Bean There! Нашёл.", "wrong": [{"zone": "pharmacy", "say": "This is the pharmacy. Hmm, wrong place!", "ru": "Это аптека. Не туда! Послушайте ещё раз: 🔊 вверху."}, {"zone": "shop", "say": "This is the corner shop. Hmm, wrong place!", "ru": "Это магазин на углу. Не туда! Послушайте ещё раз: 🔊 вверху."}, {"zone": "post", "say": "This is the post office. Hmm, wrong place!", "ru": "Это почта. Не туда! Послушайте ещё раз: 🔊 вверху."}, {"zone": "library", "say": "This is the library. Hmm, wrong place!", "ru": "Это библиотека. Не туда! Послушайте ещё раз: 🔊 вверху."}, {"zone": "station", "say": "This is the station. Hmm, wrong place!", "ru": "Это вокзал. Не туда! Послушайте ещё раз: 🔊 вверху."}]}, "from": "neighbour", "goal": "Найди кафе по объяснению Тома (🔊 — послушать ещё)"}, {"npc": "barista", "goal": "Закажи кофе с собой у Лили", "give": "coffee", "dlg": [{"say": "Hi! What can I get you?", "ru": "Привет! Что вам предложить?", "opts": [{"t": "Could I get a flat white, please?", "ok": true, "why": "<b>Could I get… , please?</b> — так вежливо заказывают в кафе. Could — мягкая форма can, а please в конце делает просьбу дружелюбной."}, {"t": "I want a flat white.", "ok": false, "why": "«I want» в кафе звучит как требование ребёнка. Англичане просят: <b>Could I get… / Can I have…</b>"}, {"t": "Give me a flat white.", "ok": false, "why": "Глагол в начале без please — это приказ. Вежливо: <b>Could I get a flat white, please?</b>"}]}, {"say": "Sure. Is that to have here or to go?", "ru": "Конечно. Здесь или с собой?", "opts": [{"t": "To go, please.", "ok": true, "why": "<b>to go</b> — «с собой». В Британии ещё говорят <b>to take away</b>."}, {"t": "With me, please.", "ok": false, "why": "Дословный перевод «с собой» не работает. Кофе с собой — <b>to go</b>."}, {"t": "For go, please.", "ok": false, "why": "Здесь нужен <b>to</b>: to go. For перед глаголом не ставят."}]}, {"say": "That's three pounds twenty. Card or cash?", "ru": "С вас три фунта двадцать. Картой или наличными?", "opts": [{"t": "By card, please.", "ok": true, "why": "Оплата картой — <b>by card</b>. Как by bus, by taxi: by + способ."}, {"t": "With card, please.", "ok": false, "why": "С картой говорят <b>by</b>: by card. With card — ошибка русскоговорящих («с картой»)."}, {"t": "On card, please.", "ok": false, "why": "Способ оплаты — <b>by card</b>. On card не говорят."}]}, {"say": "Here you go. Have a nice day!", "ru": "Держите. Хорошего дня!", "task": "Ответьте: «Спасибо, и вам тоже!»", "build": "Thanks, you too!", "why": "<b>You too!</b> — «и вам тоже». Так отвечают на любое пожелание: Have a nice day! — You too!"}]}, {"npc": "neighbour", "goal": "Отнеси кофе Тому", "need": "coffee", "take": "coffee", "wait": [{"say": "Still waiting for my delivery… and my coffee!", "ru": "Всё ещё жду доставку… и кофе!"}], "dlg": [{"say": "Oh, you're back! Is that coffee for me?", "ru": "О, ты вернулся! Это кофе мне?", "opts": [{"t": "Yes, it's for you.", "ok": true, "why": "Для кого-то — <b>for</b>: it's for you, a present for my mum."}, {"t": "Yes, it's to you.", "ok": false, "why": "«Тебе» в смысле «для тебя» — <b>for you</b>. To — это направление: I gave it to you."}, {"t": "Yes, it's your.", "ok": false, "why": "your всегда стоит перед предметом: your coffee. Без предмета — <b>yours</b>: it's yours."}]}, {"say": "That's so kind of you! Thanks a lot.", "ru": "Как мило с твоей стороны! Большое спасибо.", "task": "Ответьте: «Пожалуйста!» (в ответ на спасибо)", "build": "You're welcome.", "why": "В ответ на спасибо говорят <b>You're welcome</b> или <b>No problem</b>. Please так не используют — оно только для просьб."}, {"say": "By the way, Mrs Green looks worried. She's in the park. Maybe you can help her?", "ru": "Кстати, миссис Грин чем-то встревожена. Она в парке. Может, поможешь ей?"}]}], "words": [["to go", "с собой (о еде, напитках)"], ["Could I get…, please?", "Можно мне…, пожалуйста?"], ["by card", "картой"], ["You too!", "И вам тоже!"], ["I've just moved in.", "Я только что въехал."], ["neighbour", "сосед"], ["That's so kind of you!", "Как мило с вашей стороны!"], ["You're welcome.", "Пожалуйста (в ответ на спасибо)."], ["What would you like?", "Что ты будешь? (вежливо)"], ["turn right", "повернуть направо"], ["zebra crossing", "пешеходный переход, зебра"], ["on your left", "слева от тебя"], ["Got it.", "Понял."]]},
+  {"id": "keys", "t": "Ключи миссис Грин", "lvl": "A2", "intro": "Соседка потеряла ключи. Расспросите людей и найдите их.", "steps": [{"npc": "grandma", "goal": "Узнай, что случилось у миссис Грин в парке", "dlg": [{"say": "Oh dear, oh dear… I can't find my keys!", "ru": "Ох, батюшки… Не могу найти ключи!", "opts": [{"t": "What's wrong? Can I help you?", "ok": true, "why": "<b>What's wrong?</b> — «Что случилось?». <b>Can I help you?</b> — предложить помощь."}, {"t": "What's wrong with you?", "ok": false, "why": "«What's wrong with you?» звучит как «Что с тобой не так?!» — грубо. Просто: <b>What's wrong?</b>"}, {"t": "Can I helping you?", "ok": false, "why": "После can глагол в 1-й форме, без -ing: <b>Can I help you?</b>"}]}, {"say": "I had them this morning. I went to the shop and then to the library.", "ru": "Утром они были у меня. Я ходила в магазин, а потом в библиотеку.", "opts": [{"t": "When did you last see them?", "ok": true, "why": "Вопрос о прошлом: <b>did</b> + 1-я форма. Did забрал себе прошлое, поэтому see остаётся «как обычно»."}, {"t": "When you last saw them?", "ok": false, "why": "В вопросе нужен помощник: <b>When did you last see them?</b>"}, {"t": "When did you last saw them?", "ok": false, "why": "После did — только 1-я форма: see, а не saw. Прошлое уже показал did."}]}, {"say": "At the corner shop, I think. I paid for some milk there.", "ru": "Кажется, в магазинчике на углу. Я там платила за молоко.", "opts": [{"t": "Don't worry. I'll ask at the shop.", "ok": true, "why": "Решение в моменте — <b>I'll</b> (I will): «Я схожу спрошу»."}, {"t": "Don't worry. I ask at the shop.", "ok": false, "why": "I ask — «я обычно спрашиваю». Решение прямо сейчас — <b>I'll ask</b>."}, {"t": "Don't worry. I asked at the shop.", "ok": false, "why": "asked — уже спросил в прошлом. А вы только собираетесь: <b>I'll ask</b>."}]}]}, {"npc": "shopkeeper", "goal": "Спроси в магазине «Corner Shop» про ключи", "dlg": [{"say": "Hello, love! What can I do for you?", "ru": "Здравствуй, дорогой! Чем могу помочь?", "opts": [{"t": "Hi! Did anyone find any keys this morning?", "ok": true, "why": "В вопросе — <b>anyone</b> и <b>any</b>. Did + find: прошлое показал did."}, {"t": "Hi! Did someone found keys this morning?", "ok": false, "why": "После did — 1-я форма: find. А в вопросе лучше <b>anyone</b>."}, {"t": "Hi! Somebody find keys this morning?", "ok": false, "why": "Без did это не вопрос, и find не в прошлом. Правильно: <b>Did anyone find any keys?</b>"}]}, {"say": "Keys? No, sorry. But Mrs Green talked to Ms Clarke at the library.", "ru": "Ключи? Нет, извини. Но миссис Грин разговаривала с мисс Кларк в библиотеке.", "task": "Скажите: «Спасибо, я схожу в библиотеку»", "build": "Thanks, I'll go to the library.", "why": "Решение в моменте — <b>I'll</b>. Куда — <b>to the library</b>: библиотека конкретная, та самая."}]}, {"npc": "librarian", "goal": "Загляни в библиотеку к мисс Кларк", "give": "keys", "dlg": [{"say": "Hello! Are you looking for something?", "ru": "Здравствуйте! Вы что-то ищете?", "opts": [{"t": "Yes, I'm looking for Mrs Green's keys.", "ok": true, "why": "<b>look for</b> — «искать». <b>Mrs Green's keys</b> — «ключи миссис Грин»: человек + 's + вещь."}, {"t": "Yes, I'm looking Mrs Green's keys.", "ok": false, "why": "«Искать» — всегда <b>look for</b>. Без for получается бессмыслица."}, {"t": "Yes, I'm looking for keys of Mrs Green.", "ok": false, "why": "С людьми принадлежность показывают через <b>'s</b>: Mrs Green's keys."}]}, {"say": "Oh, these keys? She left them on the desk an hour ago!", "ru": "А, эти ключи? Она оставила их на столе час назад!", "opts": [{"t": "Great! Can I take them to her?", "ok": true, "why": "keys — их много, значит <b>them</b>. После can — глагол без to."}, {"t": "Great! Can I take it to her?", "ok": false, "why": "keys — множественное число, поэтому <b>them</b>, а не it."}, {"t": "Great! Can I to take them to her?", "ok": false, "why": "После can не ставят to: <b>Can I take…</b>"}]}]}, {"npc": "grandma", "goal": "Верни ключи миссис Грин", "need": "keys", "take": "keys", "wait": [{"say": "Did you find anything, dear?", "ru": "Нашёл что-нибудь, милый?"}], "dlg": [{"say": "My keys! Where did you find them?", "ru": "Мои ключи! Где ты их нашёл?", "opts": [{"t": "At the library. You left them on the desk.", "ok": true, "why": "Это кадр из прошлого: <b>left</b> — 2-я форма leave."}, {"t": "At the library. You leaved them on the desk.", "ok": false, "why": "leave — неправильный глагол: leave – <b>left</b> – left."}, {"t": "At the library. You have left them there an hour ago.", "ok": false, "why": "С ago — только кадр из прошлого: <b>You left them…</b> Have left с ago не бывает."}]}, {"say": "Thank you so much, dear. You're a star!", "ru": "Огромное спасибо, милый. Ты просто чудо!", "task": "Ответьте: «Не за что. Хорошего дня!»", "build": "No problem. Have a nice day!", "why": "<b>No problem</b> — «не за что». <b>Have a nice day!</b> — «Хорошего дня!»"}]}], "words": [["What's wrong?", "Что случилось?"], ["When did you last see…?", "Когда ты в последний раз видел…?"], ["look for", "искать"], ["Did anyone find…?", "Кто-нибудь находил…?"], ["leave → left", "оставить"], ["an hour ago", "час назад"], ["No problem.", "Не за что."], ["You're a star!", "Ты просто чудо!"]]},
+  {"id": "shopping", "t": "Список покупок", "lvl": "A2", "intro": "Миссис Грин просит сходить в магазин. Список скажут на словах — запомните и соберите с полок.", "steps": [{"npc": "grandma", "goal": "Поговори с миссис Грин в парке", "dlg": [{"say": "Thank you again for my keys, dear. Could I ask you one more favour?", "ru": "Ещё раз спасибо за ключи, милый. Можно попросить тебя ещё об одном одолжении?", "opts": [{"t": "Of course. What can I do for you?", "ok": true, "why": "Вопрос строится так: вопросительное слово <b>what</b> → помощник <b>can</b> → кто (<b>I</b>) → глагол <b>do</b>. <b>What can I do for you?</b> — «Чем могу помочь?»"}, {"t": "Of course. What I can do for you?", "ok": false, "why": "Без перестановки это не вопрос, а кусок предложения. В вопросе can встаёт перед I: <b>What can I do…?</b>"}, {"t": "Of course. What can I to do for you?", "ok": false, "why": "После can глагол идёт голым, без to: can do, can go. <b>What can I do for you?</b>"}]}, {"say": "My legs are tired today. Could you do some shopping for me at Rosie's?", "ru": "У меня сегодня устали ноги. Не сходишь для меня в магазин к Рози?", "opts": [{"t": "Sure. What do you need?", "ok": true, "why": "<b>What do you need?</b> — «Что тебе нужно?». В вопросе в настоящем времени нужен помощник <b>do</b>: он ставится перед you."}, {"t": "Sure. What are you needing?", "ok": false, "why": "<b>need</b> — глагол состояния, его не ставят в -ing. Не «are you needing», а <b>What do you need?</b>"}, {"t": "Sure. What you need?", "ok": false, "why": "Без помощника do вопрос неполный. Правильно: <b>What do you need?</b>"}]}, {"say": "I need two apples, a loaf of bread, a bottle of milk and some cheese. Can you remember that?", "ru": "Мне нужно два яблока, буханку хлеба, бутылку молока и немного сыра. Запомнишь?", "task": "Повторите список, чтобы запомнить", "build": "Two apples, bread, milk and cheese.", "why": "Хлеб, молоко, сыр поштучно не считают, поэтому их меряют: <b>a loaf of bread</b> — буханка, <b>a bottle of milk</b> — бутылка, <b>some cheese</b> — немного. А яблоки считаются: <b>two apples</b>, с -s."}]}, {"npc": "shopkeeper", "from": "grandma", "goal": "Набери в «Corner Shop» всё по списку и подойди к Рози", "give": "shopping", "fetch": {"list": {"apples": 2, "bread": 1, "milk": 1, "cheese": 1}, "say": "I need two apples, a loaf of bread, a bottle of milk and some cheese. Can you remember that?", "ru": "Мне нужно два яблока, буханку хлеба, бутылку молока и немного сыра. Запомнишь?", "wait": "Hello, love! Take what you need from the shelves and come back to me.", "waitRu": "Здравствуй, дорогой! Бери с полок что нужно и подходи ко мне."}, "dlg": [{"say": "Let's see… two apples, bread, milk and cheese. That's four pounds twenty.", "ru": "Так… два яблока, хлеб, молоко и сыр. С вас четыре фунта двадцать.", "opts": [{"t": "Here you are. Could I have a bag, please?", "ok": true, "why": "<b>Here you are</b> — «вот, пожалуйста», когда что-то протягиваете. <b>a bag</b> — один пакет, который можно посчитать, поэтому a."}, {"t": "Here are you. Could I have a bag, please?", "ok": false, "why": "Это готовая фраза, порядок в ней не меняется: <b>Here you are</b>. «Here are you» звучит как «вот ты где»."}, {"t": "Here you are. Could I have bag, please?", "ok": false, "why": "Перед одним предметом, который можно посчитать, нужен a: <b>a bag</b>."}]}, {"say": "Of course. And here's your change: eighty pence. Say hello to Mrs Green for me!", "ru": "Конечно. И вот сдача: восемьдесят пенсов. Передавай привет миссис Грин!", "task": "Ответьте: «Спасибо, передам. Пока!»", "build": "Thanks, I will. Bye!", "why": "<b>I will</b> — короткий ответ на просьбу: «передам». Целиком было бы I will say hello to her, но повторять всё не нужно."}]}, {"npc": "grandma", "goal": "Отнеси покупки миссис Грин", "need": "shopping", "take": "shopping", "wait": [{"say": "Did you get everything, dear? Two apples, bread, milk and cheese.", "ru": "Всё купил, милый? Два яблока, хлеб, молоко и сыр."}], "dlg": [{"say": "Oh, you've got everything! Did Rosie give you any change?", "ru": "О, ты всё купил! Рози дала сдачу?", "opts": [{"t": "Yes, here's your change: eighty pence.", "ok": true, "why": "<b>change</b> — сдача. Её не считают поштучно, поэтому без -s и без a: <b>your change</b>."}, {"t": "Yes, here are your changes.", "ok": false, "why": "change в значении «сдача» не бывает во множественном числе: <b>here's your change</b>."}, {"t": "Yes, here is yours change.", "ok": false, "why": "Перед словом нужен <b>your</b>. yours ставят, когда слова после нет: It's yours."}]}, {"say": "You're so kind. Would you like a cup of tea?", "ru": "Ты такой добрый. Хочешь чашечку чая?", "opts": [{"t": "I'd love one, thank you.", "ok": true, "why": "<b>I'd love one</b> = I would love one — «с удовольствием». <b>one</b> заменяет a cup of tea, чтобы не повторять."}, {"t": "I love one, thank you.", "ok": false, "why": "<b>I love</b> — «я люблю вообще». На предложение отвечают через would: <b>I'd love one</b>."}, {"t": "I'd love it one, thank you.", "ok": false, "why": "it и one вместе не ставят: one уже заменяет чашку чая. <b>I'd love one.</b>"}]}, {"say": "Lovely. Oh, Tom was looking for you earlier. He didn't look very well.", "ru": "Чудесно. Ой, тебя утром искал Том. Выглядел он неважно."}]}], "words": [["a loaf of bread", "буханка хлеба"], ["a bottle of milk", "бутылка молока"], ["some cheese", "немного сыра"], ["What do you need?", "Что тебе нужно?"], ["Here you are.", "Вот, пожалуйста."], ["change", "сдача"], ["I'd love one.", "С удовольствием (возьму)."], ["Could you do some shopping for me?", "Не сходишь для меня в магазин?"]]},
+  {"id": "headache", "t": "Голова раскалывается", "lvl": "A2", "intro": "Сосед Том заболел: сходите в аптеку и принесите ему лекарство.", "steps": [{"npc": "neighbour", "goal": "Узнай, как дела у Тома", "dlg": [{"say": "Hi… Sorry, I don't feel very well today.", "ru": "Привет… Извини, мне сегодня нехорошо.", "opts": [{"t": "Oh no! What's the matter?", "ok": true, "why": "<b>What's the matter?</b> — «Что случилось?», когда человеку плохо. Звучит с участием."}, {"t": "Oh no! How do you feel yourself?", "ok": false, "why": "«Как ты себя чувствуешь» дословно не переводится: yourself здесь лишнее. Правильно: <b>How are you feeling?</b> или <b>What's the matter?</b>"}, {"t": "Oh no! What has happened with you?", "ok": false, "why": "«Случилось с тобой» — happened <b>to</b> you, а не with. А когда человеку плохо, проще всего спросить: <b>What's the matter?</b>"}]}, {"say": "I've got a terrible headache and a sore throat. I think it's a cold.", "ru": "У меня ужасно болят голова и горло. Кажется, это простуда.", "opts": [{"t": "Shall I go to the pharmacy for you?", "ok": true, "why": "<b>Shall I…?</b> — «Мне сходить…?». Так предлагают помощь. <b>for you</b> — «для тебя, вместо тебя»."}, {"t": "Do I go to the pharmacy for you?", "ok": false, "why": "Do I go…? — «Я обычно хожу…?». Помощь предлагают через <b>Shall I…?</b>"}, {"t": "I go to the pharmacy for you?", "ok": false, "why": "Без помощника это не вопрос, а «я хожу в аптеку». Предложить помощь: <b>Shall I go…?</b>"}]}, {"say": "Would you? That's really kind. Mr Patel at the pharmacy is very good.", "ru": "Правда? Это очень мило. Мистер Патель в аптеке — отличный специалист.", "task": "Ответьте: «Конечно. Я скоро вернусь»", "build": "Of course. I'll be back soon.", "why": "<b>I'll be back</b> — «я вернусь»: решение в моменте, поэтому will. <b>soon</b> — «скоро»."}, {"say": "Thanks! The pharmacy is easy to find. Walk to the main road and turn right. Cross the road at the zebra crossing, then cross the main road. The pharmacy is the first building on your left. It's got a green sign.", "ru": "Спасибо! Аптеку найти легко. Дойди до главной дороги и поверни направо. Перейди дорогу по зебре, потом перейди главную дорогу. Аптека — первое здание слева. У неё зелёная вывеска."}]}, {"go": {"zone": "pharmacy", "say": "Thanks! The pharmacy is easy to find. Walk to the main road and turn right. Cross the road at the zebra crossing, then cross the main road. The pharmacy is the first building on your left. It's got a green sign.", "ru": "Спасибо! Аптеку найти легко. Дойди до главной дороги и поверни направо. Перейди дорогу по зебре, потом перейди главную дорогу. Аптека — первое здание слева. У неё зелёная вывеска.", "ok": "The pharmacy! Found it.", "okRu": "Аптека! Нашёл.", "wrong": [{"zone": "cafe", "say": "This is the café, Bean There. Hmm, wrong place!", "ru": "Это кафе Bean There. Не туда! Послушайте ещё раз: 🔊 вверху."}, {"zone": "shop", "say": "This is the corner shop. Hmm, wrong place!", "ru": "Это магазин на углу. Не туда! Послушайте ещё раз: 🔊 вверху."}, {"zone": "post", "say": "This is the post office. Hmm, wrong place!", "ru": "Это почта. Не туда! Послушайте ещё раз: 🔊 вверху."}, {"zone": "library", "say": "This is the library. Hmm, wrong place!", "ru": "Это библиотека. Не туда! Послушайте ещё раз: 🔊 вверху."}, {"zone": "station", "say": "This is the station. Hmm, wrong place!", "ru": "Это вокзал. Не туда! Послушайте ещё раз: 🔊 вверху."}]}, "from": "neighbour", "goal": "Найди аптеку по объяснению Тома (🔊 — послушать ещё)"}, {"npc": "pharmacist", "goal": "Опиши мистеру Пателю, что с Томом, и возьми лекарство", "give": "medicine", "dlg": [{"say": "Good morning! How can I help?", "ru": "Доброе утро! Чем могу помочь?", "opts": [{"t": "My neighbour has got a bad cold.", "ok": true, "why": "Болезни описывают через <b>have got</b>: have got a cold, have got a headache. Сосед — это he, поэтому <b>has got</b>."}, {"t": "My neighbour have got a bad cold.", "ok": false, "why": "My neighbour — это he, а с he/she/it нужно <b>has got</b>, не have got."}, {"t": "My neighbour is cold.", "ok": false, "why": "is cold — «ему холодно, он замёрз». А «у него простуда» — <b>he has got a cold</b>."}]}, {"say": "Oh dear. How long has he had it?", "ru": "Ох. И сколько он уже болеет?", "opts": [{"t": "He's had it for three days.", "ok": true, "why": "Болеет с прошлого и до сих пор — <b>has had</b> (фото результата: had — 3-я форма have). Сколько длится — <b>for</b> three days."}, {"t": "He has it for three days.", "ok": false, "why": "По-русски «болеет три дня» — в настоящем. А в английском, если началось в прошлом и длится до сих пор, нужно <b>he's had it for…</b>"}, {"t": "He's had it since three days.", "ok": false, "why": "<b>since</b> — с какого момента (since Monday), <b>for</b> — сколько длится (for three days)."}]}, {"say": "Has he got a temperature?", "ru": "У него есть температура?", "opts": [{"t": "No, he hasn't. But he's got a sore throat.", "ok": true, "why": "Вопрос с has got — краткий ответ тоже с has: <b>No, he hasn't</b>. Болит горло — <b>a sore throat</b>."}, {"t": "No, he doesn't. But he's got a sore throat.", "ok": false, "why": "Вопрос начинался с has, значит и в ответе <b>has</b>: No, he hasn't. Doesn't — ответ на вопросы с does."}, {"t": "No, he hasn't got. But he's got a sore throat.", "ok": false, "why": "В кратком ответе got не повторяют: <b>No, he hasn't.</b>"}]}, {"say": "OK. Try these tablets. They're good for colds and headaches.", "ru": "Хорошо. Попробуйте эти таблетки. Они хорошо помогают от простуды и головной боли.", "opts": [{"t": "Thanks. How often should he take them?", "ok": true, "why": "<b>How often</b> — «как часто». В вопросе should стоит перед he. Таблеток много — значит <b>them</b>."}, {"t": "Thanks. How often he should take them?", "ok": false, "why": "В вопросе помощник встаёт перед подлежащим: <b>How often should he…?</b>"}, {"t": "Thanks. How often should he take it?", "ok": false, "why": "tablets — множественное число, поэтому <b>them</b>, а не it."}]}, {"say": "Two tablets three times a day, after food. Never on an empty stomach!", "ru": "По две таблетки три раза в день, после еды. Ни в коем случае не на пустой желудок!", "task": "Повторите, чтобы не забыть: «Три раза в день, после еды»", "build": "Three times a day, after food.", "why": "<b>three times a day</b> — «три раза в день»: без in и без the. <b>after food</b> — после еды, <b>before food</b> — до еды."}]}, {"npc": "neighbour", "goal": "Отнеси таблетки Тому", "need": "medicine", "take": "medicine", "wait": [{"say": "Oh, my head… Have you been to the pharmacy yet?", "ru": "Ох, голова… Ты уже сходил в аптеку?"}], "dlg": [{"say": "You're back! Did Mr Patel have anything for me?", "ru": "Ты вернулся! У мистера Пателя нашлось что-нибудь для меня?", "opts": [{"t": "Yes, he gave me these tablets for you.", "ok": true, "why": "Кадр из прошлого: <b>gave</b> — 2-я форма give. Таблеток много — <b>these</b>."}, {"t": "Yes, he gived me these tablets for you.", "ok": false, "why": "give — неправильный глагол: give – <b>gave</b> – given."}, {"t": "Yes, he gave me this tablets for you.", "ok": false, "why": "this — для одной вещи. Таблеток много — <b>these tablets</b>."}]}, {"say": "Brilliant. So how many do I take?", "ru": "Отлично. И сколько мне принимать?", "opts": [{"t": "Two tablets three times a day, after food.", "ok": true, "why": "Всё, как сказал мистер Патель: <b>three times a day</b>, <b>after food</b>."}, {"t": "Two tablets three times in a day, after food.", "ok": false, "why": "«В день» — просто <b>a day</b>: three times a day. In здесь лишнее."}, {"t": "Two tablets three times a day, after eat.", "ok": false, "why": "После after нужно существительное или -ing: <b>after food</b> или after eating."}]}, {"say": "Thanks, mate. I'll take them right now.", "ru": "Спасибо, дружище. Сейчас же приму.", "task": "Пожелайте: «Выздоравливай скорее!»", "build": "Get well soon!", "why": "<b>Get well soon!</b> — обычное пожелание больному: «Поправляйся скорее!»"}, {"say": "Thanks! Oh, and it's my mum's birthday on Saturday… Come round tomorrow, I need a favour.", "ru": "Спасибо! Ой, а у мамы в субботу день рождения… Заходи завтра, мне нужна твоя помощь."}]}], "words": [["I've got a headache.", "У меня болит голова."], ["a sore throat", "больное горло"], ["a cold", "простуда"], ["What's the matter?", "Что случилось?"], ["Shall I…?", "Мне (сделать)…?"], ["How long have you had it?", "Как давно это у вас?"], ["three times a day", "три раза в день"], ["after food", "после еды"], ["Get well soon!", "Выздоравливай скорее!"], ["the first building on your left", "первое здание слева"], ["It's got a green sign.", "У него зелёная вывеска."]]},
+  {"id": "parcel", "t": "Посылка для мамы", "lvl": "A2", "intro": "Помогите Тому отправить маме подарок ко дню рождения.", "steps": [{"npc": "neighbour", "goal": "Зайди к Тому: ему нужна помощь", "give": "scarf", "dlg": [{"say": "Hi! Those tablets really helped. I'm much better today.", "ru": "Привет! Таблетки очень помогли. Мне сегодня гораздо лучше.", "opts": [{"t": "Great! I'm glad you're feeling better.", "ok": true, "why": "<b>feeling better</b> — «чувствуешь себя лучше». Better — сравнительная форма good и well."}, {"t": "Great! I'm glad you feel yourself better.", "ok": false, "why": "yourself здесь лишнее: «чувствовать себя» — просто <b>feel</b>: you're feeling better."}, {"t": "Great! I'm glad you're feeling more good.", "ok": false, "why": "У good особая форма: good – <b>better</b> – best. More good не говорят."}]}, {"say": "But Mr Patel says I should stay at home. And I've got this scarf for Mum's birthday, but I can't post it!", "ru": "Но мистер Патель говорит, что мне надо сидеть дома. А у меня шарф маме на день рождения, и я не могу его отправить!", "opts": [{"t": "I can post it for you, if you like.", "ok": true, "why": "После can — глагол без to: <b>can post</b>. Шарф один — <b>it</b>. <b>if you like</b> — «если хочешь», звучит мягко."}, {"t": "I can to post it for you, if you like.", "ok": false, "why": "После can не ставят to: <b>I can post…</b>"}, {"t": "I can post them for you, if you like.", "ok": false, "why": "Шарф один — значит <b>it</b>. Them — когда вещей много."}]}, {"say": "Would you? You're a star! You'll need a box and a card. Rosie's got everything at her shop.", "ru": "Правда? Ты чудо! Понадобятся коробка и открытка. У Рози в магазине есть всё.", "task": "Скажите: «Без проблем. Я схожу к Рози»", "build": "No problem. I'll go to Rosie's.", "why": "Решение в моменте — <b>I'll</b>. <b>Rosie's</b> — «к Рози», то есть в её магазин: слово shop можно не говорить."}, {"say": "Here's the scarf. And here's Mum's address in Edinburgh.", "ru": "Вот шарф. А вот мамин адрес в Эдинбурге."}]}, {"npc": "shopkeeper", "goal": "Купи коробку и открытку в магазине «Corner Shop»", "need": "scarf", "take": "scarf", "give": "parcel", "wait": [{"say": "Hello, love! Need anything today?", "ru": "Здравствуй, дорогой! Тебе сегодня что-нибудь нужно?"}], "dlg": [{"say": "Hello, love! What can I do for you?", "ru": "Здравствуй, дорогой! Чем могу помочь?", "opts": [{"t": "Hi! Have you got any small boxes?", "ok": true, "why": "В вопросе — <b>any</b>: «есть ли какие-нибудь». Коробок может быть много: box → <b>boxes</b>."}, {"t": "Hi! Have you got any small box?", "ok": false, "why": "После any в вопросе исчисляемое ставят во множественное число: <b>any boxes</b>."}, {"t": "Hi! Is there any small boxes?", "ok": false, "why": "boxes — множественное, значит нужно are, а не is. А проще и вежливее: <b>Have you got any…?</b>"}]}, {"say": "Yes, I've got some here. This one's perfect for a scarf. Anything else?", "ru": "Да, вот есть несколько. Эта как раз для шарфа. Что-нибудь ещё?", "opts": [{"t": "Yes, I'd like a birthday card too, please.", "ok": true, "why": "Одна открытка — <b>a card</b>. <b>I'd like…, please</b> — вежливое «я бы хотел»."}, {"t": "Yes, I'd like some birthday card too.", "ok": false, "why": "some ставят перед множественным (some cards) или неисчисляемым (some milk). Одна открытка — <b>a card</b>."}, {"t": "Yes, give me a birthday card too.", "ok": false, "why": "Глагол в начале без please — это приказ. Вежливо: <b>I'd like…, please</b>."}]}, {"say": "Here you go: a box and a card.", "ru": "Вот, пожалуйста: коробка и открытка.", "opts": [{"t": "Thanks. How much is that altogether?", "ok": true, "why": "Про деньги спрашивают <b>How much</b>. <b>altogether</b> — «всего, за всё вместе»."}, {"t": "Thanks. How many is that altogether?", "ok": false, "why": "many — для того, что считают штуками (how many boxes?). Цена — <b>how much</b>."}, {"t": "Thanks. How much it costs altogether?", "ok": false, "why": "В вопросе нужен помощник: How much does it cost? Или проще всего: <b>How much is that?</b>"}]}, {"say": "Three pounds fifty. Let me help you pack it… There! Now take it to Sam at the post office.", "ru": "Три фунта пятьдесят. Давай помогу упаковать… Готово! Теперь неси посылку Сэму на почту."}, {"say": "The post office is just round the corner. When you go out, walk to the main road and turn right. The post office is the next building on your right.", "ru": "Почта совсем рядом, за углом. Как выйдешь, дойди до главной дороги и поверни направо. Почта — следующее здание справа."}]}, {"go": {"zone": "post", "say": "The post office is just round the corner. When you go out, walk to the main road and turn right. The post office is the next building on your right.", "ru": "Почта совсем рядом, за углом. Как выйдешь, дойди до главной дороги и поверни направо. Почта — следующее здание справа.", "ok": "The post office! Found it.", "okRu": "Почта! Нашёл.", "wrong": [{"zone": "cafe", "say": "This is the café, Bean There. Hmm, wrong place!", "ru": "Это кафе Bean There. Не туда! Послушайте ещё раз: 🔊 вверху."}, {"zone": "pharmacy", "say": "This is the pharmacy. Hmm, wrong place!", "ru": "Это аптека. Не туда! Послушайте ещё раз: 🔊 вверху."}, {"zone": "shop", "say": "This is the corner shop. Hmm, wrong place!", "ru": "Это магазин на углу. Не туда! Послушайте ещё раз: 🔊 вверху."}, {"zone": "library", "say": "This is the library. Hmm, wrong place!", "ru": "Это библиотека. Не туда! Послушайте ещё раз: 🔊 вверху."}, {"zone": "station", "say": "This is the station. Hmm, wrong place!", "ru": "Это вокзал. Не туда! Послушайте ещё раз: 🔊 вверху."}]}, "from": "shopkeeper", "goal": "Найди почту по объяснению Рози (🔊 — послушать ещё)"}, {"npc": "postman", "goal": "Отправь посылку на почте", "need": "parcel", "take": "parcel", "wait": [{"say": "Hi! Got a letter or a parcel to send? I'm here till five.", "ru": "Привет! Есть письмо или посылка? Я здесь до пяти."}], "dlg": [{"say": "Hello! How can I help?", "ru": "Здравствуйте! Чем могу помочь?", "opts": [{"t": "I'd like to send this parcel to Edinburgh, please.", "ok": true, "why": "<b>I'd like to…, please</b> — вежливо. Куда отправляем — <b>to</b> Edinburgh."}, {"t": "I'd like to send this parcel in Edinburgh, please.", "ok": false, "why": "Направление «куда» — <b>to</b>. In — «где, внутри»."}, {"t": "I want send this parcel to Edinburgh.", "ok": false, "why": "После want нужен to: want to send. А вежливее — <b>I'd like to send…, please</b>."}]}, {"say": "Sure. Just write the address here, please.", "ru": "Конечно. Напишите здесь адрес, пожалуйста.", "task": "Попросите: «Можно воспользоваться вашей ручкой?»", "build": "Could I use your pen?", "why": "<b>Could I…?</b> — вежливая просьба. «Воспользоваться» — просто <b>use</b>, без предлога."}, {"say": "Thanks. Do you want first class or second class?", "ru": "Спасибо. Отправить первым классом или вторым?", "opts": [{"t": "How long will it take?", "ok": true, "why": "<b>How long will it take?</b> — «Сколько времени это займёт?». Это вопрос, поэтому will стоит перед it."}, {"t": "How long it will take?", "ok": false, "why": "В вопросе will ставят перед подлежащим: <b>How long will it take?</b>"}, {"t": "How much time will it go?", "ok": false, "why": "«Сколько будет идти» дословно не переводится. О времени в пути: <b>How long will it take?</b>"}]}, {"say": "Second class takes two or three days. First class usually gets there the next day.", "ru": "Вторым классом — два-три дня. Первым обычно доходит на следующий день.", "opts": [{"t": "First class, please. It must arrive by Friday.", "ok": true, "why": "<b>by Friday</b> — «к пятнице, не позже пятницы». После must — глагол без to."}, {"t": "First class, please. It must arrive until Friday.", "ok": false, "why": "until — «до» в смысле «всё время до» (I'll wait until Friday). Срок «к пятнице» — <b>by Friday</b>."}, {"t": "First class, please. It must to arrive by Friday.", "ok": false, "why": "После must не ставят to: <b>must arrive</b>."}]}, {"say": "No problem, it'll be there by Friday. Oh, have you joined the library yet? Ms Clarke loves new faces.", "ru": "Без проблем, будет на месте к пятнице. Кстати, ты уже записался в библиотеку? Мисс Кларк всегда рада новым лицам."}]}], "words": [["parcel", "посылка"], ["Have you got any…?", "У вас есть…?"], ["birthday card", "открытка на день рождения"], ["How much is that altogether?", "Сколько с меня всего?"], ["I'd like to send…", "Я хотел бы отправить…"], ["address", "адрес"], ["How long will it take?", "Сколько времени это займёт?"], ["by Friday", "к пятнице"], ["first class", "первым классом (быстрая доставка)"], ["just round the corner", "совсем рядом, за углом"], ["the next building on your right", "следующее здание справа"]]},
   {"id": "library", "t": "Читательский билет", "lvl": "A2", "intro": "Запишитесь в библиотеку и возьмите книгу, которую советует Макс.", "steps": [{"npc": "librarian", "goal": "Запишись в библиотеку у мисс Кларк", "give": "card", "dlg": [{"say": "Hello again! What can I do for you today?", "ru": "Снова здравствуйте! Чем могу помочь сегодня?", "opts": [{"t": "Could I join the library, please?", "ok": true, "why": "<b>join</b> — «вступить, записаться» (в библиотеку, клуб, спортзал). <b>Could I…?</b> — вежливая просьба."}, {"t": "Could I write myself into the library?", "ok": false, "why": "«Записаться» дословно не переводится. Записаться в библиотеку — <b>join the library</b>."}, {"t": "Could I to join the library, please?", "ok": false, "why": "После could не ставят to: <b>Could I join…</b>"}]}, {"say": "Of course! First, what's your address?", "ru": "Конечно! Сначала — ваш адрес?", "opts": [{"t": "It's 14 Mill Lane.", "ok": true, "why": "В английском адресе номер дома идёт <b>перед</b> названием улицы: <b>14 Mill Lane</b>."}, {"t": "It's Mill Lane 14.", "ok": false, "why": "Порядок «улица, дом», как в русском, здесь не работает. Сначала номер: <b>14 Mill Lane</b>."}, {"t": "It's Mill Lane, house 14.", "ok": false, "why": "Слово house в адресе не пишут. Просто номер и улица: <b>14 Mill Lane</b>."}]}, {"say": "Mill Lane… How do you spell Mill?", "ru": "Милл-лейн… Как пишется Mill?", "task": "Продиктуйте по буквам: M, I и две L (две одинаковые буквы подряд — double)", "build": "M, I, double L.", "why": "Когда диктуют по буквам, две одинаковые подряд называют <b>double</b>: double L, double O, double S."}, {"say": "Thank you. And what's your phone number?", "ru": "Спасибо. А номер телефона?", "opts": [{"t": "It's oh seven seven double oh, nine double oh, one two three.", "ok": true, "why": "Номер читают <b>по одной цифре</b>. Ноль называют <b>oh</b>, две одинаковые подряд — <b>double</b>."}, {"t": "It's null seven seven null null, nine null null, one two three.", "ok": false, "why": "null — это «пустое значение» у программистов. Ноль в номере — <b>oh</b> (или zero)."}, {"t": "It's seven hundred and seventy, nine hundred, a hundred and twenty-three.", "ok": false, "why": "Номер телефона не читают как числа. Цифры называют <b>по одной</b>: oh, seven, seven…"}]}, {"say": "Perfect. Here's your library card! You can borrow up to five books.", "ru": "Отлично. Вот ваш читательский билет! Можно брать до пяти книг."}]}, {"npc": "kid", "goal": "Спроси у Макса в парке, какую книгу почитать", "dlg": [{"say": "Hi! Is that a library card? Do you like reading?", "ru": "Привет! Это читательский билет? Ты любишь читать?", "opts": [{"t": "Yes, I love reading.", "ok": true, "why": "После love, like, enjoy часто ставят <b>-ing</b>: <b>I love reading</b> — «я люблю читать»."}, {"t": "Yes, I love read.", "ok": false, "why": "После love нужен <b>reading</b> (или to read). Просто read здесь нельзя."}, {"t": "Yes, I like to reading.", "ok": false, "why": "Либо to read, либо reading — вместе нельзя. Проще всего: <b>I love reading</b>."}]}, {"say": "Me too! I read every evening before bed.", "ru": "Я тоже! Я читаю каждый вечер перед сном.", "opts": [{"t": "Can you recommend a good book?", "ok": true, "why": "<b>recommend</b> — «посоветовать» книгу, фильм, кафе. После can — 1-я форма глагола."}, {"t": "Can you advise me a good book?", "ok": false, "why": "advise — советовать, что <b>делать</b>. А книгу, фильм или кафе советуют через <b>recommend</b>."}, {"t": "Can you recommending a good book?", "ok": false, "why": "После can — 1-я форма, без -ing: <b>Can you recommend…?</b>"}]}, {"say": "Treasure Island! It's about pirates. I've read it three times!", "ru": "«Остров сокровищ»! Он про пиратов. Я читал его три раза!", "opts": [{"t": "Sounds great! Could you lend me your copy?", "ok": true, "why": "<b>lend</b> — «дать на время» кому-то. <b>lend me</b> — «одолжи мне»."}, {"t": "Sounds great! Could you borrow me your copy?", "ok": false, "why": "<b>borrow</b> — «взять на время» себе, <b>lend</b> — «дать на время». Просим дать: <b>lend me</b>."}, {"t": "Sounds great! Could you lend your copy for me?", "ok": false, "why": "Кому дать — <b>lend me</b> или lend it <b>to</b> me. For здесь не подходит."}]}, {"say": "Sorry, it's my brother's. But you can borrow it from the library!", "ru": "Извини, она моего брата. Но ты можешь взять её в библиотеке!", "task": "Ответьте: «Хорошая идея! Я возьму её в библиотеке»", "build": "Good idea! I'll borrow it from the library.", "why": "<b>borrow from</b> — «взять на время у кого-то или где-то». <b>I'll</b> — решение в моменте."}]}, {"npc": "librarian", "goal": "Возьми «Остров сокровищ» в библиотеке", "need": "card", "give": "book", "wait": [{"say": "You'll need your library card to borrow books.", "ru": "Чтобы брать книги, нужен читательский билет."}], "dlg": [{"say": "Hello! Back already?", "ru": "Здравствуйте! Уже вернулись?", "opts": [{"t": "Yes! Could I borrow Treasure Island, please?", "ok": true, "why": "Берёте книгу себе на время — <b>borrow</b>. <b>Could I</b> + 1-я форма — вежливая просьба."}, {"t": "Yes! Could I lend Treasure Island, please?", "ok": false, "why": "lend — дать кому-то. Вы берёте себе — <b>borrow</b>."}, {"t": "Yes! Could I borrowed Treasure Island, please?", "ok": false, "why": "После could — 1-я форма: <b>borrow</b>, без -ed."}]}, {"say": "Let me check… Yes, here it is. Can I see your library card?", "ru": "Сейчас посмотрю… Да, вот она. Можно ваш читательский билет?", "task": "Ответьте, протягивая билет: «Конечно. Вот, пожалуйста»", "build": "Sure. Here you are.", "why": "<b>Here you are</b> — «вот, пожалуйста», когда что-то протягиваешь. Please в этом смысле не используют."}, {"say": "Thanks. You can keep the book for three weeks.", "ru": "Спасибо. Книгу можно держать три недели.", "opts": [{"t": "What happens if I return it late?", "ok": true, "why": "После if о будущем ставят обычную форму, без will: <b>if I return</b>. What здесь — подлежащее, как it, поэтому <b>happens</b>."}, {"t": "What happens if I will return it late?", "ok": false, "why": "После if («если») will не ставят, даже когда речь о будущем: <b>if I return it late</b>."}, {"t": "What happen if I return it late?", "ok": false, "why": "What здесь — подлежащее, как he/she/it, поэтому нужна форма с -s: <b>happens</b>."}]}, {"say": "Nothing terrible! We'll just send you a reminder. Enjoy the book!", "ru": "Ничего страшного! Мы просто пришлём напоминание. Приятного чтения!"}]}, {"npc": "librarian", "goal": "Прочитай книгу и верни её мисс Кларк", "need": "book", "take": "book", "wait": [{"say": "How's Treasure Island? Take your time, you've got three weeks.", "ru": "Как вам «Остров сокровищ»? Не торопитесь, у вас три недели."}], "dlg": [{"say": "Hello! Have you finished the book already?", "ru": "Здравствуйте! Вы уже дочитали книгу?", "opts": [{"t": "Yes, I have. I'd like to return it.", "ok": true, "why": "Вопрос с have — краткий ответ тоже с have: <b>Yes, I have</b>. <b>return</b> — «вернуть», «назад» уже внутри слова."}, {"t": "Yes, I did. I'd like to return it.", "ok": false, "why": "Вопрос начинался с have — значит и ответ <b>Yes, I have</b>. Did — ответ на вопросы с did."}, {"t": "Yes, I have. I'd like to return back it.", "ok": false, "why": "return уже значит «вернуть назад», back лишнее. Правильно: <b>return it</b> (или give it back)."}]}, {"say": "Did you enjoy it?", "ru": "Вам понравилось?", "opts": [{"t": "Yes, I loved it! Max was right.", "ok": true, "why": "Кадр из прошлого: <b>loved</b>, <b>was</b>. «Был прав» — <b>was right</b>."}, {"t": "Yes, I did loved it!", "ok": false, "why": "После did — только 1-я форма. А в ответе проще без did: <b>I loved it!</b>"}, {"t": "Yes, it was very liked to me!", "ok": false, "why": "«Мне понравилось» дословно не переводится. По-английски подлежащее — я: <b>I loved it</b> или I liked it."}]}, {"say": "Max has read every book in this library! Would you like to borrow another one?", "ru": "Макс прочитал все книги в этой библиотеке! Хотите взять ещё одну?", "task": "Ответьте: «Да, пожалуйста. Что вы посоветуете?»", "build": "Yes, please. What do you recommend?", "why": "<b>What do you recommend?</b> — «Что посоветуете?». В вопросе в Present Simple нужен помощник <b>do</b>."}]}], "words": [["join the library", "записаться в библиотеку"], ["library card", "читательский билет"], ["How do you spell…?", "Как пишется…?"], ["double L", "две буквы L подряд"], ["borrow", "взять на время"], ["lend", "дать на время"], ["recommend", "посоветовать"], ["return", "вернуть"], ["Here you are.", "Вот, пожалуйста."], ["Did you enjoy it?", "Тебе понравилось?"]]},
+  {"id": "glasses", "t": "Очки миссис Грин", "lvl": "A2", "intro": "Миссис Грин потеряла очки в парке. Найдите их по её описанию: справа, слева, под, рядом.", "steps": [{"npc": "grandma", "goal": "Поговори с миссис Грин в парке", "dlg": [{"say": "Oh, hello, dear. I can't see a thing! I've lost my glasses.", "ru": "Ох, здравствуй, милый. Ничего не вижу! Я потеряла очки.", "opts": [{"t": "Oh no! When did you last have them?", "ok": true, "why": "Вопрос о прошлом: <b>did</b> + глагол в 1-й форме. did уже показал прошлое, поэтому <b>have</b>, а не had."}, {"t": "Oh no! When did you last had them?", "ok": false, "why": "После did глагол всегда в 1-й форме: <b>did you have</b>. Прошлое уже несёт did."}, {"t": "Oh no! When you last had them?", "ok": false, "why": "В вопросе нужен помощник: <b>When did you last have them?</b>"}]}, {"say": "This morning. I was sitting on a bench in the park, reading the paper.", "ru": "Сегодня утром. Я сидела на скамейке в парке, читала газету.", "opts": [{"t": "Which bench were you sitting on?", "ok": true, "why": "<b>were you sitting</b> — процесс в прошлом: кадр из прошлого, где действие идёт. Предлог <b>on</b> уходит в конец: sit on a bench → Which bench were you sitting on?"}, {"t": "Which bench you were sitting on?", "ok": false, "why": "В вопросе помощник were встаёт перед you: <b>Which bench were you sitting on?</b>"}, {"t": "On which bench did you sitting?", "ok": false, "why": "did и -ing вместе не работают. Процесс в прошлом — were + -ing: <b>were you sitting</b>."}]}, {"say": "The one on the right of the fountain. Maybe they fell under it.", "ru": "Та, что справа от фонтана. Может, они упали под неё.", "task": "Скажите: «Не волнуйтесь. Я посмотрю под скамейкой»", "build": "Don't worry. I'll look under the bench.", "why": "<b>look under</b> — «посмотреть под». <b>the bench</b> — та самая скамейка, про которую сказали, поэтому the. <b>I'll</b> — решение прямо сейчас."}]}, {"find": {"say": "The bench on the right of the fountain. Maybe they fell under it.", "ru": "Скамейка справа от фонтана. Может, очки упали под неё.", "spots": [[16, 10, "bench"], [18, 17, "bench"], [21, 17, "bench"]], "at": 2, "found": "Here they are, under the bench!", "foundRu": "Вот они, под скамейкой!"}, "from": "grandma", "give": "glasses", "goal": "Найди очки там, где сказала миссис Грин (🔊 — послушать ещё)"}, {"npc": "grandma", "goal": "Верни очки миссис Грин", "need": "glasses", "take": "glasses", "wait": [{"say": "Any luck, dear? It's the bench on the right of the fountain.", "ru": "Нашёл, милый? Это скамейка справа от фонтана."}], "dlg": [{"say": "My glasses! Where were they?", "ru": "Мои очки! Где они были?", "opts": [{"t": "They were under the bench, on the right of the fountain.", "ok": true, "why": "<b>glasses</b> по-английски всегда во множественном числе, как наши «очки», поэтому <b>they were</b>. <b>under</b> — под, <b>on the right of</b> — справа от."}, {"t": "It was under the bench, on the right of the fountain.", "ok": false, "why": "glasses — множественное число, как «очки»: <b>they were</b>, а не it was."}, {"t": "They were on the bench, under the right of the fountain.", "ok": false, "why": "Перепутаны предлоги: очки были <b>under the bench</b> (под скамейкой), а сама скамейка — <b>on the right of the fountain</b> (справа от фонтана)."}]}, {"say": "Thank you, dear! Now I can read my book again.", "ru": "Спасибо, милый! Теперь я снова могу читать.", "task": "Ответьте: «Не за что. Приятного чтения!»", "build": "You're welcome. Enjoy your book!", "why": "<b>Enjoy your book!</b> — так желают приятного чтения. Так же: Enjoy your meal! Enjoy the film!"}, {"say": "Oh, listen! That's Max. Something's wrong with his ball again…", "ru": "Ой, слышишь? Это Макс. Опять что-то с его мячом…"}]}], "words": [["glasses", "очки"], ["under", "под"], ["on the right of", "справа от"], ["on the left of", "слева от"], ["next to", "рядом с"], ["Which bench were you sitting on?", "На какой скамейке вы сидели?"], ["Enjoy your book!", "Приятного чтения!"]]},
   {"id": "football", "t": "Мяч Макса", "lvl": "A2", "intro": "Макс запустил мяч через забор прямо в сад миссис Грин. Помогите его вернуть.", "steps": [{"npc": "kid", "goal": "Узнай, почему Макс расстроен", "dlg": [{"say": "Oh no! My ball! It's gone!", "ru": "О нет! Мой мяч! Его нет!", "opts": [{"t": "What happened, Max?", "ok": true, "why": "<b>What happened?</b> — «Что случилось?». Здесь what само делает действие (что случилось?), поэтому did не нужен: сразу 2-я форма — кадр из прошлого."}, {"t": "What is happened, Max?", "ok": false, "why": "«is happened» — калька, is здесь лишний. Случилось в прошлом — кадр из прошлого: <b>What happened?</b>"}, {"t": "What happen, Max?", "ok": false, "why": "happen — 1-я форма, «как обычно». А случилось уже в прошлом — нужна 2-я форма: <b>What happened?</b>"}]}, {"say": "I kicked it really hard and it flew over the fence.", "ru": "Я очень сильно его пнул, и он улетел за забор.", "opts": [{"t": "Oh dear! Where did it go?", "ok": true, "why": "Вопрос о прошлом: <b>did</b> + 1-я форма. Did забрал себе прошлое, поэтому go остаётся «как обычно»."}, {"t": "Oh dear! Where did it went?", "ok": false, "why": "После did — только 1-я форма: <b>go</b>, а не went. Прошлое уже показал did."}, {"t": "Oh dear! Where it went?", "ok": false, "why": "В вопросе нужен помощник did: <b>Where did it go?</b> Без него это не вопрос."}]}, {"say": "Into Mrs Green's garden. I'm scared to ask her!", "ru": "В сад миссис Грин. Я боюсь её просить!", "opts": [{"t": "Don't worry. I'll ask her for you.", "ok": true, "why": "Решение в моменте — <b>I'll</b>. «Спросить у неё» — просто <b>ask her</b>, без предлога."}, {"t": "Don't worry. I'll ask from her.", "ok": false, "why": "Дословный перевод «спрошу у неё». В английском ask без предлога: <b>ask her</b>."}, {"t": "Don't worry. I ask her for you.", "ok": false, "why": "I ask — «я обычно прошу». Решение прямо сейчас — <b>I'll ask</b>."}]}]}, {"npc": "grandma", "goal": "Вежливо попроси миссис Грин найти мяч в её саду", "give": "ball", "dlg": [{"say": "Hello, dear! I'm just watering my roses.", "ru": "Здравствуй, милый! Я как раз поливаю розы.", "opts": [{"t": "Sorry to bother you. Could you help me, please?", "ok": true, "why": "<b>Could you…, please?</b> — вежливая просьба. <b>Sorry to bother you</b> — «простите, что беспокою»: так мягко начинают разговор."}, {"t": "Mrs Green, help me.", "ok": false, "why": "Глагол в начале без please — это приказ. Пожилую соседку так не просят. Вежливо: <b>Could you help me, please?</b>"}, {"t": "Sorry to bother you. Could you to help me, please?", "ok": false, "why": "После could глагол идёт без to: <b>Could you help me?</b>"}]}, {"say": "Of course, dear. What's the matter?", "ru": "Конечно, милый. В чём дело?", "opts": [{"t": "Max's ball is in your garden. Would you mind looking for it?", "ok": true, "why": "После <b>Would you mind</b> глагол всегда с -ing: <b>looking</b>. Это очень вежливо: «Вы не против поискать?»"}, {"t": "Max's ball is in your garden. Would you mind to look for it?", "ok": false, "why": "После mind не бывает to. Только -ing: <b>Would you mind looking…?</b>"}, {"t": "Max's ball is in your garden. Would you mind look for it?", "ok": false, "why": "После mind глагол с -ing: <b>Would you mind looking…?</b>"}]}, {"say": "Not at all! Oh, here it is, under my roses. Where's Max? What's he doing?", "ru": "Нисколько! О, вот он, под моими розами. А где Макс? Что он делает?", "opts": [{"t": "He's waiting for us by the gate.", "ok": true, "why": "Действие идёт прямо сейчас — <b>is + -ing</b>: he's waiting. Кстати, <b>Not at all</b> в ответ на Would you mind…? значит «совсем не против», то есть «да, конечно»."}, {"t": "He waits for us by the gate.", "ok": false, "why": "He waits — «он обычно ждёт». А Макс ждёт прямо сейчас: <b>He's waiting</b>."}, {"t": "He waiting for us by the gate.", "ok": false, "why": "Для «сейчас» нужны обе части: <b>is</b> + -ing. Без is фраза разваливается: <b>He's waiting</b>."}]}, {"say": "Here you are. And tell him to be careful with my roses!", "ru": "Держи. И скажи ему, чтобы был осторожнее с моими розами!"}]}, {"npc": "kid", "goal": "Верни мяч Максу", "need": "ball", "take": "ball", "wait": [{"say": "Did you talk to Mrs Green? Is she going to give it back?", "ru": "Ты поговорил с миссис Грин? Она отдаст мяч?"}], "dlg": [{"say": "My ball! Thank you! Was she angry?", "ru": "Мой мяч! Спасибо! Она злилась?", "opts": [{"t": "No, she wasn't. She was really kind.", "ok": true, "why": "angry, kind — это не действия, а состояния. В прошлом с ними нужен <b>was / wasn't</b>: she was kind."}, {"t": "No, she didn't angry.", "ok": false, "why": "angry — не глагол, did с ним не работает. Нужно <b>wasn't</b>: She wasn't angry."}, {"t": "No, she weren't. She was really kind.", "ok": false, "why": "she — один человек, поэтому <b>was / wasn't</b>. Were — для you, we, they."}]}, {"say": "Phew! Look, there's Tom! What's he carrying?", "ru": "Фух! Смотри, там Том! Что он несёт?", "opts": [{"t": "He's carrying a big basket.", "ok": true, "why": "Том несёт корзину прямо сейчас — <b>is + -ing</b>: he's carrying."}, {"t": "He carries a big basket.", "ok": false, "why": "He carries — «он обычно носит». А мы видим это сейчас: <b>He's carrying</b>."}, {"t": "He is carry a big basket.", "ok": false, "why": "После is глагол нужен с -ing: <b>He is carrying</b>."}]}, {"say": "Thanks for getting my ball! You're the best!", "ru": "Спасибо, что достал мой мяч! Ты лучший!", "task": "Ответьте: «Не за что. Будь осторожнее с мячом!»", "build": "No problem. Be careful with your ball!", "why": "<b>No problem</b> — «не за что». <b>be careful with</b> — «быть осторожным с чем-то». Глагол в начале здесь — дружеский совет."}, {"say": "I will! Hey, I think Tom wants to talk to you.", "ru": "Буду! Эй, кажется, Том хочет с тобой поговорить."}]}], "words": [["What happened?", "Что случилось?"], ["Where did it go?", "Куда он делся?"], ["kick a ball", "пнуть мяч"], ["fence", "забор"], ["Sorry to bother you.", "Простите, что беспокою."], ["Would you mind looking…?", "Вы не против поискать…?"], ["Not at all.", "Нисколько (не против)."], ["He's waiting for us.", "Он нас ждёт (сейчас)."], ["be careful with", "быть осторожным с"]]},
   {"id": "picnic", "t": "Пикник в парке", "lvl": "A2", "intro": "Том затевает пикник в субботу: купите еду, договоритесь о кофе и позовите соседей.", "steps": [{"npc": "neighbour", "goal": "Узнай, что задумал Том", "dlg": [{"say": "Hi! The weather's going to be lovely on Saturday. Let's have a picnic in the park!", "ru": "Привет! В субботу будет чудесная погода. Давай устроим пикник в парке!", "opts": [{"t": "Great idea! Shall I bring some food?", "ok": true, "why": "<b>Shall I…?</b> — «Мне…?», так предлагают помощь: Shall I bring some food? — «Мне принести еды?»"}, {"t": "Great idea! Do I bring some food?", "ok": false, "why": "Дословный перевод «Мне принести?» через do не работает. Предлагая помощь, говорят <b>Shall I…?</b>"}, {"t": "Great idea! Will I bring some food?", "ok": false, "why": "Will I…? спрашивает о будущем («буду ли я?»), а не предлагает помощь. Предложение — <b>Shall I…?</b>"}]}, {"say": "Yes, please! What are you going to buy?", "ru": "Да, пожалуйста! Что ты собираешься купить?", "opts": [{"t": "I'm going to buy some sandwiches and fruit.", "ok": true, "why": "План, который уже есть в голове, — <b>am/is/are going to</b> + 1-я форма: I'm going to buy."}, {"t": "I going to buy some sandwiches and fruit.", "ok": false, "why": "Потерялось <b>am</b>. Нужны все части: <b>I'm going to buy</b>."}, {"t": "I'm going to buying some sandwiches and fruit.", "ok": false, "why": "После to — 1-я форма, без -ing: <b>going to buy</b>."}]}, {"say": "Perfect. Who else shall we invite?", "ru": "Отлично. Кого ещё позовём?", "task": "Предложите: «Давай пригласим миссис Грин!»", "build": "Let's invite Mrs Green!", "why": "<b>Let's</b> + 1-я форма — «давай сделаем». Без to: Let's invite, а не Let's to invite."}, {"say": "Good idea! Can you get the food at Rosie's and ask Lily about coffee? I'll bring a blanket.", "ru": "Хорошая мысль! Купишь еду у Рози и спросишь Лили насчёт кофе? А я возьму плед."}]}, {"npc": "shopkeeper", "goal": "Купи еду для пикника в «Corner Shop»", "give": "picnic_bag", "dlg": [{"say": "Hello, love! What can I get you?", "ru": "Здравствуй, дорогой! Что тебе дать?", "opts": [{"t": "Have you got any sandwiches?", "ok": true, "why": "В вопросе «есть ли у вас?» — <b>any</b>. После any исчисляемые — во множественном числе: any <b>sandwiches</b>."}, {"t": "Have you got any sandwich?", "ok": false, "why": "Сэндвичи можно посчитать, поэтому после any — множественное число: <b>any sandwiches</b>."}, {"t": "Do you have got any sandwiches?", "ok": false, "why": "Тут смешались два вопроса. Правильно либо <b>Have you got…?</b>, либо Do you have…? — но не вместе."}]}, {"say": "Yes, cheese or ham. Anything else?", "ru": "Да, с сыром или с ветчиной. Что-нибудь ещё?", "opts": [{"t": "Yes, a few bananas and a little milk, please.", "ok": true, "why": "Бананы можно посчитать — <b>a few</b>. Молоко не посчитаешь — <b>a little</b>."}, {"t": "Yes, a little bananas and a few milk, please.", "ok": false, "why": "Наоборот! <b>a few</b> — для того, что считают (bananas), <b>a little</b> — для того, что не считают (milk)."}, {"t": "Yes, a few banana and a little milk, please.", "ok": false, "why": "После a few — множественное число: <b>a few bananas</b>."}]}, {"say": "Do you need any bread?", "ru": "Хлеб нужен?", "opts": [{"t": "No, thanks. We've got some bread at home.", "ok": true, "why": "В утверждении — <b>some</b>: We've got some bread. Any — для вопросов и отрицаний."}, {"t": "No, thanks. We've got any bread at home.", "ok": false, "why": "Это утверждение, а не вопрос, поэтому <b>some</b>: We've got some bread."}, {"t": "No, thanks. We've got a few bread at home.", "ok": false, "why": "Хлеб не считают штуками, поэтому a few не подходит. Нужно <b>some</b> (или a little)."}]}, {"say": "Here you go, love. That's eight pounds. Have a lovely weekend!", "ru": "Держи, дорогой. С тебя восемь фунтов. Хороших выходных!"}]}, {"npc": "barista", "goal": "Договорись с Лили о кофе для всей компании", "dlg": [{"say": "Hi again! The usual?", "ru": "Привет ещё раз! Как обычно?", "opts": [{"t": "Not today. Could you make coffee for our picnic?", "ok": true, "why": "<b>Could you…?</b> — вежливая просьба. После could глагол без to: could you make."}, {"t": "Not today. Make coffee for our picnic.", "ok": false, "why": "Глагол в начале без please — это приказ. Вежливо: <b>Could you make…?</b>"}, {"t": "Not today. Could you to make coffee for our picnic?", "ok": false, "why": "После could не ставят to: <b>Could you make…?</b>"}]}, {"say": "Of course! Shall I put it in a big flask?", "ru": "Конечно! Налить в большой термос?", "opts": [{"t": "Yes, please. That would be great!", "ok": true, "why": "На предложение <b>Shall I…?</b> отвечают <b>Yes, please</b>. <b>That would be great!</b> — «Было бы здорово!»"}, {"t": "Yes, you shall.", "ok": false, "why": "Так на Shall I…? не отвечают — звучит странно и старомодно. Просто: <b>Yes, please</b>."}, {"t": "Yes, I'd like.", "ok": false, "why": "После I'd like обязательно что-то нужно: I'd like that. Проще всего ответить: <b>Yes, please</b>."}]}, {"say": "OK. I'll bring it to the park at twelve on Saturday.", "ru": "Хорошо. Я принесу его в парк в субботу в двенадцать.", "task": "Пригласите: «Почему бы тебе не присоединиться к нам?»", "build": "Why don't you join us?", "why": "<b>Why don't you…?</b> — дружеское приглашение. <b>join us</b> — «присоединиться к нам», без предлога: не join to us."}, {"say": "I'd love to, thanks! Have you invited Mrs Green? She loves picnics.", "ru": "С удовольствием, спасибо! А миссис Грин ты пригласил? Она обожает пикники."}]}, {"npc": "grandma", "goal": "Пригласи миссис Грин на пикник", "need": "picnic_bag", "take": "picnic_bag", "wait": [{"say": "Hello, dear! Are you going shopping today?", "ru": "Здравствуй, милый! Идёшь сегодня за покупками?"}], "dlg": [{"say": "Hello, dear! That's a big bag. What's in it?", "ru": "Здравствуй, милый! Какой большой пакет. Что там?", "opts": [{"t": "Food for our picnic on Saturday. Would you like to come?", "ok": true, "why": "<b>Would you like to…?</b> — вежливое приглашение: «Не хотите прийти?»"}, {"t": "Food for our picnic on Saturday. Would you like come?", "ok": false, "why": "После would you like перед глаголом нужен <b>to</b>: Would you like <b>to</b> come?"}, {"t": "Food for our picnic on Saturday. Do you like to come?", "ok": false, "why": "Do you like…? — «Вам вообще нравится…?». Пригласить — <b>Would you like to come?</b>"}]}, {"say": "Oh, how lovely! What time?", "ru": "Ой, как чудесно! Во сколько?", "opts": [{"t": "At twelve, by the pond.", "ok": true, "why": "Точное время — всегда <b>at</b>: at twelve, at five o'clock."}, {"t": "In twelve, by the pond.", "ok": false, "why": "С часами нужен <b>at</b>: at twelve. In — для месяцев и лет: in May."}, {"t": "On twelve, by the pond.", "ok": false, "why": "On — для дней: on Saturday. С часами — <b>at</b>: at twelve."}]}, {"say": "I'll bake a cake! And shall I keep the food in my fridge until Saturday?", "ru": "Я испеку торт! А давай я подержу еду в холодильнике до субботы?", "task": "Ответьте: «Да, пожалуйста. Увидимся в субботу!»", "build": "Yes, please. See you on Saturday!", "why": "<b>Yes, please</b> — принять предложение. С днями недели — всегда <b>on</b>: on Saturday."}, {"say": "Wonderful! Oh, and you should see London one day, dear. Ask Grace at the station about trains.", "ru": "Чудесно! Ах да, тебе стоит как-нибудь съездить в Лондон, милый. Спроси Грейс на вокзале про поезда."}]}], "words": [["Let's have a picnic!", "Давай устроим пикник!"], ["Shall I bring…?", "Мне принести…?"], ["I'm going to buy…", "Я собираюсь купить…"], ["Have you got any…?", "У вас есть…?"], ["a few bananas", "несколько бананов"], ["a little milk", "немного молока"], ["That would be great!", "Было бы здорово!"], ["Why don't you join us?", "Почему бы тебе не присоединиться к нам?"], ["Would you like to come?", "Хотите прийти?"], ["on Saturday", "в субботу"]]},
-  {"id": "ticket", "t": "Билет в Лондон", "lvl": "A2", "intro": "Финал района: спланируйте поездку в Лондон и купите билет на вокзале.", "steps": [{"npc": "neighbour", "goal": "Расскажи Тому о планах на выходные", "dlg": [{"say": "What a great picnic! So, what are you going to do next weekend?", "ru": "Отличный был пикник! Ну а что ты собираешься делать в следующие выходные?", "opts": [{"t": "I'm going to visit London.", "ok": true, "why": "Готовый план — <b>going to</b> + 1-я форма: I'm going to visit."}, {"t": "I go to visit London.", "ok": false, "why": "I go — «я обычно хожу». План на выходные — <b>I'm going to visit</b>."}, {"t": "I'm going visit London.", "ok": false, "why": "Потерялось <b>to</b>: going <b>to</b> visit. Без него не работает."}]}, {"say": "Brilliant! How are you going to get there?", "ru": "Здорово! А как ты туда доберёшься?", "opts": [{"t": "By train. It's quicker than the bus.", "ok": true, "why": "Вид транспорта — <b>by</b> без артикля: by train, by bus, by car."}, {"t": "With train. It's quicker than the bus.", "ok": false, "why": "Дословно «с поездом» не говорят. Вид транспорта — <b>by train</b>."}, {"t": "By the train. It's quicker than the bus.", "ok": false, "why": "После by транспорт идёт без артикля: <b>by train</b>."}]}, {"say": "Good idea. Are you going to buy a ticket online?", "ru": "Хорошая мысль. Будешь покупать билет онлайн?", "task": "Ответьте: «Нет, я собираюсь купить его на вокзале»", "build": "No, I'm going to buy it at the station.", "why": "План — <b>going to buy</b>. Билет один, поэтому <b>it</b>. Место, точка на карте — <b>at the station</b>."}, {"say": "Grace works there. She's really helpful.", "ru": "Там работает Грейс. Она очень отзывчивая."}]}, {"npc": "clerk", "goal": "Купи билет до Лондона на вокзале", "give": "ticket", "dlg": [{"say": "Good morning! Where would you like to go?", "ru": "Доброе утро! Куда хотите поехать?", "opts": [{"t": "A return ticket to London, please.", "ok": true, "why": "<b>return</b> — туда и обратно, <b>single</b> — только туда. Куда — <b>to</b>: to London."}, {"t": "A return ticket in London, please.", "ok": false, "why": "In — «в Лондоне», внутри. Направление «до Лондона» — <b>to London</b>."}, {"t": "A single ticket to London and back, please.", "ok": false, "why": "single — только в одну сторону, а «and back» — обратно. Туда и обратно — <b>a return ticket</b>."}]}, {"say": "Here you are. That's twenty-four pounds fifty.", "ru": "Держите. С вас двадцать четыре фунта пятьдесят.", "opts": [{"t": "Thanks. What time does the next train leave?", "ok": true, "why": "Расписание — 1-я форма, «как обычно». В вопросе — <b>does</b>, а глагол без -s: does… <b>leave</b>."}, {"t": "Thanks. What time does the next train leaves?", "ok": false, "why": "-s уже забрал does, поэтому глагол — 1-я форма: <b>does… leave</b>."}, {"t": "Thanks. What time the next train leaves?", "ok": false, "why": "В вопросе нужен помощник: <b>What time does the next train leave?</b>"}]}, {"say": "At ten past nine.", "ru": "В девять десять.", "opts": [{"t": "Which platform does it leave from?", "ok": true, "why": "<b>Which platform</b> — «С какой платформы». Предлог from в английском вопросе уходит в конец: leave <b>from</b>?"}, {"t": "From which platform it leaves?", "ok": false, "why": "Нет помощника does. Правильно: <b>Which platform does it leave from?</b>"}, {"t": "Which platform does it leaves from?", "ok": false, "why": "После does — 1-я форма без -s: <b>does it leave</b>."}]}, {"say": "Platform two.", "ru": "С платформы два.", "opts": [{"t": "Thanks. How long does it take to get there?", "ok": true, "why": "<b>How long does it take?</b> — «Сколько времени занимает дорога?». Готовая фраза, запомните её целиком."}, {"t": "Thanks. How much time does it go?", "ok": false, "why": "Дословный перевод не работает. Про время в пути спрашивают: <b>How long does it take?</b>"}, {"t": "Thanks. How long it takes to get there?", "ok": false, "why": "В вопросе нужен помощник does: <b>How long does it take?</b>"}]}, {"say": "About an hour. Have a good trip!", "ru": "Около часа. Хорошей поездки!"}]}, {"npc": "neighbour", "goal": "Покажи Тому билет и попрощайся перед поездкой", "need": "ticket", "wait": [{"say": "Have you got your ticket yet? Grace at the station sells them.", "ru": "Ты уже купил билет? Их продаёт Грейс на вокзале."}], "dlg": [{"say": "So, have you got your ticket?", "ru": "Ну что, билет у тебя?", "opts": [{"t": "Yes, I've just bought it.", "ok": true, "why": "<b>I've just bought</b> — «я только что купил». Present Perfect с just: дело только что сделано, вот результат — фото результата."}, {"t": "Yes, I've just buyed it.", "ok": false, "why": "buy — неправильный глагол: buy – <b>bought</b> – bought."}, {"t": "Yes, I have just buy it.", "ok": false, "why": "После have нужна 3-я форма — фото результата: <b>I've just bought it</b>."}]}, {"say": "Brilliant! What are you going to see there?", "ru": "Отлично! А что ты собираешься там посмотреть?", "opts": [{"t": "I'm going to see Big Ben.", "ok": true, "why": "План — <b>going to</b> + 1-я форма. Big Ben — имя, поэтому без артикля."}, {"t": "I will going to see Big Ben.", "ok": false, "why": "will и going to вместе не ставят. Выберите одно: <b>I'm going to see</b>."}, {"t": "I'm going to see the Big Ben.", "ok": false, "why": "Big Ben — имя собственное, артикль the не нужен: <b>see Big Ben</b>."}]}, {"say": "You're going to love it! Will you send me a postcard?", "ru": "Тебе там понравится! Пришлёшь мне открытку?", "task": "Ответьте: «Конечно! Я пришлю тебе открытку из Лондона.»", "build": "Of course! I'll send you a postcard from London.", "why": "Обещание прямо сейчас — <b>I'll</b>. <b>send you a postcard</b> — кому, потом что: без to."}, {"say": "Have a great trip! London is huge: red buses, the Tube, lots of new people. Your next adventure starts there!", "ru": "Хорошей поездки! Лондон огромный: красные автобусы, метро, куча новых людей. Там начнётся твоё следующее приключение!"}]}], "words": [["What are you going to do?", "Что ты собираешься делать?"], ["by train", "на поезде"], ["a return ticket", "билет туда и обратно"], ["a single ticket", "билет в одну сторону"], ["What time does the train leave?", "Во сколько отправляется поезд?"], ["platform", "платформа"], ["How long does it take?", "Сколько времени занимает дорога?"], ["I've just bought it.", "Я только что его купил."], ["Have a good trip!", "Хорошей поездки!"]]}
+  {"id": "ticket", "t": "Билет в Лондон", "lvl": "A2", "intro": "Финал района: спланируйте поездку в Лондон и купите билет на вокзале.", "steps": [{"npc": "neighbour", "goal": "Расскажи Тому о планах на выходные", "dlg": [{"say": "What a great picnic! So, what are you going to do next weekend?", "ru": "Отличный был пикник! Ну а что ты собираешься делать в следующие выходные?", "opts": [{"t": "I'm going to visit London.", "ok": true, "why": "Готовый план — <b>going to</b> + 1-я форма: I'm going to visit."}, {"t": "I go to visit London.", "ok": false, "why": "I go — «я обычно хожу». План на выходные — <b>I'm going to visit</b>."}, {"t": "I'm going visit London.", "ok": false, "why": "Потерялось <b>to</b>: going <b>to</b> visit. Без него не работает."}]}, {"say": "Brilliant! How are you going to get there?", "ru": "Здорово! А как ты туда доберёшься?", "opts": [{"t": "By train. It's quicker than the bus.", "ok": true, "why": "Вид транспорта — <b>by</b> без артикля: by train, by bus, by car."}, {"t": "With train. It's quicker than the bus.", "ok": false, "why": "Дословно «с поездом» не говорят. Вид транспорта — <b>by train</b>."}, {"t": "By the train. It's quicker than the bus.", "ok": false, "why": "После by транспорт идёт без артикля: <b>by train</b>."}]}, {"say": "Good idea. Are you going to buy a ticket online?", "ru": "Хорошая мысль. Будешь покупать билет онлайн?", "task": "Ответьте: «Нет, я собираюсь купить его на вокзале»", "build": "No, I'm going to buy it at the station.", "why": "План — <b>going to buy</b>. Билет один, поэтому <b>it</b>. Место, точка на карте — <b>at the station</b>."}, {"say": "Grace works there. She's really helpful.", "ru": "Там работает Грейс. Она очень отзывчивая."}]}, {"npc": "clerk", "goal": "Купи билет до Лондона на вокзале", "give": "ticket", "dlg": [{"say": "Good morning! Where would you like to go?", "ru": "Доброе утро! Куда хотите поехать?", "opts": [{"t": "A return ticket to London, please.", "ok": true, "why": "<b>return</b> — туда и обратно, <b>single</b> — только туда. Куда — <b>to</b>: to London."}, {"t": "A return ticket in London, please.", "ok": false, "why": "In — «в Лондоне», внутри. Направление «до Лондона» — <b>to London</b>."}, {"t": "A single ticket to London and back, please.", "ok": false, "why": "single — только в одну сторону, а «and back» — обратно. Туда и обратно — <b>a return ticket</b>."}]}, {"say": "Here you are. That's twenty-four pounds fifty.", "ru": "Держите. С вас двадцать четыре фунта пятьдесят.", "opts": [{"t": "Thanks. What time does the next train leave?", "ok": true, "why": "Расписание — 1-я форма, «как обычно». В вопросе — <b>does</b>, а глагол без -s: does… <b>leave</b>."}, {"t": "Thanks. What time does the next train leaves?", "ok": false, "why": "-s уже забрал does, поэтому глагол — 1-я форма: <b>does… leave</b>."}, {"t": "Thanks. What time the next train leaves?", "ok": false, "why": "В вопросе нужен помощник: <b>What time does the next train leave?</b>"}]}, {"say": "At ten past nine.", "ru": "В девять десять.", "opts": [{"t": "Which platform does it leave from?", "ok": true, "why": "<b>Which platform</b> — «С какой платформы». Предлог from в английском вопросе уходит в конец: leave <b>from</b>?"}, {"t": "From which platform it leaves?", "ok": false, "why": "Нет помощника does. Правильно: <b>Which platform does it leave from?</b>"}, {"t": "Which platform does it leaves from?", "ok": false, "why": "После does — 1-я форма без -s: <b>does it leave</b>."}]}, {"say": "Platform two.", "ru": "С платформы два.", "opts": [{"t": "Thanks. How long does it take to get there?", "ok": true, "why": "<b>How long does it take?</b> — «Сколько времени занимает дорога?». Готовая фраза, запомните её целиком."}, {"t": "Thanks. How much time does it go?", "ok": false, "why": "Дословный перевод не работает. Про время в пути спрашивают: <b>How long does it take?</b>"}, {"t": "Thanks. How long it takes to get there?", "ok": false, "why": "В вопросе нужен помощник does: <b>How long does it take?</b>"}]}, {"say": "About an hour. Have a good trip!", "ru": "Около часа. Хорошей поездки!"}]}, {"npc": "neighbour", "goal": "Покажи Тому билет и попрощайся перед поездкой", "need": "ticket", "wait": [{"say": "Have you got your ticket yet? Grace at the station sells them.", "ru": "Ты уже купил билет? Их продаёт Грейс на вокзале."}], "dlg": [{"say": "So, have you got your ticket?", "ru": "Ну что, билет у тебя?", "opts": [{"t": "Yes, I've just bought it.", "ok": true, "why": "<b>I've just bought</b> — «я только что купил». Present Perfect с just: дело только что сделано, вот результат — фото результата."}, {"t": "Yes, I've just buyed it.", "ok": false, "why": "buy — неправильный глагол: buy – <b>bought</b> – bought."}, {"t": "Yes, I have just buy it.", "ok": false, "why": "После have нужна 3-я форма — фото результата: <b>I've just bought it</b>."}]}, {"say": "Brilliant! What are you going to see there?", "ru": "Отлично! А что ты собираешься там посмотреть?", "opts": [{"t": "I'm going to see Big Ben.", "ok": true, "why": "План — <b>going to</b> + 1-я форма. Big Ben — имя, поэтому без артикля."}, {"t": "I will going to see Big Ben.", "ok": false, "why": "will и going to вместе не ставят. Выберите одно: <b>I'm going to see</b>."}, {"t": "I'm going to see the Big Ben.", "ok": false, "why": "Big Ben — имя собственное, артикль the не нужен: <b>see Big Ben</b>."}]}, {"say": "You're going to love it! Will you send me a postcard?", "ru": "Тебе там понравится! Пришлёшь мне открытку?", "task": "Ответьте: «Конечно! Я пришлю тебе открытку из Лондона.»", "build": "Of course! I'll send you a postcard from London.", "why": "Обещание прямо сейчас — <b>I'll</b>. <b>send you a postcard</b> — кому, потом что: без to."}, {"say": "Have a great trip! London is huge: red buses, the Tube, lots of new people. Your next adventure starts there!", "ru": "Хорошей поездки! Лондон огромный: красные автобусы, метро, куча новых людей. Там начнётся твоё следующее приключение!"}]}, {"go": {"area": [17, 64, 2, 4], "say": "Your train is the 9:10 to London. Check the departures board at the station and go to the right platform.", "ru": "Ваш поезд — в 9:10 до Лондона. Посмотрите на табло на вокзале и идите на нужную платформу.", "ok": "Platform 2: the 9:10 to London. All aboard!", "okRu": "Платформа 2: поезд в 9:10 до Лондона. Посадка!", "wrong": [{"area": [13, 64, 2, 4], "say": "This is platform 1. The train to Brighton leaves from here.", "ru": "Это платформа 1. Отсюда идёт поезд в Брайтон."}, {"area": [21, 64, 2, 4], "say": "This is platform 3. This is the train to Manchester. It's delayed.", "ru": "Это платформа 3. Это поезд в Манчестер, он задерживается."}]}, "goal": "Посмотри на табло 📋 и встань на свою платформу"}], "words": [["What are you going to do?", "Что ты собираешься делать?"], ["by train", "на поезде"], ["a return ticket", "билет туда и обратно"], ["a single ticket", "билет в одну сторону"], ["What time does the train leave?", "Во сколько отправляется поезд?"], ["platform", "платформа"], ["How long does it take?", "Сколько времени занимает дорога?"], ["I've just bought it.", "Я только что его купил."], ["Have a good trip!", "Хорошей поездки!"], ["platform", "платформа"], ["departures board", "табло отправлений"], ["delayed", "задерживается"], ["cancelled", "отменён"], ["All aboard!", "Посадка!"]]}
 );
 // когда квестов у жителя нет — короткий разговор
-Object.assign(CITY_NPC.barista, { idle: [{ say: "Back for another coffee? We also have great cakes!", ru: "Ещё за кофе? У нас и торты отличные!" }] });
-Object.assign(CITY_NPC.neighbour, { idle: [{ say: "Morning! The bins go out on Tuesday, by the way.", ru: "Доброе утро! Кстати, мусор выносят по вторникам." }] });
-Object.assign(CITY_NPC.pharmacist, { idle: [{ say: "Hello! Let me know if you need anything.", ru: "Здравствуйте! Скажите, если что-то понадобится." }] });
-Object.assign(CITY_NPC.clerk, { idle: [{ say: "The next train to London leaves at ten past nine.", ru: "Следующий поезд в Лондон отправляется в девять десять." }] });
-Object.assign(CITY_NPC.grandma, { idle: [{ say: "I feed the ducks here every morning.", ru: "Я каждое утро кормлю здесь уток." }] });
-Object.assign(CITY_NPC.kid, { idle: [{ say: "Do you want to play football with me?", ru: "Хочешь поиграть со мной в футбол?" }] });
-Object.assign(CITY_NPC.shopkeeper, { idle: [{ say: "Fresh bread came in this morning!", ru: "Утром привезли свежий хлеб!" }] });
-Object.assign(CITY_NPC.postman, { idle: [{ say: "Busy day! I've got forty parcels to deliver.", ru: "Напряжённый день! Мне надо доставить сорок посылок." }] });
-Object.assign(CITY_NPC.librarian, { idle: [{ say: "Shh… This is a library! But you can borrow up to five books.", ru: "Тсс… Это библиотека! Но взять можно до пяти книг." }] });
+Object.assign(CITY_NPC.barista, { idle: [{"say": "Back for another coffee? We also have great cakes!", "ru": "Ещё за кофе? У нас и торты отличные!"}] });
+Object.assign(CITY_NPC.neighbour, { idle: [{"say": "Morning! The bins go out on Tuesday, by the way.", "ru": "Доброе утро! Кстати, мусор выносят по вторникам."}] });
+Object.assign(CITY_NPC.pharmacist, { idle: [{"say": "Hello! Let me know if you need anything.", "ru": "Здравствуйте! Скажите, если что-то понадобится."}] });
+Object.assign(CITY_NPC.clerk, { idle: [{"say": "The next train to London leaves at ten past nine.", "ru": "Следующий поезд в Лондон отправляется в девять десять."}] });
+Object.assign(CITY_NPC.grandma, { idle: [{"say": "I feed the ducks here every morning.", "ru": "Я каждое утро кормлю здесь уток."}] });
+Object.assign(CITY_NPC.kid, { idle: [{"say": "Do you want to play football with me?", "ru": "Хочешь поиграть со мной в футбол?"}] });
+Object.assign(CITY_NPC.shopkeeper, { idle: [{"say": "Fresh bread came in this morning!", "ru": "Утром привезли свежий хлеб!"}] });
+Object.assign(CITY_NPC.postman, { idle: [{"say": "Busy day! I've got forty parcels to deliver.", "ru": "Напряжённый день! Мне надо доставить сорок посылок."}] });
+Object.assign(CITY_NPC.librarian, { idle: [{"say": "Shh… This is a library! But you can borrow up to five books.", "ru": "Тсс… Это библиотека! Но взять можно до пяти книг."}] });
 
 const openWalk = () => switchTab("walk");
 
