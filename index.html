@@ -22095,13 +22095,16 @@ const stepsOf = k => PS.done[k] || {};
 const unitDone = k => { const s = stepsOf(k); return !!(s.d && s.w && s.q); };
 const doneCount = lv => PATH[lv].units.filter((u, i) => unitDone(ukey(lv, i))).length;
 const curIndex = lv => { const n = PATH[lv].units.findIndex((u, i) => !unitDone(ukey(lv, i))); return n < 0 ? PATH[lv].units.length : n; };
+// автору (админ, подтверждён функцией admin) открыты все уровни и уроки без очереди
+const allOpen = () => { try { return !!(CLOUD && CLOUD.uid) && lsGet("vz.admin.me") === CLOUD.uid; } catch (e) { return false; } };
 function lvlState(lv) {
   const a = LVL_ORDER.indexOf(lv), b = LVL_ORDER.indexOf(PS.level);
-  return PS.passed[lv] || a < b ? "done" : a === b ? "cur" : "lock";
+  return PS.passed[lv] || a < b ? "done" : a === b ? "cur" : allOpen() ? "open" : "lock";
 }
 function unitState(lv, i) {
   const k = ukey(lv, i), ls = lvlState(lv);
   if (unitDone(k)) return "done";
+  if (allOpen()) return ls === "cur" && i === curIndex(lv) ? "cur" : "open";
   if (ls === "lock") return "lock";
   if (ls === "done") return "open";
   return i <= curIndex(lv) ? (i === curIndex(lv) ? "cur" : "open") : "lock";
@@ -28294,6 +28297,7 @@ function courseState(lv, it) {
   if (itemDone(it)) return "done";
   if (!hasContent(it)) return "soon";
   const ls = lvlState(lv);
+  if (allOpen()) { const c = ls === "cur" && courseCur(lv); return c && c.id === it.id ? "cur" : "open"; }
   if (ls === "lock") return "lock";
   if (ls === "done") return "open";
   const cur = courseCur(lv);
@@ -28332,7 +28336,7 @@ renderPath2 = function () {
       </section>`).join("")}
       <section class="cs-mod cs-exam"><div class="cs-mod-h"><span class="cs-mod-e">🎓</span><div><span class="eyebrow">В конце пути</span><b>Экзамен ${lv} → ${L.next}</b></div></div>
         <p class="cs-exam-t">20 заданий по всем урокам курса, нужно 16 правильных. ${PS.passed[lv] ? `Сдан: ${PS.passed[lv]}/10 ✓` : done === items.length ? "Все шаги пройдены — можно сдавать!" : "Откроется после всех модулей."}</p>
-        ${done === items.length && ls !== "lock" ? `<button class="btn wide cs-exam-btn" data-cexam="${lv}">🎓 ${PS.passed[lv] ? "Пересдать экзамен" : "Сдать экзамен"} ${lv} → ${L.next}</button>` : ""}</section>
+        ${(done === items.length || allOpen()) && ls !== "lock" ? `<button class="btn wide cs-exam-btn" data-cexam="${lv}">🎓 ${PS.passed[lv] ? "Пересдать экзамен" : "Сдать экзамен"} ${lv} → ${L.next}</button>` : ""}</section>
     </div>`;
   $(".page-body", p).scrollTop = keep;
 };
@@ -32512,7 +32516,11 @@ const ADMIN = (() => {
     try { const r = await fn({ mode: "me" }); if (r.admin) lsSet(K_ME, CLOUD.uid); else lsDel(K_ME); }
     catch (e) { checked = ""; return; }
     if (isOpen("#profilePage")) renderProfile();
+    if (isOpen("#pathPage") && typeof renderPath2 === "function") renderPath2();
   }
+  // проверяем сразу после входа, а не только при открытии профиля — чтобы у автора путь открылся целиком
+  let tries = 0;
+  const auto = setInterval(() => { if (CLOUD && CLOUD.uid && checked !== CLOUD.uid) { if (++tries > 10) clearInterval(auto); else check(); } }, 3000);
   const prevRows = CLOUD.setRows;
   CLOUD.setRows = function () { if (this.uid) setTimeout(check, 0); return (isMe() ? `<button class="set-row" data-a="adminOpen"><span>📊</span>Админка</button>` : "") + prevRows.call(this); };
   document.addEventListener("click", e => { if (e.target.closest('[data-a="adminOpen"]')) { e.stopPropagation(); openAdmin(); } }, true);
