@@ -4631,6 +4631,45 @@ html.night .demo-chip{background:var(--surface-2);color:var(--ink-2)}
 .dx-word .dx-prog{display:none}
 html.night .nt-fab,.night .nt-fab{background:var(--sign)!important;color:var(--sign-ink)!important;border:2.5px solid var(--edge)!important;box-shadow:0 4px 0 var(--edge),0 10px 22px rgba(0,0,0,.35)!important}
 
+/* «5 слов в день» — занятие-запоминание (v125) */
+.mz-h{margin:6px 0 6px;font:400 28px/1.1 var(--f-dg,"Dela Gothic One"),var(--f-body,system-ui)}
+.mz-lead{margin:0 0 14px;font-size:15.5px;line-height:1.45;font-weight:600;color:#3D4250}
+.mz-sub{margin:16px 0 8px;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:#6B7080}
+.mz-due{display:flex;flex-direction:column;gap:6px;padding:14px;border-radius:20px;background:#FFF7B8;box-shadow:inset 0 0 0 2.5px var(--k-edge,#17171F);margin-bottom:6px}
+.mz-due b{font-size:15.5px;font-weight:800}.mz-due span{font-size:14px;line-height:1.4;font-weight:600}.mz-due .btn{margin-top:6px}
+.mz-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;counter-reset:mz}
+.mz-list li{counter-increment:mz;display:flex;align-items:baseline;gap:10px;padding:11px 14px;border-radius:16px;background:#fff;box-shadow:inset 0 0 0 2px #E3E6EC}
+.mz-list li::before{content:counter(mz);flex:none;width:22px;font-weight:800;color:#6B7080}
+.mz-list b{font-size:16px;font-weight:800}.mz-list span{flex:1;min-width:0;text-align:right;font-size:13.5px;font-weight:600;color:#6B7080}
+.mz-other{align-self:flex-start;margin-top:8px}
+.mz-why{margin-top:16px;padding:14px;border-radius:20px;background:#fff;box-shadow:inset 0 0 0 2px #E3E6EC}
+.mz-why summary{font-weight:800;font-size:15px;cursor:pointer}
+.mz-why ul{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.mz-why li{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.45;font-weight:600;color:#3D4250}
+.mz-why li i{flex:none;width:34px;height:34px;border-radius:12px;display:grid;place-items:center;background:#F1F3F6;font-style:normal;font-size:17px}
+.mz-why li b,.mz-why p b{color:var(--k-ink,#17171F);font-weight:800}
+.mz-why p{margin:12px 0 0;font-size:14px;line-height:1.5;font-weight:600;color:#3D4250}
+.mz-ru{margin:10px 0 0;font-size:19px;font-weight:700;text-align:left}
+.mz-page .hc-mean{margin:10px 0 2px}.mz-page .hc-mean li{font-size:13.5px;color:var(--ink)}.mz-page .hc-mean b{font-size:14.5px;color:var(--ink)}.mz-page .hc-mean span{color:var(--ink-2)}.mz-page .hc-mean i{color:#4C33B5}.mz-page .hc-mean li::before{background:#7A5CF0}
+.night .mz-page .hc-mean i{color:#B9A8FF}
+.mz-todo{margin:16px 0 4px;padding:12px 14px 12px 34px;border-radius:18px;background:#F1F3F6;font-size:14px;line-height:1.5;font-weight:600;color:#3D4250;text-align:left}
+.mz-todo li + li{margin-top:4px}
+.mz-dots{display:flex;justify-content:center;gap:6px;margin:8px 0 14px}
+.mz-dots i{width:26px;height:6px;border-radius:3px;background:#E3E6EC}
+.mz-dots i.on{background:#2FCB7E}.mz-dots i.cur{background:var(--k-fill,#17171F)}
+.mz-listen{display:flex;gap:8px;justify-content:center;margin:6px 0 4px}
+.mz-fin{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:6px;text-align:left}
+.mz-fin li{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;background:#EFFBF2;font-size:14.5px;font-weight:600}
+.mz-fin li.no{background:#FFF1E3}
+.mz-fin i{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:#7BEA64;font-style:normal;font-weight:800;font-size:13px;color:#17171F}
+.mz-fin li.no i{background:#FFC98A}
+html.night .mz-lead,html.night .mz-why li,html.night .mz-why p,html.night .mz-todo{color:var(--ink-2)}
+html.night .mz-list li,html.night .mz-why{background:var(--surface);box-shadow:inset 0 0 0 2px var(--line)}
+html.night .mz-why li i,html.night .mz-todo{background:var(--surface-2)}
+html.night .mz-due{background:var(--accent-soft);box-shadow:inset 0 0 0 2.5px var(--edge)}
+html.night .mz-dots i{background:var(--line)}html.night .mz-dots i.on{background:#2FCB7E}html.night .mz-dots i.cur{background:var(--ink)}
+html.night .mz-fin li{background:var(--surface)}html.night .mz-fin li.no{background:var(--surface-2)}
+html.night .mz-sub,html.night .mz-list span{color:var(--muted)}
 /* «Учёба»: лестница уровней и ступени-модули (v124) */
 .lv-map{margin:4px 4px 12px}
 .lv-stairs{display:flex;align-items:flex-end;gap:5px;margin:22px 0 10px}
@@ -32834,6 +32873,251 @@ renderDict = function () {
 };
 renderDict();
 renderHcHome();
+// ================== «5 СЛОВ В ДЕНЬ»: занятие-запоминание (v125) ==================
+// Зачем: в лесенке повторения новое слово в первый день встречалось один раз — этого мало, чтобы оно записалось.
+// Здесь каждое слово за одно занятие пять раз достаётся из памяти разными способами, между шагами идут другие слова.
+// В конце слова встают на лесенку (завтра → через 3 дня → через неделю), её правила не меняются.
+const MZ_N = 5, MZ_GAP = [1, 2, 3, 3], MZ_STEPS = ["Знакомство", "Узнайте", "На слух", "Вспомните", "Своя фраза"];
+let MZ = null;
+function mzPage() {
+  let p = $("#mzPage");
+  if (!p) { p = document.createElement("div"); p.className = "page gpage qz-page vb-page mz-page"; p.id = "mzPage"; p.hidden = true; $("#profilePage").before(p); p.addEventListener("click", onMzClick); p.addEventListener("submit", onMzSubmit); }
+  return p;
+}
+const mzWord = d => String(d.en).trim().replace(/[.!?]+$/, "");
+const mzSame = (a, b) => { const j = judge(a, b); return j.ok || vbClose(a, b); };
+// слова уровня, которых ещё нет в словаре: из уроков курса, начиная с текущего
+function mzLevelWords() {
+  const lv = PS.level; if (!COURSE[lv]) return [];
+  const les = courseItems(lv).filter(it => it.kind === "lesson" && LESSONS[it.id] && LESSONS[it.id].words);
+  const from = Math.max(0, les.findIndex(it => !itemDone(it))), order = les.slice(from).concat(les.slice(0, from)), out = [], seen = new Set();
+  for (const it of order) for (const w of LESSONS[it.id].words) {
+    const en = String(w[0] || "").trim(), k = norm(en);
+    if (!en || !w[1] || /→|\//.test(en) || seen.has(k) || irFind(en)) continue;
+    seen.add(k); out.push({ en, ru: w[1], src: "Урок: " + LESSONS[it.id].t });
+    if (out.length >= 40) return out;
+  }
+  return out;
+}
+function mzPick() {
+  const left = Math.max(0, IR_NEW - irNewToday());
+  const own = irPool().concat(S.dict.filter(d => !d.ir)).filter(d => d.en && vbRu(d));
+  const skip = new Set(MZ && MZ.skip ? MZ.skip : []);
+  const all = own.concat(mzLevelWords()).filter(w => !skip.has(norm(w.en)));
+  return { left, list: all.slice(0, Math.min(MZ_N, left)), more: all.length > MZ_N };
+}
+function openMz() {
+  MZ = { mode: "intro", skip: [] };
+  renderMz(); openPageEl(mzPage());
+}
+function mzHead(pct, label) {
+  return `<div class="page-head qz-head"><button class="icon-btn" data-mz="close" aria-label="Закрыть">✕</button><div class="qz-bar"><i style="width:${pct}%"></i></div><span class="qz-n">${label || ""}</span></div>`;
+}
+function mzPaint(head, body, foot) {
+  const p = mzPage();
+  p.innerHTML = `${head}<div class="scroll page-body qz-body vb-body mz-body">${body}</div>${foot ? `<div class="qz-foot">${foot}</div>` : ""}`;
+  $(".mz-body", p).scrollTop = 0;
+  const f = $("input:not([disabled]),textarea", p); if (f && MZ.mode !== "intro") setTimeout(() => f.focus(), 300);
+}
+function mzIntro() {
+  const pk = mzPick(), due = irDue().length;
+  MZ.pick = pk.list;
+  const why = [["👀", "Мы узнаём, а не вспоминаем", "Посмотрели на карточку, подумали «а, знаю» — и мозг ничего не записал. Память растёт, только когда вы достаёте слово сами."],
+    ["🌊", "Слишком много за раз", "Тридцать слов за вечер к утру почти не остаётся. Пять слов мозг успевает уложить."],
+    ["🪝", "Слову не за что зацепиться", "Без звука, своей фразы и картинки слово висит в воздухе и быстро теряется."],
+    ["📅", "Нет возврата вовремя", "Слово нужно вспомнить завтра, через 3 дня и через неделю. Без этого оно стирается, как бы хорошо вы его ни учили."]];
+  const list = pk.list.length ? `<ol class="mz-list">${pk.list.map(w => `<li><b>${esc(w.en)}</b><span>${esc(w.ru || vbRu(w))}</span></li>`).join("")}</ol>
+      ${pk.more ? `<button class="tk-link mz-other" data-mz="other">🔄 Другие слова</button>` : ""}` : "";
+  mzPaint(mzHead(0, ""), `<span class="eyebrow">🧠 Занятие на 7–10 минут</span><h2 class="mz-h">5 слов в день</h2>
+    <p class="mz-lead">Пять слов за занятие, зато они остаются. Каждое слово вы пять раз достаёте из памяти разными способами.</p>
+    ${due ? `<div class="mz-due"><b>Сначала вспомним старое</b><span>${plural(due, ["слово ждёт", "слова ждут", "слов ждут"])} повтора. Это важнее новых слов: без повтора они сотрутся.</span><button class="btn soft wide" data-mz="review">🔁 Повторить · ${due}</button></div>` : ""}
+    ${pk.left === 0 ? `<div class="mz-due"><b>На сегодня новых слов хватит</b><span>Вы уже взяли ${IR_NEW} новых слов. Больше за день брать не стоит: они начнут вытеснять друг друга. Приходите завтра.</span></div>`
+      : pk.list.length ? `<h3 class="mz-sub">Сегодняшние слова</h3>${list}` : `<div class="mz-due"><b>Слова закончились</b><span>Добавьте слова в словарь из диалогов, уроков или книг — и возвращайтесь.</span></div>`}
+    <details class="mz-why"${pk.left && pk.list.length && lsGet("hithere.mz.seen") ? "" : " open"}><summary>Почему слова не запоминаются</summary>
+      <ul>${why.map(w => `<li><i>${w[0]}</i><span><b>${w[1]}.</b> ${w[2]}</span></li>`).join("")}</ul>
+      <p><b>Как устроено занятие.</b> Слово вы сначала слышите и печатаете, потом узнаёте среди других, пишете на слух, вспоминаете сами и ставите в свою фразу. Между шагами идут другие слова: эта пауза и есть тренировка. В конце — проверка без подсказок.</p>
+      <p><b>Честно.</b> Волшебной кнопки нет. Метод работает, если заниматься каждый день и возвращаться к повторам. Тогда пять слов в день — это около 150 слов в месяц, которые остаются с вами.</p></details>`,
+    pk.left && pk.list.length ? `<button class="btn primary wide" data-mz="start">▶ Начать · ${plural(pk.list.length, ["слово", "слова", "слов"])}</button>` : `<button class="btn primary wide" data-mz="close">Понятно</button>`);
+}
+function mzStart() {
+  // слова из уроков сначала попадают в словарь и в очередь повторения
+  const ds = MZ.pick.map(w => { if (S.dict.includes(w)) { if (!w.ir) irQueue([w], { quiet: true }); return w; } irQueue([w], { quiet: true }); return irFind(w.en); }).filter(Boolean);
+  if (!ds.length) return;
+  try { localStorage.setItem("hithere.mz.seen", "1"); } catch (e) {}
+  const steps = ds.reduce((s, d) => s + (irIsPhrase(d) ? 4 : 5), 0);
+  MZ = { mode: "run", words: ds, pend: ds.slice(1), queue: [{ d: ds[0], k: 0 }], last: null, done: 0, total: steps + ds.length, miss: {}, ph: {}, seen: {}, tick: 0, t0: Date.now() };
+  renderMz();
+}
+// следующий шаг слова встаёт в очередь через 1–3 других карточки
+function mzAdvance(ok) {
+  const cur = MZ.queue.shift(), d = cur.d, ph = irIsPhrase(d), lastK = ph ? 3 : 4;
+  MZ.last = d; MZ.tick = (MZ.tick || 0) + 1; MZ.seen[d.id] = MZ.tick;
+  if (cur.bonus) { if (!ok) MZ.miss[d.id] = (MZ.miss[d.id] || 0) + 1; }
+  else if (ok || cur.k === 0) {
+    MZ.done++;
+    if (cur.k < lastK) MZ.queue.splice(Math.min(MZ_GAP[cur.k], MZ.queue.length), 0, { d, k: cur.k + 1 });
+  } else {
+    MZ.miss[d.id] = (MZ.miss[d.id] || 0) + 1;
+    // не получилось — попробуем тот же шаг снова через пару карточек
+    MZ.queue.splice(Math.min(2, MZ.queue.length), 0, { d, k: cur.k, again: true });
+  }
+  // в работе одновременно до трёх слов; одно и то же слово не идёт два раза подряд:
+  // между его шагами встаёт новое слово или быстрый повтор уже пройденного
+  const active = new Set(MZ.queue.map(x => x.d)).size;
+  if (MZ.pend.length && (active < 3 || MZ.queue[0].d === d)) MZ.queue.unshift({ d: MZ.pend.shift(), k: 0 });
+  else if (MZ.queue.length && MZ.queue[0].d === d && !cur.bonus) {
+    const other = MZ.words.filter(x => x !== d && MZ.seen[x.id]).sort((a, b) => MZ.seen[a.id] - MZ.seen[b.id])[0];
+    if (other) MZ.queue.unshift({ d: other, k: 3, bonus: true });
+  }
+  if (!MZ.queue.length) { MZ.mode = "final"; MZ.fq = shuffle(MZ.words.slice()); MZ.fi = 0; MZ.fres = {}; }
+  renderMz();
+}
+function mzEnOptions(d) {
+  const right = mzWord(d), seen = new Set([norm(right)]), out = [];
+  const pool = shuffle(MZ.words.filter(x => x !== d).map(mzWord)).concat(shuffle(S.dict.filter(x => x !== d && kindOf(x.en) === kindOf(d.en)).map(mzWord)), shuffle(S.dict.map(mzWord)));
+  if (typeof WORD_INFO !== "undefined") { const ks = Object.keys(WORD_INFO); for (let i = 0; i < 12; i++) pool.push(ks[(Math.random() * ks.length) | 0]); }
+  for (const w of pool) { const k = norm(w); if (k && !seen.has(k) && out.length < 3) { seen.add(k); out.push(w); } }
+  return shuffle(out.concat(right));
+}
+const mzDots = (d, k) => `<div class="mz-dots" aria-hidden="true">${(irIsPhrase(d) ? [0, 1, 2, 3] : [0, 1, 2, 3, 4]).map(i => `<i class="${i < k ? "on" : i === k ? "cur" : ""}" title="${MZ_STEPS[i]}"></i>`).join("")}</div>`;
+const mzSayBtns = `<button class="qz-say" data-mz="say" aria-label="Послушать">🔊</button><button class="qz-say" data-mz="slow" aria-label="Послушать медленно">🐢</button>`;
+function renderMz() {
+  if (!MZ) return;
+  if (MZ.mode === "intro") return mzIntro();
+  if (MZ.mode === "done") return mzResult();
+  MZ.answered = false; MZ.res = null; MZ.hint = 0;
+  const pct = Math.round(MZ.done / MZ.total * 100);
+  if (MZ.mode === "final") {
+    const d = MZ.fq[MZ.fi]; if (!d) { mzFinish(); return; }
+    MZ.cur = { d, k: "final" };
+    mzPaint(mzHead(pct, `${MZ.fi + 1}/${MZ.fq.length}`), `<span class="eyebrow">🏁 Финал · без подсказок</span><h2 class="qz-q">${esc(vbRu(d))}</h2><p class="qz-sub">Вспомните и напечатайте по-английски.</p>
+      <form class="tk-form qz-type" id="mzForm"><input class="fld" id="mzIn" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="По-английски…" aria-label="Ваш ответ"><button class="btn primary">Проверить</button></form>
+      <button class="tk-link qz-hint" data-mz="dunno">Не помню</button><div class="qz-fb" id="mzFb" hidden></div>`, `<button class="btn primary wide" data-mz="next" id="mzNext" hidden>Дальше</button>`);
+    return;
+  }
+  const cur = MZ.queue[0], d = cur.d, w = mzWord(d); MZ.cur = cur;
+  const head = mzHead(pct, `${MZ.words.indexOf(d) + 1}/${MZ.words.length}`), dots = mzDots(d, cur.k), foot = `<button class="btn primary wide" data-mz="next" id="mzNext" hidden>Дальше</button>`;
+  if (cur.k === 0) {
+    const inf = vbInfo(d);
+    mzPaint(head, `<span class="eyebrow">Шаг 1 · знакомство</span>${dots}<h2 class="qz-q en">${esc(d.en)} ${mzSayBtns}</h2>${d.ipa ? `<p class="qz-sub">${esc(d.ipa)}</p>` : ""}
+      <p class="mz-ru">${esc(vbRu(d))}</p>${inf ? hcInfoHTML(inf) : ""}${d.ctx ? `<p class="vb-ctx">Пример: «${esc(d.ctx)}»</p>` : ""}
+      <ol class="mz-todo"><li>Послушайте и скажите вслух три раза.</li><li>Придумайте картинку: на что похоже это слово? Чем смешнее, тем лучше.</li><li>Напечатайте слово сами: рука тоже запоминает.</li></ol>
+      <form class="tk-form qz-type" id="mzForm"><input class="fld" id="mzIn" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Напечатайте: ${esc(w)}" aria-label="Напечатайте слово"><button class="btn primary">Готово</button></form>
+      <div class="qz-fb" id="mzFb" hidden></div>`);
+    setTimeout(() => speak(d.en), 350);
+  } else if (cur.k === 1) {
+    MZ.opts = mzEnOptions(d);
+    mzPaint(head, `<span class="eyebrow">Шаг 2 · узнайте слово</span>${dots}<h2 class="qz-q">${esc(vbRu(d))}</h2><p class="qz-sub">Как это по-английски?</p>
+      <div class="qz-opts">${MZ.opts.map((o, i) => `<button class="qz-opt en" data-mz="opt" data-o="${i}">${esc(o)}</button>`).join("")}</div><div class="qz-fb" id="mzFb" hidden></div>`, foot);
+  } else if (cur.k === 2) {
+    mzPaint(head, `<span class="eyebrow">Шаг 3 · на слух</span>${dots}<h2 class="qz-q">Послушайте и напечатайте</h2><p class="qz-sub">Слово не показываем — только звук.</p>
+      <div class="mz-listen"><button class="btn soft" data-mz="say">🔊 Послушать</button><button class="btn ghost" data-mz="slow">🐢 Медленно</button></div>
+      <form class="tk-form qz-type" id="mzForm"><input class="fld" id="mzIn" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Что вы услышали?" aria-label="Ваш ответ"><button class="btn primary">Проверить</button></form>
+      <button class="tk-link qz-hint" data-mz="hint">Подсказка: первая буква</button><div class="qz-fb" id="mzFb" hidden></div>`, foot);
+    setTimeout(() => speak(d.en), 400);
+  } else if (cur.k === 3) {
+    mzPaint(head, `<span class="eyebrow">${cur.bonus ? "⚡ Быстрый повтор" : "Шаг 4 · вспомните сами"}</span>${cur.bonus ? "" : dots}<h2 class="qz-q">${esc(vbRu(d))}</h2><p class="qz-sub">Без подсказок. Сначала вспомните в голове, потом печатайте.</p>
+      <form class="tk-form qz-type" id="mzForm"><input class="fld" id="mzIn" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="По-английски…" aria-label="Ваш ответ"><button class="btn primary">Проверить</button></form>
+      <button class="tk-link qz-hint" data-mz="dunno">Не помню</button><div class="qz-fb" id="mzFb" hidden></div>`, foot);
+  } else {
+    mzPaint(head, `<span class="eyebrow">Шаг 5 · своя фраза</span>${dots}<h2 class="qz-q en">${esc(d.en)} ${mzSayBtns}</h2><p class="mz-ru">${esc(vbRu(d))}</p>
+      <form id="mzForm"><label class="ir-lbl" for="mzPh">Напишите фразу с этим словом про себя: что-то настоящее из вашей жизни. Своё запоминается лучше чужого.</label>
+      <textarea class="fld ir-ta" id="mzPh" maxlength="200" autocomplete="off" autocapitalize="sentences" spellcheck="false" placeholder="Например, про вчерашний день, семью или работу…"></textarea>
+      <div class="qz-fb" id="mzFb" hidden></div><div class="ir-btns"><button class="btn primary wide">Сохранить фразу</button><button type="button" class="btn ghost wide" data-mz="nophrase">Не могу придумать</button></div></form>`);
+  }
+}
+function mzFeedback(ok, typed) {
+  if (MZ.answered) return; MZ.answered = true; MZ.res = ok;
+  const d = MZ.cur.d, fb = $("#mzFb"), p = mzPage();
+  const inp = $("#mzIn", p); if (inp) inp.disabled = true;
+  $$(".qz-hint,[data-mz=dunno],.qz-type .btn", p).forEach(x => { x.hidden = true; });
+  fb.hidden = false; fb.className = "qz-fb " + (ok ? "ok" : "bad");
+  const fin = MZ.cur.k === "final";
+  fb.innerHTML = `<b>${ok ? ["Есть!", "Точно!", "Вспомнили!"][(Math.random() * 3) | 0] : typed ? "Почти" : "Ничего страшного"}</b><span class="qz-right">${esc(d.en)} — ${esc(vbRu(d))} <button class="qz-say" data-mz="say" aria-label="Послушать">🔊</button></span>
+    ${ok ? "" : `<span>${fin ? "Завтра это слово вернётся первым." : "Посмотрите на слово, скажите его вслух — оно скоро вернётся."}</span>`}`;
+  speak(d.en);
+  if (typeof gsnd === "function") gsnd(ok ? "ok" : "no", 1);
+  const nx = $("#mzNext", p); if (nx) { nx.hidden = false; setTimeout(() => nx.focus(), 60); }
+}
+function mzNext() {
+  if (!MZ.answered) return;
+  if (MZ.mode === "final") { MZ.fres[MZ.cur.d.id] = !!MZ.res; MZ.done++; MZ.fi++; renderMz(); return; }
+  mzAdvance(!!MZ.res);
+}
+function onMzSubmit(e) {
+  e.preventDefault(); if (!MZ || !MZ.cur) return;
+  if (MZ.answered) { mzNext(); return; }
+  const d = MZ.cur.d, k = MZ.cur.k, w = mzWord(d), fb = $("#mzFb");
+  if (k === 4) {
+    const ta = $("#mzPh"), v = ta.value.trim();
+    const bad = msg => { fb.hidden = false; fb.className = "qz-fb bad"; fb.innerHTML = `<span>${msg}</span>`; ta.focus(); };
+    if (v.split(/\s+/).length < 3) return bad("Напишите целую фразу — хотя бы три слова.");
+    if (!irHasWord(v, d.en)) return bad(`Во фразе нет слова <b>${esc(d.en)}</b>. Вставьте его.`);
+    MZ.ph[d.id] = v; mzAdvance(true); return;
+  }
+  const inp = $("#mzIn"), v = inp.value.trim(); if (!v) { inp.focus(); return; }
+  if (k === 0) {
+    if (ansNorm(v) === ansNorm(w) || norm(v) === norm(w)) { mzAdvance(true); return; }
+    fb.hidden = false; fb.className = "qz-fb bad"; fb.innerHTML = `<span>Посмотрите на слово и напечатайте точно так же: <b>${esc(w)}</b></span>`; inp.select(); return;
+  }
+  mzFeedback(mzSame(v, w) && !(k === 2 && MZ.hint > 1), true);
+}
+function onMzClick(e) {
+  const b = e.target.closest("[data-mz]"); if (!b || !MZ) return;
+  const k = b.dataset.mz, d = MZ.cur && MZ.cur.d;
+  if (k === "close") {
+    const mid = MZ.mode === "run" || MZ.mode === "final";
+    closePageEl(mzPage()); MZ = null; renderEx(); renderHcHome();
+    if (mid) toast("Занятие не закончено — слова остались в очереди, начните заново, когда будет время");
+    return;
+  }
+  if (k === "start") { mzStart(); return; }
+  if (k === "other") { MZ.skip = MZ.skip.concat(MZ.pick.map(w => norm(w.en))); if (!mzPick().list.length) MZ.skip = []; renderMz(); return; }
+  if (k === "review") { closePageEl(mzPage()); MZ = null; startIr(); return; }
+  if (k === "say" && d) { speak(d.en, { el: b }); return; }
+  if (k === "slow" && d) { speak(d.en, { el: b, rate: 0.6 }); return; }
+  if (k === "next") { mzNext(); return; }
+  if (k === "dunno") { mzFeedback(false, false); return; }
+  if (k === "hint" && d) { MZ.hint++; const w = mzWord(d); b.textContent = MZ.hint === 1 ? `Первая буква: ${w[0]} · букв: ${w.replace(/\s/g, "").length}` : `Начало: ${w.slice(0, Math.ceil(w.length / 2))}…`; if (MZ.hint > 1) b.disabled = true; return; }
+  if (k === "nophrase") { mzAdvance(true); return; }
+  if (k === "opt" && d) {
+    if (MZ.answered) return;
+    const i = +b.dataset.o, right = mzWord(d), ok = norm(MZ.opts[i]) === norm(right);
+    $$(".qz-opt", mzPage()).forEach((x, j) => { x.disabled = true; if (norm(MZ.opts[j]) === norm(right)) x.classList.add("hit"); });
+    if (!ok) b.classList.add("miss");
+    mzFeedback(ok, true); return;
+  }
+  if (k === "again") { openMz(); return; }
+}
+function mzFinish() {
+  // слова встают на лесенку: завтра — первый повтор
+  MZ.words.forEach(d => { const ph = MZ.ph[d.id]; d.ir = { st: 1, start: Date.now(), ph: ph ? [ph] : [], fails: 0 }; irSched(d, 1); });
+  saveDict(); renderDict(); renderDeckChips(); renderHcHome();
+  MZ.mode = "done"; MZ.min = Math.max(1, Math.round((Date.now() - MZ.t0) / 60000));
+  renderMz();
+  const got = MZ.words.filter(d => MZ.fres[d.id]).length;
+  setTimeout(() => award({ title: "Слова в памяти", rows: [[`5 слов в день: ${plural(MZ.words.length, ["слово", "слова", "слов"])}`, 10 + got * 2]] }), 500);
+}
+function mzResult() {
+  const got = MZ.words.filter(d => MZ.fres[d.id]).length, n = MZ.words.length;
+  mzPaint(mzHead(100, ""), `<div class="qz-res vb-res"><h2>${got === n ? "Все слова в памяти 🎉" : got ? "Хорошая работа" : "Первый шаг сделан"}</h2>
+    <div class="vb-sum"><span><b>${got}/${n}</b>в финале</span><span><b>${MZ.min}</b>мин</span><span><b>${Object.keys(MZ.ph).length}</b>своих фраз</span></div>
+    <ul class="mz-fin">${MZ.words.map(d => `<li class="${MZ.fres[d.id] ? "" : "no"}"><i>${MZ.fres[d.id] ? "✓" : "↻"}</i><span><b>${esc(d.en)}</b> — ${esc(vbRu(d))}</span></li>`).join("")}</ul>
+    <p class="vb-next"><b>Самое главное — завтра.</b> Приложение попросит вспомнить эти слова: завтра, через 3 дня и через неделю. Каждое возвращение занимает минуту, а без него большая часть забудется за пару дней.</p>
+    ${got < n ? `<p class="vb-next">Слова со значком ↻ в финале не вспомнились. Это нормально для первого дня: завтра они придут первыми.</p>` : ""}</div>`,
+    `<button class="btn primary wide" data-mz="close">Готово</button>`);
+}
+// плитка — первой в «Упражнениях»
+const renderExMz = renderEx;
+renderEx = function () {
+  renderExMz();
+  const g = $("#scr-ex .ex-grid"); if (!g || $('[data-x="mz"]', g)) return;
+  const due = irDue().length, left = Math.max(0, IR_NEW - irNewToday());
+  g.insertAdjacentHTML("afterbegin", `<button class="ex-tile" data-x="mz" style="--tb:#DCCBFF"><span class="ex-e">🧠</span><b>5 слов в день</b><span>Занятие на 7–10 минут: слова остаются, потому что вы достаёте их из памяти сами</span><em>${due ? `${plural(due, ["слово ждёт", "слова ждут", "слов ждут"])} повтора` : left ? "сегодня: новые слова" : "на сегодня готово ✓"}</em>${left || due ? `<i class="ex-tag">Новое</i>` : `<i class="ex-ok">✓</i>`}</button>`);
+};
+$("#scr-ex").addEventListener("click", e => { if (e.target.closest('[data-x="mz"]')) openMz(); });
+renderEx();
+
 // ================== СТАРТ ==================
 renderLevel();
 renderMe();
@@ -32930,7 +33214,7 @@ html.web .reward{left:var(--side)}
 /* тренировки — в три колонки */
 html.web .ex-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 /* уроки, тесты, игры, город — во весь экран, как режим занятия; меню возвращается после выхода */
-html.web #lessonPage,html.web #exPage,html.web #modPage,html.web #quizPage,html.web #irPage,html.web #vbPage,html.web #cityPage{left:0}
+html.web #lessonPage,html.web #exPage,html.web #modPage,html.web #quizPage,html.web #irPage,html.web #vbPage,html.web #mzPage,html.web #cityPage{left:0}
 html.web #cityPage > *{padding-inline:0}
 /* «Учёба» подсвечена, пока открыт путь */
 html.web.path-open .tab.active{background:none;box-shadow:none;color:var(--ink-2)}
@@ -33023,6 +33307,9 @@ html.web .lv-can,html.web .pt-lvl{box-shadow:var(--shadow-sm)}
 html.web .pt-lvl.on{box-shadow:0 10px 22px rgba(23,19,46,.22)}
 html.web .lv-me{background:linear-gradient(100deg,#6A4CFF,#FF5FB7)}
 html.web .cs-mod.here{box-shadow:var(--shadow),0 0 0 2px #6A4CFF}
+html.web .mz-due{box-shadow:var(--shadow-sm);background:#F3FFC9}
+html.web.night .mz-due{background:var(--accent-soft)}
+html.web .mz-list li,html.web .mz-why{box-shadow:var(--shadow-sm)}
 </style>
 </body>
 </html>
