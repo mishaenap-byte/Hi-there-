@@ -4631,6 +4631,37 @@ html.night .demo-chip{background:var(--surface-2);color:var(--ink-2)}
 .dx-word .dx-prog{display:none}
 html.night .nt-fab,.night .nt-fab{background:var(--sign)!important;color:var(--sign-ink)!important;border:2.5px solid var(--edge)!important;box-shadow:0 4px 0 var(--edge),0 10px 22px rgba(0,0,0,.35)!important}
 
+/* «Учёба»: лестница уровней и ступени-модули (v124) */
+.lv-map{margin:4px 4px 12px}
+.lv-stairs{display:flex;align-items:flex-end;gap:5px;margin:22px 0 10px}
+.lv-stairs .lv-st{position:relative;flex:1;min-width:0;height:calc(46px + var(--h) * 11px);border-radius:14px 14px 8px 8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:0 2px;overflow:visible}
+.lv-st b{position:relative;z-index:1;font-size:14px;font-weight:800;line-height:1.1}
+.lv-st small{position:relative;z-index:1;font-size:10px;font-weight:700;opacity:.75;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.lv-fill{position:absolute;left:0;right:0;bottom:0;border-radius:inherit;background:#7BEA64;opacity:.38;pointer-events:none}
+.pt-lvl.on .lv-fill{opacity:.22}
+.lv-me{position:absolute;top:-19px;left:50%;transform:translateX(-50%);padding:2px 7px;border-radius:8px;background:#FF6FB5;color:#fff;font:800 9.5px/1.3 var(--f-body,inherit);font-style:normal;white-space:nowrap;z-index:2}
+.lv-me::after{content:"";position:absolute;left:50%;bottom:-4px;width:8px;height:8px;margin-left:-4px;background:inherit;transform:rotate(45deg);z-index:-1}
+.lv-top{background:repeating-linear-gradient(135deg,#F1F3F6 0 6px,#fff 6px 12px);box-shadow:inset 0 0 0 2px #D9DDE5;color:#6B7080}
+.lv-can{margin:0;padding:10px 12px;border-radius:14px;background:#fff;box-shadow:inset 0 0 0 2px #E3E6EC;font-size:13.5px;line-height:1.45;font-weight:600;color:#3D4250}
+.lv-can b{color:var(--k-ink,#17171F);font-weight:800}
+.cs-up{margin:16px 6px 0;font-size:13px;line-height:1.4;font-weight:700;color:#6B7080}
+details.cs-mod > summary{list-style:none;cursor:pointer;margin-bottom:0}
+details.cs-mod > summary::-webkit-details-marker{display:none}
+.cs-chev{flex:none;font-size:22px;font-weight:800;color:#6B7080;line-height:1;transition:transform .25s}
+details.cs-mod[open] .cs-chev{transform:rotate(90deg)}
+.cs-mbar{height:6px;border-radius:3px;background:#E9ECF1;margin:10px 0 0;overflow:hidden}
+.cs-mbar i{display:block;height:100%;border-radius:3px;background:#2FCB7E}
+.cs-topics{margin:8px 0 0;font-size:12.5px;line-height:1.45;font-weight:600;color:#6B7080}
+details.cs-mod[open] .cs-topics{display:none}
+details.cs-mod[open] .cs-list{margin-top:10px}
+.cs-mod.all .cs-mod-e{background:#7BEA64}
+.cs-mod.here{box-shadow:inset 0 0 0 2.5px var(--k-edge,#17171F),0 6px 0 var(--y-fill,#FFEC3D)}
+html.night .lv-can{background:var(--surface);box-shadow:inset 0 0 0 2px var(--line);color:var(--ink-2)}
+html.night .lv-can b{color:var(--ink)}
+html.night .lv-top{background:var(--surface-2);box-shadow:inset 0 0 0 2px var(--line);color:var(--muted)}
+html.night .cs-mbar{background:var(--surface-2)}
+html.night .cs-up,html.night .cs-topics,html.night .cs-chev{color:var(--muted)}
+html.night .cs-mod.here{box-shadow:inset 0 0 0 2.5px var(--edge),0 6px 0 var(--accent-soft)}
 /* «Запомни за 10 секунд» — карточка-шпаргалка в начале урока */
 .ln-memo{margin:0 2px 12px;padding:16px 16px 14px;border-radius:22px;background:var(--k-fill,#17171F);color:#fff}
 .ln-memo-h{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--y-ink,#FFEC3D)}
@@ -11967,12 +11998,12 @@ Object.assign(LESSONS, {
   "a2-20": {"n":0,"t":"Чьё: Anna's, mine, whose","min":20,"why":"«Это сумка Анны», «Это не моё», «Чей это телефон?» — такие фразы нужны на почте, в банке, в магазине, когда забираешь посылку за маму или нашёл чужой зонт. По-русски хватает слов «чей» и «мой». В английском три инструмента: <b>'s</b> после имени, <b>of</b> для вещей и слова вроде <b>mine</b>, когда существительное уже понятно.","goals":["Говорить, чья это вещь: <b>Anna's bag, my parents' house, the children's toys</b>","Отвечать коротко, не повторяя существительное: <b>It's mine. Is this yours?</b>","Спрашивать о владельце и не путать похожие слова: <b>Whose phone is this? — It's Tom's.</b>"],"look":{"ex":[["This is <mark>Anna's</mark> bag.","Это сумка Анны."],["Is this umbrella <mark>yours</mark>? — No, it isn't <mark>mine</mark>.","Это твой зонт? — Нет, не мой."],["<mark>Whose</mark> phone is this? — It's <mark>Tom's</mark>.","Чей это телефон? — Тома."],["I didn't see <mark>the end of the film</mark>.","Я не видел конец фильма."]],"q":"Где стоит владелец — до вещи или после? И почему в ответах нет слов umbrella и phone?","a":"Если владелец — человек, он идёт первым и получает <b>'s</b>: Anna's bag, почти как «Аннина сумка». Для вещей — <b>of</b>, как русский родительный падеж: the end of the film. А <b>mine, yours, Tom's</b> заменяют целое «мой зонт», «телефон Тома», поэтому существительное не повторяют."},"rule":"Человек + <b>'s</b> + вещь: <b>Anna's bag</b>. Части вещей — через <b>of</b>: <b>the end of the film</b>. Без существительного — <b>mine, yours, his, hers, ours, theirs</b>. «Чей?» — <b>Whose …?</b>","formula":[["человек + 's + вещь","Anna's bag, the children's toys"],["множественное на -s + ' + вещь","my parents' house"],["the + часть + of + вещь","the end of the film, the top of the page"],["Whose + вещь + is this? — It's mine / Tom's.","Whose coat is this? — It's hers."]],"think":"Вспомните русские слова «мамин», «Аннин», «папин». <b>Anna's bag</b> — это и есть «Аннина сумка»: владелец впереди, к нему прилипает <b>'s</b>, потом вещь. Русскоговорящие часто строят «the bag of Anna», как «сумка Анны» — по-английски так не говорят. Владелец — человек или животное → <b>'s</b>.<br>Где ставить апостроф? Один человек: <b>my brother's car</b> (у одного брата). Много людей, и слово уже кончается на -s: апостроф после s, вторую s не добавляем: <b>my parents' house</b>. На слух parents и parents' звучат одинаково. Если множественное число без -s (children, people, men, women), добавляем обычное <b>'s</b>: <b>the children's toys, women's shoes</b>.<br>Для вещей и частей вещей берём <b>of</b>: <b>the end of the film, the name of the shop, the price of the ticket</b>. «The film's end» по-английски возможно, но звучит непривычно — по умолчанию of.<br>Теперь my и mine. По-русски «мой» работает везде: «мой телефон» и «он мой». В английском две формы. <b>my</b> всегда держит существительное за руку: my phone. <b>mine</b> стоит одна, существительное уже понятно: The phone is <b>mine</b>. Так же your → <b>yours</b>, her → <b>hers</b>, our → <b>ours</b>, their → <b>theirs</b>. У his обе формы одинаковые.<br>«Один мой друг» — <b>a friend of mine</b>. Не «a friend of me» и не «a my friend».<br>Вопрос «чей?» — <b>Whose</b>, и вещь идёт сразу за ним: <b>Whose bag is this?</b> Ответ: <b>It's Kate's.</b> или <b>It's mine.</b><br>Две ловушки звучат одинаково. <b>who's</b> = who is, <b>it's</b> = it is. Проверка простая: подставьте «is». «Who is bag is this?» — бессмыслица, значит <b>whose</b>. «It is owner is ill» — бессмыслица, значит <b>its</b>. У its, как и у his, апострофа нет.","table":{"head":["Кто","+ существительное","Без существительного","Пример"],"rows":[["I","my","mine","This seat is mine."],["you","your","yours","Is this pen yours?"],["he","his","his","The red car is his."],["she","her","hers","The black coat is hers."],["we","our","ours","The table by the window is ours."],["they","their","theirs","This parcel isn't theirs."],["Anna","Anna's","Anna's","This bag is Anna's."]],"note":"<b>its</b> («его, её» о вещи или животном) ставят только перед существительным: <b>The shop has changed its name.</b> О времени тоже говорят с 's: <b>today's news, last week's prices</b>."},"traps":[["This is the bag of Anna.","This is Anna's bag.","Владелец — человек → <b>'s</b>, и он стоит впереди, как в русском «Аннина сумка». of оставим для вещей: the end of the film."],["Don't touch it, it's my!","Don't touch it, it's mine!","my всегда ждёт существительное: my bag. Если существительного после нет — <b>mine</b>."],["Who's umbrella is this?","Whose umbrella is this?","who's = who is. «Who is umbrella is this?» — бессмыслица. «Чей» → <b>whose</b>."],["The shop is closed. It's owner is ill.","The shop is closed. Its owner is ill.","it's = it is, а «it is owner» не подходит. «Его хозяин» → <b>its</b>, без апострофа, как his."],["My parent's house is near the bank.","My parents' house is near the bank.","Родителей двое, parents уже кончается на -s. Апостроф ставим после s: <b>parents'</b>. parent's — дом одного родителя."]],"check":{"q":"Excuse me, is this bag ___?","ru":"Простите, это ваша сумка?","opts":["yours","your","you're"],"a":"yours","why":"После пропуска существительного нет — вопрос заканчивается. Значит, нужна форма без существительного: <b>yours</b>. your требует слово после себя (your bag), а you're = you are."},"dialog":[["them","Next, please! How can I help you?","Следующий, пожалуйста! Чем могу помочь?"],["me","Hi, I'm here to collect a parcel. It's my sister's, but she's at work.","Здравствуйте, я за посылкой. Она моей сестры, но сестра на работе."],["them","OK. What's your sister's name?","Хорошо. Как зовут вашу сестру?"],["me","Kate Miller. Oh, and whose umbrella is this? It isn't mine.","Кейт Миллер. Ой, а чей это зонт? Он не мой."],["them","It's that man's — he's just left! And here's Kate's parcel. Sign at the bottom of the form, please.","Это того мужчины — он только что ушёл! А вот посылка Кейт. Распишитесь внизу бланка, пожалуйста."]],"words":[["whose","чей"],["mine","мой (без существительного)"],["yours","твой, ваш (без существительного)"],["his","его"],["hers","её (без существительного)"],["ours","наш (без существительного)"],["theirs","их (без существительного)"],["its","его, её (о вещи, животном)"],["own","собственный"],["belong to","принадлежать"],["owner","владелец, хозяин"],["a friend of mine","один мой друг"],["parcel","посылка"],["letter","письмо"],["envelope","конверт"],["stamp","марка"],["address","адрес"],["post office","почта"],["send","отправлять"],["collect","забирать (посылку, заказ)"],["sign","подписывать, расписываться"],["signature","подпись"],["form","бланк, анкета"],["bank account","банковский счёт"],["bank card","банковская карта"],["PIN","ПИН-код"],["lost property","бюро находок"],["leave (left)","оставлять, забывать (где-то)"],["umbrella","зонт"],["wallet","бумажник, кошелёк"],["purse","кошелёк (женский)"],["ID","удостоверение личности"]],"items":[{"type":"choose","q":"This is my ___ car. He drives it to work every day.","ru":"Это машина моего брата. Он каждый день ездит на ней на работу.","opts":["brother's","brothers'","brothers"],"a":"brother's","full":"This is my brother's car. He drives it to work every day.","steps":["Видим вещь (car) и её владельца — брата. Владелец-человек → 's.","Дальше сказано <b>He</b> — брат один, значит апостроф перед s: <b>brother's</b>.","brothers' — машина нескольких братьев, brothers — просто «братья», без «чей».","Итог: my brother's car."]},{"type":"choose","q":"My ___ house is near the bank. They live there with our grandma.","ru":"Дом моих родителей рядом с банком. Они живут там с нашей бабушкой.","opts":["parents'","parent's","parents"],"a":"parents'","full":"My parents' house is near the bank. They live there with our grandma.","steps":["Дом принадлежит родителям, их двое — дальше сказано <b>They</b>.","parents уже кончается на -s, поэтому ставим только апостроф после s: <b>parents'</b>.","parent's — дом одного родителя, а parents без апострофа не показывает, чей дом."]},{"type":"choose","q":"___ keys are these? — They're Anna's.","ru":"Чьи это ключи? — Анны.","opts":["Whose","Who's","Who"],"a":"Whose","full":"Whose keys are these? — They're Anna's.","steps":["Ответ — Anna's, значит спрашивают «чьи?».","«Чей, чьи» → <b>Whose</b>, и вещь идёт сразу за ним: Whose keys.","Who's = who is: «Who is keys are these?» — бессмыслица. Who — просто «кто»."]},{"type":"choose","q":"Don't drink that coffee — it's ___!","ru":"Не пей этот кофе — он мой!","opts":["mine","my","me"],"a":"mine","full":"Don't drink that coffee — it's mine!","steps":["После пропуска ничего нет — существительное coffee уже прозвучало.","Без существительного «мой» → <b>mine</b>.","my требует слово после себя (my coffee), а me — «меня, мне»."]},{"type":"choose","q":"We left the cinema before the end ___ the film.","ru":"Мы ушли из кинотеатра до конца фильма.","opts":["of","from","at"],"a":"of","full":"We left the cinema before the end of the film.","steps":["«Конец фильма» — часть вещи, а не владелец-человек.","Для вещей строим <b>the end of the film</b>, как русский родительный падеж.","from и at здесь не показывают «чей конец»."]},{"type":"choose","q":"I like this bank. ___ app is very easy to use.","ru":"Мне нравится этот банк. Его приложение очень удобное.","opts":["Its","It's"],"a":"Its","full":"I like this bank. Its app is very easy to use.","steps":["Нужно «его приложение» — чьё? банка.","Подставим it is: «It is app is…» — бессмыслица. Значит, не it's.","«Его» о вещи → <b>Its</b>, без апострофа, как his."]},{"type":"build","ru":"Чей телефон звонит?","a":"Whose phone is ringing?","steps":["«Чей» → <b>Whose</b>, вещь сразу за ним: Whose phone.","Звонит прямо сейчас → Present Continuous: <b>is ringing</b>.","Итог: Whose phone is ringing?"]},{"type":"build","ru":"Один мой друг работает на почте.","a":"A friend of mine works at the post office.","steps":["«Один мой друг» → <b>a friend of mine</b>, не a friend of me.","Друг — он, поэтому <b>works</b> с -s.","Где? → at the post office."]},{"type":"build","ru":"Игрушки детей лежат под столом.","a":"The children's toys are under the table.","steps":["Владельцы — дети: children, множественное число без -s.","Поэтому добавляем обычное <b>'s</b>: the children's toys.","Игрушек много → <b>are</b>, потом место: under the table."]},{"type":"type","ru":"Этот зонт не мой.","a":"This umbrella isn't mine.","alt":["This umbrella is not mine.","This umbrella's not mine.","That umbrella isn't mine.","That umbrella is not mine."],"steps":["«Этот зонт» → This umbrella, отрицание → <b>isn't</b>.","После «не» существительного нет → не my, а <b>mine</b>.","Итог: This umbrella isn't mine."]},{"type":"type","ru":"Это телефон Тома, а не мой.","a":"It's Tom's phone, not mine.","alt":["It is Tom's phone, not mine.","This is Tom's phone, not mine.","That's Tom's phone, not mine.","That is Tom's phone, not mine.","It's Tom's phone not mine.","This is Tom's phone not mine."],"steps":["«Телефон Тома» → владелец впереди с 's: <b>Tom's phone</b>.","«Не мой» — phone уже прозвучало, поэтому <b>mine</b>.","Итог: It's Tom's phone, not mine."]},{"type":"choose","kind":"Найдите правильный вариант","q":"Чьи это перчатки? — Её.","opts":["Who's gloves are these? — Hers.","Whose gloves are these? — Her.","Whose gloves are these? — Hers."],"a":"Whose gloves are these? — Hers.","full":"Whose gloves are these? — Hers.","steps":["«Who's gloves» — who's = who is, а нам нужно «чьи» → whose.","«— Her.» — her ждёт существительное (her gloves). Одна, без слова, — <b>hers</b>.","Правильно: <b>Whose gloves are these? — Hers.</b>"]}]}
 });
 (() => {
-  // в каждый модуль — после его уроков; в тест модуля — тоже
-  const ADD = [["a2-13", "a2-14"], ["a2-15", "a2-16"], ["a2-17", "a2-18"], ["a2-19", "a2-20"]];
-  ADD.forEach((ids, mi) => {
-    const m = COURSE.A2.modules[mi], at = m.items.findIndex(x => x.kind !== "lesson");
-    m.items.splice(at < 0 ? m.items.length : at, 0, ...ids.map(id => ({ id, kind: "lesson", t: LESSONS[id].t })));
-    const T = MOD[`a2-m${mi + 1}-test`]; if (T) ids.forEach(id => T.from.includes(id) || T.from.push(id));
+  // уроки в каждом модуле идут от простого к сложному (v124): лёгкие темы (чьё, немного, как?) — раньше, пассив и пересказ — в конце
+  const ORDER = [["a2-20", "a2-01", "a2-02", "a2-17", "a2-13"], ["a2-19", "a2-15", "a2-03", "a2-04", "a2-05"], ["a2-18", "a2-16", "a2-14", "a2-06", "a2-07"], ["a2-08", "a2-09"], ["a2-10", "a2-11", "a2-12"]];
+  ORDER.forEach((ids, mi) => {
+    const m = COURSE.A2.modules[mi]; if (!m) return;
+    m.items = ids.filter(id => LESSONS[id]).map(id => ({ id, kind: "lesson", t: LESSONS[id].t })).concat(m.items.filter(x => x.kind !== "lesson"));
+    const T = MOD[`a2-m${mi + 1}-test`]; if (T) T.from = ids.filter(id => LESSONS[id]);
   });
   // номера уроков — по порядку в курсе
   COURSE.A2.modules.flatMap(m => m.items).filter(x => x.kind === "lesson").forEach((x, i) => { LESSONS[x.id].n = i + 1; });
@@ -28339,6 +28370,27 @@ function courseState(lv, it) {
 const courseDone = lv => courseItems(lv).filter(itemDone).length;
 const KIND_E = { lesson: "📘", sit: "💬", listen: "🎧", read: "📖", mail: "✉️", test: "✅", vocab: "📚" };
 
+// ---------- «где я сейчас»: лестница уровней A1 → C1 с отметкой «вы здесь» ----------
+const LV_CAN = {
+  A1: ["Начальный", "Понимаю простые фразы, могу представиться и спросить самое нужное."],
+  A2: ["Элементарный", "Объяснюсь в магазине, кафе и поездке, расскажу о себе и своём дне."],
+  B1: ["Пороговый", "Справлюсь почти в любой ситуации в поездке, расскажу историю и объясню своё мнение."],
+  B2: ["Продвинутый", "Свободно говорю с носителями, спорю и объясняю сложные мысли."],
+  C1: ["Свободный", "Говорю бегло и точно на любые темы, как на родном."]
+};
+const lvPct = lv => { const st = lvlState(lv); if (st === "done") return 100; if (!COURSE[lv]) return 0; const it = courseItems(lv); return Math.round(courseDone(lv) / it.length * 100); };
+function lvLeftText(lv) {
+  const min = courseItems(lv).filter(it => !itemDone(it)).reduce((a, it) => a + (it.kind === "lesson" ? (LESSONS[it.id] ? LESSONS[it.id].min : 20) : MOD_MIN[it.kind] || 10), 0);
+  return min < 90 ? `${Math.max(5, Math.round(min / 5) * 5)} минут` : plural(Math.round(min / 60), ["час", "часа", "часов"]) + " занятий";
+}
+function lvMapHTML(view) {
+  const me = PS.level, info = LV_CAN[view] || ["", ""];
+  return `<section class="lv-map" aria-label="Уровни">
+      <div class="pt-lvls lv-stairs" role="tablist">${LVL_ORDER.map((x, i) => { const st = lvlState(x), pc = lvPct(x);
+        return `<button class="pt-lvl lv-st ${st}${x === view ? " on" : ""}" data-lv="${x}" style="--h:${i}" role="tab" aria-selected="${x === view}">${x === me ? `<i class="lv-me">вы здесь</i>` : ""}<b>${st === "done" ? "✓ " : st === "lock" ? "🔒 " : ""}${x}</b><small>${st === "done" ? "пройден" : st === "cur" ? pc + "%" : (LV_CAN[x] || [""])[0]}</small><span class="lv-fill" style="height:${pc}%"></span></button>`; }).join("")}<span class="lv-st lv-top" style="--h:${LVL_ORDER.length}"><b>🏁 C1</b><small>цель</small></span></div>
+      <p class="lv-can"><b>${view} · ${esc(info[0])}.</b> ${esc(info[1])}${view === me ? "" : lvlState(view) === "done" ? " Этот уровень у вас уже позади." : " До этого уровня вы ещё дойдёте."}</p>
+    </section>`;
+}
 // путь: для уровня с курсом показываем модули с уроками
 const pathRender = renderPath2;
 renderPath2 = function () {
@@ -28350,23 +28402,28 @@ renderPath2 = function () {
       <div class="ph-title"><span class="ph-emoji" aria-hidden="true">🎓</span><div style="min-width:0"><b>Мой путь</b><span>${lv} → ${L.next}</span></div></div>
       <button class="help-btn" data-help="path" aria-label="Как устроен путь">?</button></div>
     <div class="scroll page-body pt-body">
-      <div class="pt-lvls" role="tablist">${LVL_ORDER.map(x => `<button class="pt-lvl ${lvlState(x)}${x === lv ? " on" : ""}" data-lv="${x}">${lvlState(x) === "done" ? "✓ " : lvlState(x) === "lock" ? "🔒 " : ""}${x}</button>`).join("")}</div>
+      ${lvMapHTML(lv)}
       <section class="pt-hero ${ls}">
         <div class="pt-hero-top"><span class="pt-big">${lv}</span><span class="pt-arrow">→</span><span class="pt-big dim">${L.next}</span><span class="pt-title">${esc(C.title)}</span></div>
         <p class="cs-goal">${esc(C.goal)}</p>
         <div class="pt-bar"><i style="width:${done / items.length * 100}%"></i></div>
-        <p class="pt-meta">Пройдено ${done} из ${items.length} шагов · потом экзамен на ${L.next}</p>
+        <p class="pt-meta">Пройдено ${done} из ${items.length} шагов${done < items.length ? ` · осталось примерно ${lvLeftText(lv)}` : ""} · потом экзамен на ${L.next}</p>
         ${cur && ls !== "lock" ? `<button class="btn primary wide" data-ci="${cur.id}">▶ ${esc(itemLabel(cur))}</button>` : ""}
         <details class="cs-targets"><summary>Что вы будете уметь в конце</summary><ul>${C.targets.map(t => `<li>${esc(t)}</li>`).join("")}</ul></details>
       </section>
-      ${C.modules.map((m, mi) => `<section class="cs-mod">
-        <div class="cs-mod-h"><span class="cs-mod-e">${m.e}</span><div><span class="eyebrow">Модуль ${mi + 1}</span><b>${esc(m.t)}</b></div><span class="cs-mod-n">${m.items.filter(itemDone).length}/${m.items.length}</span></div>
+      <p class="cs-up">⬆️ Модули идут от простого к сложному. Каждый модуль — одна ступенька уровня ${lv}.</p>
+      ${C.modules.map((m, mi) => { const md = m.items.filter(itemDone).length, all = md === m.items.length, here = !!cur && ls !== "lock" && m.items.some(x => x.id === cur.id);
+        const les = m.items.filter(x => x.kind === "lesson");
+        return `<details class="cs-mod${all ? " all" : ""}${here ? " here" : ""}"${here ? " open" : ""}>
+        <summary class="cs-mod-h"><span class="cs-mod-e">${all ? "✓" : m.e}</span><div><span class="eyebrow">${lv}.${mi + 1} · ступень ${mi + 1} из ${C.modules.length}${here ? " · вы здесь" : ""}</span><b>${esc(m.t)}</b></div><span class="cs-mod-n">${md}/${m.items.length}</span><span class="cs-chev" aria-hidden="true">›</span></summary>
+        <div class="cs-mbar"><i style="width:${md / m.items.length * 100}%"></i></div>
+        <p class="cs-topics">${les.map(x => esc(x.t)).join(" · ")}</p>
         <ol class="cs-list">${m.items.map(it => { const st = courseState(lv, it); if (it.kind === "lesson") n++;
           return `<li><button class="cs-item ${st} k-${it.kind}" data-ci="${it.id}">
             <span class="cs-dot">${st === "done" ? "✓" : it.kind === "lesson" ? n : KIND_E[it.kind]}</span>
             <span class="cs-t"><b>${esc(it.t)}</b>${st === "soon" ? `<small>готовится</small>` : st === "cur" ? `<small>следующий шаг</small>` : it.kind === "lesson" && LESSONS[it.id] ? `<small>~${LESSONS[it.id].min} мин · ${LESSONS[it.id].items.length} заданий</small>` : MOD[it.id] ? `<small>~${MOD_MIN[it.kind]} мин</small>` : ""}</span>
             ${st === "cur" ? `<span class="pt-go">Начать</span>` : st === "lock" ? `<span class="cs-lock">🔒</span>` : ""}</button></li>`; }).join("")}</ol>
-      </section>`).join("")}
+      </details>`; }).join("")}
       <section class="cs-mod cs-exam"><div class="cs-mod-h"><span class="cs-mod-e">🎓</span><div><span class="eyebrow">В конце пути</span><b>Экзамен ${lv} → ${L.next}</b></div></div>
         <p class="cs-exam-t">20 заданий по всем урокам курса, нужно 16 правильных. ${PS.passed[lv] ? `Сдан: ${PS.passed[lv]}/10 ✓` : done === items.length ? "Все шаги пройдены — можно сдавать!" : "Откроется после всех модулей."}</p>
         ${(done === items.length || allOpen()) && ls !== "lock" ? `<button class="btn wide cs-exam-btn" data-cexam="${lv}">🎓 ${PS.passed[lv] ? "Пересдать экзамен" : "Сдать экзамен"} ${lv} → ${L.next}</button>` : ""}</section>
@@ -32961,6 +33018,11 @@ html.web .ln-title{font-weight:700;font-size:34px;letter-spacing:-.03em}
 html.web .ln-memo{background:linear-gradient(120deg,#17132E,#2B1F6B 60%,#4A2BB0);box-shadow:0 18px 40px rgba(54,38,140,.25)}
 html.web .ln-memo-s{font-size:19px;max-width:60ch}
 html.web .ln-memo-f{font-size:15.5px}
+html.web .lv-map{max-width:640px}
+html.web .lv-can,html.web .pt-lvl{box-shadow:var(--shadow-sm)}
+html.web .pt-lvl.on{box-shadow:0 10px 22px rgba(23,19,46,.22)}
+html.web .lv-me{background:linear-gradient(100deg,#6A4CFF,#FF5FB7)}
+html.web .cs-mod.here{box-shadow:var(--shadow),0 0 0 2px #6A4CFF}
 </style>
 </body>
 </html>
