@@ -32885,7 +32885,7 @@ function mzPage() {
   return p;
 }
 const mzWord = d => String(d.en).trim().replace(/[.!?]+$/, "");
-const mzSame = (a, b) => { const j = judge(a, b); return j.ok || vbClose(a, b); };
+const mzSame = (a, b) => ansNorm(a) === ansNorm(b) || norm(a) === norm(b) || vbClose(a, b);
 // слова уровня, которых ещё нет в словаре: из уроков курса, начиная с текущего
 function mzLevelWords() {
   const lv = PS.level; if (!COURSE[lv]) return [];
@@ -33026,15 +33026,18 @@ function renderMz() {
       <div class="qz-fb" id="mzFb" hidden></div><div class="ir-btns"><button class="btn primary wide">Сохранить фразу</button><button type="button" class="btn ghost wide" data-mz="nophrase">Не могу придумать</button></div></form>`);
   }
 }
-function mzFeedback(ok, typed) {
+function mzFeedback(ok, typed, why) {
   if (MZ.answered) return; MZ.answered = true; MZ.res = ok;
   const d = MZ.cur.d, fb = $("#mzFb"), p = mzPage();
-  const inp = $("#mzIn", p); if (inp) inp.disabled = true;
+  const inp = $("#mzIn", p); const mine = inp ? inp.value.trim() : "";
+  if (inp) inp.disabled = true;
   $$(".qz-hint,[data-mz=dunno],.qz-type .btn", p).forEach(x => { x.hidden = true; });
   fb.hidden = false; fb.className = "qz-fb " + (ok ? "ok" : "bad");
   const fin = MZ.cur.k === "final";
-  fb.innerHTML = `<b>${ok ? ["Есть!", "Точно!", "Вспомнили!"][(Math.random() * 3) | 0] : typed ? "Почти" : "Ничего страшного"}</b><span class="qz-right">${esc(d.en)} — ${esc(vbRu(d))} <button class="qz-say" data-mz="say" aria-label="Послушать">🔊</button></span>
-    ${ok ? "" : `<span>${fin ? "Завтра это слово вернётся первым." : "Посмотрите на слово, скажите его вслух — оно скоро вернётся."}</span>`}`;
+  const close = !ok && typed && mine && mzSame(mine, mzWord(d));
+  const head = ok ? ["Есть!", "Точно!", "Вспомнили!"][(Math.random() * 3) | 0] : why === "hint" ? "Верно, но с подсказкой" : close ? "Почти, одна буква" : typed ? "Не то" : "Ничего страшного";
+  const note = ok ? "" : why === "hint" ? "Слово вернётся ещё раз, уже без подсказки." : (fin ? "Завтра это слово вернётся первым." : "Посмотрите на слово, скажите его вслух. Оно скоро вернётся.");
+  fb.innerHTML = `<b>${head}</b>${!ok && typed && mine ? `<span>Вы написали: «${esc(mine)}»</span>` : ""}<span class="qz-right">Правильно: ${esc(d.en)} — ${esc(vbRu(d))} <button class="qz-say" data-mz="say" aria-label="Послушать">🔊</button></span>${note ? `<span>${note}</span>` : ""}`;
   speak(d.en);
   if (typeof gsnd === "function") gsnd(ok ? "ok" : "no", 1);
   const nx = $("#mzNext", p); if (nx) { nx.hidden = false; setTimeout(() => nx.focus(), 60); }
@@ -33060,7 +33063,8 @@ function onMzSubmit(e) {
     if (ansNorm(v) === ansNorm(w) || norm(v) === norm(w)) { mzAdvance(true); return; }
     fb.hidden = false; fb.className = "qz-fb bad"; fb.innerHTML = `<span>Посмотрите на слово и напечатайте точно так же: <b>${esc(w)}</b></span>`; inp.select(); return;
   }
-  mzFeedback(mzSame(v, w) && !(k === 2 && MZ.hint > 1), true);
+  const same = mzSame(v, w), hinted = k === 2 && MZ.hint > 1;
+  mzFeedback(same && !hinted, true, same && hinted ? "hint" : "");
 }
 function onMzClick(e) {
   const b = e.target.closest("[data-mz]"); if (!b || !MZ) return;
