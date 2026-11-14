@@ -20,8 +20,8 @@ html.rot-l .stage,html.rot-r .stage{padding:0}html.rot-l .app,html.rot-r .app{ma
   document.addEventListener("gesturechange", stop, { passive: false });
   document.addEventListener("gestureend", stop, { passive: false });
   document.addEventListener("touchmove", function (e) { if (e.touches.length > 1 || (e.scale && e.scale !== 1)) e.preventDefault(); }, { passive: false });
-  document.addEventListener("wheel", function (e) { if (e.ctrlKey) e.preventDefault(); }, { passive: false });
-  document.addEventListener("keydown", function (e) { if ((e.ctrlKey || e.metaKey) && /^[=+\-0]$/.test(e.key)) e.preventDefault(); });
+  document.addEventListener("wheel", function (e) { if (e.ctrlKey && !document.documentElement.classList.contains("web")) e.preventDefault(); }, { passive: false });
+  document.addEventListener("keydown", function (e) { if ((e.ctrlKey || e.metaKey) && /^[=+\-0]$/.test(e.key) && !document.documentElement.classList.contains("web")) e.preventDefault(); });
 })();
 /* клавиатура на телефоне: приложение ужимается до видимой части экрана, а не уезжает вверх.
    Шапка чата с именем остаётся на месте, поднимается только переписка и поле ввода */
@@ -87,6 +87,25 @@ html.rot-l .stage,html.rot-r .stage{padding:0}html.rot-l .app,html.rot-r .app{ma
   fix();
   window.addEventListener("resize", fix);
   window.addEventListener("orientationchange", function () { setTimeout(fix, 60); setTimeout(fix, 400); });
+})();
+</script>
+<script>
+/* САЙТ: на компьютере (широкий экран + мышь) приложение раскладывается как сайт — меню слева, контент по центру.
+   На телефоне и планшете ничего не меняется. ?view=web / ?view=app — переключить вручную (запоминается) */
+(function () {
+  var de = document.documentElement, KEY = "vz.view";
+  try { var q = new URLSearchParams(location.search).get("view"); if (q === "web" || q === "app") localStorage.setItem(KEY, q); else if (q === "auto") localStorage.removeItem(KEY); } catch (e) {}
+  function apply() {
+    var f = null; try { f = localStorage.getItem(KEY); } catch (e) {}
+    var wide = window.matchMedia && matchMedia("(min-width:1000px)").matches;
+    var mouse = window.matchMedia && matchMedia("(hover:hover) and (pointer:fine)").matches;
+    var native = de.classList.contains("native") || window.HT_NATIVE || (window.Capacitor && Capacitor.isNativePlatform && Capacitor.isNativePlatform());
+    var on = !native && wide && (f === "web" || (f !== "app" && mouse));
+    if (on !== de.classList.contains("web")) { de.classList.toggle("web", on); try { window.dispatchEvent(new Event("webmode")); } catch (e) {} }
+  }
+  window.htSetView = function (v) { try { v ? localStorage.setItem(KEY, v) : localStorage.removeItem(KEY); } catch (e) {} apply(); };
+  apply();
+  window.addEventListener("resize", apply);
 })();
 </script>
 <title>Hi There</title>
@@ -32668,5 +32687,96 @@ switchTab("feed", true);
 if (GUIDE.chatTour) { const lv = PS.level, ci = Math.min(curIndex(lv), PATH[lv].units.length - 1), us = unitSit(lv, ci); if (us) loadSituation(us, { unit: ukey(lv, ci) }); else loadSituation(SITS[0]); } else chatWelcome();
 if (!ME) startOnboarding();
 </script>
+<script>
+/* САЙТ: меню слева закрывает открытые страницы (путь, профиль, сообщения), подсвечивает «Учёбу» и даёт переключиться на вид приложения */
+(function () {
+  var de = document.documentElement, app = document.getElementById("app"), bar = document.getElementById("tabbar");
+  var BROWSE = ["pathPage", "profilePage", "missionPage", "dmPage", "adPage"];
+  function closeBrowse(keep) {
+    BROWSE.forEach(function (id) {
+      if (id === keep) return;
+      var el = document.getElementById(id); if (!el || !el.classList.contains("open")) return;
+      if (id === "dmPage") { var b = el.querySelector('[data-a="back"]'); if (b) { b.click(); return; } }
+      closePageEl(el);
+    });
+  }
+  bar.addEventListener("click", function (e) {
+    if (!de.classList.contains("web")) return;
+    var t = e.target.closest(".tab"); if (!t) return;
+    closeBrowse(t.dataset.go === "path" ? "pathPage" : null);
+  }, true);
+  var foot = document.createElement("div"); foot.className = "web-foot";
+  foot.innerHTML = 'Версия для компьютера.<br><button type="button" id="toAppView">Показать как в телефоне</button>';
+  bar.appendChild(foot);
+  foot.querySelector("button").addEventListener("click", function (e) { e.stopPropagation(); window.htSetView("app"); });
+  var about = document.querySelector(".about");
+  if (about) {
+    var b = document.createElement("button"); b.type = "button"; b.className = "btn ghost sm about-web"; b.textContent = "🖥 Открыть как сайт";
+    b.addEventListener("click", function () { window.htSetView("web"); });
+    about.appendChild(b);
+  }
+  function sync() { var p = document.getElementById("pathPage"); de.classList.toggle("path-open", !!(p && p.classList.contains("open"))); }
+  new MutationObserver(sync).observe(app, { subtree: true, attributes: true, attributeFilter: ["class"], childList: true });
+})();
+</script>
+<style id="webCss">
+/* ================== САЙТ (html.web): раскладка для компьютера. Телефон не затрагивает ================== */
+html.web{--side:248px;--col:900px;--padx:max(24px,calc((100% - var(--col)) / 2))}
+html.web .stage{padding:0;gap:0;background:var(--bg)}
+html.web .about{display:none!important}
+html.web .app{max-width:none;max-height:none;border-radius:0;border:0;box-shadow:none;flex-direction:row}
+/* меню — колонка слева */
+html.web .tabbar{order:-1;width:var(--side);flex:none;display:flex;flex-direction:column;align-items:stretch;gap:0;margin:0;padding:22px 14px 18px;
+  border-top:0;border-right:1px solid var(--line);border-radius:0;box-shadow:none;background:var(--surface);overflow-y:auto}
+html.web .tabbar::before{content:"Hi There";display:block;align-self:flex-start;margin:0 10px 22px;padding:0 2px;font:700 26px/1 var(--f-display);letter-spacing:-.03em;color:var(--ink);
+  background:linear-gradient(transparent 58%,var(--marker-hl,var(--accent-soft)) 58% 92%,transparent 92%)}
+html.web .tab,html.web .tab.tab-path{flex:none;height:52px;flex-direction:row;justify-content:flex-start;align-items:center;gap:14px;padding:0 14px;margin:0;border-radius:14px;
+  font-size:15.5px;font-weight:600;text-align:left;color:var(--ink-2);background:none;transition:background .2s,color .2s}
+html.web .tab:hover{background:var(--surface-2)}
+html.web .tab.active,html.web .tab.active:hover{color:var(--ink);background:var(--accent-soft)}
+html.web .tab svg{width:24px;height:24px;flex:none;transform:none!important}
+html.web .tab-path svg.lad{width:26px;height:28px;margin:-4px 0 0}
+html.web .tab > span:not(.badge){position:static;width:auto;height:auto;overflow:visible;clip:auto;white-space:nowrap;display:inline}
+html.web .tab .badge{position:static;margin-left:auto;transform:none}
+html.web .tab-ind{display:none}
+html.web[data-look="sticker"] .tab.active{background:var(--lemon,var(--accent-soft));box-shadow:0 0 0 2px var(--edge,var(--ink))}
+html.web .web-foot{margin-top:auto;padding:14px 12px 0;font-size:12.5px;line-height:1.45;color:var(--muted)}
+html.web .web-foot button{color:var(--ink-2);text-decoration:underline;text-underline-offset:2px;font-size:12.5px;padding:0}
+.web-foot{display:none}html.web .web-foot{display:block}
+/* контент — колонка по центру */
+html.web .screens{flex:1;min-width:0}
+html.web .screen{padding-inline:var(--padx)}
+html.web .screen .chips{margin-inline:-16px}
+html.web .top{padding-top:26px}
+html.web .scroll{scrollbar-gutter:stable}
+/* страницы (профиль, личные сообщения, миссии) — справа от меню, тоже по центру */
+html.web .page.gpage{left:var(--side)}
+html.web .page.gpage > *{padding-inline:max(14px,calc((100% - var(--col)) / 2))}
+/* шторка снизу — плавающее окно над контентом */
+html.web .backdrop{left:var(--side)}
+html.web .sheet{left:calc(var(--side) + (100% - var(--side) - min(680px,100% - var(--side) - 48px)) / 2);right:auto;width:min(680px,calc(100% - var(--side) - 48px));
+  bottom:24px;max-height:calc(100% - 48px);border-radius:26px;transform:translateY(calc(100% + 40px))}
+html.web .sheet.open{transform:translateY(0)}
+html.web .sheet-grab{visibility:hidden;height:18px}
+html.web .toast{left:calc(var(--side) + (100% - var(--side)) / 2);bottom:28px}
+/* вход и знакомство — по центру экрана, не во всю ширину */
+html.web .onb{padding-inline:max(20px,calc((100% - 560px) / 2))}
+html.web .reward{left:var(--side)}
+/* тренировки — в три колонки */
+html.web .ex-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+/* уроки, тесты, игры, город — во весь экран, как режим занятия; меню возвращается после выхода */
+html.web #lessonPage,html.web #exPage,html.web #modPage,html.web #quizPage,html.web #irPage,html.web #vbPage,html.web #cityPage{left:0}
+html.web #cityPage > *{padding-inline:0}
+/* «Учёба» подсвечена, пока открыт путь */
+html.web.path-open .tab.active{background:none;box-shadow:none;color:var(--ink-2)}
+html.web.path-open .tab-path{color:var(--ink);background:var(--accent-soft)}
+html.web.path-open[data-look="sticker"] .tab-path{background:var(--lemon,var(--accent-soft));box-shadow:0 0 0 2px var(--edge,var(--ink))}
+.about-web{display:inline-flex;margin-top:18px}
+/* подсказки-экскурсия — по центру контента, не во всю ширину */
+html.web .gd-tip{left:calc(var(--side) + max(16px,(100% - var(--side) - 560px) / 2));right:auto;width:min(560px,calc(100% - var(--side) - 32px))}
+
+/* курсор-руки на кликабельном */
+html.web button,html.web [role="button"],html.web label[for]{cursor:pointer}
+</style>
 </body>
 </html>
